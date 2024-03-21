@@ -1,0 +1,155 @@
+.post-content > h6 {
+    font-weight: 600;
+    font-size: 20px;
+}
+
+.post-content > p {
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.post-content > div >p> img {
+    width: 100%!important;
+    height: auto!important;
+    object-fit: cover;
+}
+
+.post-content div p {
+    font-size: 15px;
+    font-weight: 400;
+    word-break: break-word;
+}
+
+
+#PostContent .gallery {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    grid-gap: 1vh;
+    grid-auto-flow: dense;
+}
+
+.card-body label {
+    margin: 0;
+}
+
+.mdb-select .select-dropdown {
+    border: 1px solid #bdbdbd !important;
+    border-radius: 5px !important;
+    margin: 0;
+    margin-top: 16px;
+}
+
+.dropdown-content li > span, .select-wrapper.md-form > ul li.select-toggle-all label {
+    color: black;
+}
+
+.mdb-select.md-form {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+span.caret {
+    margin-right: 0.25rem;
+}
+
+.mdb-select.md-form input[type=text]:focus {
+    box-shadow: 0 0 0 0 !important;
+    border-bottom: 0 solid !important;
+}
+.mdb-select.md-form input{
+    padding-left: 1rem;
+}
+
+.upload-wrapper .image img {
+    width: 150px;
+    margin: 5px;border-radius: 5px;
+}
+
+.upload-wrapper .image > div {
+    top: 0;
+    right: 0
+}
+
+.upload-wrapper .image > div > i {
+    color: #eee;
+}
+.upload-wrapper .image > div > i:hover {
+    color: black;
+}
+
+.upload-wrapper .img-container {
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+.post-content-text p img{
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+
+.gallery .img {
+}
+
+.gallery img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: all 0.3s ease-in-out;
+}
+
+.gallery .img:hover img {
+    transform: scale(1.1);
+}
+
+.gallery .img:first-child {
+    grid-column-start: span 2;
+    grid-row-start: span 2;
+
+}
+
+.gallery .img:nth-child(2n+3) {
+    grid-row-start: span 2;
+}
+
+.gallery .img:nth-child(4n+5) {
+    grid-row-start: span 2;
+    grid-column-start: span 2;
+}
+
+
+.gallery .img:nth-child(8n+9) {
+    grid-row-start: span 1;
+    grid-column-start: span 1;
+}
+
+@media only screen and (max-width: 992px) {
+    .gallery {
+        grid-template-columns: auto auto auto !important;
+    }
+
+}
+
+@media only screen and (max-width: 768px) {
+    .gallery {
+        grid-template-columns: auto auto !important;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .gallery {
+        display: block !important;
+    }
+
+    .gallery .img {
+        width: 100%;
+        height: 100%;
+        display: block;
+        margin: 2% 0;
+    }
+
+    .gallery .img img {
+        filter: brightness(1) grayscale(0);
+        display: block;
+    }
+}

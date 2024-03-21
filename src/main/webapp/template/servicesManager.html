@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../../../../RealEstateWeb/public/lib/MDB_4_pro/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../../../RealEstateWeb/public/lib/MDB_4_pro/css/mdb.min.css" rel="stylesheet">
+    <link href="../../../../RealEstateWeb/public/lib/MDB_4_pro/css/style.css" rel="stylesheet">
+    <link href="../../../../RealEstateWeb/public/lib/fontawesome-free-6.4.2-web/css/all.min.css" rel="stylesheet">
+    <link href="../../../../RealEstateWeb/public/lib/DataTables/DataTables-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="../../../../RealEstateWeb/public/lib/DataTables/datatables.min.css" rel="stylesheet">
+    <link href="../../../../RealEstateWeb/resources/views/template/css/admin-nav-bar.css" rel="stylesheet">
+    <link href="../../../../RealEstateWeb/resources/views/template/css/admin-datatable.css" rel="stylesheet">
+
+    <title>Quản lý Dịch vụ</title>
+</head>
+<body class="">
+
+<!-- Sidebar navigation -->
+<div class="wrapper">
+    <div class="header fixed-top ">
+        <div class="header-menu row m-0">
+            <div class="col-11 d-flex align-items-center">
+                <div class="sidebar-btn mr-3">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <div class="title text-uppercase">
+                    Xây dựng <span>Nhà Đẹp</span></div>
+            </div>
+            <ul class="col-1 d-flex align-items-center m-0">
+                <li><a href="#"><i class="fas fa-sign-out-alt"></i></a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="sidebar">
+        <div class="sidebar-menu">
+            <center class="logo">
+                <img src="../../../../RealEstateWeb/public/img/logo/logo.png" alt="logo" style="">
+            </center>
+            <li class="sidebar-item">
+                <a href="dashboard.html" class="menu-btn">
+                    <i class="fas fa-desktop"></i><span>Thống kê</span>
+                </a>
+            </li>
+            <li class="sidebar-item" id="user">
+                <a href="admin-userManage.html" class="menu-btn">
+                    <i class="fas fa-user-circle"></i><span>QL Người dùng</span>
+                </a>
+            </li>
+            <li class="sidebar-item" id="project">
+                <div class="menu-btn">
+                    <i class="fa-solid fa-building"> </i>
+                    <a href="admin-projectsManage.html">
+                        <span>QL Dự án</span>
+                    </a> <i
+                    class="m-0 fas fa-chevron-circle-down drop-down"></i></div>
+                <div class="sub-menu d-none">
+                    <a href="admin-TypeOfProject.html" class="menu-btn">
+                        <i class="fa-solid fa-building m-0"> </i> <i class="fa-solid fa-folder-tree"></i><span>QL loại dự án</span>
+                    </a>
+                    <a href="admin-PostProject.html" class="menu-btn">
+                        <i class="fa-solid fa-newspaper"></i><span>QL Bài viết dự án</span>
+                    </a>
+                    <a href="admin-ProjectSchedule.html" class="menu-btn">
+                        <i class="fa-solid fa-bars-progress"></i><span>QL Dự án thi công</span>
+                    </a>
+                </div>
+            </li>
+
+            <li class="sidebar-item" id="type-project">
+                <div class="menu-btn">
+                    <a href="servicesManager.html">
+                        <i class="fa-solid fa-toolbox"></i><span>QL Dịch vụ</span>
+                    </a><i
+                    class="m-0 fas fa-chevron-circle-down drop-down"></i></div>
+                <div class="sub-menu d-none">
+                    <a href="servicePostsManage.html" class="menu-btn">
+                        <i class="fa-solid fa-newspaper"></i><span>QL Bài viết dịch vụ</span>
+                    </a>
+                </div>
+            </li>
+            <li class="sidebar-item" id="contact">
+                <a href="admin-contactManagement.html" class="menu-btn">
+                    <i class="fa-solid fa-file-contract"></i></i><span>QL tương tác</span>
+                </a>
+            </li>
+            <li class="sidebar-item" id="slide">
+                <a href="admin-slideManagement.html" class="menu-btn">
+                    <i class="fa-regular fa-clone"></i><span>QL slide</span></span>
+                </a>
+            </li>
+        </div>
+    </div>
+
+    <div class="main-container ">
+
+
+        <div class="container p-0">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb p-0 bg-white">
+                    <li class="breadcrumb-item"><a class="black-text" href="#">Thống kê</a></li>
+                    <li>
+                        <i class="fas fa-caret-right mx-2 black-brown-text" aria-hidden="true"></i>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a class="main-color" href="#">QL Dịch vụ</a>
+                    </li>
+                </ol>
+            </nav>
+
+            <main class="container shadow border p-3 h-100">
+                <div class="row border-bottom pb-3 mb-3 ml-1 mr-1   ">
+                    <div class="col-6 d-flex align-items-center p-0">
+                        <h3 class="font-weight-bold main-color m-0">QL Dịch vụ</h3>
+                    </div>
+                    <div class="col-6 d-flex justify-content-end align-items-center p-0">
+                        <a href="addServicesPage.html">
+                            <button class="btn btn-blue p-2" type="button"><i class="fa-solid fa-plus"></i> Thêm dịch vụ
+                            </button>
+                        </a>
+
+                    </div>
+                </div>
+                <div class="">
+                    <table class="table table-hover table-striped table-bordered m-0 w-100 " id="table-service">
+                        <thead>
+                        <tr>
+                            <th class="font-weight-bold" scope="col">STT</th>
+                            <th class="font-weight-bold" scope="col">Tên DV</th>
+                            <th class="font-weight-bold" scope="col">Mô tả</th>
+                            <th class="font-weight-bold" scope="col">Hình ảnh</th>
+                            <th class="font-weight-bold" scope="col">Số dự án</th>
+                            <th class="font-weight-bold" scope="col">Trạng thái</th>
+                            <th class="font-weight-bold" scope="col">Thao tác</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        <tr>
+                            <td>1</td>
+                            <td>Thi công nhà phần thô</td>
+                            <td>Để xây dựng một tổ ấm hoàn mỹ, lựa chọn được một đơn vị thi công phần thô nhà phố là yêu cầu tiên quyết. Một đơn vị thi công phù hợp sẽ đảm bảo</td>
+                            <td><img src="../../../../RealEstateWeb/public/img/main-service/untitled-3-8307.png" alt="">
+                            </td>
+                            <td>5</td>
+                            <td><i class="fa-solid fa-square active-icon" title="Đang phục vụ"></i></td>
+                            <td>
+                                <a href="updateServiceManage.html"><i class="fa-solid fa-pen p-1 icon-action"></i></a>
+                                <i class="fa-solid fa-trash-can p-1 icon-action"></i>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>2</td>
+                            <td>Xây nhà trọn gói</td>
+                            <td>Dịch vụ thi công nhà xưởng là quá trình tổ chức, quản lý và thực hiện xây dựng hoặc cải tạo các cơ sở sản xuất, nhà máy, hoặc nhà xưởng để đáp ứng</td>
+                            <td><img
+                                src="../../../../RealEstateWeb/public/img/main-service/dichvuxaydungnhaotrongoi-2589.jpg"
+                                alt=""></td>
+                            <td>10</td>
+                            <td><i class="fa-solid fa-square active-icon" title="Đang phục vụ"></i></td>
+                            <td>
+                                <a href="updateServiceManage.html"><i class="fa-solid fa-pen p-1 icon-action"></i></a>
+                                <i class="fa-solid fa-trash-can p-1 icon-action"></i>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>3</td>
+                            <td>Thi công nhà xưởng</td>
+                            <td>Dịch vụ xây nhà trọn gói là một giải pháp toàn diện và tiện lợi cho việc xây dựng ngôi nhà mơ ước của bạn. Thay vì bạn phải tự mình quản lý từng khía</td>
+                            <td><img
+                                src="../../../../RealEstateWeb/public/img/main-service/nhamaysanxuatgangtay-7223.jpg"
+                                alt="">
+                            </td>
+                            <td>12</td>
+                            <td><i class="fa-solid fa-square active-icon" title="Đang phục vụ"></i></td>
+                            <td>
+                                <a href="updateServiceManage.html"><i class="fa-solid fa-pen p-1 icon-action"></i></a>
+                                <i class="fa-solid fa-trash-can p-1 icon-action"></i>
+                            </td>
+                        </tr>
+                        </tbody>
+                        <tfoot>
+
+                        </tfoot>
+                    </table>
+                </div>
+            </main>
+        </div>
+    </div>
+</div>
+<!--/. Sidebar navigation -->
+
+
+<script src="../../../../RealEstateWeb/public/lib/MDB_4_pro/js/jquery.min.js"></script>
+<script src="../../../../RealEstateWeb/public/lib/MDB_4_pro/js/popper.min.js"></script>
+<script src="../../../../RealEstateWeb/public/lib/MDB_4_pro/js/bootstrap.min.js"></script>
+<script src="../../../../RealEstateWeb/public/lib/MDB_4_pro/js/mdb.min.js"></script>
+<script src="../../../../RealEstateWeb/public/lib/DataTables/DataTables-1.13.6/js/jquery.dataTables.min.js"></script>
+<script src="../../../../RealEstateWeb/public/lib/DataTables/dataTables.min.js"></script>
+
+
+<script>
+    $('#table-service').dataTable({
+        scrollX: true,
+        "columnDefs": [
+            {"width": "5%", "targets": [0]},
+            {"width": "15%", "targets": [1]},
+            {"width": "30%","targets": [2]},
+            {"width": "15%", "targets": [3]},
+            {"width": "10%", "targets": [4]},
+            {"width": "10%", "targets": [5]},
+            {"width": "10%", "targets": [6]},
+            {className: "text-center mt-auto mb-auto", targets: "_all"},
+        ],
+        "language": {
+            "lengthMenu": "Hiển thị _MENU_ dòng",
+            "zeroRecords": "Không tìm thấy dữ liệu",
+            "info": "Hiển thị trang _PAGE_ trên _PAGES_",
+            "infoEmpty": "Không có dữ liệu",
+            "infoFiltered": "(lọc từ _MAX_ dòng dữ liệu)",
+            "search": "Tìm kiếm",
+            "paginate": {
+                "previous": "Trước",
+                "next": "Tiếp theo"
+            }
+        },
+        "pagingType": "full_numbers",
+        "lengthMenu": [5, 10, 15, 20],
+        "order": [[0, "asc"]],
+    });
+</script>
+<script>
+    let cur ;
+    for (let item of  $('.sidebar-item')) {
+        item.addEventListener('click', function (){
+            if(cur!=null) {
+                cur.classList.remove('d-block');
+                cur.classList.add('d-none');
+            }
+            if(this.children.length===2){
+                this.children[1].classList.remove('d-none')
+                this.children[1].classList.add('d-block')
+                cur=this.children[1];
+            }
+        })
+    }
+
+</script>
+
+<script>
+    $(document).ready(function () {
+        $(".sidebar-btn").click(function () {
+            $(".wrapper").toggleClass("mycollapse");
+        });
+
+    });
+</script>
+</body>
+</html>

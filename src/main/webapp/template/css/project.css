@@ -1,0 +1,167 @@
+body {
+    min-height: 100vh;
+    font-family: Inter, Arial, Helvetica, sans-serif !important;;
+    margin: 0;
+}
+
+#section-1 {
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+.fa-house {
+    color: #000000 !important;
+}
+
+.fa-house:hover {
+    color: #E90808 !important;
+}
+
+.mb-5 {
+    margin-bottom: 0 !important;
+}
+
+.container .sub-container {
+    background-color: white;
+    width: auto;
+    max-width: 100%;
+    margin: 0;
+    border-radius: 10px;
+}
+
+.filter {
+    padding: 20px;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    column-gap: 1%;
+    row-gap: 10px;
+}
+
+.filter .item {
+    background-color: whitesmoke;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70%;
+    width: 70%;
+}
+
+.filter .item select,
+.filter .item input,
+.filter .item button {
+    width: 100%;
+    padding: 5px;
+    border: none;
+    background-color: transparent;
+    border-left: 1px solid #ddd;
+    outline: none;
+}
+
+.filter .item label {
+    display: block;
+    width: 50%;
+    padding: 0;
+}
+
+.filter .item.submit button {
+    background-color: #E90808;
+    color: #fff;
+}
+
+#animationReset {
+    height: 10%;
+    width: 12%;
+
+}
+.my-body .hover-image:before {
+    left: -92%;
+}
+
+.projectCard-content p {
+    padding: 0 1.5rem !important;
+}
+
+.my-body .projectCard-container:hover .projectCard-content {
+    transform: translateY(-75%);
+
+}
+
+.my-body .projectCard-container:hover .projectCard-content div div {
+    justify-content: center;
+}
+
+.my-body .projectCard-container:hover .projectCard-content p {
+    padding: 1.5rem !important;
+    padding-top: 0!important;
+}
+
+.my-body img {
+    object-fit: cover;
+    height: 370px;
+    transition: all 0.4s cubic-bezier(0.2, 0.3, 0.8, 0.7);
+}
+
+.my-body .projectCard-container:hover img {
+    transform: scale(1.1);
+}
+
+.my-body .projectCard-content {
+    top: 75%;
+    left: 0;
+    height: 100%;
+    transition: all .75s ease-in-out;
+}
+
+.projectCard-content img {
+    object-fit: cover;
+}
+
+.projectCard-content .projectTitle-center {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.projectCard-content .projectTitle-center::after {
+    content: "";
+    display: block;
+    width: 65px;
+    height: 2px;
+    border-bottom: 2px solid #fff;
+    margin: 12px auto 0px auto !important;
+}
+
+.projectCard-content p {
+    font-size: 13px;
+    padding: 0 1.5rem !important;
+}
+
+.pagination {
+    text-align: center;
+}
+
+.page-numbers {
+    display: inline-block;
+    margin: 0 10px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+}
+
+.page-link {
+    /*background-color: #E90808;*/
+}
+
+.btn-search {
+    padding-top: 10px;
+    top: 10%;
+    background-color: #E90808 !important;
+}
+.pill{
+    display: flex;
+    justify-content: center;
+    ;
+}
+
