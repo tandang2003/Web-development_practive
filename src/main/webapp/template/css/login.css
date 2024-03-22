@@ -1,0 +1,369 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Inter, Arial, Helvetica, sans-serif;
+}
+
+body {
+    background: #c9d6ff linear-gradient(to right, #e2e2e2, #c9d6ff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100vh;
+    font-size: 16px;
+}
+
+.container {
+    background-color: #fff;
+    border-radius: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+    position: relative;
+    overflow: hidden;
+    width: 1000px;
+    max-width: 100%;
+    min-height: 600px;
+}
+
+
+.container p {
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0;
+    margin: 20px 0;
+}
+
+.container span {
+    font-size: 12px;
+}
+
+.container a {
+    color: #333;
+    font-size: 13px;
+    text-decoration: none;
+    margin: 15px 0 10px;
+}
+
+.container button {
+    background-color: #E90808;
+    color: #fff;
+    font-size: 12px;
+    padding: 10px 45px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.container button.hidden {
+    background-color: transparent;
+    border-color: #fff;
+}
+
+.container form {
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 40px;
+    height: 100%;
+}
+
+.container input {
+    background-color: #eee;
+    border: none;
+    margin: 8px 0;
+    padding: 10px 15px;
+    font-size: 13px;
+    border-radius: 8px;
+    width: 100%;
+    outline: none;
+}
+
+.container .birth {
+    width: 340px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.form-container {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    transition: all 0.6s ease-in-out;
+}
+
+.sign-in {
+    left: 0;
+    width: 50%;
+    z-index: 2;
+}
+
+.container.active .sign-in {
+    transform: translateX(100%);
+}
+
+.sign-up {
+    left: 0;
+    width: 50%;
+    opacity: 0;
+    z-index: 1;
+}
+
+.container.active .sign-up {
+    transform: translateX(100%);
+    opacity: 1;
+    z-index: 5;
+    animation: move 0.6s;
+}
+
+@keyframes move {
+    0%, 49.99% {
+        opacity: 0;
+        z-index: 1;
+    }
+    50%, 100% {
+        opacity: 1;
+        z-index: 5;
+    }
+}
+
+.social-icons {
+    margin: 20px 0;
+}
+
+.social-icons a {
+    border: 1px solid #ccc;
+    border-radius: 20%;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 3px;
+    width: 40px;
+    height: 40px;
+}
+
+.toggle-container {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    transition: all 0.6s ease-in-out;
+    border-radius: 150px 0 0 100px;
+    z-index: 1000;
+}
+
+.container.active .toggle-container {
+    transform: translateX(-100%);
+    border-radius: 0 150px 100px 0;
+}
+
+.toggle {
+    height: 100%;
+    background: #E90808 linear-gradient(to right, #E90808, #96271a);
+    color: #fff;
+    position: relative;
+    left: -100%;
+    width: 200%;
+    transform: translateX(0);
+    transition: all 0.6s ease-in-out;
+}
+
+.container.active .toggle {
+    transform: translateX(50%);
+}
+
+.toggle-panel {
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 30px;
+    text-align: center;
+    top: 0;
+    transform: translateX(0);
+    transition: all 0.6s ease-in-out;
+}
+
+.toggle-left {
+    transform: translateX(-200%);
+}
+
+.container.active .toggle-left {
+    transform: translateX(0);
+}
+
+.toggle-right {
+    right: 0;
+    transform: translateX(0);
+}
+
+.container.active .toggle-right {
+    transform: translateX(200%);
+}
+
+.icon-arrow {
+    position: absolute !important;
+    top: 3%;
+    left: 10%;
+
+}
+
+.forgot-password form {
+    width: 500px;
+}
+
+#mdb-select {
+    margin: 8px 0;
+    width: 420px;
+    height: 32px;
+    background-color: #eee;
+    border: none;
+    padding: 0 15px;
+    font-size: 13px;
+    border-radius: 8px;
+    outline: none;
+}
+
+.arrow-sign-up {
+    display: none;
+}
+
+@media only screen and (max-width: 768px) {
+    .container {
+        width: 80%;
+    }
+
+    .toggle {
+        background-color: #E90808 !important;
+    }
+
+    .container span {
+        font-size: 13px;
+    }
+
+    .container a {
+        color: #333;
+        font-size: 12px;
+        text-decoration: none;
+        margin: 12px 0 10px;
+    }
+
+    .form-container {
+        position: absolute;
+        transition: all 0.6s ease-in-out;
+    }
+
+    .sign-in {
+        left: 0;
+        width: 100%;
+        z-index: 2;
+    }
+
+    .forgot-password {
+        display: none;
+    }
+
+    .forgot-password form {
+        width: 110%;
+    }
+
+    .container form {
+        background-color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        padding: 0 40px;
+        height: 100%;
+        width: 445px;
+    }
+
+    .container.active .sign-up {
+        transform: translateX(0%);
+        opacity: 1;
+        z-index: 5;
+        animation: move 0.6s;
+    }
+
+    .toggle-container {
+        position: absolute;
+        top: 5%;
+        left: 67%;
+        width: 150px;
+        height: 5%;
+        overflow: hidden;
+        transition: all 0.6s ease-in-out;
+        border-radius: 50px 0 0 50px;
+        z-index: 1000;
+    }
+
+    .toggle-container h1, .toggle-container p, .toggle-container a {
+        display: none;
+    }
+
+    .container.active .toggle-container {
+        transform: translateX(0%);
+        border-radius: 50px 0 0 50px;
+    }
+
+    #showSignUp {
+        background-color: #E90808;
+        color: #fff;
+        font-size: 12px;
+        width: max-content;
+        margin-top: 5px;
+        padding: 15px 50px;
+        border: none;
+        border-radius: 10px;
+        font-weight: 600;
+        letter-spacing: 0;
+        text-transform: uppercase;
+        cursor: pointer;
+    }
+
+    .container button.hidden {
+        background-color: transparent;
+        width: max-content;
+        border: none;
+        margin-top: 5px;
+        padding: 15px 50px;
+    }
+
+    .container .birth {
+        width: 280px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    #mdb-select {
+        margin: 8px 0;
+        width: 365px;
+        height: 32px;
+        background-color: #eee;
+        border: none;
+        padding: 0 15px;
+        font-size: 13px;
+        border-radius: 8px;
+        outline: none;
+    }
+
+    .social-icons {
+        margin: 0;
+    }
+
+    .arrow-sign-up {
+        display: block;
+        left: 20%;
+    }
+}
