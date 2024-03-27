@@ -41,6 +41,22 @@
                     <option value="${province.name}">${province.name}</option>
                 </c:forEach>
             </select>
+
+            <select class="mdb-select md-form" name="address" id="district" searchable="Search here..">
+                <option value="" disabled selected>Quận / huyện</option>
+                <c:forEach items="${district}" var="district">
+                    <option value="${province.name}">${province.name}</option>
+                </c:forEach>
+            </select>
+
+            <select class="mdb-select md-form" name="address" id="ward" searchable="Search here..">
+                <option value="" disabled selected>Phường / xã</option>
+                <c:forEach items="${ward}" var="district">
+                    <option value="${ward.name}">${ward.name}</option>
+                </c:forEach>
+            </select>
+
+
             <input type="email" name="email" id="email-signup" placeholder="Tên tài khoản / Email">
             <input type="password" name="password" id="pasword-signup" placeholder="Mật khẩu">
             <input type="password" name="verifypassword" id="verifypassword-sigup" placeholder="Xác nhận mật khẩu">
@@ -114,6 +130,13 @@
         alert('${error}')
     }
 </script>
+
+<script>
+    $('#mdb-select').on('change', function (){
+        console.log($(this).val())
+    });
+</script>
+
 <script>
     $('#request-button').click(function () {
         let data = {
