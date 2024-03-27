@@ -11,7 +11,7 @@ public class Log extends AbsModel implements Serializable {
     private String address;
     private String prevalue;
     private String value;
-    private L
+//    private L
     public Log() {
     }
 
