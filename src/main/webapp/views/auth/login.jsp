@@ -132,7 +132,7 @@
 </script>
 
 <script>
-    $('#mdb-select').on('change', function (){
+    $('#mdb-select').on('change', function () {
         console.log($(this).val())
     });
 </script>
@@ -292,6 +292,20 @@
 <%--        })--%>
 <%--    })--%>
 <%--</script>--%>
-
+<script> function getProvinces() {
+    $.ajax({
+        url: '/api/provinces',
+        type: 'GET',
+        success: function (result) {
+            console.log("success")
+            console.log(result);
+        },
+        error: function (error) {
+            console.log("error")
+            console.log(error);
+        }
+    })
+}
+</script>
 </body>
 </html>
