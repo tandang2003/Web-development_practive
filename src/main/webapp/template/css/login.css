@@ -259,6 +259,30 @@ body {
     outline: none;
 }
 
+#district {
+    margin: 8px 0;
+    width: 420px;
+    height: 32px;
+    background-color: #eee;
+    border: none;
+    padding: 0 15px;
+    font-size: 13px;
+    border-radius: 8px;
+    outline: none;
+}
+
+#ward {
+    margin: 8px 0;
+    width: 420px;
+    height: 32px;
+    background-color: #eee;
+    border: none;
+    padding: 0 15px;
+    font-size: 13px;
+    border-radius: 8px;
+    outline: none;
+}
+
 .arrow-sign-up {
     display: none;
 }
