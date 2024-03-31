@@ -17,68 +17,43 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(urlPatterns = {"/api/province/", "/api/ward/*", "/api/district/*"})
-public class LoginDataSetUp extends HttpServlet {
+@WebServlet(urlPatterns = {"/api/province", "/api/ward/*", "/api/district/*"})
+public class AddressLocateData extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String path =  req.getRequestURI().substring(req.getContextPath().length());
-        String info = req.getPathInfo();
-
-        switch (path) {
-            case "/province/":
-                List<Province> provinces = ProvinceService.getInstance().getAll();
-                resp.getWriter().println(new Gson().toJson(provinces));
-                resp.getWriter().flush();
-                resp.getWriter().close();
-                break;
-            case "/provinces/district/":
-                List<District> district = DistrictService.getInstance().getAll();
-                if (req.getParameter("province_id") != null) {
-                    int province_id = Integer.parseInt(req.getParameter("province_id"));
-                    district = DistrictService.getInstance().getByProvinceId(province_id);
-                }
-                resp.getWriter().println(new Gson().toJson(district));
-                resp.getWriter().flush();
-                resp.getWriter().close();
-                break;
-            case "/provinces/district/ward/":
-                List<Ward> ward = WardService.getInstance().getAll();
-                if (req.getParameter("district_id") != null) {
-                    int district_id = Integer.parseInt(req.getParameter("district_id"));
-                    ward = DistrictService.getInstance().getWardByDistrictId(district_id);
-                }
-                resp.getWriter().println(new Gson().toJson(ward));
-                resp.getWriter().flush();
-                resp.getWriter().close();
-                break;
-            default:
-                resp.setStatus(404);
+        String path = req.getRequestURI();
+        System.out.println(path);
+        if (path.startsWith("/api/province")) {
+            List<Province> provinces = ProvinceService.getInstance().getAll();
+            resp.getWriter().println(new Gson().toJson(provinces));
+            resp.setStatus(200);
+        } else if (path.startsWith("/api/district/")) {
+            String[] parts = path.split("/");
+            if (parts.length >= 4) {
+                String provinceId = parts[3];
+                List<District> districts = DistrictService.getInstance().getDistrictByProvinceId(Integer.parseInt(provinceId));
+                resp.getWriter().println(new Gson().toJson(districts));
+                resp.setStatus(200);
+            } else {
+                resp.setStatus(400);
                 resp.getWriter().println(new Gson().toJson(new ResponseModel()));
-                resp.getWriter().flush();
-                resp.getWriter().close();
-                break;
+            }
+        } else if (path.startsWith("/api/ward")) {
+            String[] parts = path.split("/");
+            if (parts.length >= 4) {
+                String districtId = parts[3];
+                List<Ward> wards = WardService.getInstance().getWardByDistrictId(Integer.parseInt(districtId));
+                resp.getWriter().println(new Gson().toJson(wards));
+                resp.setStatus(200);
+            } else {
+                resp.setStatus(400);
+                resp.getWriter().println(new Gson().toJson(new ResponseModel()));
+            }
+        } else {
+            resp.setStatus(404);
+            resp.getWriter().println(new Gson().toJson(new ResponseModel()));
         }
-//        System.out.println("province");
-//        if (req.getRequestURI().startsWith("/api/province")) {
-//            System.out.println("province");
-//            resp.getWriter().println(new Gson().toJson(ProjectService.getInstance().getAllProject()));
-//            resp.getWriter().flush();
-//            resp.getWriter().close();
-//            return;
-//        }
-//        if (req.getRequestURI().startsWith("/api/province/.../ward")) {
-//
-//            System.out.println("ward");
-//            resp.getWriter().println(new Gson().toJson(ProjectService.getInstance().getAllProject()));
-//            resp.getWriter().flush();
-//            resp.getWriter().close();
-//            return;
-//        }
-//        if (req.getRequestURI().startsWith("/api/district")) {
-//            System.out.println("district");
-//            resp.getWriter().println(new Gson().toJson(ProjectService.getInstance().getAllProject()));
-//            resp.getWriter().flush();
-//            resp.getWriter().close();
-//            return;
-//        }
+        resp.getWriter().flush();
+        resp.getWriter().close();
     }
+
 }

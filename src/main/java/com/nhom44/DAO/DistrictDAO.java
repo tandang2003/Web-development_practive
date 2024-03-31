@@ -10,13 +10,13 @@ import java.util.List;
 
 @RegisterBeanMapper(District.class)
 public interface DistrictDAO {
-    @SqlQuery("SELECT * FROM districts")
+    @SqlQuery("SELECT id, name, fullName, provinceId FROM districts")
     List<District> getAll();
 
     @SqlQuery("SELECT id FROM districts where name=:name")
     String getSpecificId(@Bind("name") String name);
 
-    List<District> getByProvinceId(int provinceId);
+    @SqlQuery("SELECT id, name, fullName, provinceId FROM districts WHERE provinceId = :provinceId")
+    List<District> getDistrictsByProvinceId(@Bind("provinceId") int provinceId);
 
-    List<Ward> getWardByDistrictId(int districtId);
 }
