@@ -17,18 +17,20 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(urlPatterns = {"/api/provinces", "api/ward", "/api/district, /api/district/*", "/api/*"})
+@WebServlet(urlPatterns = {"/api/province/", "/api/ward/*", "/api/district/*"})
 public class LoginDataSetUp extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String path = req.getPathInfo();
+        String path =  req.getRequestURI().substring(req.getContextPath().length());
+        String info = req.getPathInfo();
+
         switch (path) {
-            case "/provinces":
+            case "/province/":
                 List<Province> provinces = ProvinceService.getInstance().getAll();
                 resp.getWriter().println(new Gson().toJson(provinces));
                 resp.getWriter().flush();
                 resp.getWriter().close();
                 break;
-            case "/provinces/district":
+            case "/provinces/district/":
                 List<District> district = DistrictService.getInstance().getAll();
                 if (req.getParameter("province_id") != null) {
                     int province_id = Integer.parseInt(req.getParameter("province_id"));
@@ -38,7 +40,7 @@ public class LoginDataSetUp extends HttpServlet {
                 resp.getWriter().flush();
                 resp.getWriter().close();
                 break;
-            case "/provinces/district/ward":
+            case "/provinces/district/ward/":
                 List<Ward> ward = WardService.getInstance().getAll();
                 if (req.getParameter("district_id") != null) {
                     int district_id = Integer.parseInt(req.getParameter("district_id"));
