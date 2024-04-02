@@ -23,9 +23,9 @@
         <url-pattern>/admin/*</url-pattern>
         <url-pattern>/user/*</url-pattern>
     </filter-mapping>
-    <error-page>
-        <error-code>404</error-code>
-        <location>/404</location>
-    </error-page>
+<!--    <error-page>-->
+<!--        <error-code>404</error-code>-->
+<!--        <location>/404</location>-->
+<!--    </error-page>-->
 </web-app>
 
