@@ -19,15 +19,14 @@
 <!--start slide-->
 <div id="carouselExampleControls" class="carousel slide mb-5" data-ride="carousel">
 
-    <div class="container carousel-inner w-100">
-        <c:forEach items="${sliders}" var="slide" varStatus="loop">
-            <div class="carousel-item  <c:if test="${loop.index== 0}">active</c:if> w-100">
-                    <%--            <img class="d-block w-100 " src="../../../../RealEstateWeb/public/img/slide/slide-nha-xinh-1-4581.png"--%>
-                <img class="d-block w-100 " src="${slide.avatar}"
-                     alt="${slide.title}">
-            </div>
-        </c:forEach>
-
+    <div class="container carousel-inner w-100" id="slide-container">
+        <%--        <c:forEach items="${sliders}" var="slide" varStatus="loop">--%>
+        <%--            <div class="carousel-item  <c:if test="${loop.index== 0}">active</c:if> w-100">--%>
+        <%--                    &lt;%&ndash;            <img class="d-block w-100 " src="../../../../RealEstateWeb/public/img/slide/slide-nha-xinh-1-4581.png"&ndash;%&gt;--%>
+        <%--                <img class="d-block w-100 " src="${slide.avatar}"--%>
+        <%--                     alt="${slide.title}">--%>
+        <%--            </div>--%>
+        <%--        </c:forEach>--%>
     </div>
     <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -86,16 +85,17 @@
                 <h3 class="text-uppercase mb-4">Dự án tiêu biểu</h3>
             </div>
             <div class="project-category">
-                <ul class="category-menu d-flex align-items-center justify-content-center md-pills">
-                    <c:forEach var="category" items="${categories}">
-                        <li class="category-item">
-                            <button class="item-selector "
-                                    role="tab" onclick="getProject(${category.id})"
-                                    title="${category.name}">
-                                XÂY DỰNG ${category.name}
-                            </button>
-                        </li>
-                    </c:forEach>
+                <ul class="category-menu d-flex align-items-center justify-content-center md-pills"
+                    id="category-container">
+                    <%--                    <c:forEach var="category" items="${categories}">--%>
+                    <%--                        <li class="category-item">--%>
+                    <%--                            <button class="item-selector "--%>
+                    <%--                                    role="tab" onclick="getProject(${category.id})"--%>
+                    <%--                                    title="${category.name}">--%>
+                    <%--                                XÂY DỰNG ${category.name}--%>
+                    <%--                            </button>--%>
+                    <%--                        </li>--%>
+                    <%--                    </c:forEach>--%>
                 </ul>
             </div>
             <main class="my-5 mt-0">
@@ -115,38 +115,16 @@
 <!-- end project -->
 <!--start service-->
 <section class="service container pl-0 pr-0">
-    <div id="modal"></div>
     <div class="slide-container swiper">
         <div class="slide-content" id="catch">
             <h4 class="title mb-3 text-uppercase">dịch vụ THI CÔNG</h4>
-            <div class="card-wrapper swiper-wrapper">
-                <c:forEach var="service" items="${services}" varStatus="loop">
-                    <a href="/post/service?id=${service.id}" class="card-home swiper-slide">
-                            <%--                    <!--start image-->--%>
-                        <div class="image-content">
-                            <div class="card-image ">
-                                <div href="postService.jsp"
-                                     class="img-container  ">
-                                    <div class="img-wrapper hover-image">
-                                        <img src="${service.avatar}"
-                                             alt=""
-                                             class="card-img  ">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                            <%--                    <!-- start image title-->--%>
-                        <div class="card-content">
-                            <h4 class="text-uppercase">${service.name}</h4>
-                        </div>
-                    </a>
-                </c:forEach>
+            <div class="card-wrapper swiper-wrapper" id="services-container">
+
             </div>
             <div class="swiper-pagination"></div>
         </div>
     </div>
 
-    </div>
 </section>
 <!--end service-->
 <!--    end wraper contact-->
@@ -185,20 +163,6 @@
                                 <input type="text" id="phone" class="form-control">
                                 <label for="phone">Số điện thoại</label>
                             </div>
-<%--                            <div class="row">--%>
-<%--                                <div class=" black-brown-text font-weight-bold text-uppercase text-lg-center col-6 flex-center">--%>
-<%--                                    <!--                            <label>Chủ đề</label>-->--%>
-<%--                                    <select id="categoryId" class="browser-default custom-select mb-4">--%>
-<%--                                        <option value="" disabled="">Loại dự án</option>--%>
-<%--                                        <c:forEach var="category" items="${categories}">--%>
-<%--                                            <option value="${category.id}">${category.name}</option>--%>
-<%--                                        </c:forEach>--%>
-<%--                                    </select>--%>
-<%--                                </div>--%>
-<%--                                <div class="form-outline col-6">--%>
-<%--                                    <input type="text" id="projectId" class="form-control" placeholder="Mã dự án">--%>
-<%--                                </div>--%>
-<%--                            </div>--%>
 
                             <!-- Message -->
                             <div class="form-group">
@@ -241,12 +205,52 @@
 </section>
 
 
-<%@include file="/layout/public/footer.jsp" %><script src="<c:url value="/template/js/swiper-bundle.min.js"/>"></script>
+<%@include file="/layout/public/footer.jsp" %>
+<script src="<c:url value="/template/js/swiper-bundle.min.js"/>"></script>
 <%@include file="/layout/public/script.jsp" %>
 <script src="<c:url value="/template/js/main.js"/>"></script>
-<script src="<c:url value="/template/js/admin-modal-notify.js"/>"></script>
 
 <script src="<c:url value='/template/js/home.js'/>"></script>
+<script src="<c:url value='/template/js/services.js'/>"></script>
+<script>
+    getServices("home", "services-container");
+    $.ajax({
+        url: '/api/home/slides',
+        type: 'Get',
+        success: function (data) {
+            let slides = JSON.parse(data);
+            let slide = document.getElementById('slide-container');
+            slide.innerHTML = "";
+            slides.data.forEach((x, index) => {
+
+                let active = index === 0 ? "active" : "";
+                slide.innerHTML += `<div class="carousel-item \${active} w-100">
+                <img class="d-block w-100 " src="\${x.avatar}"
+                     alt="\${x.title}">`
+            })
+        },
+    })
+    $.ajax({
+        url: "/api/home/categories",
+        type: 'Get',
+        success: function (data) {
+            let categories = JSON.parse(data);
+            let categoryContainer = document.getElementById('category-container');
+            categoryContainer.innerHTML = "";
+            categories.data.forEach((x, index) => {
+
+                let active = index === 0 ? "active" : "";
+                categoryContainer.innerHTML += ` <li class="category-item">
+                         <button class="item-selector "
+                                   role="tab" onclick="getProject(\${x.id})"
+                                   title="\${x.name}">
+                              XÂY DỰNG \${x.name}
+                          </button>
+               </li>`
+            })
+        },
+    })
+</script>
 <script>
     function saveContact() {
         $.ajax({
@@ -261,31 +265,21 @@
                 content: $('#content').val(),
             },
             success: function (data) {
-                // let resp = JSON.parse(data);
-                // if (resp.status === 200) {
-                //     alert(resp.message);
-                //     window.location.reload();
-                // } else {
-                //     alert(resp.message);
-                // }
                 delayNotify(1000, data.message);
-                if(data.name == 'success'){
-                    setTimeout(()=>{
+                if (data.name == 'success') {
+                    setTimeout(() => {
                         window.location.reload();
-                    },1000);
+                    }, 1000);
                 }
             },
             error: function (data) {
                 //bắt lỗi email
                 console.log(data.message);
-                // var e = JSON.parse(data.responseText);
-                // console.log(e.name, e.message)
-                // fetchErr(e.name, e.message);
                 delayNotify(10000, "Vui lòng nhập đúng định dạng");
-                if(data.name == 'error'){
-                    setTimeout(()=>{
+                if (data.name == 'error') {
+                    setTimeout(() => {
                         window.location.reload();
-                    },1000);
+                    }, 1000);
                 }
             }
 
@@ -299,13 +293,13 @@
         // event.preventDefault();
 
         $.ajax({
-            url: '/api/home/projects',
-            type: 'Post',
+            url: '/api/home/projects/' + id,
+            type: 'Get',
             // dataType: 'json',
-            data: {id: id},
+            // data: {id: id},
             success: function (data) {
-                resdata= JSON.parse(data)
-                let list = JSON.parse(resdata.data);
+                resdata = JSON.parse(data)
+                let list = resdata.data
                 let containter = document.getElementById('project-container');
                 let project = "";
                 containter.innerHTML = "";
@@ -329,7 +323,7 @@
                         + '<p class="text-white p-0 id-project">'
                         + '<strong>MDA:' + x.id + '</strong>'
                         + '</p>'
-                        + '<p class="text-white p-4 vanBan">'+x.description+'</p>'
+                        + '<p class="text-white p-4 vanBan">' + x.description + '</p>'
                         + '</div>'
                         + '</div></div></a></div></div>'
                 }
@@ -340,7 +334,6 @@
                 console.log(data);
             }
         })
-        setTimeout(()=>{gioiHanChuVaThemDauCham('vanBan', gioiHanSoChu)},200);
     }
 </script>
 <script>
@@ -372,7 +365,7 @@
     }
 </script>
 <script>
-    function fetchErr(name, mess){
+    function fetchErr(name, mess) {
         console.log(name, mess)
         switch (name) {
             case 'email':
@@ -393,34 +386,6 @@
         fullName.classList.remove('text-danger');
         fullName.setAttribute('placeholder', "Email");
     })
-</script>
-<script>
-    function gioiHanChuVaThemDauCham(className, gioiHan) {
-        var elements = document.getElementsByClassName(className);
-
-        if (!elements || elements.length === 0) {
-            console.error("Không tìm thấy phần tử với class: " + className);
-            return;
-        }
-
-        for (var i = 0; i < elements.length; i++) {
-            var vanBan = elements[i].textContent;
-
-            if (vanBan.length > gioiHan) {
-                // Cắt đoạn văn bản và thêm dấu ba chấm
-                var vanBanGioiHan = vanBan.slice(0, gioiHan) + '...' + ' xem thêm';
-                elements[i].textContent = vanBanGioiHan;
-            }
-        }
-    }
-
-    // Sử dụng hàm
-    var className = "vanBan"; // Class của thẻ p
-    var gioiHanSoChu = 220;
-
-    setTimeout(()=>{
-        gioiHanChuVaThemDauCham(className, gioiHanSoChu);
-    },400);
 </script>
 </body>
 </html>

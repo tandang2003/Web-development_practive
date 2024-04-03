@@ -1,12 +1,11 @@
 package com.nhom44.api.web;
 
 import com.google.gson.Gson;
-import com.nhom44.bean.Contact;
-import com.nhom44.bean.User;
-import com.nhom44.bean.Project;
-import com.nhom44.bean.ResponseModel;
+import com.nhom44.bean.*;
+import com.nhom44.services.CategoryService;
 import com.nhom44.services.ContactService;
 import com.nhom44.services.ProjectService;
+import com.nhom44.services.SliderService;
 import com.nhom44.validator.EmailSingleValidator;
 import com.nhom44.validator.NumberVallidator;
 import com.nhom44.validator.SingleValidator;
@@ -23,34 +22,42 @@ import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-@WebServlet(urlPatterns = {"/api/home", "/api/home/projects", "/api/home/contact"})
+@WebServlet(urlPatterns = {"/api/home", "/api/home/projects/*", "/api/home/slides","/api/home/categories","/api/home/contact"})
 public class HomeController extends HttpServlet {
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String url = req.getRequestURI();
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String url = req.getServletPath();
         User user = (User) req.getSession().getAttribute("auth");
-        System.out.println(req.getParameterMap().keySet().toString());
         ResponseModel responseModel = new ResponseModel();
-        if (url.equals("/api/home/projects")) {
-            String id = req.getParameter("id");
-            if (new NumberVallidator().validator(id)) {
-                int i = Integer.parseInt(id);
-                List<Project> projects = ProjectService.getInstance().get8ActiveProjectHighestView(i,user==null?0:user.getId());
-                System.out.println(projects);
+        System.out.println("url: " + url);
+        switch (url) {
+            case "/api/home/projects":
+                int categoryId = Integer.parseInt((req.getPathInfo().substring(1)));
+                List<Project> projects = ProjectService.getInstance().get8ActiveProjectHighestView(categoryId, user == null ? 0 : user.getId());
                 responseModel.setName("success");
-                responseModel.setData(new Gson().toJson(projects));
-            } else {
+                responseModel.setData(projects);
+                resp.setStatus(200);
+                break;
+                case"/api/home/slides":
+                    List<Slider> sliders= SliderService.getInstance().getAllActive();
+                    responseModel.setName("success");
+                    responseModel.setData(sliders);
+                    resp.setStatus(200);
+                    break;
+            case "/api/home/categories":
+                List<Category> categories = CategoryService.getInstance().getAllActive();
+                responseModel.setName("success");
+                responseModel.setData(categories);
+                break;
+            default:
                 responseModel.setName("error");
-                responseModel.setData("id is not number");
-            }
+                responseModel.setData("url not found");
+                break;
+        }
             PrintWriter printWriter = resp.getWriter();
             printWriter.print(new Gson().toJson(responseModel));
             printWriter.flush();
             printWriter.close();
             return;
-
-
-        }
-        super.doPost(req, resp);
     }
 }

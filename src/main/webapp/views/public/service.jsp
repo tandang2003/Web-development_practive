@@ -40,98 +40,37 @@
             <h1 class="mb-5" style="color:#E90808; font-family: Inter,Arial, Helvetica, sans-serif; font-weight: 700;">
                 Dịch vụ và báo giá</h1>
 
-            <div class="row g-4 g-lg-5">
-                <c:forEach var="service" items="${services}">
-                    <div class="col-lg-4 col-md-6 mb-5">
-                        <div class="card">
-                            <div
-                                    class="bg-image hover-overlay ripple"
-                                    data-mdb-ripple-color="light">
-                                <a href="#">
-                                    <div
-                                            class="mask"
-                                            style="background-color: rgba(251, 251, 251, 0.15)"
-                                    ></div>
-                                    <div class="hover-img">
-                                        <img
-                                                src="${service.avatar}"
-                                                class="img-fluid"/>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="card-body">
-                                <div class="card-content">
-                                    <h3 class="card-title">Dịch vụ ${service.name}</h3>
-                                    <p class="card-text">
-                                            ${service.description}
-                                    </p>
-                                </div>
-                                <a href="/post/service?id=${service.id}" class="btn btn-rounded">Xem thêm</a>
-                            </div>
-                        </div>
-                    </div>
-                </c:forEach>
-                <%--                <div class="col-lg-4 col-md-6">--%>
-                <%--                    <div class="card">--%>
-                <%--                        <div--%>
-                <%--                                class="bg-image hover-overlay ripple"--%>
-                <%--                                data-mdb-ripple-color="light">--%>
-                <%--                            <a href="#">--%>
-                <%--                                <div--%>
-                <%--                                        class="mask"--%>
-                <%--                                        style="background-color: rgba(251, 251, 251, 0.15)"--%>
-                <%--                                ></div>--%>
-                <%--                                <div class="hover-img">--%>
-                <%--                                    <img--%>
-                <%--                                            src="../../../../RealEstateWeb/public/img/service-img/dichvuxaydungnhaotrongoi-2589.jpg"--%>
-                <%--                                            class="img-fluid"/>--%>
-                <%--                                </div>--%>
-                <%--                            </a>--%>
-                <%--                        </div>--%>
-                <%--                        <div class="card-body">--%>
-                <%--                            <div class="card-content">--%>
-                <%--                                <h3 class="card-title">Dịch vụ xây nhà trọn gói</h3>--%>
-                <%--                                <p class="card-text">--%>
-                <%--                                    Dịch vụ xây nhà trọn gói là một giải pháp toàn diện và tiện lợi cho việc xây dựng--%>
-                <%--                                    ngôi nhà mơ ước của bạn. Thay vì bạn phải tự mình quản lý từng khía cạnh của quá--%>
-                <%--                                    trình xây dựng, dịch vụ xây nhà trọn gói sẽ đảm nhiệm toàn bộ công việc, từ thiết kế--%>
-                <%--                                    ban đầu đến hoàn thiện cuối cùng.--%>
-                <%--                                </p>--%>
+            <div class="row g-4 g-lg-5" id="service-container">
+                <%--                <c:forEach var="service" items="${services}">--%>
+                <%--                    <div class="col-lg-4 col-md-6 mb-5">--%>
+                <%--                        <div class="card">--%>
+                <%--                            <div--%>
+                <%--                                    class="bg-image hover-overlay ripple"--%>
+                <%--                                    data-mdb-ripple-color="light">--%>
+                <%--                                <a href="#">--%>
+                <%--                                    <div--%>
+                <%--                                            class="mask"--%>
+                <%--                                            style="background-color: rgba(251, 251, 251, 0.15)"--%>
+                <%--                                    ></div>--%>
+                <%--                                    <div class="hover-img">--%>
+                <%--                                        <img--%>
+                <%--                                                src="${service.avatar}"--%>
+                <%--                                                class="img-fluid"/>--%>
+                <%--                                    </div>--%>
+                <%--                                </a>--%>
                 <%--                            </div>--%>
-                <%--                            <a href="postService.jsp" class="btn btn-rounded">Xem thêm</a>--%>
+                <%--                            <div class="card-body">--%>
+                <%--                                <div class="card-content">--%>
+                <%--                                    <h3 class="card-title">Dịch vụ ${service.name}</h3>--%>
+                <%--                                    <p class="card-text">--%>
+                <%--                                            ${service.description}--%>
+                <%--                                    </p>--%>
+                <%--                                </div>--%>
+                <%--                                <a href="/post/service?id=${service.id}" class="btn btn-rounded">Xem thêm</a>--%>
+                <%--                            </div>--%>
                 <%--                        </div>--%>
                 <%--                    </div>--%>
-                <%--                </div>--%>
-                <%--                <div class="col-lg-4 col-md-6">--%>
-                <%--                    <div class="card">--%>
-                <%--                        <div--%>
-                <%--                                class="bg-image hover-overlay ripple"--%>
-                <%--                                data-mdb-ripple-color="light">--%>
-                <%--                            <a href="#">--%>
-                <%--                                <div--%>
-                <%--                                        class="mask"--%>
-                <%--                                        style="background-color: rgba(251, 251, 251, 0.15)"--%>
-                <%--                                ></div>--%>
-                <%--                                <div class="hover-img">--%>
-                <%--                                    <img--%>
-                <%--                                            src="../../../../RealEstateWeb/public/img/service-img/nhamaysanxuatgangtay-7223.jpg"--%>
-                <%--                                            class="img-fluid"/>--%>
-                <%--                                </div>--%>
-                <%--                            </a>--%>
-                <%--                        </div>--%>
-                <%--                        <div class="card-body">--%>
-                <%--                            <div class="card-content">--%>
-                <%--                                <h3 class="card-title">Dịch vụ thi công nhà xưởng</h3>--%>
-                <%--                                <p class="card-text">--%>
-                <%--                                    Dịch vụ thi công nhà xưởng là quá trình tổ chức, quản lý và thực hiện xây dựng hoặc--%>
-                <%--                                    cải tạo các cơ sở sản xuất, nhà máy, hoặc nhà xưởng để đáp ứng nhu cầu sản xuất và--%>
-                <%--                                    kinh doanh của khách hàng.--%>
-                <%--                                </p>--%>
-                <%--                            </div>--%>
-                <%--                            <a href="postService.jsp" class="btn btn-rounded">Xem thêm</a>--%>
-                <%--                        </div>--%>
-                <%--                    </div>--%>
-                <%--                </div>--%>
+                <%--                </c:forEach>--%>
             </div>
         </section>
         <!--Section: Posts-->
@@ -141,5 +80,9 @@
 <%@include file="/layout/public/footer.jsp" %>
 <%@include file="/layout/public/script.jsp" %>
 <script src="<c:url value="/template/js/main.js"/>"></script>
+<script src="<c:url value="/template/js/services.js"/>"></script>
+<script>
+    getServices("services", 'service-container');
+</script>
 </body>
 </html>

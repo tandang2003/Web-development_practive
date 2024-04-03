@@ -31,11 +31,7 @@ public class SignUpController extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println(req.getParameterMap().keySet().toString());
-        System.out.println(req.getParameter("email"));
-        System.out.println(req.getParameter("birthday"));
         Gson gson = new Gson();
-        System.out.println("step 1");
         UserService userService = UserService.getInstance();
         PrintWriter printWriter = resp.getWriter();
         List<ResponseModel> errMess = new ArrayList();
