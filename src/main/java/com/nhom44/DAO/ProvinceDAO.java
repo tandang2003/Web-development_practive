@@ -18,5 +18,4 @@ public interface ProvinceDAO {
     String getSpecificId(@Bind("name") String name);
 
 //    String getIdProvinceWithName(String province);
-
 }
