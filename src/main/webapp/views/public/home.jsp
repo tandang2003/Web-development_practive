@@ -277,10 +277,16 @@
             },
             error: function (data) {
                 //bắt lỗi email
-                console.log(data);
-                var e = JSON.parse(data.responseText);
-                console.log(e.name, e.message)
-                fetchErr(e.name, e.message);
+                console.log(data.message);
+                // var e = JSON.parse(data.responseText);
+                // console.log(e.name, e.message)
+                // fetchErr(e.name, e.message);
+                delayNotify(10000, "Vui lòng nhập đúng định dạng");
+                if(data.name == 'error'){
+                    setTimeout(()=>{
+                        window.location.reload();
+                    },1000);
+                }
             }
 
         })

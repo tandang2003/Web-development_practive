@@ -21,18 +21,14 @@ public class DistrictService {
     }
 
     public List<District> getAll() {
-        return conn.withExtension(DistrictDAO.class, dao -> dao.getAll());
+        return conn.withExtension(DistrictDAO.class, DistrictDAO::getAll);
     }
 
     public String getSpecificId(String District) {
         return conn.withExtension(DistrictDAO.class, dao -> dao.getSpecificId(District));
     }
 
-    public List<District> getByProvinceId(int provinceId) {
-        return conn.withExtension(DistrictDAO.class, dao -> dao.getByProvinceId(provinceId));
-    }
-
-    public List<Ward> getWardByDistrictId(int districtId) {
-        return conn.withExtension(DistrictDAO.class, dao -> dao.getWardByDistrictId(districtId));
+    public List<District> getDistrictByProvinceId(int provinceId) {
+        return conn.withExtension(DistrictDAO.class, dao -> dao.getDistrictsByProvinceId(provinceId));
     }
 }

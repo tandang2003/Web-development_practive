@@ -35,25 +35,25 @@
                 </label>
             </div>
             <!--            <input type="address" placeholder="Địa chỉ">-->
-            <select class="mdb-select md-form" name="address" id="mdb-select" searchable="Search here..">
+            <select class="mdb-select md-form" name="address" id="province" searchable="Search here..">
                 <option value="" disabled selected>Chọn tỉnh thành</option>
-                <c:forEach items="${provinces}" var="province">
-                    <option value="${province.name}">${province.name}</option>
-                </c:forEach>
+                <%--                <c:forEach items="${provinces}" var="province">--%>
+                <%--                    <option value="${province.name}">${province.name}</option>--%>
+                <%--                </c:forEach>--%>
             </select>
 
             <select class="mdb-select md-form" name="address" id="district" searchable="Search here..">
                 <option value="" disabled selected>Quận / huyện</option>
-                <c:forEach items="${district}" var="district">
-                    <option value="${province.name}">${province.name}</option>
-                </c:forEach>
+                <%--                <c:forEach items="${districts}" var="district">--%>
+                <%--                    <option value="${district.name}">${district.name}</option>--%>
+                <%--                </c:forEach>--%>
             </select>
 
             <select class="mdb-select md-form" name="address" id="ward" searchable="Search here..">
                 <option value="" disabled selected>Phường / xã</option>
-                <c:forEach items="${ward}" var="district">
-                    <option value="${ward.name}">${ward.name}</option>
-                </c:forEach>
+<%--                <c:forEach items="${wards}" var="district">--%>
+<%--                    <option value="${ward.name}">${ward.name}</option>--%>
+<%--                </c:forEach>--%>
             </select>
 
 
@@ -124,7 +124,7 @@
 
 <%@include file="/layout/public/script.jsp" %>
 <script src="<c:url value="/template/js/login.js"/> "></script>
-<script src="<c:url value="/template/js/admin-modal-notify.js"/>"></script>
+<%--<script src="<c:url value="/template/js/admin-modal-notify.js"/>"></script>--%>
 <script>
     if (${error!=null}) {
         alert('${error}')
@@ -132,7 +132,13 @@
 </script>
 
 <script>
-    $('#mdb-select').on('change', function () {
+    $('#province').on('change', function () {
+        console.log($(this).val())
+    });
+    $('#district').on('change', function () {
+        console.log($(this).val())
+    });
+    $('#ward').on('change', function () {
         console.log($(this).val())
     });
 </script>
@@ -292,20 +298,92 @@
 <%--        })--%>
 <%--    })--%>
 <%--</script>--%>
-<script> function getProvinces() {
-    $.ajax({
-        url: '/api/provinces',
-        type: 'GET',
-        success: function (result) {
-            console.log("success")
-            console.log(result);
-        },
-        error: function (error) {
-            console.log("error")
-            console.log(error);
-        }
+<%--<script>--%>
+<%--    $(document).ready(function () {--%>
+<%--        $.ajax({--%>
+<%--            url: '/api/district',--%>
+<%--            type: 'GET',--%>
+<%--            success: function (result) {--%>
+<%--                result = JSON.parse(result)--%>
+<%--                console.log(result)--%>
+<%--                for (let i of result) {--%>
+<%--                    $('#district').append('<option value="' + i.id + '">' + i.fullName + '</option>')--%>
+<%--                }--%>
+<%--            },--%>
+<%--            error: function (error) {--%>
+<%--                console.log("error")--%>
+<%--                console.log(error);--%>
+<%--            }--%>
+<%--        })--%>
+<%--    })--%>
+<%--</script>--%>
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            url: '/api/province',
+            type: 'GET',
+            success: function (result) {
+                result = JSON.parse(result)
+                console.log(result)
+                for (let i of result) {
+                    $('#province').append('<option value="' + i.id + '">' + i.fullName + '</option>')
+                }
+            },
+            error: function (error) {
+                console.log("error")
+                console.log(error);
+            }
+        })
     })
-}
+</script>
+
+<script>
+    //     check #province chosen data, after that can choose #district if not #
+    $(document).ready(function () {
+        $('#province').on('change', function () {
+            let provinceId = $(this).val();
+            console.log(provinceId + " bla bal")
+            $.ajax({
+                url: '/api/district/' + provinceId,
+                type: 'GET',
+                success: function (result) {
+                    result = JSON.parse(result)
+                    console.log(result)
+                    for (let i of result) {
+                        $('#district').append('<option value="' + i.id + '">' + i.fullName + '</option>')
+                    }
+                },
+                error: function (error) {
+                    console.log("error");
+                    console.log(error);
+                }
+            });
+        });
+    });
+</script>
+<script>
+    //     check #district chosen data, after that can choose #ward if not #
+    $(document).ready(function () {
+        $('#district').on('change', function () {
+            let districtId = $(this).val();
+            console.log(districtId + " bla bal")
+            $.ajax({
+                url: '/api/ward/' + districtId,
+                type: 'GET',
+                success: function (result) {
+                    result = JSON.parse(result)
+                    console.log(result)
+                    for (let i of result) {
+                        $('#ward').append('<option value="' + i.id + '">' + i.fullName + '</option>')
+                    }
+                },
+                error: function (error) {
+                    console.log("error");
+                    console.log(error);
+                }
+            });
+        });
+    });
 </script>
 </body>
 </html>

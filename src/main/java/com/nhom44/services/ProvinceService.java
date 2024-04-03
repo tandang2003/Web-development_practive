@@ -1,6 +1,7 @@
 package com.nhom44.services;
 
 import com.nhom44.DAO.ProvinceDAO;
+import com.nhom44.bean.District;
 import com.nhom44.bean.Province;
 import com.nhom44.db.JDBIConnector;
 import org.jdbi.v3.core.Jdbi;
@@ -20,7 +21,7 @@ public class ProvinceService  {
     }
 
     public List<Province> getAll() {
-        return conn.withExtension(ProvinceDAO.class, dao -> dao.getAll());
+        return conn.withExtension(ProvinceDAO.class, ProvinceDAO::getAll);
     }
     public String getSpecificId(String province){
         return conn.withExtension(ProvinceDAO.class,dao->dao.getSpecificId(province));

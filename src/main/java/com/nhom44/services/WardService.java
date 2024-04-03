@@ -25,4 +25,8 @@ public class WardService {
     public String getSpecificId(String Ward){
         return conn.withExtension(WardDAO.class,dao->dao.getSpecificId(Ward));
     }
+
+    public List<Ward> getWardByDistrictId(int district) {
+        return conn.withExtension(WardDAO.class, dao -> dao.getWardByDistrictId(district));
+    }
 }

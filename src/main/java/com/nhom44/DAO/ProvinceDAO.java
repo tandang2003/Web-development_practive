@@ -1,5 +1,6 @@
 package com.nhom44.DAO;
 
+import com.nhom44.bean.District;
 import com.nhom44.bean.Province;
 import org.jdbi.v3.sqlobject.config.RegisterBeanMapper;
 import org.jdbi.v3.sqlobject.config.RegisterFieldMapper;
@@ -10,11 +11,12 @@ import java.util.List;
 
 @RegisterBeanMapper(Province.class)
 public interface ProvinceDAO {
-    @SqlQuery("SELECT * FROM provinces")
+    @SqlQuery("SELECT id, name, fullName FROM provinces")
     List<Province> getAll();
 
     @SqlQuery("SELECT id FROM provinces where name=:name")
     String getSpecificId(@Bind("name") String name);
 
-    String getIdProvinceWithName(String province);
+//    String getIdProvinceWithName(String province);
+
 }

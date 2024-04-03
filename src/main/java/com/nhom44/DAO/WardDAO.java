@@ -14,4 +14,6 @@ public interface WardDAO {
 
     @SqlQuery("SELECT id FROM wards where name=:name")
     String getSpecificId(@Bind("name") String name);
+    @SqlQuery("SELECT id, name, fullName, districtId FROM wards WHERE districtId = :districtId")
+    List<Ward> getWardByDistrictId(@Bind("districtId") int districtId);
 }
