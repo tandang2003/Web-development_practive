@@ -1,11 +1,9 @@
 package com.nhom44.bean;
 
-import org.jdbi.v3.core.mapper.reflect.ColumnName;
-
 import java.io.Serializable;
 import java.util.Objects;
 
-public class Project implements Serializable {
+public class Project extends AbsModel implements Serializable {
     private int id;
     private String title;
     private String description;
@@ -18,10 +16,10 @@ public class Project implements Serializable {
     private String createdAt;
     private String updatedAt;
     private String schedule;
-    private String estimated_complete;
+    private String estimatedComplete;
     private String province;
     private String category;
-    private int provinceId;
+    private int addressId;
     private int categoryId;
     private int numSave;
     private int numVisit;
@@ -43,10 +41,10 @@ public class Project implements Serializable {
                 ", createdAt='" + createdAt + '\'' +
                 ", updatedAt='" + updatedAt + '\'' +
                 ", schedule='" + schedule + '\'' +
-                ", estimated_complete='" + estimated_complete + '\'' +
+                ", estimatedComplete='" + estimatedComplete + '\'' +
                 ", province='" + province + '\'' +
                 ", category='" + category + '\'' +
-                ", provinceId=" + provinceId +
+                ", addressId=" + addressId +
                 ", categoryId=" + categoryId +
                 ", numSave=" + numSave +
                 ", numVisit=" + numVisit +
@@ -60,12 +58,12 @@ public class Project implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Project project = (Project) o;
-        return id == project.id && price == project.price && Double.compare(acreage, project.acreage) == 0 && status == project.status && postId == project.postId && isAccepted == project.isAccepted && provinceId == project.provinceId && categoryId == project.categoryId && numSave == project.numSave && numVisit == project.numVisit && isSave == project.isSave && saveBy == project.saveBy && Objects.equals(title, project.title) && Objects.equals(description, project.description) && Objects.equals(avatar, project.avatar) && Objects.equals(createdAt, project.createdAt) && Objects.equals(updatedAt, project.updatedAt) && Objects.equals(schedule, project.schedule) && Objects.equals(estimated_complete, project.estimated_complete) && Objects.equals(province, project.province) && Objects.equals(category, project.category);
+        return id == project.id && price == project.price && Double.compare(project.acreage, acreage) == 0 && status == project.status && postId == project.postId && isAccepted == project.isAccepted && addressId == project.addressId && categoryId == project.categoryId && numSave == project.numSave && numVisit == project.numVisit && isSave == project.isSave && saveBy == project.saveBy && Objects.equals(title, project.title) && Objects.equals(description, project.description) && Objects.equals(avatar, project.avatar) && Objects.equals(createdAt, project.createdAt) && Objects.equals(updatedAt, project.updatedAt) && Objects.equals(schedule, project.schedule) && Objects.equals(estimatedComplete, project.estimatedComplete) && Objects.equals(province, project.province) && Objects.equals(category, project.category);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description, avatar, price, acreage, status, postId, isAccepted, createdAt, updatedAt, schedule, estimated_complete, province, category, provinceId, categoryId, numSave, numVisit, isSave, saveBy);
+        return Objects.hash(id, title, description, avatar, price, acreage, status, postId, isAccepted, createdAt, updatedAt, schedule, estimatedComplete, province, category, addressId, categoryId, numSave, numVisit, isSave, saveBy);
     }
 
     public int getId() {
@@ -164,12 +162,12 @@ public class Project implements Serializable {
         this.schedule = schedule;
     }
 
-    public String getEstimated_complete() {
-        return estimated_complete;
+    public String getEstimatedComplete() {
+        return estimatedComplete;
     }
 
-    public void setEstimated_complete(String estimated_complete) {
-        this.estimated_complete = estimated_complete;
+    public void setEstimatedComplete(String estimatedComplete) {
+        this.estimatedComplete = estimatedComplete;
     }
 
     public String getProvince() {
@@ -188,12 +186,12 @@ public class Project implements Serializable {
         this.category = category;
     }
 
-    public int getProvinceId() {
-        return provinceId;
+    public int getAddressId() {
+        return addressId;
     }
 
-    public void setProvinceId(int provinceId) {
-        this.provinceId = provinceId;
+    public void setAddressId(int addressId) {
+        this.addressId = addressId;
     }
 
     public int getCategoryId() {
@@ -237,9 +235,11 @@ public class Project implements Serializable {
     }
 
     public Project() {
+        super();
     }
 
-    public Project(int id, String title, String description, String avatar, long price, double acreage, int status, int postId, int isAccepted, String createdAt, String updatedAt, String schedule, String estimated_complete, String province, String category, int provinceId, int categoryId, int numSave, int numVisit, boolean isSave, int saveBy) {
+    public Project(int id, String title, String description, String avatar, long price, double acreage, int status, int postId, int isAccepted, String createdAt, String updatedAt, String schedule, String estimatedComplete, String province, String category, int addressId, int categoryId, int numSave, int numVisit, boolean isSave, int saveBy) {
+        super();
         this.id = id;
         this.title = title;
         this.description = description;
@@ -252,14 +252,39 @@ public class Project implements Serializable {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.schedule = schedule;
-        this.estimated_complete = estimated_complete;
+        this.estimatedComplete = estimatedComplete;
         this.province = province;
         this.category = category;
-        this.provinceId = provinceId;
+        this.addressId = addressId;
         this.categoryId = categoryId;
         this.numSave = numSave;
         this.numVisit = numVisit;
         this.isSave = isSave;
         this.saveBy = saveBy;
+    }
+
+    @Override
+    public AbsModel getPreValue() {
+        return null;
+    }
+
+    @Override
+    public AbsModel getAfterValue() {
+        return null;
+    }
+
+    @Override
+    public void setPreValue(AbsModel model) {
+        if (model != null && ((Project) model).id != 0) {
+            this.preValue = model;
+        }
+
+    }
+
+    @Override
+    public void setAfterValue(AbsModel model) {
+        if (model != null && ((Project) model).id != 0) {
+            this.afterValue = model;
+        }
     }
 }
