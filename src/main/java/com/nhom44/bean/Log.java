@@ -3,25 +3,32 @@ package com.nhom44.bean;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class Log extends AbsModel implements Serializable {
+public class Log implements Serializable {
     private int id;
     private String ip;
     private String national;
-    private String level;
+    private int level;
     private String address;
-    private String prevalue;
-    private String value;
+    private String afterValue;
+    private String preValue;
+    private String description;
+    private String createdAt;
+    private String updatedAt;
+
     public Log() {
     }
 
-    public Log(int id, String ip, String national, String level, String address, String prevalue, String value) {
+    public Log(int id, String ip, String national, int level, String address, String afterValue, String preValue, String description, String createdAt, String updatedAt) {
         this.id = id;
         this.ip = ip;
         this.national = national;
         this.level = level;
         this.address = address;
-        this.prevalue = prevalue;
-        this.value = value;
+        this.afterValue = afterValue;
+        this.preValue = preValue;
+        this.description = description;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     @Override
@@ -30,10 +37,13 @@ public class Log extends AbsModel implements Serializable {
                 "id=" + id +
                 ", ip='" + ip + '\'' +
                 ", national='" + national + '\'' +
-                ", level='" + level + '\'' +
+                ", level=" + level +
                 ", address='" + address + '\'' +
-                ", prevalue='" + prevalue + '\'' +
-                ", value='" + value + '\'' +
+                ", afterValue='" + afterValue + '\'' +
+                ", preValue='" + preValue + '\'' +
+                ", description='" + description + '\'' +
+                ", createdAt='" + createdAt + '\'' +
+                ", updatedAt='" + updatedAt + '\'' +
                 '}';
     }
 
@@ -42,12 +52,12 @@ public class Log extends AbsModel implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Log log = (Log) o;
-        return id == log.id && Objects.equals(ip, log.ip) && Objects.equals(national, log.national) && Objects.equals(level, log.level) && Objects.equals(address, log.address) && Objects.equals(prevalue, log.prevalue) && Objects.equals(value, log.value);
+        return id == log.id && level == log.level && Objects.equals(ip, log.ip) && Objects.equals(national, log.national) && Objects.equals(address, log.address) && Objects.equals(afterValue, log.afterValue) && Objects.equals(preValue, log.preValue) && Objects.equals(description, log.description) && Objects.equals(createdAt, log.createdAt) && Objects.equals(updatedAt, log.updatedAt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, ip, national, level, address, prevalue, value);
+        return Objects.hash(id, ip, national, level, address, afterValue, preValue, description, createdAt, updatedAt);
     }
 
     public int getId() {
@@ -74,11 +84,11 @@ public class Log extends AbsModel implements Serializable {
         this.national = national;
     }
 
-    public String getLevel() {
+    public int getLevel() {
         return level;
     }
 
-    public void setLevel(String level) {
+    public void setLevel(int level) {
         this.level = level;
     }
 
@@ -90,34 +100,44 @@ public class Log extends AbsModel implements Serializable {
         this.address = address;
     }
 
-    public String getPrevalue() {
-        return prevalue;
+
+    public void setAfterValue(String afterValue) {
+        this.afterValue = afterValue;
     }
 
-    public void setPrevalue(String prevalue) {
-        this.prevalue = prevalue;
+
+    public void setPreValue(String preValue) {
+        this.preValue = preValue;
     }
 
-    public String getValue() {
-        return value;
+    public String getDescription() {
+        return description;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    @Override
-    protected void insert() {
-
+    public String getCreatedAt() {
+        return createdAt;
     }
 
-    @Override
-    protected void update(int id) {
-
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
 
-    @Override
-    protected void delete(int id) {
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
 
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+    public String getPreValue() {
+        return this.preValue;
+    }
+
+    public String getAfterValue() {
+        return this.afterValue;
     }
 }

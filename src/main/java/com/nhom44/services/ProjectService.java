@@ -48,11 +48,11 @@ public class ProjectService {
     public int addExcuting(Project project) {
         if (project.getId() != 0) {
             Project finalProject = project;
-            return conn.withExtension(ProjectDAO.class, dao -> dao.addExcuting(finalProject.getId(), finalProject.getSchedule(), finalProject.getEstimated_complete()));
+            return conn.withExtension(ProjectDAO.class, dao -> dao.addExcuting(finalProject.getId(), finalProject.getSchedule(), finalProject.getEstimatedComplete()));
         }
         project = getProjectByObject(project);
         Project finalProject1 = project;
-        return conn.withExtension(ProjectDAO.class, dao -> dao.addExcuting(finalProject1.getId(), finalProject1.getSchedule(), finalProject1.getEstimated_complete()));
+        return conn.withExtension(ProjectDAO.class, dao -> dao.addExcuting(finalProject1.getId(), finalProject1.getSchedule(), finalProject1.getEstimatedComplete()));
     }
 
     public boolean isFinishProject(int id) {
@@ -79,6 +79,7 @@ public class ProjectService {
     }
 
     public Project updateProject(Project project, boolean isComplete) {
+        project.setPreValue(getById(project.getId()));
         if (isComplete) {
             conn.withExtension(ProjectDAO.class, dao -> dao.deleteInExcuting(project.getId()));
             conn.withExtension(ProjectDAO.class, dao -> dao.updateProject(project));
@@ -87,7 +88,8 @@ public class ProjectService {
             addExcuting(project);
             conn.withExtension(ProjectDAO.class, dao -> dao.updateProject(project));
         }
-        return getProjectByObject(project);
+        project.setAfterValue(getById(project.getId()));
+        return project;
     }
 
     public int addProjectForUser(int projectId, int userId) {
@@ -214,9 +216,9 @@ public class ProjectService {
         List<Project> projects = conn.withExtension(ProjectDAO.class, dao -> dao.getOwnProject(id));
         projects.forEach(p -> {
             p.setUpdatedAt(DateUtil.formatStringDate(p.getUpdatedAt()));
-            if (p.getEstimated_complete() != null) {
-                p.setEstimated_complete(DateUtil.formatStringDate(p.getEstimated_complete()));
-            } else {p.setSchedule("Dự án đã hoàn thành");p.setEstimated_complete(p.getUpdatedAt());}
+            if (p.getEstimatedComplete() != null) {
+                p.setEstimatedComplete(DateUtil.formatStringDate(p.getEstimatedComplete()));
+            } else {p.setSchedule("Dự án đã hoàn thành");p.setEstimatedComplete(p.getUpdatedAt());}
         });
         return projects;
     }

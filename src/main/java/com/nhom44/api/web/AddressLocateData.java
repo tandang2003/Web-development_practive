@@ -1,4 +1,4 @@
-package com.nhom44.api.auth;
+package com.nhom44.api.web;
 
 import com.google.gson.Gson;
 import com.nhom44.bean.District;
