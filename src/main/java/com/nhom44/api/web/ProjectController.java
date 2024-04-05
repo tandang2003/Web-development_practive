@@ -42,11 +42,6 @@ public class ProjectController extends HttpServlet {
             int area = validator.validator(req.getParameter("area")) ? Integer.parseInt(req.getParameter("area")) : 0;
             int serviceId = validator.validator(req.getParameter("serviceId")) ? Integer.parseInt(req.getParameter("serviceId")) : 0;
             int offset = validator.validator(req.getParameter("offset")) ? Integer.parseInt(req.getParameter("offset")) * 16 : 0;
-            System.out.println("serviceId " + serviceId);
-            System.out.println("categoryId " + categoryId);
-            System.out.println("provinceId " + provinceId);
-            System.out.println("area " + area);
-            System.out.println("ser " + serviceId);
             long minPrice = 0;
             long maxPrice = 0;
             if (price == SearcherProjectUtil.PRICE_SEARCHING.size()) {
@@ -65,34 +60,20 @@ public class ProjectController extends HttpServlet {
                 maxArea = 0;
                 minArea = SearcherProjectUtil.ACREAGE.get(area - 1);
             }
-            System.out.println("serviceId " + serviceId);
-            System.out.println("categoryId " + categoryId);
-            System.out.println("provinceId " + provinceId);
-            System.out.println("minPrice " + minPrice);
-            System.out.println("maxPrice " + maxPrice);
-            System.out.println("minAcreage " + minArea);
-            System.out.println("maxAcreage " + maxArea);
             if (url.equals("/api/project/search")) {
                 User user = (User) req.getSession().getAttribute("auth");
                 int userid = user != null ? user.getId() : 0;
                 List<Project> projects = ProjectService.getInstance().getProjetAllActive(offset, categoryId, serviceId, provinceId, minPrice, maxPrice, minArea, maxArea, userid);
-//                for (Project project : projects) {
-//                    System.out.println(project.toString());
-//                }
-//                System.out.println(new Gson().toJson(projects));
+                System.out.println(new Gson().toJson(projects));
                 resp.setStatus(200);
                 resp.getWriter().print(new Gson().toJson(projects));
             } else if (url.equals("/api/project/search/length")) {
                 int size = ProjectService.getInstance().getProjetAllActiveSize(offset, categoryId, serviceId, provinceId, minPrice, maxPrice, minArea, maxArea);
-                System.out.println("size=" + size);
-                System.out.println(size / 16);
                 resp.setStatus(200);
                 resp.getWriter().print(new Gson().toJson(size));
             }
-            System.out.println(categoryId + " " + provinceId + " " + price + " " + area + " " + serviceId);
             resp.getWriter().flush();
             resp.getWriter().close();
-            System.out.println(url);
             return;
         }
     }

@@ -47,7 +47,8 @@
                             <select name="category" id="categoryId" class="form-control">
                                 <option value="">Loại</option>
                                 <c:forEach items="${sessionScope.categories}" var="cat">
-                                    <option value="${cat.id}" <c:if test="${category.id==cat.id}"> selected</c:if>>${cat.name}</option>
+                                    <option value="${cat.id}" <c:if
+                                            test="${category.id==cat.id}"> selected</c:if>>${cat.name}</option>
                                 </c:forEach>
                             </select>
                         </div>
@@ -139,17 +140,18 @@
 <%@include file="/layout/public/script.jsp" %>
 <script src="<c:url value="/template/js/main.js"/>"></script>
 <script>
-    function effectButton(){
-        let pageItem= document.getElementsByClassName('page-item');
+    function effectButton() {
+        let pageItem = document.getElementsByClassName('page-item');
         for (let i = 0; i < pageItem.length; i++) {
             pageItem[i].addEventListener('click', function () {
                 for (let j = 0; j < pageItem.length; j++) {
-                    if(pageItem[j].classList.contains('active') ) pageItem[j].classList.remove('active');
+                    if (pageItem[j].classList.contains('active')) pageItem[j].classList.remove('active');
                 }
                 this.classList.add('active');
             })
         }
     }
+
     function getProject(i) {
         $.ajax({
             url: "/api/project/search",
@@ -229,7 +231,6 @@
                 delete fdata.area;
             }
         }
-        console.log($.param(fdata))
         $.ajax({
             url: "/api/project/search/length",
             type: "POST",
@@ -242,18 +243,15 @@
                 return false;
             },
             error: function (response) {
-                console.log('error');
                 console.log(response);
             }
         })
     }
 
     function getProject(data, i) {
-        console.log('get project');
         if (data == null) {
             data = 'offset=' + i;
         } else data += "&offset=" + i;
-        console.log(data)
         $.ajax({
             url: "/api/project/search",
             type: "POST",
@@ -268,7 +266,6 @@
                 return false;
             },
             error: function (response) {
-                console.log('error');
                 console.log(response);
             }
         })
@@ -332,7 +329,7 @@
                 + '<p class="text-white p-0 id-project">'
                 + '<strong>MDA:' + x.id + '</strong>'
                 + '</p>'
-                + '<p class="text-white p-4 vanBan" name="test">'+x.description+'</p>'
+                + '<p class="text-white p-4 vanBan" name="test">' + x.description + '</p>'
                 + '</div>'
                 + '</div></div></a></div></div>'
         }
@@ -377,34 +374,6 @@
     //         $(this).toggleClass('fa-regular fa-bookmark fa-solid fa-bookmark');
     //     });
     // });
-</script>
-<script>
-    function gioiHanChuVaThemDauCham(className, gioiHan) {
-        var elements = document.getElementsByClassName(className);
-
-        if (!elements || elements.length === 0) {
-            console.error("Không tìm thấy phần tử với class: " + className);
-            return;
-        }
-
-        for (var i = 0; i < elements.length; i++) {
-            var vanBan = elements[i].textContent;
-
-            if (vanBan.length > gioiHan) {
-                // Cắt đoạn văn bản và thêm dấu ba chấm
-                var vanBanGioiHan = vanBan.slice(0, gioiHan) + '...' + ' xem thêm';
-                elements[i].textContent = vanBanGioiHan;
-            }
-        }
-    }
-
-    // Sử dụng hàm
-    var className = "vanBan"; // Class của thẻ p
-    var gioiHanSoChu = 220;
-
-    setTimeout(()=>{
-        gioiHanChuVaThemDauCham(className, gioiHanSoChu);
-    },400);
 </script>
 </body>
 </html>
