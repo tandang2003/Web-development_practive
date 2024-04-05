@@ -122,21 +122,15 @@ public class ProjectService {
     }
 
     public List<Project> getProjetAllActive(int offset, int categoryId, int serviceId, int provinceId, long minPrice, long maxPrice, int minAcreage, int maxAcreage, int userid) {
+        System.out.println(offset+" "+ categoryId + " " + serviceId + " " + provinceId + " " + minPrice + " " + maxPrice + " " + minAcreage + " " + maxAcreage + " " + userid);
         return conn.withExtension(ProjectDAO.class, dao -> {
-            System.out.println("userid " + userid);
             List<Project> res = dao.getProjetAllActive(offset, categoryId, serviceId, provinceId, minPrice, maxPrice, minAcreage, maxAcreage, userid);
-            for (Project project : res) {
-                System.out.println(project.toString());
-            }
             for (Project p : res) {
                 if (p.getSaveBy() == userid && p.getSaveBy() != 0) p.setSave(true);
             }
 //            res.forEach(p -> {
 //                if (p.getSaveBy() == userid) p.setSave(true);
 //            });
-            for (Project project : res) {
-                System.out.println(project.toString());
-            }
             return res;
         });
     }
