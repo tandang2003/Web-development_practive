@@ -21,7 +21,6 @@ import java.util.List;
 public class AddressLocateData extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String path = req.getRequestURI();
-        System.out.println(path);
         if (path.startsWith("/api/province")) {
             List<Province> provinces = ProvinceService.getInstance().getAll();
             resp.getWriter().println(new Gson().toJson(provinces));

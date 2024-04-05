@@ -51,9 +51,9 @@
 
             <select class="mdb-select md-form" name="address" id="ward" searchable="Search here..">
                 <option value="" disabled selected>Phường / xã</option>
-<%--                <c:forEach items="${wards}" var="district">--%>
-<%--                    <option value="${ward.name}">${ward.name}</option>--%>
-<%--                </c:forEach>--%>
+                <%--                <c:forEach items="${wards}" var="district">--%>
+                <%--                    <option value="${ward.name}">${ward.name}</option>--%>
+                <%--                </c:forEach>--%>
             </select>
 
 
