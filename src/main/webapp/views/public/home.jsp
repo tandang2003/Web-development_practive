@@ -87,15 +87,6 @@
             <div class="project-category">
                 <ul class="category-menu d-flex align-items-center justify-content-center md-pills"
                     id="category-container">
-                    <%--                    <c:forEach var="category" items="${categories}">--%>
-                    <%--                        <li class="category-item">--%>
-                    <%--                            <button class="item-selector "--%>
-                    <%--                                    role="tab" onclick="getProject(${category.id})"--%>
-                    <%--                                    title="${category.name}">--%>
-                    <%--                                XÂY DỰNG ${category.name}--%>
-                    <%--                            </button>--%>
-                    <%--                        </li>--%>
-                    <%--                    </c:forEach>--%>
                 </ul>
             </div>
             <main class="my-5 mt-0">
