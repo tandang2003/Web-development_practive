@@ -202,7 +202,7 @@
 <script src="<c:url value="/template/js/main.js"/>"></script>
 
 <script src="<c:url value='/template/js/home.js'/>"></script>
-<%--<script src="<c:url value='/template/js/services.js'/>"></script>--%>
+<script src="<c:url value='/template/js/services.js'/>"></script>
 <script>
     getServices("home", "services-container");
     $.ajax({
