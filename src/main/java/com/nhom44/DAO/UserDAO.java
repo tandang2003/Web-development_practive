@@ -9,6 +9,7 @@ import org.jdbi.v3.sqlobject.statement.SqlQuery;
 import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 @RegisterBeanMapper(User.class)
@@ -22,11 +23,11 @@ public interface UserDAO {
                    @Bind("status") int status);
 
     @SqlUpdate("UPDATE users SET fullname =:fullName , email =:email , password =:password, role =:role,avatar=:avatar,phone=:phone, birthday=:birthday," +
-            " gender=:gender, status=:status ,updatedAt=now() WHERE email=:oldEmail")
+            " gender=:gender, status=:status ,updated_at=now() WHERE email=:oldEmail")
     int updateUser(@BindBean User user,@Bind("oldEmail") String oldEmail);
     @SqlUpdate("UPDATE users SET fullname =:fullName , email =:email , password =:password, " +
             "role =:role,phone=:phone, birthday=:birthday, provinceId=:provinceId, " +
-            "gender=:gender, status=:status ,updatedAt=now() WHERE id=:id")
+            "gender=:gender, status=:status ,updated_at=now() WHERE id=:id")
     int updateUser(@BindBean User user);
     @SqlUpdate("UPDATE users SET provinceId=:provinceId WHERE email=:email")
     int updateProvinceForUser(@Bind("provinceId") int provinceId,@Bind("email") String email);
@@ -56,4 +57,7 @@ public interface UserDAO {
     User getUserByEmailForCustomer(@Bind("email") String email);
     @SqlUpdate("INSERT INTO users(email,password,fullName,role,status) VALUES(:email,:password,:fullName,:role,:status)")
     Integer insertGoogleUser(@BindBean User user);
+
+    @SqlQuery("SELECT * FROM users WHERE id=:id AND email=:email AND updated_at=:updateAt AND created_at=:createAt")
+    User getUserByTimeAndEmail(@Bind("id") int id, @Bind("email") String email, @Bind("updated_at") Timestamp update_at,@Bind("create_at") Timestamp create_at);
 }

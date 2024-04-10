@@ -1,5 +1,6 @@
 package com.nhom44.services;
 
+import com.google.api.client.util.DateTime;
 import com.nhom44.DAO.ProvinceDAO;
 import com.nhom44.DAO.UserDAO;
 import com.nhom44.bean.User;
@@ -8,6 +9,7 @@ import com.nhom44.util.StringUtil;
 import org.jdbi.v3.core.Jdbi;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 
@@ -36,14 +38,15 @@ public class UserService {
         return conn.withExtension(UserDAO.class, dao -> dao.NumOfSameEmailContain(email)) == 1;
     }
 
-
-    public User additional(String email, String password, String name, Date birthday, String phone, String province, String isMale, String status, String role) {
+// address
+    public User additional(String email, String password, String name, Date birthday, String phone, String province, String isMale, String status, String role, String addressId) {
         User user = new User();
         user.setEmail(email);
         user.setPassword(StringUtil.hashPassword(password));
         user.setFullName(name);
         user.setBirthday(new java.sql.Date(birthday.getTime()));
         user.setPhone(phone);
+
         user.setProvince(province);
         user.setGender(isMale != null ? 1 : 0);
         user.setStatus(Integer.parseInt(status));
@@ -61,14 +64,31 @@ public class UserService {
         return user;
     }
 
+    public User addUser(User user) {
+        user.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+        user.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
+        UserService userService = UserService.getInstance();
+        User u = userService.getUserByTimeAndEmail(user.getId(), user.getEmail(), user.getUpdatedAt(), user.getCreatedAt());
+        if (u != null) {
+            return null;
+        }
+        return conn.withExtension(UserDAO.class, dao -> dao)
+                .insertUser(user.getFullName(), user.getEmail(), user.getPassword(), user.getRole(), user.getPhone(), user.getProvinceId(), user.getGender(), user.getBirthday(), user.getStatus()) == 1 ? getUserByEmail(user.getEmail()) : null;
+    }
+
+    private User getUserByTimeAndEmail(int id, String email, Timestamp update_at, Timestamp create_at) {
+        return conn.withExtension(UserDAO.class, dao -> dao.getUserByTimeAndEmail(id, email, update_at, create_at));
+    }
     private int updateProvinceId(int id, String email) {
         return conn.withExtension(UserDAO.class, dao -> dao.updateProvinceForUser(id, email));
     }
-public User update(User user){
-    System.out.println("userupdated"+user.toString());
-       int check= conn.withExtension(UserDAO.class,dao->dao.updateUser(user));
-       return check==1?conn.withExtension(UserDAO.class,dao->dao.login(user.getEmail(), user.getPassword())):null;
-}
+
+    public User update(User user) {
+        System.out.println("userupdated" + user.toString());
+        int check = conn.withExtension(UserDAO.class, dao -> dao.updateUser(user));
+        return check == 1 ? conn.withExtension(UserDAO.class, dao -> dao.login(user.getEmail(), user.getPassword())) : null;
+    }
+
     public int update(String oldEmail, String email, String password, String name, Date birthday, String phone, String province, String isMale, String status, String role) {
         String idProvince = ProvinceService.getInstance().getSpecificId(province);
         try {
@@ -115,7 +135,7 @@ public User update(User user){
 
     public User login(String email, String password) {
         return conn.withExtension(UserDAO.class, dao -> {
-            String hash=StringUtil.hashPassword(password);
+            String hash = StringUtil.hashPassword(password);
             return dao.login(email, hash);
         });
     }

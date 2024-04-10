@@ -80,7 +80,7 @@ public class SignUpController extends HttpServlet {
         String name = req.getParameter("fullname");
         if (name == null || name.trim().isEmpty() || name.length() < 6) {
             req.setAttribute("fullname", "Tên phải có ít nhất 6 ký tự");
-             responseModel = new ResponseModel();
+            responseModel = new ResponseModel();
             responseModel.setName("fullname");
             responseModel.setMessage("Tên phải có ít nhất 6 ký tự");
             errMess.add(responseModel);
@@ -98,7 +98,7 @@ public class SignUpController extends HttpServlet {
             try {
                 birthday = dmy.parse(ip_birthday);
             } catch (Exception var28) {
-                 responseModel = new ResponseModel();
+                responseModel = new ResponseModel();
                 responseModel.setMessage("Ngày sinh không hợp lệ");
                 responseModel.setData((Object) null);
                 responseModel.setName("birthday");
@@ -106,9 +106,9 @@ public class SignUpController extends HttpServlet {
                 isErr = true;
             }
         } else {
-            req.setAttribute("birthday", "Vui lòng chọn ngày sinh");
-             responseModel = new ResponseModel();
-            responseModel.setMessage("Vui lòng chọn ngày sinh");
+//            req.setAttribute("birthday", "Vui lòng chọn ngày sinh");
+            responseModel = new ResponseModel();
+//            responseModel.setMessage("Vui lòng chọn ngày sinh");
             responseModel.setData((Object) null);
             responseModel.setName("birthday");
             errMess.add(responseModel);
@@ -121,7 +121,7 @@ public class SignUpController extends HttpServlet {
         Pattern patternPhone = Pattern.compile(regexPhone);
         Matcher matcherPhone = patternPhone.matcher(phone);
 
-        if (phone.length() < 10) {
+        if (!phone.isEmpty() && phone.length() < 10) {
             req.setAttribute("phone", "Số điện thoại phải có ít nhất 10 ký tự");
             responseModel = new ResponseModel();
             responseModel.setMessage("Số điện thoại phải có ít nhất 10 ký tự");
@@ -137,26 +137,59 @@ public class SignUpController extends HttpServlet {
             responseModel.setName("phone");
             errMess.add(responseModel);
             isErr = true;
-        }
-
-        System.out.println("step 6");
-        String province = req.getParameter("province");
-        if (province == null || province.trim().isEmpty()) {
-            req.setAttribute("province", "Vui lòng chọn tỉnh thành");
-             responseModel = new ResponseModel();
-            responseModel.setMessage("Vui lòng chọn tỉnh thành");
+        } else {
+            System.out.println("phone: " + phone);
+            responseModel = new ResponseModel();
             responseModel.setData((Object) null);
-            responseModel.setName("province");
+            responseModel.setName("phone");
             errMess.add(responseModel);
             isErr = true;
         }
 
+        System.out.println("step 6");
+        String province = req.getParameter("province");
+        String district = req.getParameter("district");
+        String ward = req.getParameter("ward");
+//        check province, district, ward
+//        if province is null, set data of province, district, ward to defualt
+//        if have province, have to check district, ward
+        if (province == null || province.isEmpty()){
+            responseModel = new ResponseModel();
+            responseModel.setData((Object) null);
+            responseModel.setName("province");
+            errMess.add(responseModel);
+            isErr = true;
+        } else {
+            if (district == null || district.isEmpty()){
+                responseModel = new ResponseModel();
+                responseModel.setData((Object) null);
+                responseModel.setName("district");
+                errMess.add(responseModel);
+                isErr = true;
+            } else {
+                if (ward == null || ward.isEmpty()){
+                    responseModel = new ResponseModel();
+                    responseModel.setData((Object) null);
+                    responseModel.setName("ward");
+                    errMess.add(responseModel);
+                    isErr = true;
+                }else{
+
+                }
+            }
+        }
+
+
+
         System.out.println(province);
+        System.out.println(district);
+        System.out.println(ward);
+
         String isMale = req.getParameter("isMale");
         String isFemale = req.getParameter("isFemale");
         if (isMale.isEmpty() && isFemale.isEmpty()) {
             req.setAttribute("gender", "Vui lòng chọn giới tính");
-             responseModel = new ResponseModel();
+            responseModel = new ResponseModel();
             responseModel.setMessage("Vui lòng chọn giới tính");
             responseModel.setData((Object) null);
             responseModel.setName("gender");
@@ -176,9 +209,10 @@ public class SignUpController extends HttpServlet {
             printWriter.flush();
             printWriter.close();
         } else {
+
             System.out.println((new java.sql.Date(birthday.getTime())).toLocalDate().toString());
 
-            User user = null;
+            User user, addedUser = null;
             if (UserService.getInstance().isContainEmail(email)) {
                 resp.setStatus(400);
                 responseModel = new ResponseModel();
@@ -187,24 +221,26 @@ public class SignUpController extends HttpServlet {
                 errMess.add(responseModel);
                 printWriter.print(gson.toJson(errMess));
             } else {
+//                add bằng user (new user)
                 user = userService.additional(email, password, name, new java.sql.Date(birthday.getTime()), phone, province, isMale, status, role);
-                if (user.getPassword() == null) {
-                    int userId = userService.getIdUserWithEmail(user.getEmail());
+                addedUser = userService.addUser(user);
+                if (addedUser.getPassword() == null) {
+                    int userId = userService.getIdUserWithEmail(addedUser.getEmail());
                     String token = UUID.randomUUID().toString();
                     VerifyService.getInstance().insert(token, userId);
-                    MailService.getInstance().sendMailToVerify(null,user.getEmail(), token);
+                    MailService.getInstance().sendMailToVerify(null, addedUser.getEmail(), token);
                     responseModel = new ResponseModel();
                     responseModel.setName("success");
                     responseModel.setMessage("Xin vui lòng truy cập email để xác thực tài khoản của bạn");
-                    responseModel.setData(user);
+                    responseModel.setData(addedUser);
                     resp.setStatus(200);
                     printWriter.print(gson.toJson(responseModel));
-                } else if (user.getPassword() != null) {
+                } else if (addedUser.getPassword() != null) {
                     responseModel = new ResponseModel();
                     resp.setStatus(200);
                     responseModel.setName("sys");
                     responseModel.setMessage("Thêm thất bại");
-                    responseModel.setData(user);
+                    responseModel.setData(addedUser);
                     printWriter.print(gson.toJson(responseModel));
                 }
                 printWriter.flush();

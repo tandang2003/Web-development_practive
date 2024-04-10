@@ -51,9 +51,9 @@
 
             <select class="mdb-select md-form" name="address" id="ward" searchable="Search here..">
                 <option value="" disabled selected>Phường / xã</option>
-<%--                <c:forEach items="${wards}" var="district">--%>
-<%--                    <option value="${ward.name}">${ward.name}</option>--%>
-<%--                </c:forEach>--%>
+                <%--                <c:forEach items="${wards}" var="district">--%>
+                <%--                    <option value="${ward.name}">${ward.name}</option>--%>
+                <%--                </c:forEach>--%>
             </select>
 
 
@@ -125,6 +125,7 @@
 <%@include file="/layout/public/script.jsp" %>
 <script src="<c:url value="/template/js/login.js"/> "></script>
 <%--<script src="<c:url value="/template/js/admin-modal-notify.js"/>"></script>--%>
+<script src="<c:url value="/template/js/dataAddress.js"/>"></script>
 <script>
     if (${error!=null}) {
         alert('${error}')
@@ -270,120 +271,6 @@
                 break;
         }
     }
-</script>
-<%--<script>--%>
-<%--    $('#login-button').click(function () {--%>
-<%--        let data = {--%>
-<%--            email: $('#email-signin').val(),--%>
-<%--            password: $('#password-signin').val()--%>
-<%--        }--%>
-<%--        $.ajax({--%>
-<%--            url: '/api/login',--%>
-<%--            type: 'POST',--%>
-<%--            data: data,--%>
-<%--            // contentType: 'application/json',--%>
-<%--            success: function (result) {--%>
-<%--                console.log("success")--%>
-<%--                console.log(result);--%>
-<%--                // if (result == 'success') {--%>
-<%--                //     window.location.href = '/RealEstateWeb_war_exploded/home';--%>
-<%--                // } else {--%>
-<%--                //     $('#error-message-signin').text(result);--%>
-<%--                //     $('#error-message-signin').css('display', 'block');--%>
-<%--            },--%>
-<%--            error: function (error) {--%>
-<%--                console.log("error")--%>
-<%--                console.log(error);--%>
-<%--            }--%>
-<%--        })--%>
-<%--    })--%>
-<%--</script>--%>
-<%--<script>--%>
-<%--    $(document).ready(function () {--%>
-<%--        $.ajax({--%>
-<%--            url: '/api/district',--%>
-<%--            type: 'GET',--%>
-<%--            success: function (result) {--%>
-<%--                result = JSON.parse(result)--%>
-<%--                console.log(result)--%>
-<%--                for (let i of result) {--%>
-<%--                    $('#district').append('<option value="' + i.id + '">' + i.fullName + '</option>')--%>
-<%--                }--%>
-<%--            },--%>
-<%--            error: function (error) {--%>
-<%--                console.log("error")--%>
-<%--                console.log(error);--%>
-<%--            }--%>
-<%--        })--%>
-<%--    })--%>
-<%--</script>--%>
-<script>
-    $(document).ready(function () {
-        $.ajax({
-            url: '/api/province',
-            type: 'GET',
-            success: function (result) {
-                result = JSON.parse(result)
-                console.log(result)
-                for (let i of result) {
-                    $('#province').append('<option value="' + i.id + '">' + i.fullName + '</option>')
-                }
-            },
-            error: function (error) {
-                console.log("error")
-                console.log(error);
-            }
-        })
-    })
-</script>
-
-<script>
-    //     check #province chosen data, after that can choose #district if not #
-    $(document).ready(function () {
-        $('#province').on('change', function () {
-            let provinceId = $(this).val();
-            console.log(provinceId + " bla bal")
-            $.ajax({
-                url: '/api/district/' + provinceId,
-                type: 'GET',
-                success: function (result) {
-                    result = JSON.parse(result)
-                    console.log(result)
-                    for (let i of result) {
-                        $('#district').append('<option value="' + i.id + '">' + i.fullName + '</option>')
-                    }
-                },
-                error: function (error) {
-                    console.log("error");
-                    console.log(error);
-                }
-            });
-        });
-    });
-</script>
-<script>
-    //     check #district chosen data, after that can choose #ward if not #
-    $(document).ready(function () {
-        $('#district').on('change', function () {
-            let districtId = $(this).val();
-            console.log(districtId + " bla bal")
-            $.ajax({
-                url: '/api/ward/' + districtId,
-                type: 'GET',
-                success: function (result) {
-                    result = JSON.parse(result)
-                    console.log(result)
-                    for (let i of result) {
-                        $('#ward').append('<option value="' + i.id + '">' + i.fullName + '</option>')
-                    }
-                },
-                error: function (error) {
-                    console.log("error");
-                    console.log(error);
-                }
-            });
-        });
-    });
 </script>
 </body>
 </html>
