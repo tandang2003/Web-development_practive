@@ -17,6 +17,5 @@ public interface ProvinceDAO {
     @SqlQuery("SELECT id FROM provinces where name=:name")
     String getSpecificId(@Bind("name") String name);
 
-    String getIdProvinceWithName(String province);
-
+//    String getIdProvinceWithName(String province);
 }

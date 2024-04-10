@@ -222,8 +222,8 @@ public class SignUpController extends HttpServlet {
                 printWriter.print(gson.toJson(errMess));
             } else {
 //                add bằng user (new user)
-                user = userService.additional(email, password, name, new java.sql.Date(birthday.getTime()), phone, province, isMale, status, role);
-                addedUser = userService.addUser(user);
+//                user = userService.additional(email, password, name, new java.sql.Date(birthday.getTime()), phone, province, isMale, status, role);
+//                addedUser = userService.addUser(user);
                 if (addedUser.getPassword() == null) {
                     int userId = userService.getIdUserWithEmail(addedUser.getEmail());
                     String token = UUID.randomUUID().toString();
