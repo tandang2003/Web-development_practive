@@ -32,7 +32,7 @@ public class ImageService {
     }
 
     public static void main(String[] args) {
-        System.out.println(ImageService.getInstance().getGroupImagesByProjectId(1));
+        System.out.println(ImageService.getInstance().getGroupImagesByProjectId(8));
     }
 
     public void updateImageForProject(int id, int idImg) {

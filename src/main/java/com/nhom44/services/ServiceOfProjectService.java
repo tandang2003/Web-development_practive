@@ -46,11 +46,7 @@ public class ServiceOfProjectService {
         return map;
     }
 
-    public static void main(String[] args) {
-        List<Project> projects = ProjectService.getInstance().getAllProject();
-        Map<Integer, String> map = ServiceOfProjectService.getInstance().getServicesForOwnerByProjectIds(projects);
-        map.forEach((k, v) -> System.out.println(k + " " + v));
-    }
+
 
     public void updateServiceForProject(int id, List<String> services) {
         deleteServiceProject(id);
@@ -97,5 +93,7 @@ public class ServiceOfProjectService {
         List<Service> res = new ArrayList<>();
         set.forEach(i -> res.add(serivces.get(i)));
         return res;
+    }
+    public static void main(String[] args) {
     }
 }

@@ -177,6 +177,7 @@
 </script>
 <script>
     function searching() {
+        console.log("searching");
         let data = {
             "categoryId": $('#categoryId').val(),
             "provinceId": $('#provinceId').val(),
@@ -253,7 +254,7 @@
             data = 'offset=' + i;
         } else data += "&offset=" + i;
         $.ajax({
-            url: "/api/project/search",
+            url: "api/project/search",
             type: "POST",
             // dataType: "json",
             data: data,
@@ -316,7 +317,7 @@
                 + ' class="bg-image hover-image hover-zoom ripple shadow-1-strong rounded-5 w-100 d-block">';
             if (x.isSave) project += ' <i class="fa-solid fa-bookmark position-absolute" onclick="like(this)" style="z-index: 1000"></i>'
             else project += '<i class="fa-regular fa-bookmark position-absolute" onclick="like(this)" style="z-index: 1000"></i>';
-            project += '<a href="/post/project?id=' + x.id + '">'
+            project += '<a href="/post/project/' + x.id + '">'
                 + '<img src="' + x.avatar + '"'
                 + ' class="w-100">'
                 + ' <input type="hidden" class="project-id" value=' + x.id + '>'

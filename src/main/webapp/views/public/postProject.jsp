@@ -16,7 +16,7 @@
             right: 5%;
         }
     </style>
-    <title>${project.title}</title>
+    <title></title>
 </head>
 <body>
 <%@include file="/layout/public/header.jsp" %>
@@ -37,7 +37,7 @@
                             <i class="fas fa-caret-right mx-2" aria-hidden="true"></i>
                         </li>
                         <li class="breadcrumb-item active breadcrumb-size p-0">
-                            <a class="black-text text-uppercase" href="#">${project.title}</a></li>
+                            <a class="black-text text-uppercase project-title" href="#"></a></li>
                     </ol>
                 </nav>
             </div>
@@ -56,26 +56,27 @@
 
                     </c:otherwise>
                 </c:choose>
-                <h1 class="text-center mb-3 mt-3 post-title text-uppercase">${project.title}</h1>
+                <h1 class="text-center mb-3 mt-3 post-title text-uppercase project-title"></h1>
                 <div class="row">
 
-                    <p class="font-italic col-lg-5 col-md-5 col-sm-12 m-0"><strong>Ngày đăng: ${project.updatedAt}; Mã
+                    <p class="font-italic col-lg-5 col-md-5 col-sm-12 m-0"><strong>Ngày đăng: <span
+                            class="project-updatedAt"></span>; Mã
                         dự án:
-                        ${project.id}</strong></p>
+                        <span class="project-id"></span></strong></p>
                     <%--                    Thiết kế, Sửa chữa--%>
-                    <p class="font-italic col-lg-7 col-md-7 col-sm-12 m-0"><strong><span>Loại dự án: ${project.category};</span>
-                        <span>Loại dịch vụ: <c:forEach items="${services}" var="service" varStatus="loop">
-                            ${service.name}<c:if test="${not loop.last}">,</c:if>
-                        </c:forEach> </span></strong></p>
+                    <p class="font-italic col-lg-7 col-md-7 col-sm-12 m-0"><strong><span>Loại dự án: <span
+                            class="project-category"></span>;</span>
+                        <span class="project-services">Loại dịch vụ:
+<%--                            <c:forEach items="${services}" var="service"--%>
+<%--                                                                                varStatus="loop">--%>
+<%--                            ${service.name}<c:if test="${not loop.last}">,</c:if>--%>
+<%--                        </c:forEach>--%>
+</span></strong></p>
                 </div>
 
 
-                <div class="gallery position-relative h-auto mb-3 ">
-                    <c:forEach items="${gallery}" var="image">
-                        <div class="img position-relative w-100 h-100 overflow-hidden ">
-                            <img class="" src="${image}" alt="Image">
-                        </div>
-                    </c:forEach>
+                <div class="gallery position-relative h-auto mb-3 gallery">
+
                 </div>
                 <div class="post-content-text" style="max-width: 100%">
                     ${post.content}
@@ -200,27 +201,27 @@
                                 <p class="text-uppercase main-color"><i class="fa-solid fa-caret-right mr-2">
                                 </i> bạn có thể quan tâm</p>
                             </div>
-                            <ul class="feature-news-list">
-                                <c:forEach items="${suggestProjects}" var="project">
-                                    <li class="feature-news-items mb-2">
-                                        <a href="project?id=${project.id}"
-                                           class="feature-news-items-link d-flex row"
-                                           role="link">
-                                            <div class="feature-news-items-img d-block hover-image col-5 pr-0">
-                                                <img src="${project.avatar}" alt="">
-                                            </div>
-                                            <div class="feature-news-items-info col-6 pl-0">
-                                                <div class="feature-news-items-info-title text-uppercase">
-                                                        ${project.title}
-                                                </div>
-                                                <div class="feature-news-items-info-date">
-                                                    <i class="fa-solid fa-calendar-alt mr-2"></i>
-                                                        ${project.updatedAt}
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                </c:forEach>
+                            <ul class="feature-news-list project-suggest">
+<%--                                <c:forEach items="${suggestProjects}" var="project">--%>
+<%--                                    <li class="feature-news-items mb-2">--%>
+<%--                                        <a href="project?id=${project.id}"--%>
+<%--                                           class="feature-news-items-link d-flex row"--%>
+<%--                                           role="link">--%>
+<%--                                            <div class="feature-news-items-img d-block hover-image col-5 pr-0">--%>
+<%--                                                <img src="${project.avatar}" alt="">--%>
+<%--                                            </div>--%>
+<%--                                            <div class="feature-news-items-info col-6 pl-0">--%>
+<%--                                                <div class="feature-news-items-info-title text-uppercase">--%>
+<%--                                                        ${project.title}--%>
+<%--                                                </div>--%>
+<%--                                                <div class="feature-news-items-info-date">--%>
+<%--                                                    <i class="fa-solid fa-calendar-alt mr-2"></i>--%>
+<%--                                                        ${project.updatedAt}--%>
+<%--                                                </div>--%>
+<%--                                            </div>--%>
+<%--                                        </a>--%>
+<%--                                    </li>--%>
+<%--                                </c:forEach>--%>
                             </ul>
                         </div>
                     </div>
@@ -236,7 +237,89 @@
 <script>
     $(document).ready(function () {
         $('.mdb-select').materialSelect();
+
     });
+    let id = window.location.href.substring(window.location.href.lastIndexOf('/'))
+    $.ajax({
+        url: '/api/post/project' + id,
+        dataType: 'json',
+        type: 'GET',
+        success: function (data) {
+            let project = data.data
+            document.title = project.title
+            $('.project-title').text(project.title)
+            $('.project-updatedAt').text(project.updatedAt)
+            $('.project-category').text(project.category)
+            $('.project-id').text(project.id)
+
+        },
+    })
+    $.ajax({
+        url: "/api/post/project" + id + "/post",
+        type: "GET",
+        dataType: 'json',
+        success: function (data) {
+            let post = data.data
+            $('.post-content-text').html(post.content+$('.post-content-text').html())
+        },
+    })
+    $.ajax({
+        url: "/api/post/project" + id + "/gallery",
+        type: "GET",
+        dataType: 'json',
+        success: function (data) {
+            let gallery = data.data
+            gallery.forEach((e, i) => {
+                $('.gallery').append(`<div class="img position-relative w-100 h-100 overflow-hidden ">
+                    <img class="" src="\${e}" alt="Image">
+                    </div>`)
+            })
+            console.log($('.gallery').html())
+        },
+    })
+    $.ajax({
+        url: "/api/post/project" + id + "/services",
+        type: "GET",
+        dataType: 'json',
+        success: function (data) {
+            let services = data.data
+            console.log(services)
+            services.forEach((e, i) => {
+                $('.project-services').append(`\${e.name}`)
+                if (i != services.length - 1)
+                    $('.project-services').append(`, `)
+            })
+        },
+    })
+    $.ajax({
+        url: '/api/post/project' + id + '/suggest',
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            let suggestProjects = data.data
+            console.log(data)
+            suggestProjects.forEach((e, i) => {
+                $('project-suggest').append(`<li class="feature-news-items mb-2">
+                                        <a href="/post/project/\${e.id}"
+                                           class="feature-news-items-link d-flex row"
+                                           role="link">
+                                            <div class="feature-news-items-img d-block hover-image col-5 pr-0">
+                                                <img src="\${e.avatar}" alt="">
+                                            </div>
+                                            <div class="feature-news-items-info col-6 pl-0">
+                                                <div class="feature-news-items-info-title text-uppercase">
+                                                        \${e.title}
+                                                </div>
+                                                <div class="feature-news-items-info-date">
+                                                    <i class="fa-solid fa-calendar-alt mr-2"></i>
+                                                        \${e.updatedAt}
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>`)
+            })
+        }
+    })
 </script>
 <script>
     let allFiles = [];
@@ -292,7 +375,7 @@
         form.append('representProjectId', $('#itProject').val())
         form.append('category', $('#category').val())
         form.append('width', $('#area-width').val())
-        form.append("representProjectId",$('#representProjectId').val())
+        form.append("representProjectId", $('#representProjectId').val())
         form.append('width', $('#area-width').val())
         form.append('height', $('#area-length').val())
         form.append('services', $('#services').val())
@@ -375,7 +458,7 @@
             url: "/api/save_project",
             type: "GET",
             data: {
-                "projectId":${project.id}
+                "projectId": id
             },
             success: function (response) {
                 console.log(response);
@@ -507,6 +590,9 @@
         itProject.classList.remove('text-danger');
         itProject.setAttribute('placeholder', "");
     })
+</script>
+<script>
+
 </script>
 </body>
 </html>

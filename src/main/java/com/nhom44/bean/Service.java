@@ -15,23 +15,21 @@ public class Service implements Serializable {
     private int numberOfProject;
     private int numberOfView;
 
+
     public Service() {
     }
 
-    @Override
-    public String toString() {
-        return "Service{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", avatar='" + avatar + '\'' +
-                ", status=" + status +
-                ", postId=" + postId +
-                ", createdAt='" + createdAt + '\'' +
-                ", updatedAt='" + updatedAt + '\'' +
-                ", numberOfProject=" + numberOfProject +
-                ", numberOfView=" + numberOfView +
-                '}';
+    public Service(int id, String name, String description, String avatar, int status, int postId, String createdAt, String updatedAt, int numberOfProject, int numberOfView) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.avatar = avatar;
+        this.status = status;
+        this.postId = postId;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.numberOfProject = numberOfProject;
+        this.numberOfView = numberOfView;
     }
 
     @Override
@@ -124,19 +122,6 @@ public class Service implements Serializable {
     }
 
     public void setNumberOfView(int numberOfView) {
-        this.numberOfView = numberOfView;
-    }
-
-    public Service(int id, String name, String description, String avatar, int status, int postId, String createdAt, String updatedAt, int numberOfProject, int numberOfView) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.avatar = avatar;
-        this.status = status;
-        this.postId = postId;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-        this.numberOfProject = numberOfProject;
         this.numberOfView = numberOfView;
     }
 }

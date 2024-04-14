@@ -1,10 +1,8 @@
 package com.nhom44.api.web;
 
 import com.google.gson.Gson;
-import com.nhom44.bean.Project;
-import com.nhom44.bean.User;
-import com.nhom44.services.ProjectService;
-import com.nhom44.services.UserService;
+import com.nhom44.bean.*;
+import com.nhom44.services.*;
 import com.nhom44.util.PriceObjectHelper;
 import com.nhom44.util.SearcherProjectUtil;
 import com.nhom44.validator.NumberVallidator;
@@ -19,15 +17,68 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(urlPatterns = {"/api/project/search", "/api/project/search/length"})
+@WebServlet(urlPatterns = {"/api/project/search", "/api/project/search/length", "/api/post/project/*"})
 public class ProjectController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String url = req.getServletPath();
+        ResponseModel responseModel = new ResponseModel();
+        if (url.equals("/api/post/project")) {
+            String path = req.getPathInfo().trim().substring(1);
+            String id = path.contains("/") ? path.split("/")[0] : path;
+            if (id == null || !new NumberVallidator().validator(id)) {
+                resp.sendRedirect("/404");
+                return;
+            }
+            Project project = ProjectService.getInstance().getActiveById(Integer.parseInt(id));
+            project.setUpdatedAt(project.getUpdatedAt().substring(0, 10));
+            User user = (User) req.getSession().getAttribute("auth");
+            if (user != null) {
+                project.setSave(ProjectService.getInstance().isLikeByUser(user.getId(), project.getPostId()) ? true : false);
+                ProjectService.getInstance().addHistory(user.getId(), project.getPostId());
+            }
+            responseModel.setStatus("200");
+            responseModel.setMessage("get project success");
+            responseModel.setData(project);
+            System.out.println(path);
+            if (path.contains("/")){
+                switch (path.split("/")[1].trim()) {
+                    case "suggest":
+                        List<Project> suggestProjects = ProjectService.getInstance().getSuggestProjects(project.getCategoryId());
+                        responseModel.setData(suggestProjects);
+                        break;
+                    case "services":
+                        List<Service> services = ServiceOfProjectService.getInstance().getServicesByProjectId(project.getId());
+                        responseModel.setData(services);
+                        break;
+                    case "post":
+                        Post post = PostService.getInstance().getById(project.getPostId());
+                        responseModel.setData(post);
+                        break;
+                    case "gallery":
+                        List<String> gallery = ImageService.getInstance().getGroupImagesByProjectId(Integer.parseInt(id));
+                        for (String img :
+                                gallery) {
+                            System.out.println(img);
+                        }
+                        responseModel.setData(gallery);
+                        break;
+                }
+                }
+
+            resp.setStatus(200);
+            resp.getWriter().println(new Gson().toJson(responseModel));
+            resp.getWriter().flush();
+            resp.getWriter().close();
+            return;
+        }
+
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String url = req.getRequestURI();
+        String url = req.getServletPath();
+        System.out.println(url);
         System.out.println(req.getParameterMap().keySet().toString());
         List<PriceObjectHelper> prices = SearcherProjectUtil.PRICE_SEARCHING;
         req.setAttribute("prices", prices);
