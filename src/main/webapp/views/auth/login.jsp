@@ -177,7 +177,9 @@
             birthday: $('#birthday').val(),
             isMale: $('#isMale').is(':checked'),
             isFemale: $('#isFemale').is(':checked'),
-            province: $('#mdb-select').val(),
+            province: $('#province').val(),
+            district: $('#district').val(),
+            ward: $('#ward').val(),
             phone: $('#phone-sigup').val(),
             email: $('#email-signup').val(),
             password: $('#pasword-signup').val(),
@@ -187,13 +189,13 @@
             url: '/api/register',
             type: 'POST',
             data: data,
-            // contentType: 'application/json',
+            dataType: 'json',
             success: function (result) {
                 console.log("success")
                 console.log(result);
                 obj = JSON.parse(result.name);
-                delayNotify(2000, obj.message);
-                if (obj.name == 'success' || obj.name == 'sys') {
+
+                if (obj.name === 'success' || obj.name === 'sys') {
                     // delayNotify(2000, obj.message);
                 }
                 // if (result == 'success') {
@@ -206,117 +208,16 @@
                 console.log("error")
 
                 console.log(error);
-                let obj = JSON.parse(error.responseText);
-                for (let i of obj) {
-                    fetchErr(i.name, i.message)
-                }
+                // let obj = JSON.parse(error.responseText);
+                // for (let i of obj) {
+                //     fetchErr(i.name, i.message)
+                // }
 
                 // delayNotify(2000, 'abv');
             }
         })
     })
 </script>
-<script>
-    function fetchErr(name, mess) {
-        switch (name) {
-            case 'fullname':
-                let fullname = document.getElementById('fullname');
-                fullname.classList.add("border-red")
-                fullname.classList.add("text-red")
-                fullname.value = ''
-                fullname.setAttribute("placeholder", mess)
-                break;
-            case 'birthday':
-                let birthday = document.getElementById('birthday');
-                birthday.classList.add("border-red")
-                birthday.classList.add("text-red")
-                birthday.value = ''
-                birthday.setAttribute("placeholder", mess)
-                break;
-            case 'province':
-                let province = document.getElementById('mdb-select');
-                province.classList.add("border-red")
-                province.classList.add("text-red")
-                province.value = ''
-                province.setAttribute("placeholder", mess)
-                break;
-            case 'phone':
-                let phone = document.getElementById('phone-sigup');
-                phone.classList.add("border-red")
-                phone.classList.add("text-red")
-                phone.value = ''
-                phone.setAttribute("placeholder", mess)
-                break;
-            case 'email':
-                let email = document.getElementById('email-signup');
-                email.classList.add("border-red")
-                email.classList.add("text-red")
-                email.value = ''
-                email.setAttribute("placeholder", mess)
-                break;
-            case 'password':
-                let password = document.getElementById('pasword-signup');
-                password.classList.add("border-red")
-                password.classList.add("text-red")
-                password.value = ''
-                password.setAttribute("placeholder", mess)
-                break;
-            case 'verifypassword':
-                let verifypassword = document.getElementById('verifypassword-sigup');
-                verifypassword.classList.add("border-red")
-                verifypassword.classList.add("text-red")
-                verifypassword.value = ''
-                verifypassword.setAttribute("placeholder", mess)
-                break;
-        }
-    }
-</script>
-<%--<script>--%>
-<%--    $('#login-button').click(function () {--%>
-<%--        let data = {--%>
-<%--            email: $('#email-signin').val(),--%>
-<%--            password: $('#password-signin').val()--%>
-<%--        }--%>
-<%--        $.ajax({--%>
-<%--            url: '/api/login',--%>
-<%--            type: 'POST',--%>
-<%--            data: data,--%>
-<%--            // contentType: 'application/json',--%>
-<%--            success: function (result) {--%>
-<%--                console.log("success")--%>
-<%--                console.log(result);--%>
-<%--                // if (result == 'success') {--%>
-<%--                //     window.location.href = '/RealEstateWeb_war_exploded/home';--%>
-<%--                // } else {--%>
-<%--                //     $('#error-message-signin').text(result);--%>
-<%--                //     $('#error-message-signin').css('display', 'block');--%>
-<%--            },--%>
-<%--            error: function (error) {--%>
-<%--                console.log("error")--%>
-<%--                console.log(error);--%>
-<%--            }--%>
-<%--        })--%>
-<%--    })--%>
-<%--</script>--%>
-<%--<script>--%>
-<%--    $(document).ready(function () {--%>
-<%--        $.ajax({--%>
-<%--            url: '/api/district',--%>
-<%--            type: 'GET',--%>
-<%--            success: function (result) {--%>
-<%--                result = JSON.parse(result)--%>
-<%--                console.log(result)--%>
-<%--                for (let i of result) {--%>
-<%--                    $('#district').append('<option value="' + i.id + '">' + i.fullName + '</option>')--%>
-<%--                }--%>
-<%--            },--%>
-<%--            error: function (error) {--%>
-<%--                console.log("error")--%>
-<%--                console.log(error);--%>
-<%--            }--%>
-<%--        })--%>
-<%--    })--%>
-<%--</script>--%>
 <script>
     $(document).ready(function () {
         $.ajax({

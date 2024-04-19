@@ -14,12 +14,12 @@ import java.util.List;
 
 @RegisterBeanMapper(User.class)
 public interface UserDAO {
-    @SqlUpdate("INSERT INTO users(fullname, email, password, role, phone , provinceId, birthday, gender, status)" +
-                         " VALUES(:fullname,:email,:password,:role, :phone,:provinceId ,:birthday, :gender, :status)")
+    @SqlUpdate("INSERT INTO users(fullname, email, password, role, phone , addressId, birthday, gender, status)" +
+            " VALUES(:fullname,:email,:password,:role, :phone,:addressId ,:birthday, :gender, :status)")
     int insertUser(@Bind("fullname") String fulllName, @Bind("email") String email,
                    @Bind("password") String password,
                    @Bind("role") int role,  @Bind("phone") String phone,
-                   @Bind("provinceId") int provinceId, @Bind("gender") int gender, @Bind("birthday") Date birthday,
+                   @Bind("addressId") int addressId, @Bind("gender") int gender, @Bind("birthday") Date birthday,
                    @Bind("status") int status);
 
     @SqlUpdate("UPDATE users SET fullname =:fullName , email =:email , password =:password, role =:role,avatar=:avatar,phone=:phone, birthday=:birthday," +
@@ -58,6 +58,6 @@ public interface UserDAO {
     @SqlUpdate("INSERT INTO users(email,password,fullName,role,status) VALUES(:email,:password,:fullName,:role,:status)")
     Integer insertGoogleUser(@BindBean User user);
 
-    @SqlQuery("SELECT * FROM users WHERE id=:id AND email=:email AND updated_at=:updateAt AND created_at=:createAt")
-    User getUserByTimeAndEmail(@Bind("id") int id, @Bind("email") String email, @Bind("updated_at") Timestamp update_at,@Bind("create_at") Timestamp create_at);
+    @SqlQuery("SELECT id, email, created_at, updated_at FROM users WHERE email=:email AND status=1")
+    Boolean getUserByTimeAndEmail(int id, String email, Timestamp createdAt, Timestamp updatedAt);
 }

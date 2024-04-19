@@ -1,8 +1,5 @@
 package com.nhom44.bean;
 
-import com.nhom44.util.StringUtil;
-
-import java.beans.ConstructorProperties;
 import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -22,7 +19,6 @@ public class User implements Serializable {
     private Timestamp updatedAt;
     private int addressId;
     private int provinceId;
-    private String province;
     private int role;
 
     public User() {
@@ -43,7 +39,6 @@ public class User implements Serializable {
                 ", updatedAt=" + updatedAt +
                 ", addressId=" + addressId +
                 ", provinceId=" + provinceId +
-                ", province='" + province + '\'' +
                 ", role=" + role +
                 '}';
     }
@@ -53,12 +48,12 @@ public class User implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id == user.id && gender == user.gender && status == user.status && addressId == user.addressId && provinceId == user.provinceId && role == user.role && Objects.equals(fullName, user.fullName) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(phone, user.phone) && Objects.equals(birthday, user.birthday) && Objects.equals(createdAt, user.createdAt) && Objects.equals(updatedAt, user.updatedAt) && Objects.equals(province, user.province);
+        return id == user.id && gender == user.gender && status == user.status && addressId == user.addressId && provinceId == user.provinceId && role == user.role && Objects.equals(fullName, user.fullName) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(phone, user.phone) && Objects.equals(birthday, user.birthday) && Objects.equals(createdAt, user.createdAt) && Objects.equals(updatedAt, user.updatedAt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, fullName, email, password, phone, birthday, gender, status, createdAt, updatedAt, addressId, provinceId, province, role);
+        return Objects.hash(id, fullName, email, password, phone, birthday, gender, status, createdAt, updatedAt, addressId, provinceId, role);
     }
 
     public int getId() {
@@ -157,19 +152,27 @@ public class User implements Serializable {
         this.provinceId = provinceId;
     }
 
-    public String getProvince() {
-        return province;
-    }
-
-    public void setProvince(String province) {
-        this.province = province;
-    }
-
     public int getRole() {
         return role;
     }
 
     public void setRole(int role) {
+        this.role = role;
+    }
+
+    public User(int id, String fullName, String email, String password, String phone, Date birthday, int gender, int status, Timestamp createdAt, Timestamp updatedAt, int addressId, int provinceId, int role) {
+        this.id = id;
+        this.fullName = fullName;
+        this.email = email;
+        this.password = password;
+        this.phone = phone;
+        this.birthday = birthday;
+        this.gender = gender;
+        this.status = status;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.addressId = addressId;
+        this.provinceId = provinceId;
         this.role = role;
     }
 }
