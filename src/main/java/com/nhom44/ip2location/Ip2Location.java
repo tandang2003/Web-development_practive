@@ -35,7 +35,7 @@ public class Ip2Location {
             geolocationInfo = jsonObject.get("city_name").getAsString()+", "+jsonObject.get("country_name").getAsString();
             return geolocationInfo;
         }
-        return "Ip undefined";
+        return "IP undefined";
     }
 
     public static void main(String[] args) throws IOException {
