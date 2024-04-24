@@ -43,6 +43,11 @@
             <version>8.0.30</version>
         </dependency>
         <dependency>
+            <groupId>com.ip2location</groupId>
+            <artifactId>ip2location-io-java</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
             <groupId>org.jdbi</groupId>
             <artifactId>jdbi3-core</artifactId>
             <version>3.42.0</version>
