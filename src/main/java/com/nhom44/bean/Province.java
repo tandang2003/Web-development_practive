@@ -6,36 +6,16 @@ import java.util.Objects;
 public class Province implements Serializable {
     private int id;
     private String name;
+    private String fullName;
 
     public Province() {
     }
 
-    public Province(int id, String name) {
+    public Province(int id, String name, String fullName) {
         this.id = id;
         this.name = name;
+        this.fullName = fullName;
     }
-
-    @Override
-    public String toString() {
-        return "Province{" +
-                "id=" + id +
-                ", name=" + name +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Province province = (Province) o;
-        return id == province.id && name.equals(province.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name);
-    }
-
     public int getId() {
         return id;
     }
@@ -50,5 +30,26 @@ public class Province implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Province province = (Province) o;
+        return id == province.id && Objects.equals(name, province.name) && Objects.equals(fullName, province.fullName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, fullName);
     }
 }

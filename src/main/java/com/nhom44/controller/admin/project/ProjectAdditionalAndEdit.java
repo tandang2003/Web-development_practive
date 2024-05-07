@@ -46,7 +46,7 @@ public class ProjectAdditionalAndEdit extends HttpServlet {
                     return;
                 }
                 req.setAttribute("project", project);
-                if (project.getEstimated_complete() == null || project.getEstimated_complete().isEmpty() || project.getSchedule() == null || project.getSchedule().isEmpty()) {
+                if (project.getEstimatedComplete() == null || project.getEstimatedComplete().isEmpty() || project.getSchedule() == null || project.getSchedule().isEmpty()) {
                     req.setAttribute("isExcuting", false);
                 } else {
                     req.setAttribute("isExcuting", true);

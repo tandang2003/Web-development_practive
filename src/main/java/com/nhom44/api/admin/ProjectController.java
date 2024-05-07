@@ -26,9 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @WebServlet(urlPatterns = "/api/admin/project")
 @MultipartConfig(
@@ -59,201 +57,209 @@ public class ProjectController extends HttpServlet {
         SingleValidator validator = new EmailSingleValidator();
         Project project = new Project();
         User user = new User();
+        Map<String, String> map = new HashMap<>();
+        map.put("ip", req.getRemoteAddr());
+        //nation
+        //Todo add nation into map
         // email validator
-        if (!validator.validator(req.getParameter("email"))) {
-            ResponseModel responseModel = new ResponseModel();
-            responseModel.setMessage("Email không hợp lệ");
-            responseModel.setName("email");
-            errMess.add(responseModel);
-            isErr = true;
-        }
-        // title validator
-        validator = new TitleOrNameSingleValidator();
-        if (!validator.validator(req.getParameter("title"))) {
-            ResponseModel responseModel = new ResponseModel();
-            responseModel.setMessage("Tiêu đề phải có ít nhất 6 ký tự");
-            responseModel.setName("title");
-            errMess.add(responseModel);
-            isErr = true;
-        }
-        // category validator
-        validator = new SelectorSingleValidator();
-        if (!validator.validator(req.getParameter("categoryId"))) {
-            ResponseModel responseModel = new ResponseModel();
-            responseModel.setMessage("Vui lòng chọn loại dự án");
-            responseModel.setName("category");
-            errMess.add(responseModel);
-            isErr = true;
-        }
-        if (!validator.validator(req.getParameter("provinceId"))) {
-            ResponseModel responseModel = new ResponseModel();
-            responseModel.setMessage("Vui lòng chọn loại địa chỉ");
-            responseModel.setName("province");
-            errMess.add(responseModel);
-            isErr = true;
-        }
-        String input = req.getParameter("service");
-        String[] arr = input.split(",");
-        System.out.println(arr.length);
-        if (!new ServiceSelectValidator().validator(arr)) {
-            ResponseModel responseModel = new ResponseModel();
-            System.out.println("lỗi service" + input);
-            responseModel.setMessage("Vui lòng chọn loại dịch vụ");
-            responseModel.setName("service");
-            errMess.add(responseModel);
-            isErr = true;
-        }
-        //number validator
-        validator = new NumberVallidator();
-        if (!validator.validator(req.getParameter("price"))) {
-            ResponseModel responseModel = new ResponseModel();
-            responseModel.setMessage("Vui lòng nhập lại kinh phí");
-            responseModel.setName("price");
-            errMess.add(responseModel);
-            isErr = true;
-        }
-        if (!validator.validator(req.getParameter("acreage"))) {
-            ResponseModel responseModel = new ResponseModel();
-            responseModel.setMessage("Vui lòng nhập lại diện tích xây dựng");
-            responseModel.setName("acreage");
-            errMess.add(responseModel);
-            isErr = true;
-        }
-        String isComplete = req.getParameter("isComplete");
-        System.out.println(isComplete);
-        if (isComplete.equals("0")) {
-            validator = new TitleOrNameSingleValidator();
-            if (!validator.validator(req.getParameter("schedule"))) {
-                ResponseModel responseModel = new ResponseModel();
-                responseModel.setMessage("Vui lòng nhập tiến độ dự án");
-                responseModel.setName("schedule");
-                errMess.add(responseModel);
-                isErr = true;
-            }
-            validator = new DateValidator();
-            if (!validator.validator(req.getParameter("estimated_complete"))) {
-                ResponseModel responseModel = new ResponseModel();
-                responseModel.setMessage("Vui ng nhập lại ngày hoàn thành");
-                responseModel.setName("estimated_complete");
-                errMess.add(responseModel);
-                isErr = true;
-            }
-        }
+//        if (!validator.validator(req.getParameter("email"))) {
+//            ResponseModel responseModel = new ResponseModel();
+//            responseModel.setMessage("Email không hợp lệ");
+//            responseModel.setName("email");
+//            errMess.add(responseModel);
+//            isErr = true;
+//        }
+//        // title validator
+//        validator = new TitleOrNameSingleValidator();
+//        if (!validator.validator(req.getParameter("title"))) {
+//            ResponseModel responseModel = new ResponseModel();
+//            responseModel.setMessage("Tiêu đề phải có ít nhất 6 ký tự");
+//            responseModel.setName("title");
+//            errMess.add(responseModel);
+//            isErr = true;
+//        }
+//        // category validator
+//        validator = new SelectorSingleValidator();
+//        if (!validator.validator(req.getParameter("categoryId"))) {
+//            ResponseModel responseModel = new ResponseModel();
+//            responseModel.setMessage("Vui lòng chọn loại dự án");
+//            responseModel.setName("category");
+//            errMess.add(responseModel);
+//            isErr = true;
+//        }
+//        if (!validator.validator(req.getParameter("provinceId"))) {
+//            ResponseModel responseModel = new ResponseModel();
+//            responseModel.setMessage("Vui lòng chọn loại địa chỉ");
+//            responseModel.setName("province");
+//            errMess.add(responseModel);
+//            isErr = true;
+//        }
+//        String input = req.getParameter("service");
+//        String[] arr = input.split(",");
+//        System.out.println(arr.length);
+//        if (!new ServiceSelectValidator().validator(arr)) {
+//            ResponseModel responseModel = new ResponseModel();
+//            System.out.println("lỗi service" + input);
+//            responseModel.setMessage("Vui lòng chọn loại dịch vụ");
+//            responseModel.setName("service");
+//            errMess.add(responseModel);
+//            isErr = true;
+//        }
+//        //number validator
+//        validator = new NumberVallidator();
+//        if (!validator.validator(req.getParameter("price"))) {
+//            ResponseModel responseModel = new ResponseModel();
+//            responseModel.setMessage("Vui lòng nhập lại kinh phí");
+//            responseModel.setName("price");
+//            errMess.add(responseModel);
+//            isErr = true;
+//        }
+//        if (!validator.validator(req.getParameter("acreage"))) {
+//            ResponseModel responseModel = new ResponseModel();
+//            responseModel.setMessage("Vui lòng nhập lại diện tích xây dựng");
+//            responseModel.setName("acreage");
+//            errMess.add(responseModel);
+//            isErr = true;
+//        }
+//        String isComplete = req.getParameter("isComplete");
+//        System.out.println(isComplete);
+//        if (isComplete.equals("0")) {
+//            validator = new TitleOrNameSingleValidator();
+//            if (!validator.validator(req.getParameter("schedule"))) {
+//                ResponseModel responseModel = new ResponseModel();
+//                responseModel.setMessage("Vui lòng nhập tiến độ dự án");
+//                responseModel.setName("schedule");
+//                errMess.add(responseModel);
+//                isErr = true;
+//            }
+//            validator = new DateValidator();
+//            if (!validator.validator(req.getParameter("estimated_complete"))) {
+//                ResponseModel responseModel = new ResponseModel();
+//                responseModel.setMessage("Vui ng nhập lại ngày hoàn thành");
+//                responseModel.setName("estimated_complete");
+//                errMess.add(responseModel);
+//                isErr = true;
+//            }
+//        }
 
         try {
-            DateTimeConverter dateTimeConverter = new SqlDateConverter(null);
-            dateTimeConverter.setPattern("yyyy-MM-dd HH:mm:ss");
-            ConvertUtils.register(dateTimeConverter, Date.class);
+//            DateTimeConverter dateTimeConverter = new SqlDateConverter(null);
+//            dateTimeConverter.setPattern("yyyy-MM-dd HH:mm:ss");
+//            ConvertUtils.register(dateTimeConverter, Date.class);
             BeanUtils.populate(project, req.getParameterMap());
             BeanUtils.populate(user, req.getParameterMap());
-            System.out.println(req.getParameter("postId"));
-            project.setPostId(req.getParameter("postId") == null ? 0 : Integer.parseInt(req.getParameter("postId")));
-            user = UserService.getInstance().getUserByEmail(user.getEmail());
-            if (user == null) {
-                ResponseModel responseModel = new ResponseModel();
-                responseModel.setMessage("Email không tồn tại");
-                responseModel.setName("email");
-                errMess.add(responseModel);
-                isErr = true;
-            }
-            if (isErr) {
-                System.out.println(1231);
-                resp.setStatus(400);
-                Gson gson = new Gson();
-                PrintWriter printWriter = resp.getWriter();
-                String json = gson.toJson(errMess);
-                System.out.println(json);
-                printWriter.print(json);
-                printWriter.flush();
-                printWriter.close();
-                return;
-            }
+//            System.out.println(req.getParameter("postId"));
+//            project.setPostId(req.getParameter("postId") == null ? 0 : Integer.parseInt(req.getParameter("postId")));
+//            user = UserService.getInstance().getUserByEmail(user.getEmail());
+//            if (user == null) {
+//                ResponseModel responseModel = new ResponseModel();
+//                responseModel.setMessage("Email không tồn tại");
+//                responseModel.setName("email");
+//                errMess.add(responseModel);
+//                isErr = true;
+//            }
+//            if (isErr) {
+//                System.out.println(1231);
+//                resp.setStatus(400);
+//                Gson gson = new Gson();
+//                PrintWriter printWriter = resp.getWriter();
+//                String json = gson.toJson(errMess);
+//                System.out.println(json);
+//                printWriter.print(json);
+//                printWriter.flush();
+//                printWriter.close();
+//                return;
+//            }
             if (action.equalsIgnoreCase("add")) {
-                project = ProjectService.getInstance().add(project, !req.getParameter("isComplete").equals("0"));
-                List<String> services = Arrays.asList(arr);
-                for (String service : services
-                ) {
-                    ServiceOfProjectService.getInstance().addServiceForProject(project.getId(), Integer.parseInt(service));
-                }
-                List<String> groupImages = Upload.uploadFile(Upload.UPLOAD_PROJECT + "/" + StringUtil.projectFolder(project.getId()) + "/post", "groupImage", req);
-                System.out.println(groupImages.toString());
-                if (!groupImages.isEmpty()) {
-                    for (String path : groupImages
-                    ) {
-                        Image img = StringUtil.getImage(path);
-                        int idImg = ImageService.getInstance().add(img);
-                        System.out.println(idImg);
-                        ImageService.getInstance().addImageForProject(project.getId(), idImg);
-                    }
-                } else {
-                    ResponseModel responseModel = new ResponseModel();
-                    resp.setStatus(400);
-                    responseModel.setMessage("Vui lòng chọn ảnh mô tả dự án");
-                    responseModel.setName("groupImage");
-                    errMess.add(responseModel);
-                    Gson gson = new Gson();
-                    PrintWriter printWriter = resp.getWriter();
-                    String json = gson.toJson(errMess);
-                    printWriter.println(json);
-                    printWriter.flush();
-                    printWriter.close();
-                    return;
-                }
-                ProjectService.getInstance().addProjectForUser(project.getId(), user.getId());
-                List<String> fileNames = Upload.uploadFile(Upload.UPLOAD_PROJECT + "/" + StringUtil.projectFolder(project.getId()), "avatar", req);
-
-                if (!fileNames.isEmpty()) {
-                    System.out.println("avatar filename : " + fileNames.toString());
-                    project.setAvatar(fileNames.get(0));
-                    ProjectService.getInstance().updateProject(project, !req.getParameter("isComplete").equals("0"));
-                    System.out.println(project.toString());
-                } else {
-                    ResponseModel responseModel = new ResponseModel();
-                    resp.setStatus(400);
-                    responseModel.setMessage("Vui lòng chọn ảnh đại diện");
-                    responseModel.setName("avatar");
-                    errMess.add(responseModel);
-                    Gson gson = new Gson();
-                    PrintWriter printWriter = resp.getWriter();
-                    String json = gson.toJson(errMess);
-                    printWriter.println(json);
-                    printWriter.flush();
-                    printWriter.close();
-                    return;
-                }
+//                project = ProjectService.getInstance().add(project, !req.getParameter("isComplete").equals("0"));
+//                List<String> services = Arrays.asList(arr);
+//                for (String service : services
+//                ) {
+//                    ServiceOfProjectService.getInstance().addServiceForProject(project.getId(), Integer.parseInt(service));
+//                }
+//                List<String> groupImages = Upload.uploadFile(Upload.UPLOAD_PROJECT + "/" + StringUtil.projectFolder(project.getId()) + "/post", "groupImage", req);
+//                System.out.println(groupImages.toString());
+//                if (!groupImages.isEmpty()) {
+//                    for (String path : groupImages
+//                    ) {
+//                        Image img = StringUtil.getImage(path);
+//                        int idImg = ImageService.getInstance().add(img);
+//                        System.out.println(idImg);
+//                        ImageService.getInstance().addImageForProject(project.getId(), idImg);
+//                    }
+//                } else {
+//                    ResponseModel responseModel = new ResponseModel();
+//                    resp.setStatus(400);
+//                    responseModel.setMessage("Vui lòng chọn ảnh mô tả dự án");
+//                    responseModel.setName("groupImage");
+//                    errMess.add(responseModel);
+//                    Gson gson = new Gson();
+//                    PrintWriter printWriter = resp.getWriter();
+//                    String json = gson.toJson(errMess);
+//                    printWriter.println(json);
+//                    printWriter.flush();
+//                    printWriter.close();
+//                    return;
+//                }
+//                ProjectService.getInstance().addProjectForUser(project.getId(), user.getId());
+//                List<String> fileNames = Upload.uploadFile(Upload.UPLOAD_PROJECT + "/" + StringUtil.projectFolder(project.getId()), "avatar", req);
+//
+//                if (!fileNames.isEmpty()) {
+//                    System.out.println("avatar filename : " + fileNames.toString());
+//                    project.setAvatar(fileNames.get(0));
+//                    ProjectService.getInstance().updateProject(project, !req.getParameter("isComplete").equals("0"));
+//                    System.out.println(project.toString());
+//                } else {
+//                    ResponseModel responseModel = new ResponseModel();
+//                    resp.setStatus(400);
+//                    responseModel.setMessage("Vui lòng chọn ảnh đại diện");
+//                    responseModel.setName("avatar");
+//                    errMess.add(responseModel);
+//                    Gson gson = new Gson();
+//                    PrintWriter printWriter = resp.getWriter();
+//                    String json = gson.toJson(errMess);
+//                    printWriter.println(json);
+//                    printWriter.flush();
+//                    printWriter.close();
+//                    return;
+//                }
             } else if (action.equalsIgnoreCase("edit")) {
+                map.put("address", "Admin edit project");
+                map.put("level", "2");
                 project = ProjectService.getInstance().updateProject(project, !req.getParameter("isComplete").equals("0"));
-                List<String> services = Arrays.asList(arr);
-                ServiceOfProjectService.getInstance().updateServiceForProject(project.getId(), services);
-                if (req.getParameter("notHaveGroupImages") == null) {
-                    List<String> groupImages = Upload.uploadFile(Upload.UPLOAD_PROJECT + "/" + StringUtil.projectFolder(project.getId()) + "/post", "groupImage", req);
-                    if (!groupImages.isEmpty()) {
-                        ImageService.getInstance().deleteAllImageProProject(project.getId());
-                        for (String path : groupImages
-                        ) {
-                            Image img = StringUtil.getImage(path);
-                            int idImg = ImageService.getInstance().add(img);
-                            ImageService.getInstance().updateImageForProject(project.getId(), idImg);
-                        }
-                    }
-                }
-                System.out.println(req.getParameter("notHaveAvatar") );
-                if (req.getParameter("notHaveAvatar") == null) {
-                    List<String> fileNames = Upload.uploadFile(Upload.UPLOAD_PROJECT + "/" + StringUtil.projectFolder(project.getId()), "avatar", req);
-
-                    if (!fileNames.isEmpty()) {
-
-                        project.setAvatar(fileNames.get(0));
-                        project = ProjectService.getInstance().updateProjectAvatar(project);
-
-                    }
-                }
-                ProjectService.getInstance().updateProjectForUser(project.getId(), user.getId());
+                project.insert(map);
+                System.out.println("done");
+//                List<String> services = Arrays.asList(arr);
+//                ServiceOfProjectService.getInstance().updateServiceForProject(project.getId(), services);
+//                if (req.getParameter("notHaveGroupImages") == null) {
+//                    List<String> groupImages = Upload.uploadFile(Upload.UPLOAD_PROJECT + "/" + StringUtil.projectFolder(project.getId()) + "/post", "groupImage", req);
+//                    if (!groupImages.isEmpty()) {
+//                        ImageService.getInstance().deleteAllImageProProject(project.getId());
+//                        for (String path : groupImages
+//                        ) {
+//                            Image img = StringUtil.getImage(path);
+//                            int idImg = ImageService.getInstance().add(img);
+//                            ImageService.getInstance().updateImageForProject(project.getId(), idImg);
+//                        }
+//                    }
+//                }
+//                System.out.println(req.getParameter("notHaveAvatar") );
+//                if (req.getParameter("notHaveAvatar") == null) {
+//                    List<String> fileNames = Upload.uploadFile(Upload.UPLOAD_PROJECT + "/" + StringUtil.projectFolder(project.getId()), "avatar", req);
+//
+//                    if (!fileNames.isEmpty()) {
+//
+//                        project.setAvatar(fileNames.get(0));
+//                        project = ProjectService.getInstance().updateProjectAvatar(project);
+//
+//                    }
+//                }
+//                ProjectService.getInstance().updateProjectForUser(project.getId(), user.getId());
             }
             resp.setStatus(200);
             ResponseModel responseModel = new ResponseModel();
             responseModel.setName("success");
-            responseModel.setMessage("Thêm thành công");
+            responseModel.setMessage("Chỉnh sửa thành công");
             responseModel.setData("/admin/project_management");
             Gson gson = new Gson();
             PrintWriter printWriter = resp.getWriter();

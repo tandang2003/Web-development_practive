@@ -24,7 +24,7 @@ public class ContactController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String url = req.getRequestURI();
         System.out.println(req.getParameterMap().keySet().toString());
-        ResponseModel responseModel= new ResponseModel();
+        ResponseModel responseModel = new ResponseModel();
         if (url.equals("/api/contact/save")) {
             Contact contact = new Contact();
             try {
@@ -34,7 +34,7 @@ public class ContactController extends HttpServlet {
             }
             System.out.println(contact.toString());
             SingleValidator validator = new EmailSingleValidator();
-            if(!validator.validator(contact.getEmail())){
+            if (!validator.validator(contact.getEmail())) {
                 resp.setStatus(400);
                 responseModel.setName("email");
                 responseModel.setData("email không hợp lệ vui lòng nhập lại");
