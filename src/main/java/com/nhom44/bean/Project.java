@@ -30,8 +30,6 @@ public class Project extends AbsModel implements Serializable {
     private boolean isSave;
     private int saveBy;
 
-
-
     @Override
     public void setPreValue(AbsModel model) {
         if (model != null && ((Project) model).id != 0) {
