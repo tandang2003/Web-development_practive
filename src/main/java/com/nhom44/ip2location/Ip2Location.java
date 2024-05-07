@@ -38,8 +38,5 @@ public class Ip2Location {
         return "IP undefined";
     }
 
-    public static void main(String[] args) throws IOException {
-        System.out.println(getNationality("38.134.243.196"));
-    }
 
 }

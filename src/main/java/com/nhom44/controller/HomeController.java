@@ -24,11 +24,9 @@ import java.util.List;
 public class HomeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setHeader("ngrok-skip-browser-warning", "true");
-        List<Slider> sliders = SliderService.getInstance().getAllActive();
-        req.setAttribute("sliders", sliders);
-        LoadSession.loadSession(req);
-        req.setAttribute("page", "home");
+//        List<Slider> sliders = SliderService.getInstance().getAllActive();
+//        req.setAttribute("sliders", sliders);
+//        LoadSession.loadSession(req);
         RequestDispatcher rd = req.getRequestDispatcher("/views/public/home.jsp");
         rd.forward(req, resp);
     }

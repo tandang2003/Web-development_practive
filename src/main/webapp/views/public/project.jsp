@@ -46,10 +46,10 @@
                         <div class="form-outline">
                             <select name="category" id="categoryId" class="form-control">
                                 <option value="">Loại</option>
-                                <c:forEach items="${sessionScope.categories}" var="cat">
-                                    <option value="${cat.id}" <c:if
-                                            test="${category.id==cat.id}"> selected</c:if>>${cat.name}</option>
-                                </c:forEach>
+<%--                                <c:forEach items="${sessionScope.categories}" var="cat">--%>
+<%--                                    <option value="${cat.id}" <c:if--%>
+<%--                                            test="${category.id==cat.id}"> selected</c:if>>${cat.name}</option>--%>
+<%--                                </c:forEach>--%>
                             </select>
                         </div>
                     </div>
@@ -57,9 +57,9 @@
                         <div class="form-outline">
                             <select name="service" id="serviceId" class="form-control">
                                 <option value="">Loại dịch vụ</option>
-                                <c:forEach var="service" items="${sessionScope.services}">
-                                    <option value="${service.id}">${service.name}</option>
-                                </c:forEach>
+<%--                                <c:forEach var="service" items="${sessionScope.services}">--%>
+<%--                                    <option value="${service.id}">${service.name}</option>--%>
+<%--                                </c:forEach>--%>
                             </select>
                         </div>
                     </div>
@@ -67,9 +67,9 @@
                         <div class="form-outline">
                             <select name="address" id="provinceId" class="form-control">
                                 <option value="" selected>Chọn tỉnh thành</option>
-                                <c:forEach items="${provinces}" var="province">
-                                    <option value="${province.id}">${province.name}</option>
-                                </c:forEach>
+<%--                                <c:forEach items="${provinces}" var="province">--%>
+<%--                                    <option value="${province.id}">${province.name}</option>--%>
+<%--                                </c:forEach>--%>
                             </select>
                         </div>
                     </div>
@@ -78,19 +78,19 @@
                         <div class="form-outline">
                             <select name="area" id="area" class="form-control">
                                 <option value="">Diện tích</option>
-                                <c:forEach items="${acreages}" varStatus="loop" var="area">
-                                    <option value="${loop.index+1}">${area}</option>
-                                </c:forEach>
+<%--                                <c:forEach items="${acreages}" varStatus="loop" var="area">--%>
+<%--                                    <option value="${loop.index+1}">${area}</option>--%>
+<%--                                </c:forEach>--%>
                             </select>
                         </div>
                     </div>
                     <div class="col-md-2 mt-3 text-center">
                         <div class="form-outline">
-                            <select name="area" id="price" class="form-control">
+                            <select name="price" id="price" class="form-control">
                                 <option value="">Kinh phí</option>
-                                <c:forEach items="${prices}" varStatus="loop" var="price">
-                                    <option value="${loop.index+1}">${price.strType}</option>
-                                </c:forEach>
+<%--                                <c:forEach items="${prices}" varStatus="loop" var="price">--%>
+<%--                                    <option value="${loop.index+1}">${price.strType}</option>--%>
+<%--                                </c:forEach>--%>
                                 </option>
 
                             </select>
@@ -139,6 +139,48 @@
 <%@include file="/layout/public/footer.jsp" %>
 <%@include file="/layout/public/script.jsp" %>
 <script src="<c:url value="/template/js/main.js"/>"></script>
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            url: "/api/project",
+            type: "GET",
+            dataType: "json",
+            success: function (response) {
+                console.log('project');
+                console.log(response);
+                let data = response;
+                data = JSON.parse(data.data);
+                let tag='';
+                for (let s of data.services) {
+                    tag += '<option value="' + s.id + '">' + s.name + '</option>';
+                }
+                $('#serviceId').append(tag);
+                tag = '';
+                for (let c of data.categories) {
+                    tag += '<option value="' + c.id + '">' + c.name + '</option>';
+                }
+                $('#categoryId').append(tag);
+                tag = '';
+                for (let p of data.provinces) {
+                    tag += '<option value="' + p.id + '">' + p.name + '</option>';
+                }
+                $('#provinceId').append(tag);
+                tag = '';
+
+                for (let p of data.prices) {
+                    tag += '<option value="' + p.amount + '">' + p.strType + '</option>';
+                }
+                $('#price').append(tag);
+                tag = '';
+                for (let a of data.acreages) {
+                    tag += '<option value="' + a + '">' + a + '</option>';
+                }
+                $('#area').append(tag);
+
+            },
+        })
+    })
+</script>
 <script>
     function effectButton() {
         let pageItem = document.getElementsByClassName('page-item');

@@ -38,6 +38,10 @@ public class StringUtil {
             return null;
         }
     }
+
+//    public static void main(String[] args) {
+//        System.out.println(hashPassword("123456"));
+//    }
     public static String buildJsonUserProject(List<Project> projects,List<String> emails) {
         StringBuilder builder = new StringBuilder();
         builder.append("[");

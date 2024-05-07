@@ -1,6 +1,7 @@
 package com.nhom44.api.web;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.nhom44.bean.*;
 import com.nhom44.services.*;
 import com.nhom44.util.PriceObjectHelper;
@@ -17,13 +18,33 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(urlPatterns = {"/api/project/search", "/api/project/search/length", "/api/post/project/*"})
+@WebServlet(urlPatterns = {"/api/project", "/api/project/search", "/api/project/search/length", "/api/post/project/*"})
 public class ProjectController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String url = req.getServletPath();
         ResponseModel responseModel = new ResponseModel();
-        if (url.equals("/api/post/project")) {
+        if (url.equals("/api/project")) {
+            List<Service> services = ServiceOfProjectService.getInstance().getAllActive();
+            List<Category> categories = CategoryService.getInstance().getAllActive();
+            List<Province> provinces = ProvinceService.getInstance().getAll();
+            List<PriceObjectHelper> prices = SearcherProjectUtil.PRICE_SEARCHING;
+            List<Integer> acreages = SearcherProjectUtil.ACREAGE;
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.add("services", new Gson().toJsonTree(services));
+            jsonObject.add("categories", new Gson().toJsonTree(categories));
+            jsonObject.add("provinces", new Gson().toJsonTree(provinces));
+            jsonObject.add("prices", new Gson().toJsonTree(prices));
+            jsonObject.add("acreages", new Gson().toJsonTree(acreages));
+            responseModel.setStatus("200");
+            responseModel.setMessage("get project search data");
+            responseModel.setData(jsonObject.toString());
+            resp.setStatus(200);
+            resp.getWriter().println(new Gson().toJson(responseModel));
+            resp.getWriter().flush();
+            resp.getWriter().close();
+            return;
+        } else if (url.equals("/api/post/project")) {
             String path = req.getPathInfo().trim().substring(1);
             String id = path.contains("/") ? path.split("/")[0] : path;
             if (id == null || !new NumberVallidator().validator(id)) {
@@ -41,7 +62,7 @@ public class ProjectController extends HttpServlet {
             responseModel.setMessage("get project success");
             responseModel.setData(project);
             System.out.println(path);
-            if (path.contains("/")){
+            if (path.contains("/")) {
                 switch (path.split("/")[1].trim()) {
                     case "suggest":
                         List<Project> suggestProjects = ProjectService.getInstance().getSuggestProjects(project.getCategoryId());
@@ -64,7 +85,7 @@ public class ProjectController extends HttpServlet {
                         responseModel.setData(gallery);
                         break;
                 }
-                }
+            }
 
             resp.setStatus(200);
             resp.getWriter().println(new Gson().toJson(responseModel));
