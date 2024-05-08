@@ -9,8 +9,8 @@ public class Address implements Serializable {
     private int provinceId;
     private int districtId;
     private int wardId;
-    private Timestamp created_at;
-    private Timestamp updated_at;
+    private Timestamp createdAt;
+    private Timestamp updatedAt;
 
     public Address() {
     }
@@ -22,8 +22,8 @@ public class Address implements Serializable {
                 ", provinceId=" + provinceId +
                 ", districtId=" + districtId +
                 ", wardId=" + wardId +
-                ", created_at=" + created_at +
-                ", updated_at=" + updated_at +
+                ", created_at=" + createdAt +
+                ", updated_at=" + updatedAt +
                 '}';
     }
 
@@ -32,12 +32,12 @@ public class Address implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Address address = (Address) o;
-        return id == address.id && provinceId == address.provinceId && districtId == address.districtId && wardId == address.wardId && Objects.equals(created_at, address.created_at) && Objects.equals(updated_at, address.updated_at);
+        return id == address.id && provinceId == address.provinceId && districtId == address.districtId && wardId == address.wardId && Objects.equals(createdAt, address.createdAt) && Objects.equals(updatedAt, address.updatedAt);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, provinceId, districtId, wardId, created_at, updated_at);
+        return Objects.hash(id, provinceId, districtId, wardId, createdAt, updatedAt);
     }
 
     public int getId() {
@@ -72,20 +72,20 @@ public class Address implements Serializable {
         this.wardId = wardId;
     }
 
-    public Timestamp getCreated_at() {
-        return created_at;
+    public Timestamp getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreated_at(Timestamp created_at) {
-        this.created_at = created_at;
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public Timestamp getUpdated_at() {
-        return updated_at;
+    public Timestamp getUpdatedAt() {
+        return updatedAt;
     }
 
-    public void setUpdated_at(Timestamp updated_at) {
-        this.updated_at = updated_at;
+    public void setUpdatedAt(Timestamp updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     public Address(int id, int provinceId, int districtId, int wardId, Timestamp created_at, Timestamp updated_at) {
@@ -93,7 +93,7 @@ public class Address implements Serializable {
         this.provinceId = provinceId;
         this.districtId = districtId;
         this.wardId = wardId;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
+        this.createdAt = created_at;
+        this.updatedAt = updated_at;
     }
 }

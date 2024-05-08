@@ -26,10 +26,11 @@ public class ResetPasswordController extends HttpServlet {
         String email = req.getParameter("email");
         ResponseModel responseModel;
         PrintWriter out = resp.getWriter();
+        System.out.println(" email " + email );
         if (email == null || email.isEmpty()) {
+            System.out.println("email null");
             resp.setStatus(400);
             responseModel = new ResponseModel();
-            responseModel.setMessage("Email không được để trống");
             responseModel.setName("email");
             out.println(new Gson().toJson(responseModel));
             out.flush();
@@ -37,6 +38,7 @@ public class ResetPasswordController extends HttpServlet {
             return;
         }
         User user = UserService.getInstance().getUserByEmailForCustomer(email);
+        System.out.println("user " + user);
         if (user == null) {
             resp.setStatus(400);
             responseModel = new ResponseModel();
@@ -48,7 +50,10 @@ public class ResetPasswordController extends HttpServlet {
             return;
         }
         String newPw = UUID.randomUUID().toString().substring(0, 9);
-//        UserService.getInstance().update(user.getEmail(), user.getEmail(), newPw, user.getFullName(), user.getBirthday(), user.getPhone(), user.getProvince(), user.getGender() + "", user.getStatus() + "", user.getRole() + "");
+        System.out.println("newPw " + newPw);
+//        user.setPassword(newPw);
+//        UserService.getInstance().update(user.getEmail(), user.getEmail(), newPw, user.getFullName(), user.getBirthday(), user.getPhone(), user.getAddressId(), user.getGender() + "", user.getStatus() + "", user.getRole() + "");
+        UserService.getInstance().updatePassword(user.getEmail(), newPw);
         MailService.getInstance().sendMailToResetPassword(user.getEmail(), newPw);
         resp.setStatus(200);
         responseModel = new ResponseModel();

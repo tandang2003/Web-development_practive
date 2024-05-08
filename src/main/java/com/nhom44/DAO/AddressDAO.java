@@ -6,6 +6,8 @@ import org.jdbi.v3.sqlobject.customizer.Bind;
 import org.jdbi.v3.sqlobject.statement.SqlQuery;
 import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 
+import java.sql.Timestamp;
+
 @RegisterBeanMapper(Address.class)
 public interface AddressDAO {
 
@@ -20,6 +22,9 @@ public interface AddressDAO {
     @SqlQuery("SELECT id " + "FROM addresses " + "WHERE id = :addressId")
     String getSpecificId(@Bind("addressId") String addressId);
 
-    @SqlUpdate("INSERT INTO addresses(provinceId, districtId, wardId) VALUES(:provinceId, :districtId, :wardId)")
-    int insertAddress(@Bind("provinceId")int provinceId,@Bind("districtId") int districtId,@Bind("wardId") int wardId);
+    @SqlUpdate("INSERT INTO addresses(provinceId, districtId, wardId, createdAt) VALUES(:provinceId, :districtId, :wardId, now())")
+    int insertAddress(@Bind("provinceId") int provinceId, @Bind("districtId") int districtId, @Bind("wardId") int wardId);
+
+    @SqlQuery("SELECT * FROM addresses WHERE createdAt = :createdAt")
+    Address getCreatedAt(@Bind("createdAt") Timestamp createdAt);
 }

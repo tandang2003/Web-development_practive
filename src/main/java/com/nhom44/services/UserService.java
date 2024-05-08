@@ -17,7 +17,7 @@ import java.util.List;
 
 public class UserService {
     private static UserService instance;
-    private Jdbi conn;
+    private static Jdbi conn;
 
     private UserService() {
         conn = JDBIConnector.get();
@@ -68,35 +68,35 @@ public class UserService {
 
     public User addUser(User user) {
         int line = Integer.MIN_VALUE;
+        user.setCreatedAt(Timestamp.from(java.time.Instant.now()));
+        user.setUpdatedAt(Timestamp.from(java.time.Instant.now()));
         line = conn.withExtension(UserDAO.class, handle -> handle.insertUser(user.getFullName(),
-                user.getEmail(), user.getPassword(),
+                user.getEmail(), StringUtil.hashPassword(user.getPassword()),
                 user.getRole(), user.getPhone(), user.getAddressId(),
                 user.getGender(), (java.sql.Date) user.getBirthday(), user.getStatus()));
         if (line == 1) {
-            user.setPassword(null);
-            return user;
+            User user1 = getUserByEmail(user.getEmail());
+            user1.setPassword(null);
+            return user1;
         }
-//        return conn.withExtension(UserDAO.class, dao -> dao)
-//                .insertUser(user.getFullName(), user.getEmail(), user.getPassword(),
-//                        user.getRole(), user.getPhone(), user.getProvinceId(), user.getGender(),
-//                        user.getBirthday(), user.getStatus()) == 1 ? getUserByEmail(user.getEmail()) : user;
         return user;
-
     }
     public static void main(String[] args) {
-        User u= new User();
-        u.setEmail("b");
-        u.setPassword("a");
-        u.setFullName("a");
-        u.setBirthday(new Date(0));
-        u.setPhone("a");
-        u.setGender(1);
-        u.setStatus(1);
-        u.setRole(1);
-        u.setAddressId(1);
-
-        System.out.println(getInstance().addUser(u));
+//        User u= new User();
+//        u.setEmail("b");
+//        u.setPassword("a");
+//        u.setFullName("a");
+//        u.setBirthday(new Date(0));
+//        u.setPhone("a");
+//        u.setGender(1);
+//        u.setStatus(1);
+//        u.setRole(1);
+//        u.setAddressId(1);
+//
+//        System.out.println(getInstance().addUser(u));
+        System.out.println(getInstance().getUserByEmail("buiminhchien01233@gmail.com"));
     }
+
     private int updateProvinceId(int id, String email) {
         return conn.withExtension(UserDAO.class, dao -> dao.updateProvinceForUser(id, email));
     }
@@ -139,7 +139,7 @@ public class UserService {
     }
 
 
-    public User getUserByEmail(String email) {
+    public static User getUserByEmail(String email) {
         return conn.withExtension(UserDAO.class, dao -> dao.getUserByEmail(email));
     }
 
@@ -166,5 +166,9 @@ public class UserService {
     public void GoogleAdditional(User user) {
         user.setPassword(StringUtil.hashPassword(user.getPassword()));
         conn.withExtension(UserDAO.class, dao -> dao.insertGoogleUser(user));
+    }
+
+    public boolean updatePassword(String email, String newPw) {
+        return conn.withExtension(UserDAO.class, dao -> dao.updatePassword(email, StringUtil.hashPassword(newPw)));
     }
 }

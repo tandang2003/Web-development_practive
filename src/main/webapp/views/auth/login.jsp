@@ -196,13 +196,7 @@
                 obj = JSON.parse(result.name);
 
                 if (obj.name === 'success' || obj.name === 'sys') {
-                    // delayNotify(2000, obj.message);
                 }
-                // if (result == 'success') {
-                //     window.location.href = '/RealEstateWeb_war_exploded/home';
-                // } else {
-                //     $('#error-message-signin').text(result);
-                //     $('#error-message-signin').css('display', 'block');
             },
             error: function (error) {
                 console.log("error")

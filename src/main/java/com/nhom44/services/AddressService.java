@@ -6,6 +6,8 @@ import com.nhom44.db.JDBIConnector;
 import org.jdbi.v3.core.Jdbi;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
+import java.time.Instant;
 
 public class AddressService implements Serializable {
     private static AddressService instance;
@@ -29,13 +31,16 @@ public class AddressService implements Serializable {
     }
 
     public Address addAddress(Address address) {
+        address.setCreatedAt(Timestamp.from(Instant.now()));
         int point = conn.withExtension(AddressDAO.class, dao -> {
             dao.insertAddress(address.getProvinceId(), address.getDistrictId(), address.getWardId());
             return 1;
         });
-        return point == 1 ? address : null;
+        return point == 1 ? getAccCreatedAt(Timestamp.from(Instant.now())) : null;
     }
-
+    public Address getAccCreatedAt(Timestamp createdAt) {
+        return conn.withExtension(AddressDAO.class, dao -> dao.getCreatedAt(createdAt));
+    }
     public String getSpecificId(String addressId) {
         return conn.withExtension(AddressDAO.class, dao -> dao.getSpecificId(addressId));
     }

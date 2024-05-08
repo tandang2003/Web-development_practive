@@ -1,6 +1,7 @@
 package com.nhom44.api.auth;
 
 import com.google.gson.Gson;
+import com.mysql.cj.protocol.FullReadInputStream;
 import com.nhom44.bean.Address;
 import com.nhom44.bean.ResponseModel;
 import com.nhom44.bean.User;
@@ -45,21 +46,19 @@ public class SignUpController extends HttpServlet {
         System.out.println("step 1.5");
         if (!email.contains("@") || !email.contains(".")) {
             ResponseModel responseModel = new ResponseModel();
-//            responseModel.setMessage("Email không hợp lệ");
             responseModel.setData((Object) null);
             responseModel.setName("email");
             errMess.add(responseModel);
             isErr = true;
         }
+        System.out.println(email);
 
         System.out.println("step 2");
         String password = req.getParameter("password");
         String verifypassword = req.getParameter("verifypassword");
         ResponseModel responseModel;
         if (!Objects.equals(password, verifypassword)) {
-//            req.setAttribute("password", "Mật khẩu không trùng khớp");
             responseModel = new ResponseModel();
-//            responseModel.setMessage("Mật khẩu không trùng khớp");
             responseModel.setData((Object) null);
             responseModel.setName("password");
             errMess.add(responseModel);
@@ -67,25 +66,24 @@ public class SignUpController extends HttpServlet {
         }
 
         if (password.length() < 6) {
-//            req.setAttribute("password", "Mật khẩu phải có ít nhất 6 ký tự");
             responseModel = new ResponseModel();
-//            responseModel.setMessage("Mật khẩu phải có ít nhất 6 ký tự");
             responseModel.setData((Object) null);
             responseModel.setName("password");
             errMess.add(responseModel);
             isErr = true;
         }
+        System.out.println(password);
+        System.out.println(verifypassword);
 
         System.out.println("step 3");
         String name = req.getParameter("fullname");
         if (name == null || name.trim().isEmpty() || name.length() < 6) {
-//            req.setAttribute("fullname", "Tên phải có ít nhất 6 ký tự");
             responseModel = new ResponseModel();
             responseModel.setName("fullname");
-//            responseModel.setMessage("Tên phải có ít nhất 6 ký tự");
             errMess.add(responseModel);
             isErr = true;
         }
+        System.out.println(name);
 
         System.out.println("step 4");
         String ip_birthday = req.getParameter("birthday");
@@ -99,21 +97,19 @@ public class SignUpController extends HttpServlet {
                 birthday = dmy.parse(ip_birthday);
             } catch (Exception var28) {
                 responseModel = new ResponseModel();
-//                responseModel.setMessage("Ngày sinh không hợp lệ");
                 responseModel.setData((Object) null);
                 responseModel.setName("birthday");
                 errMess.add(responseModel);
                 isErr = true;
             }
         } else {
-//            req.setAttribute("birthday", "Vui lòng chọn ngày sinh");
             responseModel = new ResponseModel();
-//            responseModel.setMessage("Vui lòng chọn ngày sinh");
             responseModel.setData((Object) null);
             responseModel.setName("birthday");
             errMess.add(responseModel);
             isErr = true;
         }
+        System.out.println(birthday);
 
         System.out.println("step 5");
         String phone = req.getParameter("phone");
@@ -122,17 +118,13 @@ public class SignUpController extends HttpServlet {
         Matcher matcherPhone = patternPhone.matcher(phone);
         System.out.println(phone);
         if (!phone.isEmpty() && phone.length() < 10) {
-//            req.setAttribute("phone", "Số điện thoại phải có ít nhất 10 ký tự");
             responseModel = new ResponseModel();
-//            responseModel.setMessage("Số điện thoại phải có ít nhất 10 ký tự");
             responseModel.setData((Object) null);
             responseModel.setName("phone");
             errMess.add(responseModel);
             isErr = true;
         } else if (!matcherPhone.matches()) {
-//            req.setAttribute("phone", "Số điện thoại không hợp lệ");
             responseModel = new ResponseModel();
-//            responseModel.setMessage("Số điện thoại không hợp lệ");
             responseModel.setData((Object) null);
             responseModel.setName("phone");
             errMess.add(responseModel);
@@ -145,16 +137,16 @@ public class SignUpController extends HttpServlet {
             errMess.add(responseModel);
             isErr = true;
         }
+        System.out.println(phone);
 
         System.out.println("step 6");
         Address address = new Address();
-        Address addedAddress;
+        Address addedAddress = null;
         String province = req.getParameter("province");
         String district = req.getParameter("district");
         String ward = req.getParameter("ward");
         System.out.println("step 6.5");
         System.out.println("province: " + province + "\n" + "district: " + district + "\n" + "ward: " + ward);
-//        check province > district > ward, then put provinceId, districtId, wardId in address table (new address)
         if (province == null || province.trim().isEmpty()) {
             responseModel = new ResponseModel();
             responseModel.setData((Object) null);
@@ -171,7 +163,6 @@ public class SignUpController extends HttpServlet {
             System.out.println("district: " + district);
         } else if (ward == null || ward.trim().isEmpty()) {
             responseModel = new ResponseModel();
-//            responseModel.setMessage("Vui lòng chọn phường/xã");
             responseModel.setData((Object) null);
             responseModel.setName("ward");
             errMess.add(responseModel);
@@ -180,7 +171,6 @@ public class SignUpController extends HttpServlet {
         } else {
             System.out.println("address: " + address.toString());
             address.setProvinceId(Integer.parseInt(province));
-//            System.out.println("province: " + address.getProvinceId());
             address.setDistrictId(Integer.parseInt(district));
             address.setWardId(Integer.parseInt(ward));
             System.out.println("ward: " + address.getWardId());
@@ -193,27 +183,30 @@ public class SignUpController extends HttpServlet {
             isErr = true;
 
         }
+        System.out.println(addedAddress.getId());
         System.out.println(isErr + "blablabla");
         System.out.println("step 6.9");
         String isMale = req.getParameter("isMale");
         String isFemale = req.getParameter("isFemale");
+        System.out.println(isMale);
+        System.out.println(isFemale);
         if (isMale.isEmpty() && isFemale.isEmpty()) {
-            req.setAttribute("gender", "Vui lòng chọn giới tính");
             responseModel = new ResponseModel();
-//            responseModel.setMessage("Vui lòng chọn giới tính");
             responseModel.setData((Object) null);
             responseModel.setName("gender");
             errMess.add(responseModel);
+            System.out.println(isFemale);
             isErr = true;
         } else {
             isMale = isMale.equals("true") ? "1" : "0";
+            System.out.println(isMale);
         }
         System.out.println("step 7");
         String status = "0";
         String role = "0";
         System.out.println("ready");
         System.out.println("isErr " + isErr);
-        if (isErr) {
+        if (!isErr) {
             resp.setStatus(400);
             printWriter.println(gson.toJson(errMess));
             printWriter.flush();
@@ -222,7 +215,7 @@ public class SignUpController extends HttpServlet {
             System.out.println("isErr " + isErr);
         } else {
 
-            System.out.println((new java.sql.Date(birthday.getTime())).toLocalDate().toString());
+            System.out.println("--------------------------");
             if (UserService.getInstance().isContainEmail(email)) {
                 resp.setStatus(400);
                 responseModel = new ResponseModel();
@@ -235,17 +228,27 @@ public class SignUpController extends HttpServlet {
                 User user, addedUser;
                 user = new User();
                 user.setEmail(email);
+                System.out.println(user.getEmail());
                 user.setPassword(password);
+                System.out.println(user.getPassword());
                 user.setFullName(name);
+                System.out.println(user.getFullName());
                 user.setBirthday(new java.sql.Date(birthday.getTime()));
+                System.out.println(user.getBirthday());
                 user.setPhone(phone);
+                System.out.println(user.getPhone());
                 user.setGender(Integer.parseInt(isMale));
+                System.out.println(user.getGender());
                 user.setStatus(Integer.parseInt(status));
                 user.setRole(Integer.parseInt(role));
-                user.setAddressId(address.getId());
-                System.out.println("step 8");
+                user.setAddressId(addedAddress.getId());
+                System.out.println(addedAddress.getId());
+                System.out.println(user.getAddressId());
                 addedUser = userService.addUser(user);
+                System.out.println("step 8");
+                System.out.println(addedUser.toString());
                 if (addedUser.getPassword() == null && addedUser.getId() != 0) {
+                    System.out.println("bla bla bla");
                     int userId = userService.getIdUserWithEmail(addedUser.getEmail());
                     String token = UUID.randomUUID().toString();
                     VerifyService.getInstance().insert(token, userId);
