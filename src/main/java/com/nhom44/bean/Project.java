@@ -5,8 +5,8 @@ import lombok.*;
 import java.io.Serializable;
 import java.util.Objects;
 @Data
-@RequiredArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class Project extends AbsModel implements Serializable {
     private int id;
     private String title;

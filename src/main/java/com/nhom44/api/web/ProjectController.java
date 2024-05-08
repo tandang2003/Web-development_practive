@@ -52,39 +52,39 @@ public class ProjectController extends HttpServlet {
                 return;
             }
             Project project = ProjectService.getInstance().getActiveById(Integer.parseInt(id));
-            project.setUpdatedAt(project.getUpdatedAt().substring(0, 10));
-            User user = (User) req.getSession().getAttribute("auth");
-            if (user != null) {
-                project.setSave(ProjectService.getInstance().isLikeByUser(user.getId(), project.getPostId()) ? true : false);
-                ProjectService.getInstance().addHistory(user.getId(), project.getPostId());
-            }
             responseModel.setStatus("200");
             responseModel.setMessage("get project success");
-            responseModel.setData(project);
-            System.out.println(path);
             if (path.contains("/")) {
                 switch (path.split("/")[1].trim()) {
                     case "suggest":
+                        responseModel.setMessage("get suggest project success");
                         List<Project> suggestProjects = ProjectService.getInstance().getSuggestProjects(project.getCategoryId());
                         responseModel.setData(suggestProjects);
                         break;
                     case "services":
+                        responseModel.setMessage("get project services success");
                         List<Service> services = ServiceOfProjectService.getInstance().getServicesByProjectId(project.getId());
                         responseModel.setData(services);
                         break;
                     case "post":
+                        responseModel.setMessage("get project post content success");
                         Post post = PostService.getInstance().getById(project.getPostId());
                         responseModel.setData(post);
                         break;
                     case "gallery":
+                        responseModel.setMessage("get project gallery success");
                         List<String> gallery = ImageService.getInstance().getGroupImagesByProjectId(Integer.parseInt(id));
-                        for (String img :
-                                gallery) {
-                            System.out.println(img);
-                        }
                         responseModel.setData(gallery);
                         break;
                 }
+            } else {
+                project.setUpdatedAt(project.getUpdatedAt().substring(0, 10));
+                User user = (User) req.getSession().getAttribute("auth");
+                if (user != null) {
+                    project.setSave(ProjectService.getInstance().isLikeByUser(user.getId(), project.getPostId()) ? true : false);
+                    ProjectService.getInstance().addHistory(user.getId(), project.getPostId());
+                }
+                responseModel.setData(project);
             }
 
             resp.setStatus(200);

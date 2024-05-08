@@ -138,7 +138,7 @@ public class ProjectService {
     }
 
     public static void main(String[] args) {
-        System.out.println(getInstance().getActiveById(2).toString());
+
 
     }
 
@@ -172,6 +172,7 @@ public class ProjectService {
 
     public List<Project> getSuggestProjects(int categoryId) {
         List<Project> list = conn.withExtension(ProjectDAO.class, dao -> dao.getSuggestProjects(categoryId));
+        System.out.println(list.size());
         Set<Integer> set = new HashSet<>();
         while (set.size() < 4 && set.size() < list.size()) {
             Random random = new Random();
@@ -180,6 +181,7 @@ public class ProjectService {
         }
         List<Project> res = new ArrayList<>();
         set.forEach(i -> res.add(list.get(i)));
+        System.out.println(res.size());
         return res;
     }
 
