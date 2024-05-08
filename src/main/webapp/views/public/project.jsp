@@ -46,10 +46,6 @@
                         <div class="form-outline">
                             <select name="category" id="categoryId" class="form-control">
                                 <option value="">Loại</option>
-<%--                                <c:forEach items="${sessionScope.categories}" var="cat">--%>
-<%--                                    <option value="${cat.id}" <c:if--%>
-<%--                                            test="${category.id==cat.id}"> selected</c:if>>${cat.name}</option>--%>
-<%--                                </c:forEach>--%>
                             </select>
                         </div>
                     </div>
