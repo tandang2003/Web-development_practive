@@ -20,18 +20,25 @@
             <version>3.8.1</version>
             <scope>test</scope>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>javax.servlet</groupId>-->
-<!--            <artifactId>jsp-api</artifactId>-->
-<!--            <version>2.0</version>-->
-<!--            <scope>provided</scope>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>javax.servlet</groupId>-->
+        <!--            <artifactId>jsp-api</artifactId>-->
+        <!--            <version>2.0</version>-->
+        <!--            <scope>provided</scope>-->
+        <!--        </dependency>-->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <version>4.0.1</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.30</version>
+            <scope>provided</scope>
+        </dependency>
+
         <dependency>
             <groupId>jstl</groupId>
             <artifactId>jstl</artifactId>
@@ -41,6 +48,11 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>8.0.30</version>
+        </dependency>
+        <dependency>
+            <groupId>com.ip2location</groupId>
+            <artifactId>ip2location-io-java</artifactId>
+            <version>1.0.0</version>
         </dependency>
         <dependency>
             <groupId>org.jdbi</groupId>
@@ -72,21 +84,21 @@
             <artifactId>httpclient</artifactId>
             <version>4.5.13</version>
         </dependency>
-                <dependency>
+        <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>fluent-hc</artifactId>
             <version>4.5.13</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.apache.httpcomponents.client5</groupId>-->
-<!--            <artifactId>httpclient5</artifactId>-->
-<!--            <version>5.3</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>commons-logging</groupId>-->
-<!--            <artifactId>commons-logging</artifactId>-->
-<!--            <version>1.2</version>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.apache.httpcomponents.client5</groupId>-->
+        <!--            <artifactId>httpclient5</artifactId>-->
+        <!--            <version>5.3</version>-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>commons-logging</groupId>-->
+        <!--            <artifactId>commons-logging</artifactId>-->
+        <!--            <version>1.2</version>-->
+        <!--        </dependency>-->
         <dependency>
             <groupId>com.google.api-client</groupId>
             <artifactId>google-api-client</artifactId>

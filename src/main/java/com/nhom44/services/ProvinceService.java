@@ -23,6 +23,9 @@ public class ProvinceService  {
     public List<Province> getAll() {
         return conn.withExtension(ProvinceDAO.class, ProvinceDAO::getAll);
     }
+    public String getSpecificId(String province){
+        return conn.withExtension(ProvinceDAO.class,dao->dao.getSpecificId(province));
+    }
     public static void main(String[] args) {
-           }
+    }
 }

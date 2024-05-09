@@ -14,7 +14,8 @@ public interface ProvinceDAO {
     @SqlQuery("SELECT id, name, fullName FROM provinces")
     List<Province> getAll();
 
-//    @SqlQuery("SELECT id FROM addresses where id=:addressId")
-//    String getSpecificId(@Bind("addressId") String addressId);
+    @SqlQuery("SELECT id FROM provinces where name=:name")
+    String getSpecificId(@Bind("name") String name);
+
 //    String getIdProvinceWithName(String province);
 }

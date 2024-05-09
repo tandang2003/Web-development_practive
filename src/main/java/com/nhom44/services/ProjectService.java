@@ -122,7 +122,9 @@ public class ProjectService {
     }
 
     public List<Project> getProjetAllActive(int offset, int categoryId, int serviceId, int provinceId, long minPrice, long maxPrice, int minAcreage, int maxAcreage, int userid) {
-        System.out.println(offset+" "+ categoryId + " " + serviceId + " " + provinceId + " " + minPrice + " " + maxPrice + " " + minAcreage + " " + maxAcreage + " " + userid);
+
+        System.out.println(offset + " " + categoryId + " " + serviceId + " " + provinceId + " " + minPrice + " " + maxPrice + " " + minAcreage + " " + maxAcreage + " " + userid);
+
         return conn.withExtension(ProjectDAO.class, dao -> {
             List<Project> res = dao.getProjetAllActive(offset, categoryId, serviceId, provinceId, minPrice, maxPrice, minAcreage, maxAcreage, userid);
             for (Project p : res) {
@@ -133,6 +135,11 @@ public class ProjectService {
 //            });
             return res;
         });
+    }
+
+    public static void main(String[] args) {
+
+
     }
 
 
@@ -159,13 +166,13 @@ public class ProjectService {
 
     public boolean isSaveProject(int projectId, int id) {
         return conn.withExtension(ProjectDAO.class, dao -> {
-            System.out.println(dao.isSaveProject(projectId, id));
             return dao.isSaveProject(projectId, id);
         });
     }
 
     public List<Project> getSuggestProjects(int categoryId) {
         List<Project> list = conn.withExtension(ProjectDAO.class, dao -> dao.getSuggestProjects(categoryId));
+        System.out.println(list.size());
         Set<Integer> set = new HashSet<>();
         while (set.size() < 4 && set.size() < list.size()) {
             Random random = new Random();
@@ -174,6 +181,7 @@ public class ProjectService {
         }
         List<Project> res = new ArrayList<>();
         set.forEach(i -> res.add(list.get(i)));
+        System.out.println(res.size());
         return res;
     }
 
@@ -212,20 +220,14 @@ public class ProjectService {
             p.setUpdatedAt(DateUtil.formatStringDate(p.getUpdatedAt()));
             if (p.getEstimatedComplete() != null) {
                 p.setEstimatedComplete(DateUtil.formatStringDate(p.getEstimatedComplete()));
-            } else {p.setSchedule("Dự án đã hoàn thành");p.setEstimatedComplete(p.getUpdatedAt());}
+            } else {
+                p.setSchedule("Dự án đã hoàn thành");
+                p.setEstimatedComplete(p.getUpdatedAt());
+            }
         });
         return projects;
     }
 
-    public static void main(String[] args) {
-//        List<Project> projects = getInstance().getOwnProject(24);
-//        System.out.println(projects.size());
-//        for (Project project : projects) {
-//            System.out.println(project);
-//        }
-//        System.out.println(getInstance().pageSizeHistoryProjectByUserId(24));
-        System.out.println(getInstance().isLikeByUser(29, 187));
-    }
 
     public void acceptProject(int idInt) {
         conn.withExtension(ProjectDAO.class, dao -> dao.acceptProject(idInt));
