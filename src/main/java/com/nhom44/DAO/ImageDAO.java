@@ -18,7 +18,7 @@ public interface ImageDAO {
     int addImage(@BindBean Image image);
 @SqlQuery("SELECT id FROM images WHERE path=:path AND name=:name")
     int getIdImage(@BindBean Image image);
-@SqlQuery("SELECT concat(images.path,'/',images.name) FROM images  JOIN doanweb.group_images gi on images.id = gi.imageId WHERE projectId=:id")
+@SqlQuery("SELECT concat(images.path,'/',images.name) FROM images  JOIN group_images gi on images.id = gi.imageId WHERE gi.projectId=:id")
     List<String> getGroupImagesByProjectId(@Bind("id") int id);
 @SqlUpdate("DELETE FROM group_images WHERE projectId=:id")
     int deleteAllImageProProject(@Bind("id")int id);

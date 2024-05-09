@@ -9,7 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <%@ include file="/layout/public/link.jsp" %>
     <link href=" <c:url value="/template/css/projectPost.css"/>" rel="stylesheet">
-    <title class="text-uppercase">${service.name}</title>
+    <title class="text-uppercase"></title>
 </head>
 <body>
 <%@include file="/layout/public/header.jsp" %>
@@ -37,19 +37,18 @@
                                     aria-hidden="true"></i>
                         </li>
                         <li class="breadcrumb-item active breadcrumb-size p-0">
-                            <a class="black-text text-uppercase"
-                               href="#">${service.name}</a></li>
+                            <a class="black-text text-uppercase service-name"
+                               href="#"></a></li>
                     </ol>
                 </nav>
             </div>
         </div>
         <div class="row">
             <div class="col-sm-12 col-md-8 col-lg-8 post-content position-relative">
-                <h1 class="text-center mb-3 mt-3 post-title text-uppercase">${service.name}</h1>
-                <p class="font-italic"><strong>Ngày đăng: ${service.updatedAt}</strong></p>
+                <h1 class="text-center mb-3 mt-3 post-title text-uppercase service-name"></h1>
+                <p class="font-italic"><strong>Ngày đăng: <span class="service-update"></span></strong></p>
 
                 <div class="service-post-content" style="max-width: 100%">
-                    ${post.content}
                     <div class="company-address"></div>
                     <h6 class="mt-2 mb-2">CÔNG TY XÂY DỰNG TMĐT NHÀ XINH</h6>
                     <p>Địa chỉ: 254/5/41 Lê Văn Thọ, P.11, Q. Gò Vấp, TP. HCM</p>
@@ -66,58 +65,6 @@
                             </i> bạn có thể quan tâm</p>
                         </div>
                         <ul class="feature-news-list">
-                            <c:forEach items="${suggestServices}" var="ser">
-                                <li class="feature-news-items mb-2">
-                                    <a href="service?id=${ser.id}"
-                                       class="feature-news-items-link d-flex row"
-                                       role="link">
-                                        <div class="feature-news-items-img d-block hover-image col-5 pr-0">
-                                            <img src="${ser.avatar}" alt="">
-                                        </div>
-                                        <div class="feature-news-items-info col-6 pl-0">
-                                            <div class="feature-news-items-info-title text-uppercase">
-                                                    ${ser.name}
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                            </c:forEach>
-                            <%--                        <li class="feature-news-items mb-2">--%>
-                            <%--                            <a href="#" class="feature-news-items-link d-flex row" role="link">--%>
-                            <%--                                <div class="feature-news-items-img d-block hover-image col-5 pr-0">--%>
-                            <%--                                    <img src="../../../../RealEstateWeb/public/img/main-service/th2-792.png" alt="" >--%>
-                            <%--                                </div>--%>
-                            <%--                                <div class="feature-news-items-info col-6 pl-0">--%>
-                            <%--                                    <div class="feature-news-items-info-title text-uppercase">--%>
-                            <%--                                        xây dựng tầng hầm--%>
-                            <%--                                    </div>--%>
-                            <%--                                </div>--%>
-                            <%--                            </a>--%>
-                            <%--                        </li>--%>
-                            <%--                        <li class="feature-news-items mb-2">--%>
-                            <%--                            <a href="#" class="feature-news-items-link d-flex row" role="link">--%>
-                            <%--                                <div class="feature-news-items-img d-block hover-image col-5 pr-0">--%>
-                            <%--                                    <img src="../../../../RealEstateWeb/public/img/main-service/tang-ham-1-9740.png" alt="">--%>
-                            <%--                                </div>--%>
-                            <%--                                <div class="feature-news-items-info col-6 pl-0">--%>
-                            <%--                                    <div class="feature-news-items-info-title text-uppercase">--%>
-                            <%--                                        xây dựng nhà xưởng--%>
-                            <%--                                    </div>--%>
-                            <%--                                </div>--%>
-                            <%--                            </a>--%>
-                            <%--                        </li>--%>
-                            <%--                        <li class="feature-news-items mb-2">--%>
-                            <%--                            <a href="#" class="feature-news-items-link d-flex row" role="link">--%>
-                            <%--                                <div class="feature-news-items-img d-block hover-image col-5 pr-0">--%>
-                            <%--                                    <img src="../../../../RealEstateWeb/public/img/main-service/th2-792.png" alt="">--%>
-                            <%--                                </div>--%>
-                            <%--                                <div class="feature-news-items-info col-6 pl-0">--%>
-                            <%--                                    <div class="feature-news-items-info-title text-uppercase">--%>
-                            <%--                                        xây dựng trọn gói--%>
-                            <%--                                    </div>--%>
-                            <%--                                </div>--%>
-                            <%--                            </a>--%>
-                            <%--                        </li>--%>
                         </ul>
                     </div>
                 </div>
@@ -130,5 +77,59 @@
 <%@include file="/layout/public/footer.jsp" %>
 <%@include file="/layout/public/script.jsp" %>
 <script src="<c:url value="/template/js/main.js"/>"></script>
+<script>
+    let id = window.location.href.substring(window.location.href.lastIndexOf('/'))
+    console.log(id)
+    $.ajax({
+        url: '/api/post/services' + id,
+        dataType: 'json',
+        type: 'GET',
+        success: function (data) {
+            let service = data.data;
+            document.title = service.name
+            $('.service-name').text(service.name)
+            $('.service-update').text(service.updatedAt)
+        }
+    })
+    $.ajax({
+        url: '/api/post/services/' + id + '/post',
+        dataType: 'json',
+        type: 'GET',
+        success: function (data) {
+            let post = data.data;
+            $('.service-post-content').html(post.content + $('.service-post-content').html())
+        }
+    })
+    $.ajax({
+        url: '/api/post/services/' + id + '/suggest',
+        dataType: 'json',
+        type: 'GET',
+        success: function (data) {
+            let suggestServices = data.data;
+            console.log(suggestServices)
+
+            let suggestServiceHtml = ''
+            suggestServices.forEach(service => {
+                suggestServiceHtml += `
+ <li class="feature-news-items mb-2">
+                                                    <a href="post/services/\${service.id}"
+                                                       class="feature-news-items-link d-flex row"
+                                                       role="link">
+                                                        <div class="feature-news-items-img d-block hover-image col-5 pr-0">
+                                                            <img src="\${service.avatar}" alt="">
+                                                        </div>
+                                                        <div class="feature-news-items-info col-6 pl-0">
+                                                            <div class="feature-news-items-info-title text-uppercase">
+                                                                    \${service.name}
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </li>
+               `
+            })
+            $('.feature-news-list').html(suggestServiceHtml)
+        }
+    })
+</script>
 </body>
 </html>

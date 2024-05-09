@@ -1,5 +1,6 @@
 package com.nhom44.controller.admin.project;
 
+import com.nhom44.bean.AbsModel;
 import com.nhom44.services.ProjectService;
 
 import javax.servlet.ServletException;
