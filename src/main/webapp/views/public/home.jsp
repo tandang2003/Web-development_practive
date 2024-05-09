@@ -278,7 +278,7 @@
     }
 </script>
 <script>
-    getProject(${categories[0].id});
+    getProject($(".category-item").);
 
     function getProject(id) {
         // event.preventDefault();

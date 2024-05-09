@@ -27,7 +27,6 @@ public class ProjectController extends HttpServlet {
             int id = Integer.parseInt(categoryId);
             Category category = CategoryService.getInstance().getById(id);
             req.setAttribute("category", category);
-
         }
         LoadSession.loadSession(req);
 

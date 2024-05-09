@@ -16,21 +16,21 @@ import java.io.IOException;
 public class PostServiceController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String action= req.getParameter("action") != null ? req.getParameter("action") : "#";
-        if(action.equalsIgnoreCase("edit")){
-            if(!new NumberVallidator().validator(req.getParameter("id"))){
+        String action = req.getParameter("action") != null ? req.getParameter("action") : "#";
+        if (action.equalsIgnoreCase("edit")) {
+            if (!new NumberVallidator().validator(req.getParameter("id"))) {
 //                req.setAttribute("service", ServiceOfProjectService.getInstance().getById(Integer.parseInt(req.getParameter("id"))));
                 //error
                 resp.sendRedirect("/404");
             }
             int id = Integer.parseInt(req.getParameter("id"));
-        Post post = PostService.getInstance().getById(id);
+            Post post = PostService.getInstance().getById(id);
             System.out.println(id);
             System.out.println(post.toString());
-        if(post==null){
-            //error
-            resp.sendRedirect("/404");
-        }
+            if (post == null) {
+                //error
+                resp.sendRedirect("/404");
+            }
             req.setAttribute("post", post);
             req.getRequestDispatcher("/views/admin/service/update_service_post.jsp").forward(req, resp);
             return;

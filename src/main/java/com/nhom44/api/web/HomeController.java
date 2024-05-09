@@ -34,19 +34,20 @@ public class HomeController extends HttpServlet {
             case "/api/home/projects":
                 int categoryId;
                 if(req.getPathInfo().substring(1)=="undefined")    categoryId= (int) req.getSession().getAttribute("HomeFindingcategoryId");
-                else{  categoryId= Integer.parseInt((req.getPathInfo().substring(1)));
-                    req.getSession().setAttribute("HomeFindingcategoryId", categoryId);}
+
+              else{  categoryId= Integer.parseInt((req.getPathInfo().substring(1)));
+                req.getSession().setAttribute("HomeFindingcategoryId", categoryId);}
                 List<Project> projects = ProjectService.getInstance().get8ActiveProjectHighestView(categoryId, user == null ? 0 : user.getId());
                 responseModel.setName("success");
                 responseModel.setData(projects);
                 resp.setStatus(200);
                 break;
-            case"/api/home/slides":
-                List<Slider> sliders= SliderService.getInstance().getAllActive();
-                responseModel.setName("success");
-                responseModel.setData(sliders);
-                resp.setStatus(200);
-                break;
+                case"/api/home/slides":
+                    List<Slider> sliders= SliderService.getInstance().getAllActive();
+                    responseModel.setName("success");
+                    responseModel.setData(sliders);
+                    resp.setStatus(200);
+                    break;
             case "/api/home/categories":
                 List<Category> categories = CategoryService.getInstance().getAllActive();
                 responseModel.setName("success");
@@ -57,10 +58,10 @@ public class HomeController extends HttpServlet {
                 responseModel.setData("url not found");
                 break;
         }
-        PrintWriter printWriter = resp.getWriter();
-        printWriter.print(new Gson().toJson(responseModel));
-        printWriter.flush();
-        printWriter.close();
-        return;
+            PrintWriter printWriter = resp.getWriter();
+            printWriter.print(new Gson().toJson(responseModel));
+            printWriter.flush();
+            printWriter.close();
+            return;
     }
 }

@@ -41,36 +41,6 @@
                 Dịch vụ và báo giá</h1>
 
             <div class="row g-4 g-lg-5" id="service-container">
-                <%--                <c:forEach var="service" items="${services}">--%>
-                <%--                    <div class="col-lg-4 col-md-6 mb-5">--%>
-                <%--                        <div class="card">--%>
-                <%--                            <div--%>
-                <%--                                    class="bg-image hover-overlay ripple"--%>
-                <%--                                    data-mdb-ripple-color="light">--%>
-                <%--                                <a href="#">--%>
-                <%--                                    <div--%>
-                <%--                                            class="mask"--%>
-                <%--                                            style="background-color: rgba(251, 251, 251, 0.15)"--%>
-                <%--                                    ></div>--%>
-                <%--                                    <div class="hover-img">--%>
-                <%--                                        <img--%>
-                <%--                                                src="${service.avatar}"--%>
-                <%--                                                class="img-fluid"/>--%>
-                <%--                                    </div>--%>
-                <%--                                </a>--%>
-                <%--                            </div>--%>
-                <%--                            <div class="card-body">--%>
-                <%--                                <div class="card-content">--%>
-                <%--                                    <h3 class="card-title">Dịch vụ ${service.name}</h3>--%>
-                <%--                                    <p class="card-text">--%>
-                <%--                                            ${service.description}--%>
-                <%--                                    </p>--%>
-                <%--                                </div>--%>
-                <%--                                <a href="/post/service?id=${service.id}" class="btn btn-rounded">Xem thêm</a>--%>
-                <%--                            </div>--%>
-                <%--                        </div>--%>
-                <%--                    </div>--%>
-                <%--                </c:forEach>--%>
             </div>
         </section>
         <!--Section: Posts-->
