@@ -206,12 +206,8 @@
     value: value
 },
     success: function (data) {
-    console.log("run")
-    console.log(data)
 },
     error: function (e) {
-    console.log("err")
-    console.log(e)
 }
 })
 
@@ -236,7 +232,6 @@
             // console.log(p);
         },
         error: function (response) {
-            console.log(response.responseText)
             let resp = JSON.parse(response.responseText);
             window.location.href = resp.data;
         }
@@ -245,7 +240,6 @@
 
 
     function fetchErr(name, mess) {
-    console.log(name, mess)
     switch (name) {
     case'email':
     let email = document.getElementById('form-email')
@@ -253,7 +247,6 @@
     email.classList.add('text-danger');
     email.value = "";
     email.setAttribute('value', "");
-// email.setAttribute('placeholder', mess);
     break;
     case'address':
     let address = document.getElementById('address')
