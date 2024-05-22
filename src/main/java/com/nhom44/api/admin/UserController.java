@@ -178,8 +178,8 @@ public class UserController extends HttpServlet {
                 printWriter.print(gson.toJson(errMess));
                 return;
             } else
-                user = userService.additional(email, password, name, new java.sql.Date(birthday.getTime()), phone, province, isMale, status, role);
-
+//                user = userService.additional(email, password, name, new java.sql.Date(birthday.getTime()), phone, isMale, status, role);
+//                user = userService.additional(email, password, name, new java.sql.Date(birthday.getTime()), phone, isMale, status, role, province);
 
             if (user.getPassword() == null) {
                 responseModel = new ResponseModel<>();
@@ -253,7 +253,7 @@ public class UserController extends HttpServlet {
                     errMess.add(responseModel);
                 } else user.setPhone(phone);
             singleValidator = new NumberVallidator();
-            System.out.println("user prov "+user.getProvince());
+//            System.out.println("user prov "+user.getProvince());
             System.out.println(!province.equals(user.getProvinceId() + ""));
             if (!province.equals(user.getProvinceId() + ""))
                 if (province.isEmpty() || !singleValidator.validator(province)) {
