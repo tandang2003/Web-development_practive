@@ -8,11 +8,9 @@ import com.nhom44.services.ProjectService;
 import com.nhom44.services.ServiceOfProjectService;
 import com.nhom44.util.LoadSession;
 import com.nhom44.validator.NumberVallidator;
-
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import java.util.List;
-
 @WebServlet(urlPatterns = {"/api/services", "/api/post/services/*"})
 public class ServiceController extends HttpServlet {
     @Override
