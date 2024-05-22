@@ -45,7 +45,6 @@
 
         <div class="row">
             <div class="col-sm-12 col-md-8 col-lg-8 post-content position-relative">
-                <h1 class="text-center mb-3 mt-3 post-title text-uppercase project-title title-page"></h1>
                 <div class="row">
 
                     <p class="font-italic col-lg-5 col-md-5 col-sm-12 m-0"><strong>Ngày đăng: <span
