@@ -38,8 +38,14 @@ public class VerifyService {
         });
     }
     public int getCartsIdByCode(String code) {
-        return (Integer)this.conn.withExtension(VerifyDAO.class, (dao) -> {
-            return dao.getCartsIdByCode(code);
+        return this.conn.withExtension(VerifyDAO.class, (dao) -> {
+            Object returnValue= dao.getCartsIdByCode(code);
+            return returnValue==null ? 0 : (int)returnValue;
         });
+    }
+
+    public static void main(String[] args) {
+        System.out.println(VerifyService.getInstance().getCartsIdByCode("123456"
+        ));
     }
 }

@@ -1,10 +1,7 @@
 package com.nhom44.api.web;
 
 import com.google.gson.Gson;
-import com.nhom44.bean.Cart;
-import com.nhom44.bean.Image;
-import com.nhom44.bean.Project;
-import com.nhom44.bean.ResponseModel;
+import com.nhom44.bean.*;
 import com.nhom44.services.*;
 import com.nhom44.util.StringUtil;
 import com.nhom44.util.Upload;
@@ -24,12 +21,19 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(urlPatterns = "/api/cart")
+@WebServlet(urlPatterns = {"/api/cart","/api/data/cart"})
 @MultipartConfig(
         maxFileSize = 1024 * 1024 * 10,
         maxRequestSize = 1024 * 1024 * 10 * 5,
         fileSizeThreshold = 1024 * 1024 * 10)
 public class CartController extends HttpServlet {
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        List<Category> categories= CategoryService.getInstance().getAllActive();
+        List<Province> provinces= ProvinceService.getInstance().getAll();
+        List<Service> services= ServiceOfProjectService.getInstance().getAllActive();
+    }
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();

@@ -14,12 +14,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebServlet(urlPatterns = {"/api/save_project/delete", "/api/save_project"})
+@WebServlet(urlPatterns = {"/api/save_project/*"})
 public class SaveProjectController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String url = req.getRequestURI();
-        int projectId = Integer.parseInt(req.getParameter("projectId"));
+        int projectId = Integer.parseInt(url.substring(url.lastIndexOf("/")+1));
         HttpSession session = req.getSession();
         User user = (User) session.getAttribute("auth");
         if (user == null) {

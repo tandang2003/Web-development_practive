@@ -1,7 +1,6 @@
 package com.nhom44.bean;
 
 import lombok.*;
-
 import java.io.Serializable;
 import java.util.Objects;
 @Data

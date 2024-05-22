@@ -34,7 +34,6 @@ public class HomeController extends HttpServlet {
             case "/api/home/projects":
                 int categoryId;
                 if(req.getPathInfo().substring(1)=="undefined")    categoryId= (int) req.getSession().getAttribute("HomeFindingcategoryId");
-
               else{  categoryId= Integer.parseInt((req.getPathInfo().substring(1)));
                 req.getSession().setAttribute("HomeFindingcategoryId", categoryId);}
                 List<Project> projects = ProjectService.getInstance().get8ActiveProjectHighestView(categoryId, user == null ? 0 : user.getId());

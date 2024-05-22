@@ -64,3 +64,9 @@ public interface ServiceDAO {
             "GROUP BY s.id, s.name, s.description, s.status ")
     List<Service> getSuggestServices();
 }
+
+    @SqlQuery("SELECT s.id, s.name, s.description,s.avatar, s.postId  " +
+            ",s.status FROM Services s " +
+            "GROUP BY s.id, s.name, s.description, s.status ")
+    List<Service> getSuggestServices();
+}
