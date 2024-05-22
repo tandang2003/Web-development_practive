@@ -45,18 +45,7 @@
 
         <div class="row">
             <div class="col-sm-12 col-md-8 col-lg-8 post-content position-relative">
-                <c:choose>
-                    <c:when test="${project.saveBy==auth.id}">
-                        <i class="fa-solid fa-bookmark position-absolute " onclick="like(this)"
-                           style="z-index: 1000; left: 1%; top:22px; font-size: 25px"></i>
-                    </c:when>
-                    <c:otherwise>
-                        <i class="fa-regular fa-bookmark position-absolute " onclick="like(this)"
-                           style="z-index: 1000; left: 1%; top:22px; font-size: 25px"></i>
-
-                    </c:otherwise>
-                </c:choose>
-                <h1 class="text-center mb-3 mt-3 post-title text-uppercase project-title"></h1>
+                <h1 class="text-center mb-3 mt-3 post-title text-uppercase project-title title-page"></h1>
                 <div class="row">
 
                     <p class="font-italic col-lg-5 col-md-5 col-sm-12 m-0"><strong>Ngày đăng: <span
@@ -156,7 +145,7 @@
                                 </div>
                                 <div class="">
                                     <label class="mdb-main-label" style="font-size: 13px">Dịch vụ</label>
-                                    <select name="services" id="services" class="mdb-select md-form services" multiple>
+                                    <select name="services" id="services" class="mdb-select md-form services" data-mdb-select-init multiple>
                                         <c:forEach items="${sessionScope.services}" var="service">
                                             <option value="${service.id}"
                                                     <c:if test="${cart!=null&& cart.services!=null}">
@@ -213,7 +202,7 @@
 <%@include file="/layout/public/footer.jsp" %>
 <%@include file="/layout/public/script.jsp" %>
 <script src="<c:url value="/template/js/main.js"/>"></script>
-<script src="<c:url value="/template/js/post-project.js"/>"></script>
+<script src="<c:url value="/template/js/ajax/post-project.js"/>"></script>
 <script>
 
 </script>
