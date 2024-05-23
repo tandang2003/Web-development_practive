@@ -161,6 +161,10 @@
 <%@include file="/layout/public/script.jsp" %>
 <script src="<c:url value="/template/js/main.js"/>"></script>
 <script src="<c:url value="/template/js/admin-modal-notify.js"/>"></script>
+<script src="<c:url value="/template/js/ajax/log.js"/>"></script>
+<script>
+    webLog("contact");
+</script>
 <script>
     function saveContact() {
         $.ajax({

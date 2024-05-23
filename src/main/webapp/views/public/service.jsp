@@ -51,7 +51,12 @@
 <%@include file="/layout/public/script.jsp" %>
 <script src="<c:url value="/template/js/main.js"/>"></script>
 <script src="<c:url value="/template/js/services.js"/>"></script>
+<script src="<c:url value="/template/js/ajax/log.js"/>"></script>
+    webLog("services");
+</script>
+
 <script>
+
     getServices("services", 'service-container');
 </script>
 </body>

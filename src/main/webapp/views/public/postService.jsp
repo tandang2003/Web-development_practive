@@ -77,7 +77,10 @@
 <%@include file="/layout/public/footer.jsp" %>
 <%@include file="/layout/public/script.jsp" %>
 <script src="<c:url value="/template/js/main.js"/>"></script>
+<script src="<c:url value="/template/js/ajax/log.js"/>">
+</script>
 <script>
+    webLog("detail-service",window.location.href.substring(window.location.href.lastIndexOf('/')));
     let id = window.location.href.substring(window.location.href.lastIndexOf('/'))
     console.log(id)
     $.ajax({

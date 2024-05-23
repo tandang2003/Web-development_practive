@@ -168,7 +168,7 @@ public class UserService {
         conn.withExtension(UserDAO.class, dao -> dao.insertGoogleUser(user));
     }
 
-    public boolean updatePassword(String email, String newPw) {
-        return conn.withExtension(UserDAO.class, dao -> dao.updatePassword(email, StringUtil.hashPassword(newPw)));
-    }
+//    public boolean updatePassword(String email, String newPw) {
+//        return conn.withExtension(UserDAO.class, dao -> dao.updatePassword(email, StringUtil.hashPassword(newPw)));
+//    }
 }

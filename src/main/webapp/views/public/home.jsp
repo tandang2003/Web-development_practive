@@ -168,11 +168,8 @@
                         </div>
                     </form>
                     <!--Form with header-->
-
                 </div>
-
                 <div class="col-lg-7 mb-3">
-
                     <!--Google map-->
                     <div id="map-container-google-11" class="z-depth-1-half map-container-6 h-100"
                          style="height: 453px">
@@ -180,19 +177,13 @@
                                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4247.872564543886!2d106.79040908333542!3d10.870529759247004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3175276398969f7b%3A0x9672b7efd0893fc4!2zVHLGsOG7nW5nIMSQ4bqhaSBo4buNYyBOw7RuZyBMw6JtIFRQLiBI4buTIENow60gTWluaA!5e0!3m2!1svi!2s!4v1695713054142!5m2!1svi!2s"
                                 width="200" height="150" style="border:0;" allowfullscreen="" loading="lazy"
                                 referrerpolicy="no-referrer-when-downgrade">
-
                         </iframe>
                     </div>
-
                     <br>
-                    <!--Buttons-->
-
                 </div>
             </div>
         </section>
-        <!--Section: Contact v.1-->
     </div>
-    <!--    end main contact-->
 </section>
 
 
@@ -204,6 +195,10 @@
 <script src="<c:url value='/template/js/home.js'/>"></script>
 <script src="<c:url value='/template/js/services.js'/>"></script>
 <script src="<c:url value='/template/js/ajax/home.js'/>"></script>
-
+<script src="<c:url value="/template/js/ajax/log.js"/>"></script>
+<script>
+    console.log("home");
+    webLog("home", null);
+</script>
 </body>
 </html>

@@ -1,20 +1,36 @@
 getServices("home", "services-container");
 // page on ready
 $(document).ready(function () {
+
+    // $.ajax({
+    //     url: '/api/home/data',
+    //     type: 'Get',
+    //     success: function (data) {
+    //
+    //         let slides = JSON.parse(data);
+    //         let slide = document.getElementById('slide-container');
+    //         slide.innerHTML = "";
+    //         slides.data.forEach((x, index) => {
+    //
+    //             let active = index === 0 ? "active" : "";
+    //             slide.innerHTML += `<div class="carousel-item ${active} w-100">
+    //             <img class="d-block w-100 " src="${x.avatar}"
+    //                  alt="${x.title}">`
+    //         })
+    //     },
+    // })
     $.ajax({
         url: '/api/home/slides',
         type: 'Get',
         success: function (data) {
             let slides = JSON.parse(data);
-            let slide = document.getElementById('slide-container');
-            slide.innerHTML = "";
             slides.data.forEach((x, index) => {
-
                 let active = index === 0 ? "active" : "";
-                slide.innerHTML += `<div class="carousel-item \${active} w-100">
-                <img class="d-block w-100 " src="\${x.avatar}"
-                     alt="\${x.title}">`
+                $('#slide-container').append(`<div class="carousel-item ${active} w-100">
+                <img class="d-block w-100 " src="${x.avatar}"
+                     alt="${x.title}">`)
             })
+            console.log($('#slide-container').html())
         },
     })
     $.ajax({
@@ -29,7 +45,7 @@ $(document).ready(function () {
                 let active = index === 0 ? "active" : "";
                 categoryContainer.innerHTML += `<li class="category-item">
                          <button class="item-selector "
-                                   role="tab" onclick="getProject(\${x.id})"
+                                   role="tab" onclick="getProject(${x.id})"
                                    title="${x.name}">
                               XÂY DỰNG ${x.name}
                           </button>

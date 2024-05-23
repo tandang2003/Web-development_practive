@@ -107,5 +107,8 @@
 <%@include file="/layout/public/footer.jsp" %>
 <%@include file="/layout/public/script.jsp" %>
 <script src="<c:url value="/template/js/main.js"/>"></script>
+<script src="<c:url value="/template/js/ajax/log.js"/>"></script>
+<script> webLog("intro", null);
+</script>
 </body>
 </html>
