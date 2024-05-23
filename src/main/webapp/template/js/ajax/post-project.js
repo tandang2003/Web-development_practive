@@ -1,7 +1,7 @@
 $(document).ready(function () {
     $('.mdb-select').materialSelect();
 
-});
+
 let id = window.location.href.substring(window.location.href.lastIndexOf('/'))
 $.ajax({
     //thông tin dự án
@@ -20,6 +20,7 @@ $.ajax({
         $('.title-page').html(function(index,current){
             return iconLike+ current
         })
+        console.log("checking title")
         console.log($('.title-page').html())
         console.log($('.title-page').html())
         console.log($('.project-title').html())
@@ -99,7 +100,7 @@ $.ajax({
     }
 })
 
-$
+});
 
 let allFiles = [];
 let form = document.getElementsByClassName("form-img");
