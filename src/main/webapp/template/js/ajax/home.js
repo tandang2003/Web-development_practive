@@ -1,7 +1,8 @@
-getServices("home", "services-container");
+
 // page on ready
 $(document).ready(function () {
-
+    console.log("service page")
+    getServices("home", "services-container");
     // $.ajax({
     //     url: '/api/home/data',
     //     type: 'Get',
@@ -51,7 +52,7 @@ $(document).ready(function () {
                           </button>
                </li>`
             })
-            getProject(categories.data[0].id)
+            getProject(categories.data[0].id,false)
         },
     })
 
@@ -91,7 +92,11 @@ function saveContact() {
 }
 
 
-function getProject(id) {
+function getProject(id, notLoad=true) {
+    if(notLoad){
+        console.log("get project")
+        popularProject(id)
+    }
     $.ajax({
         url: '/api/home/projects/' + id,
         type: 'Get',
@@ -129,6 +134,7 @@ function getProject(id) {
             }
             containter.innerHTML = project;
             // console.log(project);
+
         },
         error: function (data) {
             console.log(data);

@@ -194,8 +194,8 @@
 
 <script src="<c:url value='/template/js/home.js'/>"></script>
 <script src="<c:url value='/template/js/services.js'/>"></script>
-<script src="<c:url value='/template/js/ajax/home.js'/>"></script>
 <script src="<c:url value="/template/js/ajax/log.js"/>"></script>
+<script src="<c:url value='/template/js/ajax/home.js'/>"></script>
 <script>
     console.log("home");
     webLog("home", null);

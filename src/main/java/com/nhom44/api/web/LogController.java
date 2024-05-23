@@ -14,6 +14,8 @@ import java.util.Enumeration;
 
 @WebServlet(urlPatterns = "/api/log")
 public class LogController extends HttpServlet {
+    private Log log;
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 //        Enumeration e = req.getHeaderNames();
@@ -23,13 +25,24 @@ public class LogController extends HttpServlet {
 //            System.out.print("<b>"+headerName + "</b>: ");
 //            System.out.println(headerValue + "<br>");
 //        }
-        String id;
-        String place = req.getParameter("place").equals("") || req.getParameter("place") == null ? "undefined" : req.getParameter("place");
-        System.out.println(place);
+        String place =  req.getParameter("place") == null || req.getParameter("place").equals("")  ? "undefined" : req.getParameter("place");
         String ip = req.getRemoteAddr();
-        Log log = new Log();
+        log = new Log();
         log.setIp(ip);
         log.setNational(Ip2Location.getNationality(ip));
+        if(!place.equals("undefined"))
+            logPage(req, place);
+        else{
+            popularProject(req);
+        }
+
+        System.out.println(log.toString());
+//        JDBIConnector.get().withExtension(LogDAO.class, dao -> dao.insert(log));
+        LogServices.getInstance().insert(log);
+    }
+
+    private void logPage(HttpServletRequest req, String place) {
+        String id;
         switch (place) {
             case "home":
                 log.setLevel(1);
@@ -57,7 +70,7 @@ public class LogController extends HttpServlet {
                 log.setAddress("/service");
                 break;
             case "detail-service":
-                 id = req.getParameter("id").equals("") || req.getParameter("id") == null ? "undefined" : req.getParameter("id");
+                id = req.getParameter("id").equals("") || req.getParameter("id") == null ? "undefined" : req.getParameter("id");
                 if (id.equals("undefined")) {
                     log.setLevel(3);
                     log.setDescription("User visit non exist service id " + id);
@@ -81,8 +94,28 @@ public class LogController extends HttpServlet {
                 log.setAddress("/project/" + id);
                 break;
         }
-        System.out.println(log.toString());
-//        JDBIConnector.get().withExtension(LogDAO.class, dao -> dao.insert(log));
-        LogServices.getInstance().insert(log);
     }
+    private void popularProject(HttpServletRequest req){
+        String id = req.getParameter("id").equals("") || req.getParameter("id") == null ? "undefined" : req.getParameter("id");
+        if (id.equals("undefined")) {
+            log.setLevel(3);
+            log.setDescription("User finding popular project with category but category id: " + id+" not exist");
+        } else {
+            log.setLevel(1);
+            log.setDescription("User finding popular project with category id: " + id);
+        }
+        log.setAddress("/home/projects/" + id);
+    }
+//    private void searching(HttpServletRequest req){
+//        String key = req.getParameter("key").equals("") || req.getParameter("key") == null ? "undefined" : req.getParameter("key");
+//        if (key.equals("undefined")) {
+//            log.setLevel(3);
+//            log.setDescription("User searching with key but key: " + key+" not exist");
+//        } else {
+//            log.setLevel(1);
+//            log.setDescription("User searching with key: " + key);
+//        }
+//        log.setAddress("/home/search/" + key);
+//    }
+
 }

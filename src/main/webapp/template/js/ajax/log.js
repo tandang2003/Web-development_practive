@@ -95,6 +95,64 @@ function webLog(place, id=null){
                 }
             })
             break;
-
     }
+}
+function popularProject(idCategory){
+    $.ajax({
+        url: '/api/log',
+        type: 'POST',
+        data: {
+            type: 'popularProject',
+            id: idCategory,
+            time: new Date().toLocaleString()
+        },
+        success: function (data) {
+
+        },
+        error: function (err) {
+            //rollback
+        }
+    })
+}
+function searching(searchingData){
+    $.ajax({
+        url: '/api/log',
+        type: 'POST',
+        data: {
+            type: 'searching',
+            data: searchingData,
+            time: new Date().toLocaleString()
+        },
+        error: function (err) {
+            //rollback
+        }
+    })
+}
+function paging(offset){
+    $.ajax({
+        url: '/api/log',
+        type: 'POST',
+        data: {
+            type: 'paging',
+            offset: offset,
+            time: new Date().toLocaleString()
+        },
+        error: function (err) {
+            //rollback
+        }
+    })
+}
+function likeLoging(id, isLike){
+    $.ajax({
+        url: '/api/log',
+        type: 'POST',
+        data: {
+            type: 'like',
+            id: id,
+            time: new Date().toLocaleString()
+        },
+        error: function (err) {
+            //rollback
+        }
+    })
 }

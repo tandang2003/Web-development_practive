@@ -12,18 +12,14 @@ $.ajax({
         let project = data.data
         console.log(project)
         document.title = project.title
-        let iconLike = `<i class="fa-regular fa-bookmark position-relative" onclick="like(this)"></i>`
+        let iconLike = `<i class="fa-regular fa-bookmark position-relative" onclick="like(this, ${project.id})"></i>`
         if (project.isSave)
-            iconLike = `<i class="fa-solid fa-bookmark position-relative" onclick="like(this)"></i>`;
+            iconLike = `<i class="fa-solid fa-bookmark position-relative" onclick="like(this,${project.id})"></i>`;
         //add icon like
         $('.project-title').text(project.title)
-        $('.title-page').html(function(index,current){
+        $('.post-title').html(function(index,current){
             return iconLike+ current
         })
-        console.log("checking title")
-        console.log($('.title-page').html())
-        console.log($('.title-page').html())
-        console.log($('.project-title').html())
         $('.project-updatedAt').text(project.updatedAt)
         $('.project-category').text(project.category)
         $('.project-id').text(project.id)
@@ -226,7 +222,8 @@ $('.form-input').blur(function () {
 });
 
 
-function like(project) {
+function like(project, id) {
+    console.log(project)
     $.ajax({
         url: "/api/save_project"+id,
         type: "GET",
