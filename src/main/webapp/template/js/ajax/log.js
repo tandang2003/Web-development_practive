@@ -142,13 +142,15 @@ function paging(offset){
         }
     })
 }
-function likeLoging(id, isLike){
+function likeLoging(id, isLike , noneFoundOrNotLogin=false){
     $.ajax({
         url: '/api/log',
         type: 'POST',
         data: {
             type: 'like',
             id: id,
+            isLike: isLike,
+            error: noneFoundOrNotLogin,
             time: new Date().toLocaleString()
         },
         error: function (err) {

@@ -25,15 +25,15 @@ public class LogController extends HttpServlet {
 //            System.out.print("<b>"+headerName + "</b>: ");
 //            System.out.println(headerValue + "<br>");
 //        }
-        String place =  req.getParameter("place") == null || req.getParameter("place").equals("")  ? "undefined" : req.getParameter("place");
+        String place = req.getParameter("place") == null || req.getParameter("place").equals("") ? "undefined" : req.getParameter("place");
         String ip = req.getRemoteAddr();
         log = new Log();
         log.setIp(ip);
         log.setNational(Ip2Location.getNationality(ip));
-        if(!place.equals("undefined"))
+        if (!place.equals("undefined"))
             logPage(req, place);
-        else{
-            popularProject(req);
+        else {
+            like(req);
         }
 
         System.out.println(log.toString());
@@ -95,18 +95,20 @@ public class LogController extends HttpServlet {
                 break;
         }
     }
-    private void popularProject(HttpServletRequest req){
+
+    private void popularProject(HttpServletRequest req) {
         String id = req.getParameter("id").equals("") || req.getParameter("id") == null ? "undefined" : req.getParameter("id");
         if (id.equals("undefined")) {
             log.setLevel(3);
-            log.setDescription("User finding popular project with category but category id: " + id+" not exist");
+            log.setDescription("User finding popular project with category but category id: " + id + " not exist");
         } else {
             log.setLevel(1);
             log.setDescription("User finding popular project with category id: " + id);
         }
         log.setAddress("/home/projects/" + id);
     }
-//    private void searching(HttpServletRequest req){
+
+    //    private void searching(HttpServletRequest req){
 //        String key = req.getParameter("key").equals("") || req.getParameter("key") == null ? "undefined" : req.getParameter("key");
 //        if (key.equals("undefined")) {
 //            log.setLevel(3);
@@ -117,5 +119,27 @@ public class LogController extends HttpServlet {
 //        }
 //        log.setAddress("/home/search/" + key);
 //    }
-
+    private void like(HttpServletRequest req) {
+        String error = req.getParameter("error") == null || req.getParameter("error").equals("true") ? "undefined" : req.getParameter("error");
+        if (error.equals("undefined")) {
+            log.setLevel(3);
+            log.setDescription("User like project but id none exists or user is not login");
+        } else {
+            String id = req.getParameter("id") == null || req.getParameter("id").equals("") ? "undefined" : req.getParameter("id");
+            String isLike = req.getParameter("isLike") == null || req.getParameter("isLike").equals("") ? "undefined" : req.getParameter("isLike");
+            if (id.equals("undefined") || isLike.equals("undefined")) {
+                log.setLevel(3);
+                log.setDescription("User like project not have enough data");
+            } else {
+                if (isLike.equals("true")) {
+                    log.setLevel(2);
+                    log.setDescription("User like project id: " + id);
+                } else {
+                    log.setLevel(2);
+                    log.setDescription("User dislike project id: " + id);
+                }
+            }
+        }
+        log.setAddress("/save_project/"+req.getParameter("id"));
+    }
 }

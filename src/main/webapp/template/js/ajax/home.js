@@ -147,22 +147,23 @@ function like(project) {
     let id = $(project).parent().find('.project-id').val();
     console.log(id);
     $.ajax({
-        url: "/api/save_project",
+        url: "/api/save_project/"+id,
         type: "GET",
-        data: {
-            "projectId": id
-        },
         success: function (response) {
             console.log(response);
             let resp = JSON.parse(response);
             if (resp.name == 'save') {
+                likeLoging(id,true,true)
                 project.classList.replace("fa-regular", "fa-solid")
-            } else if (resp.name == 'delete')
+            } else if (resp.name == 'delete') {
+                likeLoging(id,false)
                 project.classList.replace("fa-solid", "fa-regular")
-            //= "fa-solid fa-bookmark position-absolute";
-            // console.log(p);
+                //= "fa-solid fa-bookmark position-absolute";
+                // console.log(p);
+            }
         },
         error: function (response) {
+            likeLoging(id,false,true)
             console.log(response.responseText)
             let resp = JSON.parse(response.responseText);
             window.location.href = resp.data;
