@@ -13,8 +13,8 @@ import java.util.List;
 
 @RegisterBeanMapper(User.class)
 public interface UserDAO {
-    @SqlUpdate("INSERT INTO users(fullname, email, password, role, phone , provinceId, birthday, gender, status)" +
-            " VALUES(:fullname,:email,:password,:role, :phone,:provinceId ,:birthday, :gender, :status)")
+    @SqlUpdate("INSERT INTO users(fullname, email, password, role, phone , addressId, birthday, gender, status)" +
+            " VALUES(:fullname,:email,:password,:role, :phone,:addressId ,:birthday, :gender, :status)")
     int insertUser(@Bind("fullname") String fulllName, @Bind("email") String email,
                    @Bind("password") String password,
                    @Bind("role") int role, @Bind("phone") String phone,
@@ -26,15 +26,15 @@ public interface UserDAO {
     int updateUser(@BindBean User user, @Bind("oldEmail") String oldEmail);
 
     @SqlUpdate("UPDATE users SET fullname =:fullName , email =:email , password =:password, " +
-            "role =:role,phone=:phone, birthday=:birthday, provinceId=:provinceId, " +
+            "role =:role,phone=:phone, birthday=:birthday, addressId=:addressId, " +
             "gender=:gender, status=:status ,updatedAt=now() WHERE id=:id")
     int updateUser(@BindBean User user);
 
-    @SqlUpdate("UPDATE users SET provinceId=:provinceId WHERE email=:email")
+    @SqlUpdate("UPDATE users SET addressId=:addressId WHERE email=:email")
     int updateProvinceForUser(@Bind("provinceId") int provinceId, @Bind("email") String email);
 
     @SqlQuery("Select u.fullname, u.email,u.password,u.phone, u.gender,u.status,u.role,p.name as province " +
-            "FROM users u Left Join provinces p ON u.provinceId=p.id")
+            "FROM users u Left Join provinces p ON u.addressId=p.id")
     List<User> getAllUser();
 
     @SqlQuery("Select COUNT(u.email) FROM users u WHERE u.email=:email")
@@ -47,7 +47,7 @@ public interface UserDAO {
     User getUserOwnerOfProject(@Bind("projectId") int projectId);
 
     @SqlQuery("Select u.id, u.fullname, u.email,u.password, u.phone, u.gender,u.status,u.role, u.birthday,p.name as province " +
-            "FROM users u Left Join provinces p ON u.provinceId=p.id where u.email=:email")
+            "FROM users u Left Join provinces p ON u.addressId=p.id where u.email=:email")
     User getUserByEmail(@Bind("email") String email);
 
     @SqlQuery("SELECT u.email From users_projects up Left JOIN users u ON u.id=up.userId  right join projects p ON p.id=up.projectId ")
@@ -60,9 +60,13 @@ public interface UserDAO {
     Boolean updateSuccessVerify(@Bind("id") int id);
 
     @SqlQuery("Select u.id, u.fullname, u.email,u.password, u.phone, u.gender,u.status,u.role, u.birthday,p.name as province " +
-            "FROM users u Left Join provinces p ON u.provinceId=p.id where u.email=:email AND u.status=1")
+            "FROM users u Left Join provinces p ON u.addressId=p.id where u.email=:email AND u.status=1")
     User getUserByEmailForCustomer(@Bind("email") String email);
 
     @SqlUpdate("INSERT INTO users(email,password,fullName,role,status) VALUES(:email,:password,:fullName,:role,:status)")
     Integer insertGoogleUser(@BindBean User user);
+
+    @SqlUpdate("UPDATE users SET password=:password WHERE email=:email")
+    Boolean updatePassword(@Bind("email") String email, @Bind("password") String password);
+
 }

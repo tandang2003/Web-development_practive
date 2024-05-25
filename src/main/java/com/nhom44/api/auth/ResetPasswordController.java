@@ -53,7 +53,7 @@ public class ResetPasswordController extends HttpServlet {
         System.out.println("newPw " + newPw);
 //        user.setPassword(newPw);
 //        UserService.getInstance().update(user.getEmail(), user.getEmail(), newPw, user.getFullName(), user.getBirthday(), user.getPhone(), user.getAddressId(), user.getGender() + "", user.getStatus() + "", user.getRole() + "");
-//        UserService.getInstance().updatePassword(user.getEmail(), newPw);
+        UserService.getInstance().updatePassword(user.getEmail(), newPw);
         MailService.getInstance().sendMailToResetPassword(user.getEmail(), newPw);
         resp.setStatus(200);
         responseModel = new ResponseModel();
