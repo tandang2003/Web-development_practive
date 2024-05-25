@@ -153,20 +153,6 @@ public class ProjectService {
         return num % 16 == 0 ? num / 16 : num / 16 + 1;
     }
 
-    public boolean saveProject(int projectId, int userId) {
-        return conn.withExtension(ProjectDAO.class, dao -> dao.saveProject(projectId, userId));
-    }
-
-    public boolean deleteSaveProject(int projectId, int id) {
-        return conn.withExtension(ProjectDAO.class, dao -> dao.deleteSaveProject(projectId, id));
-    }
-
-    public boolean isSaveProject(int projectId, int id) {
-        return conn.withExtension(ProjectDAO.class, dao -> {
-            return dao.isSaveProject(projectId, id);
-        });
-    }
-
     public List<Project> getSuggestProjects(int categoryId) {
         List<Project> list = conn.withExtension(ProjectDAO.class, dao -> dao.getSuggestProjects(categoryId));
         System.out.println(list.size());

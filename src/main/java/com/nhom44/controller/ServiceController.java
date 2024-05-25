@@ -1,6 +1,7 @@
 package com.nhom44.controller;
 
 import com.nhom44.bean.Service;
+import com.nhom44.log.util.web.page.ServiceLog;
 import com.nhom44.services.ServiceOfProjectService;
 import com.nhom44.util.LoadSession;
 
@@ -13,6 +14,7 @@ public class ServiceController extends HttpServlet {
     @Override
     protected void doGet(javax.servlet.http.HttpServletRequest req, javax.servlet.http.HttpServletResponse resp) throws javax.servlet.ServletException, java.io.IOException {
         req.setAttribute("page", "service");
+        new ServiceLog().log(req);
         req.getRequestDispatcher("/views/public/service.jsp").forward(req, resp);
     }
 }

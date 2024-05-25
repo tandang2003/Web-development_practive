@@ -1,6 +1,9 @@
 package com.nhom44.controller;
 
 import com.nhom44.bean.Category;
+import com.nhom44.bean.Log;
+import com.nhom44.log.util.web.page.ContactLog;
+import com.nhom44.log.util.web.page.LogPage;
 import com.nhom44.services.CategoryService;
 import com.nhom44.util.LoadSession;
 
@@ -13,7 +16,7 @@ public class ContactController extends HttpServlet {
     @Override
     protected void doGet(javax.servlet.http.HttpServletRequest req, javax.servlet.http.HttpServletResponse resp) throws javax.servlet.ServletException, java.io.IOException {
         req.setAttribute("page", "contact");
-        LoadSession.loadSession(req);
+        new ContactLog().log(req);
         req.getRequestDispatcher("/views/public/contact.jsp").forward(req, resp);
     }
 }

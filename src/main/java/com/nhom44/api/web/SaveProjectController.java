@@ -5,6 +5,7 @@ import com.nhom44.bean.Project;
 import com.nhom44.bean.ResponseModel;
 import com.nhom44.bean.User;
 import com.nhom44.services.ProjectService;
+import com.nhom44.services.SaveProjectService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -43,9 +44,9 @@ public class SaveProjectController extends HttpServlet {
             resp.getWriter().flush();
             return;
         }
-        boolean isSave = ProjectService.getInstance().isSaveProject(project.getPostId(), user.getId());
+        boolean isSave = SaveProjectService.getInstance().isSaveProject(project.getPostId(), user.getId());
         if (!isSave) {
-            if (ProjectService.getInstance().saveProject(project.getPostId(), user.getId())) {
+            if (SaveProjectService.getInstance().saveProject(project.getPostId(), user.getId())) {
                 resp.setStatus(200);
                 ResponseModel resModel = new ResponseModel();
                 resModel.setName("save");
@@ -55,7 +56,7 @@ public class SaveProjectController extends HttpServlet {
                 return;
             }
         } else {
-            if (ProjectService.getInstance().deleteSaveProject(project.getPostId(), user.getId())) {
+            if (SaveProjectService.getInstance().deleteSaveProject(project.getPostId(), user.getId())) {
                 resp.setStatus(200);
                 ResponseModel resModel = new ResponseModel();
                 resModel.setName("delete");

@@ -202,9 +202,5 @@
 <%@include file="/layout/public/script.jsp" %>
 <script src="<c:url value="/template/js/main.js"/>"></script>
 <script src="<c:url value="/template/js/ajax/post-project.js"/>"></script>
-<script src="<c:url value="/template/js/ajax/log.js"/>"></script>
-<script>
-    webLog("detail-project",window.location.href.substring(window.location.href.lastIndexOf('/')));
-</script>
 </body>
 </html>

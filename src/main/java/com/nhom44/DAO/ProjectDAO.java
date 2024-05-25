@@ -101,7 +101,7 @@ public interface ProjectDAO {
             "FROM projects_services ps " +
             "JOIN Services s ON s.id=ps.serviceId AND s.status=1 " +
             "WHERE if(:serviceId>0,s.id=:serviceId,s.id=s.id)) " +
-            "GROUP BY p.id, p.title, p.description, p.avatar, c.name , if(:userid<>0, userId, sl.postId) " +
+            "GROUP BY p.id, p.title, p.description, p.avatar, c.name , if(:userid<>0, :userId, sl.postId) " +
             "order by p.id " +
             "LIMIT 16 OFFSET :offset")
     List<Project> getProjetAllActive(@Bind("offset") int offset, @Bind("categoryId") int categoryId,
@@ -164,15 +164,6 @@ public interface ProjectDAO {
             "WHERE if(:serviceId>0,s.id=:serviceId,s.id=s.id)) " +
             "order by p.id ")
     Integer getProjetAllActiveSize(@Bind("offset") int offset, @Bind("categoryId") int categoryId, @Bind("serviceId") int serviceId, @Bind("addressId") int addressId, @Bind("minPrice") long minPrice, @Bind("maxPrice") long maxPrice, @Bind("minAcreage") int minAcreage, @Bind("maxAcreage") int maxAcreage);
-
-    @SqlUpdate("INSERT INTO saved_projects(postId, userId) VALUES(:projectId, :userId)")
-    Boolean saveProject(@Bind("projectId") int projectId, @Bind("userId") int userId);
-
-    @SqlUpdate("DELETE FROM saved_projects WHERE postId=:projectId AND userId=:userId")
-    Boolean deleteSaveProject(@Bind("projectId") int projectId, @Bind("userId") int id);
-
-    @SqlQuery("Select EXISTS(SELECT * FROM saved_projects WHERE postId=:projectId AND userId=:userId)")
-    Boolean isSaveProject(@Bind("projectId") int projectId, @Bind("userId") int id);
 
     @SqlQuery("SELECT DISTINCT p.id, p.title, p.avatar,p.updatedAt " +
             "FROM Projects p  " +

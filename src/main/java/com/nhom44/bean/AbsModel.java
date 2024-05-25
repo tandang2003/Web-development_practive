@@ -25,7 +25,7 @@ public abstract class AbsModel implements IModel {
         log.setNational(Ip2Location.getNationality(map.get("ip")));
         log.setAddress(map.get("address"));
         System.out.println("log: " + log.toString());
-        LogServices.getInstance().insert(log);
+//        LogServices.getInstance().insert(log);
     }
 
     ;

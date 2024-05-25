@@ -2,6 +2,7 @@ package com.nhom44.controller;
 
 import com.nhom44.DAO.ImageDAO;
 import com.nhom44.bean.*;
+import com.nhom44.log.util.web.page.PostLog;
 import com.nhom44.services.*;
 import com.nhom44.util.LoadSession;
 import com.nhom44.validator.NumberVallidator;
@@ -28,6 +29,7 @@ public class PostController extends HttpServlet {
             resp.sendRedirect("/404");
             return;
         }
+        new PostLog().log(req);
         if (url.equals("/post/project")) {
             req.getRequestDispatcher("/views/public/postProject.jsp").forward(req, resp);
         } else if (url.equals("/post/service")) {

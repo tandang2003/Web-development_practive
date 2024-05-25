@@ -4,6 +4,7 @@ import com.nhom44.bean.Category;
 import com.nhom44.bean.Project;
 import com.nhom44.bean.Province;
 import com.nhom44.bean.Service;
+import com.nhom44.log.util.web.page.ProjectLog;
 import com.nhom44.services.CategoryService;
 import com.nhom44.services.ProjectService;
 import com.nhom44.services.ProvinceService;
@@ -22,14 +23,13 @@ public class ProjectController extends HttpServlet {
     protected void doGet(javax.servlet.http.HttpServletRequest req, javax.servlet.http.HttpServletResponse resp) throws javax.servlet.ServletException, java.io.IOException {
         req.setAttribute("page", "project");
         String categoryId = req.getParameter("category");
-        if(categoryId!=null)
-        {
+        if (categoryId != null) {
             int id = Integer.parseInt(categoryId);
             Category category = CategoryService.getInstance().getById(id);
             req.setAttribute("category", category);
         }
-        LoadSession.loadSession(req);
 
+        new ProjectLog().log(req);
         List<PriceObjectHelper> prices = SearcherProjectUtil.PRICE_SEARCHING;
         req.setAttribute("prices", prices);
         List<Integer> acreages = SearcherProjectUtil.ACREAGE;
