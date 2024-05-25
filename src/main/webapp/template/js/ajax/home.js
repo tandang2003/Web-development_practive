@@ -24,7 +24,9 @@ $(document).ready(function () {
         url: '/api/home/slides',
         type: 'Get',
         success: function (data) {
+            console.log(data)
             let slides = JSON.parse(data);
+            console.log(slides)
             slides.data.forEach((x, index) => {
                 let active = index === 0 ? "active" : "";
                 $('#slide-container').append(`<div class="carousel-item ${active} w-100">
@@ -79,7 +81,6 @@ function saveContact() {
         },
         error: function (data) {
             //bắt lỗi email
-            console.log(data.message);
             delayNotify(10000, "Vui lòng nhập đúng định dạng");
             if (data.name == 'error') {
                 setTimeout(() => {
@@ -94,7 +95,6 @@ function saveContact() {
 
 function getProject(id, notLoad=true) {
     if(notLoad){
-        console.log("get project")
         popularProject(id)
     }
     $.ajax({

@@ -4,10 +4,10 @@ import com.nhom44.bean.Category;
 import com.nhom44.bean.Province;
 import com.nhom44.bean.Service;
 import com.nhom44.bean.Slider;
-import com.nhom44.services.CategoryService;
-import com.nhom44.services.ProvinceService;
-import com.nhom44.services.ServiceOfProjectService;
-import com.nhom44.services.SliderService;
+import com.nhom44.log.model.Log;
+import com.nhom44.log.model.LogContext;
+import com.nhom44.log.util.web.page.HomeLog;
+import com.nhom44.services.*;
 import com.nhom44.util.LoadSession;
 
 import javax.servlet.RequestDispatcher;
@@ -27,6 +27,7 @@ public class HomeController extends HttpServlet {
 //        List<Slider> sliders = SliderService.getInstance().getAllActive();
 //        req.setAttribute("sliders", sliders);
 //        LoadSession.loadSession(req);
+       new HomeLog().log(req);
         RequestDispatcher rd = req.getRequestDispatcher("/views/public/home.jsp");
         rd.forward(req, resp);
     }
