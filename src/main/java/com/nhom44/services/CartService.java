@@ -43,8 +43,8 @@ public class CartService implements Serializable {
         conn.withExtension(CartDAO.class, dao -> dao.addImage(id, imageId));
     }
 
-    public void updateSuccessVerifyCart(int cartId) {
-        conn.withExtension(CartDAO.class, dao -> dao.updateSuccessVerifyCart(cartId));
+    public int updateSuccessVerifyCart(int cartId) {
+       return conn.withExtension(CartDAO.class, dao -> dao.updateSuccessVerifyCart(cartId));
     }
 
     public List<Cart> getAll() {

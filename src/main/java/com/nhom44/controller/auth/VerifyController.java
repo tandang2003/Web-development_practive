@@ -20,10 +20,14 @@ public class VerifyController extends HttpServlet {
         if(token!=null){
             if (url.equals("/verify/cart")){
                 int cartId = VerifyService.getInstance().getCartsIdByCode(token);
-                System.out.println(cartId);
-                CartService.getInstance().updateSuccessVerifyCart(cartId);
-                resp.sendRedirect(req.getContextPath()+"/home");
-                return;
+
+                if(cartId!=0&&CartService.getInstance().updateSuccessVerifyCart(cartId)==1){
+                    resp.sendRedirect(req.getContextPath()+"/home");
+                    return;
+                }else{
+                    resp.sendRedirect(req.getContextPath()+"/404");
+                    return;
+                }
             }
             if (url.equals("/verify")){
             int userId = VerifyService.getInstance().getUserIdByCode(token);
