@@ -8,13 +8,14 @@ public abstract class LogFunction extends LogStation {
     public LogFunction() {
         super();
     }
-    public  void setPreValue(String updatedAt){
-        this.preValue = getValue(updatedAt);
+
+    public void setPreValue() {
+        this.preValue = getValue();
     }
 
-    protected abstract String getValue(String updatedAt);
+    protected abstract String getValue();
 
-    public void setPostValue(String updatedAt){
-        this.postValue = getValue(updatedAt);
+    public void setPostValue() {
+        this.postValue = getValue();
     }
 }
