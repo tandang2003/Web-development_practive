@@ -1,15 +1,8 @@
 package com.nhom44.controller;
 
 import com.nhom44.bean.Category;
-import com.nhom44.bean.Project;
-import com.nhom44.bean.Province;
-import com.nhom44.bean.Service;
-import com.nhom44.log.util.web.page.ProjectLog;
+import com.nhom44.log.util.page.LogPage;
 import com.nhom44.services.CategoryService;
-import com.nhom44.services.ProjectService;
-import com.nhom44.services.ProvinceService;
-import com.nhom44.services.ServiceOfProjectService;
-import com.nhom44.util.LoadSession;
 import com.nhom44.util.PriceObjectHelper;
 import com.nhom44.util.SearcherProjectUtil;
 
@@ -29,7 +22,7 @@ public class ProjectController extends HttpServlet {
             req.setAttribute("category", category);
         }
 
-        new ProjectLog().log(req);
+        new LogPage().log(req);
         List<PriceObjectHelper> prices = SearcherProjectUtil.PRICE_SEARCHING;
         req.setAttribute("prices", prices);
         List<Integer> acreages = SearcherProjectUtil.ACREAGE;

@@ -39,7 +39,7 @@ public abstract class LogStation {
     }
 
     protected void setDescription(HttpServletRequest request) {
-        log.setDescription("Access to " + request.getServletPath() + " Page");
+        log.setDescription("Access to " + request.getServletPath()+request.getPathInfo() + " Page");
     }
 
 }

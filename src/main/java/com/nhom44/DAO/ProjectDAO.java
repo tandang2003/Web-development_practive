@@ -83,7 +83,7 @@ public interface ProjectDAO {
     @SqlUpdate("UPDATE excuting_projects SET schedule=:schedule, estimatedComplete=:estimatedComplete, updatedAt=now() WHERE projectId=:id")
     int updateExcuting(@BindBean Project project);
 
-    @SqlQuery("SELECT p.id, p.title, p.description, p.avatar, c.name , :userid as saveBy " +
+    @SqlQuery("SELECT p.id, p.title, p.description, p.avatar, c.name , userid as saveBy " +
             "FROM Projects p " +
             "JOIN Categories c ON c.id = p.categoryId AND c.status = 1 " +
             "JOIN Posts po On po.id =p.postId " +
@@ -101,7 +101,7 @@ public interface ProjectDAO {
             "FROM projects_services ps " +
             "JOIN Services s ON s.id=ps.serviceId AND s.status=1 " +
             "WHERE if(:serviceId>0,s.id=:serviceId,s.id=s.id)) " +
-            "GROUP BY p.id, p.title, p.description, p.avatar, c.name , if(:userid<>0, :userId, sl.postId) " +
+            "GROUP BY p.id, p.title, p.description, p.avatar, c.name , if(:userid<>0, userId, sl.postId) " +
             "order by p.id " +
             "LIMIT 16 OFFSET :offset")
     List<Project> getProjetAllActive(@Bind("offset") int offset, @Bind("categoryId") int categoryId,

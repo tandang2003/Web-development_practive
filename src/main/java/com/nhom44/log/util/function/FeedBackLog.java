@@ -1,2 +1,4 @@
-package com.nhom44.log.util.function;public class FeedBackLog {
+package com.nhom44.log.util.function;
+
+public class FeedBackLog {
 }

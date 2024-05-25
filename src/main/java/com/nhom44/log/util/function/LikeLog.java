@@ -1,4 +1,4 @@
-package com.nhom44.log.util.web.function;
+package com.nhom44.log.util.function;
 
 import com.google.gson.Gson;
 import com.nhom44.bean.SaveItem;

@@ -1,6 +1,7 @@
 package com.nhom44.controller.admin.post;
 
 import com.nhom44.bean.Post;
+import com.nhom44.log.util.page.LogPage;
 import com.nhom44.services.PostService;
 import com.nhom44.services.ServiceOfProjectService;
 import com.nhom44.validator.NumberVallidator;

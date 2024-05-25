@@ -7,6 +7,9 @@ import com.nhom44.bean.SaveItem;
 import com.nhom44.db.JDBIConnector;
 import org.jdbi.v3.core.Jdbi;
 
+import java.sql.Timestamp;
+import java.time.Instant;
+
 public class SaveProjectService {
     private static SaveProjectService instance;
 private Jdbi conn;
@@ -21,12 +24,12 @@ private Jdbi conn;
 
         return instance;
     }
-    public boolean saveProject(int projectId, int userId) {
-        return conn.withExtension(SaveProjectDAO.class, dao -> dao.saveProject(projectId, userId));
+    public boolean saveProject(SaveItem saveItem) {
+        return conn.withExtension(SaveProjectDAO.class, dao -> dao.saveProject(saveItem));
     }
 
-    public boolean deleteSaveProject(int projectId, int id) {
-        return conn.withExtension(SaveProjectDAO.class, dao -> dao.deleteSaveProject(projectId, id));
+    public boolean deleteSaveProject(SaveItem saveItem) {
+        return conn.withExtension(SaveProjectDAO.class, dao -> dao.deleteSaveProject(saveItem));
     }
 
     public boolean isSaveProject(int projectId, int id) {
@@ -34,13 +37,13 @@ private Jdbi conn;
             return dao.isSaveProject(projectId, id);
         });
     }
-    public SaveItem getSavedProject(String updatedAt) {
+    public SaveItem getSavedProject(int postId, int userId) {
         return conn.withExtension(SaveProjectDAO.class, dao -> {
-            return dao.getSavedProject(updatedAt);
+            return dao.getSavedProject(postId, userId);
         });
     }
 
     public static void main(String[] args) {
-        System.out.println(new Gson().toJson(SaveProjectService.getInstance().getSavedProject("2024-01-26 13:10:26.000")));
+        System.out.println(getInstance().isSaveProject(119,1));
     }
 }
