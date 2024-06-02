@@ -13,12 +13,16 @@ function renderServices() {
 
 function addService(page, idcontainer) {
     let container = document.getElementById(idcontainer);
+    console.log("container")
+    console.log(container)
     container.innerHTML = '';
+    console.log("service page")
+    console.log(page)
     switch (page) {
         case 'home':
             allServices.forEach(service => {
                 container.innerHTML += `
-                 <a href="/post/service?id=${service.id}" class="card-home swiper-slide">
+                 <a href="/post/service/${service.id}" class="card-home swiper-slide">
                         <div class="image-content">
                             <div class="card-image ">
                                 <div href="postService.jsp"
@@ -64,7 +68,7 @@ function addService(page, idcontainer) {
                                             ${service.description}
                                     </p>
                                 </div>
-                                <a href="/post/service?id=${service.id}" class="btn btn-rounded">Xem thêm</a>
+                                <a href="/post/service/${service.id}" class="btn btn-rounded">Xem thêm</a>
                             </div>
                         </div>
                     </div>`;
@@ -74,6 +78,7 @@ function addService(page, idcontainer) {
 }
 
 function getServices(page, container) {
+    console.log("service page")
     $.when(renderServices()).done(function () {
         addService(page, container);
     })

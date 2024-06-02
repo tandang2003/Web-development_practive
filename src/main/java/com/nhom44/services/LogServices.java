@@ -1,6 +1,6 @@
 package com.nhom44.services;
 
-import com.nhom44.bean.Log;
+import com.nhom44.log.model.Log;
 import com.nhom44.db.JDBIConnector;
 import org.jdbi.v3.core.Jdbi;
 

@@ -20,6 +20,7 @@ import java.util.Map;
 public class LayoutController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("LayoutController doGet");
         List<Category> categories = CategoryService.getInstance().getAllActive();
         List<Service> services = ServiceOfProjectService.getInstance().getAllActive();
         Map<String, List> map = new HashMap<>();

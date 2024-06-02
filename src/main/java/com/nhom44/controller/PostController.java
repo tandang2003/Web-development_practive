@@ -1,20 +1,14 @@
 package com.nhom44.controller;
 
-import com.nhom44.DAO.ImageDAO;
-import com.nhom44.bean.*;
-import com.nhom44.services.*;
-import com.nhom44.util.LoadSession;
+import com.nhom44.log.util.page.LogPage;
 import com.nhom44.validator.NumberVallidator;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.List;
 
 @WebServlet(urlPatterns = {"/post/project/*", "/post/service/*"})
 public class PostController extends HttpServlet {
@@ -28,6 +22,7 @@ public class PostController extends HttpServlet {
             resp.sendRedirect("/404");
             return;
         }
+        new LogPage().log(req);
         if (url.equals("/post/project")) {
             req.getRequestDispatcher("/views/public/postProject.jsp").forward(req, resp);
         } else if (url.equals("/post/service")) {

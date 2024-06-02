@@ -122,9 +122,6 @@ public class ProjectService {
     }
 
     public List<Project> getProjetAllActive(int offset, int categoryId, int serviceId, int provinceId, long minPrice, long maxPrice, int minAcreage, int maxAcreage, int userid) {
-
-        System.out.println(offset + " " + categoryId + " " + serviceId + " " + provinceId + " " + minPrice + " " + maxPrice + " " + minAcreage + " " + maxAcreage + " " + userid);
-
         return conn.withExtension(ProjectDAO.class, dao -> {
             List<Project> res = dao.getProjetAllActive(offset, categoryId, serviceId, provinceId, minPrice, maxPrice, minAcreage, maxAcreage, userid);
             for (Project p : res) {
@@ -154,20 +151,6 @@ public class ProjectService {
     public int getProjetAllActiveSize(int offset, int categoryId, int serviceId, int provinceId, long minPrice, long maxPrice, int minArea, int maxArea) {
         int num = conn.withExtension(ProjectDAO.class, dao -> dao.getProjetAllActiveSize(offset, categoryId, serviceId, provinceId, minPrice, maxPrice, minArea, maxArea));
         return num % 16 == 0 ? num / 16 : num / 16 + 1;
-    }
-
-    public boolean saveProject(int projectId, int userId) {
-        return conn.withExtension(ProjectDAO.class, dao -> dao.saveProject(projectId, userId));
-    }
-
-    public boolean deleteSaveProject(int projectId, int id) {
-        return conn.withExtension(ProjectDAO.class, dao -> dao.deleteSaveProject(projectId, id));
-    }
-
-    public boolean isSaveProject(int projectId, int id) {
-        return conn.withExtension(ProjectDAO.class, dao -> {
-            return dao.isSaveProject(projectId, id);
-        });
     }
 
     public List<Project> getSuggestProjects(int categoryId) {

@@ -1,20 +1,39 @@
-getServices("home", "services-container");
+
 // page on ready
 $(document).ready(function () {
+    console.log("service page")
+    getServices("home", "services-container");
+    // $.ajax({
+    //     url: '/api/home/data',
+    //     type: 'Get',
+    //     success: function (data) {
+    //
+    //         let slides = JSON.parse(data);
+    //         let slide = document.getElementById('slide-container');
+    //         slide.innerHTML = "";
+    //         slides.data.forEach((x, index) => {
+    //
+    //             let active = index === 0 ? "active" : "";
+    //             slide.innerHTML += `<div class="carousel-item ${active} w-100">
+    //             <img class="d-block w-100 " src="${x.avatar}"
+    //                  alt="${x.title}">`
+    //         })
+    //     },
+    // })
     $.ajax({
         url: '/api/home/slides',
         type: 'Get',
         success: function (data) {
+            console.log(data)
             let slides = JSON.parse(data);
-            let slide = document.getElementById('slide-container');
-            slide.innerHTML = "";
+            console.log(slides)
             slides.data.forEach((x, index) => {
-
                 let active = index === 0 ? "active" : "";
-                slide.innerHTML += `<div class="carousel-item \${active} w-100">
-                <img class="d-block w-100 " src="\${x.avatar}"
-                     alt="\${x.title}">`
+                $('#slide-container').append(`<div class="carousel-item ${active} w-100">
+                <img class="d-block w-100 " src="${x.avatar}"
+                     alt="${x.title}">`)
             })
+            console.log($('#slide-container').html())
         },
     })
     $.ajax({
@@ -29,13 +48,13 @@ $(document).ready(function () {
                 let active = index === 0 ? "active" : "";
                 categoryContainer.innerHTML += `<li class="category-item">
                          <button class="item-selector "
-                                   role="tab" onclick="getProject(\${x.id})"
+                                   role="tab" onclick="getProject(${x.id})"
                                    title="${x.name}">
                               XÂY DỰNG ${x.name}
                           </button>
                </li>`
             })
-            getProject(categories.data[0].id)
+            getProject(categories.data[0].id,false)
         },
     })
 
@@ -62,7 +81,6 @@ function saveContact() {
         },
         error: function (data) {
             //bắt lỗi email
-            console.log(data.message);
             delayNotify(10000, "Vui lòng nhập đúng định dạng");
             if (data.name == 'error') {
                 setTimeout(() => {
@@ -75,7 +93,10 @@ function saveContact() {
 }
 
 
-function getProject(id) {
+function getProject(id, notLoad=true) {
+    if(notLoad){
+        popularProject(id)
+    }
     $.ajax({
         url: '/api/home/projects/' + id,
         type: 'Get',
@@ -113,6 +134,7 @@ function getProject(id) {
             }
             containter.innerHTML = project;
             // console.log(project);
+
         },
         error: function (data) {
             console.log(data);
@@ -125,22 +147,23 @@ function like(project) {
     let id = $(project).parent().find('.project-id').val();
     console.log(id);
     $.ajax({
-        url: "/api/save_project",
+        url: "/api/save_project/"+id,
         type: "GET",
-        data: {
-            "projectId": id
-        },
         success: function (response) {
             console.log(response);
             let resp = JSON.parse(response);
             if (resp.name == 'save') {
+                likeLoging(id,true,true)
                 project.classList.replace("fa-regular", "fa-solid")
-            } else if (resp.name == 'delete')
+            } else if (resp.name == 'delete') {
+                likeLoging(id,false)
                 project.classList.replace("fa-solid", "fa-regular")
-            //= "fa-solid fa-bookmark position-absolute";
-            // console.log(p);
+                //= "fa-solid fa-bookmark position-absolute";
+                // console.log(p);
+            }
         },
         error: function (response) {
+            likeLoging(id,false,true)
             console.log(response.responseText)
             let resp = JSON.parse(response.responseText);
             window.location.href = resp.data;

@@ -68,4 +68,5 @@ public interface UserDAO {
 
     @SqlUpdate("UPDATE users SET password=:password WHERE email=:email")
     Boolean updatePassword(@Bind("email") String email, @Bind("password") String password);
+
 }
