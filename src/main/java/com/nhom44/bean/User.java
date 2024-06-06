@@ -27,6 +27,7 @@ public class User implements Serializable {
     private Timestamp updatedAt;
     private int AddressId;
     private int provinceId;
+    private int addressId;
     private String province;
     private int role;
 }
