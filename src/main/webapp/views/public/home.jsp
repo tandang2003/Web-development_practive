@@ -141,14 +141,36 @@
                             </div>
                             <div class="md-form">
                                 <i class="fas fa-envelope prefix grey-text"></i>
-                                <input type="text" id="email" class="form-control">
-                                <label for="email">Địa chỉ email</label>
+                                                                <input type="text" id="email" class="form-control">
+                                                                <label for="email">Địa chỉ email</label>
                             </div>
                             <div class="md-form">
-                                <i class="fa-solid fa-map-location prefix grey-text"></i>
-                                <input type="text" id="address" class="form-control">
-                                <label for="address">Địa chỉ(tỉnh/thành phố)</label>
+                                                                <i class="fas fa-map-location prefix grey-text"></i>
+                                <select class="mdb-select md-form" name="address" id="province" searchable="Search here..">
+                                    <option value="" disabled selected>Chọn tỉnh thành</option>
+                                </select>
                             </div>
+                            <div class="md-form">
+                                                                <i class="fas fa-city prefix grey-text"></i>
+
+                                <select class="mdb-select md-form" name="address" id="district" searchable="Search here..">
+                                    <option value="" disabled selected>Quận / huyện</option>
+                                </select>
+                            </div>
+                            <div class="md-form">
+                                                                <i class="fas fa-house-chimney prefix grey-text"></i>
+                                <%--                                <input type="text" id="email" class="form-control">--%>
+                                <%--                                <label for="email">Địa chỉ email</label>--%>
+
+                                <select class="mdb-select md-form" name="address" id="ward" searchable="Search here..">
+                                    <option value="" disabled selected>Phường / xã</option>
+                                </select>
+                            </div>
+<%--                            <div class="md-form">--%>
+<%--                                <i class="fa-solid fa-map-location prefix grey-text"></i>--%>
+<%--                                <input type="text" id="address" class="form-control">--%>
+<%--                                <label for="address">Địa chỉ(tỉnh/thành phố)</label>--%>
+<%--                            </div>--%>
                             <div class="md-form">
                                 <i class="fa-solid  fa-phone prefix grey-text"></i>
                                 <input type="text" id="phone" class="form-control">
@@ -191,9 +213,16 @@
 <script src="<c:url value="/template/js/swiper-bundle.min.js"/>"></script>
 <%@include file="/layout/public/script.jsp" %>
 <script src="<c:url value="/template/js/main.js"/>"></script>
-
 <script src="<c:url value='/template/js/home.js'/>"></script>
 <script src="<c:url value='/template/js/services.js'/>"></script>
 <script src="<c:url value='/template/js/ajax/home.js'/>"></script>
+<script src="<c:url value='/template/js/ajax/saveProject.js'/>"></script>
+<script src="<c:url value='/template/js/dataAddress.js'/>"></script>
+<script>
+    $(document).ready(function () {
+        $('.mdb-select').materialSelect();
+    });
+
+</script>
 </body>
 </html>

@@ -34,4 +34,8 @@ public class ContactService {
             System.out.println(contact.toString());
         }
     }
+
+    public Contact getContact(Contact contact) {
+        return conn.withExtension(ContactDAO.class, dao -> dao.getContact(contact));
+    }
 }

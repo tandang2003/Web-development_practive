@@ -13,6 +13,7 @@ public class SaveItem {
     private int id;
     private int postId;
     private int userId;
+    private int status;
     private String createdAt;
     private String updatedAt;
 

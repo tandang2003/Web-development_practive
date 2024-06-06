@@ -18,7 +18,6 @@ public interface CategoryDAO {
     List<Category> getAllActive();
     @SqlQuery("SELECT * FROM Categories WHERE id = :id")
     Category getById(@Bind("id") int id);
-
     @SqlUpdate("INSERT INTO Categories(name,status) VALUES (:name,:status)")
     int add(@BindBean Category category);
     @SqlQuery("SELECT EXISTS(SELECT * FROM Categories WHERE name = :name)")

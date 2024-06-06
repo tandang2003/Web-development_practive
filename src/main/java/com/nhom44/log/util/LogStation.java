@@ -9,15 +9,18 @@ import javax.servlet.http.HttpServletRequest;
 
 public abstract class LogStation {
     protected Log log;
+
     protected String preValue;
     protected String postValue;
+    protected int level;
 
     public LogStation() {
         this.log = LogContext.getLog();
+        level = 1;
     }
 
-    public void log(HttpServletRequest request){
-        setLevel();
+    public void log(HttpServletRequest request) {
+        setLogLevel();
         setAddress(request);
         setDescription(request);
         log.setPreValue(preValue);
@@ -25,21 +28,27 @@ public abstract class LogStation {
         LogServices.getInstance().insert(log);
     }
 
-    public void log(HttpServletRequest request, String preValue, String postValue){
-        setLevel();
+    public void log(HttpServletRequest request, String preValue, String postValue) {
+        setLogLevel();
         setAddress(request);
         setDescription(request);
         LogServices.getInstance().insert(log);
     }
-    private void setLevel() {
-        log.setLevel(1);
+
+    protected void setLogLevel() {
+        log.setLevel(level);
     }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
     protected void setAddress(HttpServletRequest request) {
-        log.setAddress(request.getServletPath());
+        log.setAddress(request.getRequestURI());
     }
 
     protected void setDescription(HttpServletRequest request) {
-        log.setDescription("Access to " + request.getServletPath()+request.getPathInfo() + " Page");
+        log.setDescription("Access to " + request.getServletPath() + request.getPathInfo() + " Page");
     }
 
 }

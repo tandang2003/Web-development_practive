@@ -132,18 +132,6 @@
 </script>
 
 <script>
-    $('#province').on('change', function () {
-        console.log($(this).val())
-    });
-    $('#district').on('change', function () {
-        console.log($(this).val())
-    });
-    $('#ward').on('change', function () {
-        console.log($(this).val())
-    });
-</script>
-
-<script>
     $('#request-button').click(function () {
         let data = {
             email: $('#email-forgot').val()

@@ -221,30 +221,6 @@ $('.form-input').blur(function () {
 
 });
 
-
-function like(project, id) {
-    console.log(project)
-    $.ajax({
-        url: "/api/save_project"+id,
-        type: "GET",
-        success: function (response) {
-            console.log(response);
-            let resp = JSON.parse(response);
-            if (resp.name == 'save') {
-                project.classList.replace("fa-regular", "fa-solid")
-            } else if (resp.name == 'delete')
-                project.classList.replace("fa-solid", "fa-regular")
-            //= "fa-solid fa-bookmark position-absolute";
-            // console.log(p);
-        },
-        error: function (response) {
-            let resp = JSON.parse(response.responseText);
-            window.location.href = resp.data;
-        }
-    })
-}
-
-
 function fetchErr(name, mess) {
     switch (name) {
         case'email':

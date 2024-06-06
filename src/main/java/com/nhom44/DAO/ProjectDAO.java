@@ -70,7 +70,10 @@ public interface ProjectDAO {
             " FROM projects p LEFT JOIN categories c ON p.categoryId=c.id" +
             " LEFT JOIN addresses pr ON p.addressId=pr.id" +
             " LEFT JOIN excuting_projects ep ON p.id=ep.projectId" +
-            " WHERE p.title=:title AND p.description=:description  AND p.price=:price AND p.addressId=:addressId AND p.isAccepted=:isAccepted AND p.categoryId=:categoryId AND p.status=:status")
+            " WHERE p.title=:title AND p.description=:description " +
+            "AND p.price=:price AND p.addressId=:addressId " +
+            "AND p.isAccepted=:isAccepted AND p.categoryId=:categoryId " +
+            "AND p.status=:status")
     Project getProjectByObject(@BindBean Project project);
 
 

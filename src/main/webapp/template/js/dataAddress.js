@@ -31,6 +31,7 @@ $(document).ready(function () {
                 for (let i of result) {
                     $('#district').append('<option value="' + i.id + '">' + i.fullName + '</option>')
                 }
+                console.log($('#district'));
             },
             error: function (error) {
                 console.log("error");
@@ -54,6 +55,7 @@ $(document).ready(function () {
                 for (let i of result) {
                     $('#ward').append('<option value="' + i.id + '">' + i.fullName + '</option>')
                 }
+                console.log($('#ward'));
             },
             error: function (error) {
                 console.log("error");

@@ -201,6 +201,7 @@
 <%@include file="/layout/public/footer.jsp" %>
 <%@include file="/layout/public/script.jsp" %>
 <script src="<c:url value="/template/js/main.js"/>"></script>
+<script src="<c:url value='/template/js/ajax/saveProject.js'/>"></script>
 <script src="<c:url value="/template/js/ajax/post-project.js"/>"></script>
 </body>
 </html>

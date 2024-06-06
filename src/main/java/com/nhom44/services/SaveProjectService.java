@@ -21,11 +21,20 @@ private Jdbi conn;
         if (instance == null) {
             instance = new SaveProjectService();
         }
-
         return instance;
     }
     public boolean saveProject(SaveItem saveItem) {
+        if(isExists(saveItem)){
+            return updateSaveStatus(saveItem);
+        }
         return conn.withExtension(SaveProjectDAO.class, dao -> dao.saveProject(saveItem));
+    }
+
+    private boolean updateSaveStatus(SaveItem saveItem) {
+        return conn.withExtension(SaveProjectDAO.class, dao -> dao.updateSaveStatus(saveItem));
+    }
+    private boolean isExists(SaveItem saveItem) {
+        return conn.withExtension(SaveProjectDAO.class, dao -> dao.isExists(saveItem.getPostId(), saveItem.getUserId()));
     }
 
     public boolean deleteSaveProject(SaveItem saveItem) {

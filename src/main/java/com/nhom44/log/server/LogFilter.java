@@ -18,7 +18,6 @@ public class LogFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        System.out.println(2);
         String ip = servletRequest.getRemoteAddr();
         String nation = Ip2Location.getNationality(ip);
         String createdAt = String.valueOf(Timestamp.from(Instant.now()));
