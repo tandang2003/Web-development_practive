@@ -1,7 +1,7 @@
 $(document).ready(function () {
     $('.mdb-select').materialSelect();
 
-});
+
 let id = window.location.href.substring(window.location.href.lastIndexOf('/'))
 $.ajax({
     //thông tin dự án
@@ -12,17 +12,14 @@ $.ajax({
         let project = data.data
         console.log(project)
         document.title = project.title
-        let iconLike = `<i class="fa-regular fa-bookmark position-relative" onclick="like(this)"></i>`
+        let iconLike = `<i class="fa-regular fa-bookmark position-relative" onclick="like(this, ${project.id})"></i>`
         if (project.isSave)
-            iconLike = `<i class="fa-solid fa-bookmark position-relative" onclick="like(this)"></i>`;
+            iconLike = `<i class="fa-solid fa-bookmark position-relative" onclick="like(this,${project.id})"></i>`;
         //add icon like
         $('.project-title').text(project.title)
-        $('.title-page').html(function(index,current){
+        $('.post-title').html(function(index,current){
             return iconLike+ current
         })
-        console.log($('.title-page').html())
-        console.log($('.title-page').html())
-        console.log($('.project-title').html())
         $('.project-updatedAt').text(project.updatedAt)
         $('.project-category').text(project.category)
         $('.project-id').text(project.id)
@@ -99,7 +96,7 @@ $.ajax({
     }
 })
 
-$
+});
 
 let allFiles = [];
 let form = document.getElementsByClassName("form-img");
@@ -223,29 +220,6 @@ $('.form-input').blur(function () {
     })
 
 });
-
-
-function like(project) {
-    $.ajax({
-        url: "/api/save_project"+id,
-        type: "GET",
-        success: function (response) {
-            console.log(response);
-            let resp = JSON.parse(response);
-            if (resp.name == 'save') {
-                project.classList.replace("fa-regular", "fa-solid")
-            } else if (resp.name == 'delete')
-                project.classList.replace("fa-solid", "fa-regular")
-            //= "fa-solid fa-bookmark position-absolute";
-            // console.log(p);
-        },
-        error: function (response) {
-            let resp = JSON.parse(response.responseText);
-            window.location.href = resp.data;
-        }
-    })
-}
-
 
 function fetchErr(name, mess) {
     switch (name) {

@@ -112,7 +112,7 @@
             suggestServices.forEach(service => {
                 suggestServiceHtml += `
  <li class="feature-news-items mb-2">
-                                                    <a href="post/services/\${service.id}"
+                                                    <a href="/post/service/\${service.id}"
                                                        class="feature-news-items-link d-flex row"
                                                        role="link">
                                                         <div class="feature-news-items-img d-block hover-image col-5 pr-0">
