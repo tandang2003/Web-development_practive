@@ -122,6 +122,9 @@ public class ProjectService {
     }
 
     public List<Project> getProjetAllActive(int offset, int categoryId, int serviceId, int provinceId, long minPrice, long maxPrice, int minAcreage, int maxAcreage, int userid) {
+
+        System.out.println(offset + " " + categoryId + " " + serviceId + " " + provinceId + " " + minPrice + " " + maxPrice + " " + minAcreage + " " + maxAcreage + " " + userid);
+
         return conn.withExtension(ProjectDAO.class, dao -> {
             List<Project> res = dao.getProjetAllActive(offset, categoryId, serviceId, provinceId, minPrice, maxPrice, minAcreage, maxAcreage, userid);
             for (Project p : res) {

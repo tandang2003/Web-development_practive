@@ -21,8 +21,7 @@ $(document).ready(function () {
     //     },
     // })
     $.ajax({
-        url: '/api/home/slides',
-        type: 'Get',
+        url: '/api/home/data', type: 'Get',
         success: function (data) {
             console.log(data)
             let slides = JSON.parse(data);
@@ -51,35 +50,36 @@ $(document).ready(function () {
                                    role="tab" onclick="getProject(${x.id})"
                                    title="${x.name}">
                               XÂY DỰNG ${x.name}
-                          </button>
-               </li>`
+                          </button>`)
+                console.log(x.id)
+            })
+            let list = res['projects'];
+            list.forEach((x, index) => {
+                let project = drawProject(x);
+                $('#project-container').append(project);
             })
             getProject(categories.data[0].id,false)
         },
     })
-
 })
+
+
 function saveContact() {
     $.ajax({
-        url: '/api/contact/save',
-        type: 'Post',
-        dataType: 'json',
-        data: {
+        url: '/api/contact/save', type: 'Post', dataType: 'json', data: {
             fullName: $('#fullName').val(),
             email: $('#email').val(),
             address: $('#address').val(),
             phone: $('#phone').val(),
             content: $('#content').val(),
-        },
-        success: function (data) {
+        }, success: function (data) {
             delayNotify(1000, data.message);
             if (data.name == 'success') {
                 setTimeout(() => {
                     window.location.reload();
                 }, 1000);
             }
-        },
-        error: function (data) {
+        }, error: function (data) {
             //bắt lỗi email
             delayNotify(10000, "Vui lòng nhập đúng định dạng");
             if (data.name == 'error') {
@@ -98,9 +98,7 @@ function getProject(id, notLoad=true) {
         popularProject(id)
     }
     $.ajax({
-        url: '/api/home/projects/' + id,
-        type: 'Get',
-        // dataType: 'json',
+        url: '/api/home/projects/' + id, type: 'Get', // dataType: 'json',
         // data: {id: id},
         success: function (data) {
             resdata = JSON.parse(data)
@@ -109,28 +107,7 @@ function getProject(id, notLoad=true) {
             let project = "";
             containter.innerHTML = "";
             for (const x of list) {
-                project += '<div' +
-                    ' class="col-lg-3 col-md-4 col-sm-6 mb-4 overflow-hidden position-relative projectCard-container">'
-                    + '<div'
-                    + ' class="bg-image hover-image hover-zoom ripple shadow-1-strong rounded-5 w-100 d-block">';
-                if (x.isSave) project += ' <i class="fa-solid fa-bookmark position-absolute" onclick="like(this)" style="z-index: 1000"></i>'
-                else project += '<i class="fa-regular fa-bookmark position-absolute" onclick="like(this)" style="z-index: 1000"></i>';
-                project += '<a href="/post/project/' + x.id + '">'
-                    + '<img src="' + x.avatar + '"'
-                    + ' class="w-100">'
-                    + ' <input type="hidden" class="project-id" value=' + x.id + '>'
-                    + ' <div class="w-100 position-absolute projectCard-content">'
-                    + '  <div class="mask justify-content-center d-flex h-100"'
-                    + ' style="background-color: rgba(48, 48, 48, 0.72);">'
-                    + '<div class="align-items-center flex-column d-flex w-100"><h6'
-                    + ' class="text-white text-center pl-2 pr-2 projectTitle-center text-uppercase">'
-                    + x.title + '</h6>'
-                    + '<p class="text-white p-0 id-project">'
-                    + '<strong>MDA:' + x.id + '</strong>'
-                    + '</p>'
-                    + '<p class="text-white p-4 vanBan">' + x.description + '</p>'
-                    + '</div>'
-                    + '</div></div></a></div></div>'
+               project += drawProject(x);
             }
             containter.innerHTML = project;
             // console.log(project);
@@ -141,6 +118,10 @@ function getProject(id, notLoad=true) {
         }
     })
 }
+function drawProject(x) {
+    let project = "";
+    project += '<div class="col-lg-3 col-md-4 col-sm-6 mb-4 overflow-hidden position-relative projectCard-container">' +
+        '<div' + ' class="bg-image hover-image hover-zoom ripple shadow-1-strong rounded-5 w-100 d-block">';
 
 
 function like(project) {

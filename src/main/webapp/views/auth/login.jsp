@@ -132,18 +132,6 @@
 </script>
 
 <script>
-    $('#province').on('change', function () {
-        console.log($(this).val())
-    });
-    $('#district').on('change', function () {
-        console.log($(this).val())
-    });
-    $('#ward').on('change', function () {
-        console.log($(this).val())
-    });
-</script>
-
-<script>
     $('#request-button').click(function () {
         let data = {
             email: $('#email-forgot').val()
@@ -212,71 +200,6 @@
         })
     })
 </script>
-<script>
-    $(document).ready(function () {
-        $.ajax({
-            url: '/api/province',
-            type: 'GET',
-            success: function (result) {
-                result = JSON.parse(result)
-                console.log(result)
-                for (let i of result) {
-                    $('#province').append('<option value="' + i.id + '">' + i.fullName + '</option>')
-                }
-            },
-            error: function (error) {
-                console.log("error")
-                console.log(error);
-            }
-        })
-    })
-</script>
-<%--<script>--%>
-<%--    $('#login-button').click(function () {--%>
-<%--        let data = {--%>
-<%--            email: $('#email-signin').val(),--%>
-<%--            password: $('#password-signin').val()--%>
-<%--        }--%>
-<%--        $.ajax({--%>
-<%--            url: '/api/login',--%>
-<%--            type: 'POST',--%>
-<%--            data: data,--%>
-<%--            // contentType: 'application/json',--%>
-<%--            success: function (result) {--%>
-<%--                console.log("success")--%>
-<%--                console.log(result);--%>
-<%--                // if (result == 'success') {--%>
-<%--                //     window.location.href = '/RealEstateWeb_war_exploded/home';--%>
-<%--                // } else {--%>
-<%--                //     $('#error-message-signin').text(result);--%>
-<%--                //     $('#error-message-signin').css('display', 'block');--%>
-<%--            },--%>
-<%--            error: function (error) {--%>
-<%--                console.log("error")--%>
-<%--                console.log(error);--%>
-<%--            }--%>
-<%--        })--%>
-<%--    })--%>
-<%--</script>--%>
-<%--<script>--%>
-<%--    $(document).ready(function () {--%>
-<%--        $.ajax({--%>
-<%--            url: '/api/district',--%>
-<%--            type: 'GET',--%>
-<%--            success: function (result) {--%>
-<%--                result = JSON.parse(result)--%>
-<%--                console.log(result)--%>
-<%--                for (let i of result) {--%>
-<%--                    $('#district').append('<option value="' + i.id + '">' + i.fullName + '</option>')--%>
-<%--                }--%>
-<%--            },--%>
-<%--            error: function (error) {--%>
-<%--                console.log("error")--%>
-<%--                console.log(error);--%>
-<%--            }--%>
-<%--        })--%>
-<%--    })--%>
-<%--</script>--%>
 <script>
     $(document).ready(function () {
         $.ajax({

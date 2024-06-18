@@ -1,24 +1,17 @@
 package com.nhom44.controller.auth;
 
-import com.nhom44.bean.Province;
-import com.nhom44.services.MailService;
-import com.nhom44.services.ProvinceService;
-import com.nhom44.services.UserService;
+import com.nhom44.log.util.page.LogPage;
+import com.nhom44.services.*;
 import com.nhom44.bean.User;
-import com.nhom44.services.VerifyService;
-import com.nhom44.util.LoadSession;
 import com.nhom44.util.StringUtil;
 import com.nhom44.validator.EmailSingleValidator;
-import org.apache.commons.beanutils.BeanUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -26,14 +19,16 @@ import java.util.UUID;
 public class LoginController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         String action = req.getParameter("action");
-        LoadSession.loadSession(req);
+        LogPage logPage = new LogPage();
+        logPage.setLevel(1);
         if (action != null && action.equals("logout")) {
-            req.getSession().setAttribute("auth",null);
+            logPage.setLevel(2);
+            req.getSession().invalidate();
             resp.sendRedirect(req.getContextPath() + "/login");
             return;
         }
+        logPage.log(req);
         req.getRequestDispatcher("/views/auth/login.jsp").forward(req, resp);
     }
 
@@ -59,7 +54,7 @@ public class LoginController extends HttpServlet {
                 if (user.getStatus() == 0) {
                     String token = UUID.randomUUID().toString();
                     VerifyService.getInstance().insert(token, user.getId());
-                    MailService.getInstance().sendMailToAGaig(null,user.getEmail(), token);
+                    MailService.getInstance().sendMailToAGaig(null, user.getEmail(), token);
                     req.setAttribute("error", "Tài khoản của bạn chưa được kích hoạt vui lòng kiểm tra email để kích hoạt tài khoản");
                     System.out.println("Tài khoản của bạn chưa được kích hoạt vui lòng kiểm tra email để kích hoạt tài khoản");
                     req.getRequestDispatcher("/views/auth/login.jsp").forward(req, resp);

@@ -17,10 +17,8 @@ public class UserAcceptedController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String id = req.getParameter("id");
-        System.out.println("id: " + id);
         ResponseModel responseModel;
         if (id == null) {
-            System.out.println("id null");
             resp.setStatus(404);
             responseModel = new ResponseModel();
             responseModel.setName("error");
@@ -31,7 +29,6 @@ public class UserAcceptedController extends HttpServlet {
         }
         int idInt = Integer.parseInt(id);
         if (idInt <= 0) {
-            System.out.println("id <= 0");
             resp.setStatus(404);
             responseModel = new ResponseModel();
             responseModel.setName("error");
@@ -43,7 +40,6 @@ public class UserAcceptedController extends HttpServlet {
         try {
             Project project = ProjectService.getInstance().getById(idInt);
             if (project == null) {
-                System.out.println("project null");
                 resp.setStatus(404);
                 responseModel = new ResponseModel();
                 responseModel.setName("error");

@@ -9,6 +9,18 @@ import javax.servlet.http.HttpServletRequest;
 
 public abstract class LogStation {
     protected Log log;
+
+    protected String preValue;
+    protected String postValue;
+    protected int level;
+
+    public LogStation() {
+        this.log = LogContext.getLog();
+        level = 1;
+    }
+
+    public void log(HttpServletRequest request) {
+        setLogLevel();
     protected String preValue;
     protected String postValue;
 
@@ -25,6 +37,8 @@ public abstract class LogStation {
         LogServices.getInstance().insert(log);
     }
 
+    public void log(HttpServletRequest request, String preValue, String postValue) {
+        setLogLevel();
     public void log(HttpServletRequest request, String preValue, String postValue){
         setLevel();
         setAddress(request);

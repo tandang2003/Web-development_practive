@@ -23,7 +23,6 @@ public class ContactController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String url = req.getRequestURI();
-        System.out.println(req.getParameterMap().keySet().toString());
         ResponseModel responseModel = new ResponseModel();
         if (url.equals("/api/contact/save")) {
             Contact contact = new Contact();
@@ -32,7 +31,6 @@ public class ContactController extends HttpServlet {
             } catch (IllegalAccessException | InvocationTargetException e) {
                 throw new RuntimeException(e);
             }
-            System.out.println(contact.toString());
             SingleValidator validator = new EmailSingleValidator();
             if (!validator.validator(contact.getEmail())) {
                 resp.setStatus(400);

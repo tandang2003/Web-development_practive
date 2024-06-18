@@ -14,10 +14,12 @@ public class LikeLog extends LogFunction{
 
     @Override
     protected String getValue() {
-        SaveItem saveItem = SaveProjectService.getInstance().getSavedProject(this.saveItem.getPostId(),this.saveItem.getUserId() );
+        SaveItem saveItem = SaveProjectService
+                .getInstance()
+                .getSavedProject(this.saveItem.getPostId(),this.saveItem.getUserId() );
         return new Gson().toJson(saveItem);
     }
-    public void getValue(SaveItem saveItem){
+    public void setValue(SaveItem saveItem){
         this.saveItem= saveItem;
     }
     protected void setAddress(HttpServletRequest request) {

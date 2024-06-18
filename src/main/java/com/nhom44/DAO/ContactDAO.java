@@ -16,4 +16,6 @@ public interface ContactDAO {
 
     @SqlQuery("SELECT * FROM contacts")
     List<Contact> getAll();
+@SqlQuery("SELECT * FROM contacts WHERE fullname=:fullName AND email=:email AND phone=:phone AND address=:address AND content=:content")
+    Contact getContact(@BindBean Contact contact);
 }

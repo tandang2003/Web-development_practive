@@ -95,18 +95,18 @@
 
 <%@include file="/layout/public/script.jsp" %>
 <script src="<c:url value="/template/lib/DataTables/DataTables-1.13.6/js/jquery.dataTables.min.js"/>"></script>
-<script>
-    $(document).ready(function () {
-        $.ajax({
-            url: "${pageContext.request.contextPath}/api/admin/user",
-            type: "post",
-            dataType: "json",
-            success: function (data) {
-                console.log(data)
-            },
-        })
-    });
-</script>
+<%--<script>--%>
+<%--    $(document).ready(function () {--%>
+<%--        $.ajax({--%>
+<%--            url: "${pageContext.request.contextPath}/api/admin/user",--%>
+<%--            type: "post",--%>
+<%--            dataType: "json",--%>
+<%--            success: function (data) {--%>
+<%--                console.log(data)--%>
+<%--            },--%>
+<%--        })--%>
+<%--    });--%>
+<%--</script>--%>
 <script>
     let index = 1;
     $('#table-user').dataTable({
