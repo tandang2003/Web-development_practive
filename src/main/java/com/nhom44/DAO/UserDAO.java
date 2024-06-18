@@ -18,7 +18,7 @@ public interface UserDAO {
     int insertUser(@Bind("fullname") String fulllName, @Bind("email") String email,
                    @Bind("password") String password,
                    @Bind("role") int role, @Bind("phone") String phone,
-                   @Bind("provinceId") int provinceId, @Bind("gender") int gender, @Bind("birthday") Date birthday,
+                   @Bind("addressId") int addressId, @Bind("gender") int gender, @Bind("birthday") Date birthday,
                    @Bind("status") int status);
 
     @SqlUpdate("UPDATE users SET fullname =:fullName , email =:email , password =:password, role =:role,avatar=:avatar,phone=:phone, birthday=:birthday," +
