@@ -216,13 +216,5 @@
 <script src="<c:url value='/template/js/home.js'/>"></script>
 <script src="<c:url value='/template/js/services.js'/>"></script>
 <script src="<c:url value='/template/js/ajax/home.js'/>"></script>
-<script src="<c:url value='/template/js/ajax/saveProject.js'/>"></script>
-<script src="<c:url value='/template/js/dataAddress.js'/>"></script>
-<script>
-    $(document).ready(function () {
-        $('.mdb-select').materialSelect();
-    });
-
-</script>
 </body>
 </html>
