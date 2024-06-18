@@ -141,7 +141,7 @@ public class SignUpController extends HttpServlet {
 
         System.out.println("step 6");
         Address address = new Address();
-        Address addedAddress = null;
+        Address addedAddress = new Address();
         String province = req.getParameter("province");
         String district = req.getParameter("district");
         String ward = req.getParameter("ward");
