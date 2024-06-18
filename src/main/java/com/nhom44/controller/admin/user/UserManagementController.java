@@ -21,11 +21,12 @@ public class UserManagementController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
-        ProvinceService provinceService = ProvinceService.getInstance();
-        List<Province> provinces = provinceService.getAll();
-        req.getSession().setAttribute("provinces", provinces);
+//        ProvinceService provinceService = ProvinceService.getInstance();
+//        List<Province> provinces = provinceService.getAll();
+//        req.getSession().setAttribute("provinces", provinces);
         if (action.equalsIgnoreCase("manager")) {
             List<User> users = userService.getAllUser();
+            System.out.println(users.toString());
             req.setAttribute("users", users);
             req.getRequestDispatcher("/views/admin/user/user_manage.jsp").forward(req, resp);
         } else if (action.equalsIgnoreCase("add")) {
