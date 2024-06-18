@@ -59,17 +59,18 @@ public class HomeController extends HttpServlet {
                 responseModel.setData(projects);
                 resp.setStatus(200);
                 break;
-            case "/api/home/slides":
-                List<Slider> sliders = SliderService.getInstance().getAllActive();
-                responseModel.setName("success");
-                responseModel.setData(sliders);
-                resp.setStatus(200);
-                break;
-            case "/api/home/categories":
-                List<Category> categories = CategoryService.getInstance().getAllActive();
-                responseModel.setName("success");
-                responseModel.setData(categories);
-                break;
+//            case "/api/home/slides":
+//                List<Slider> sliders = SliderService.getInstance().getAllActive();
+//                responseModel.setName("success");
+//                responseModel.setData(sliders);
+//                resp.setStatus(200);
+//                break;
+//            case "/api/home/categories":
+//                List<Category> categories = CategoryService.getInstance().getAllActive();
+//                responseModel.setName("success");
+//                responseModel.setData(categories);
+//                break;
+
             default:
                 responseModel.setName("error");
                 responseModel.setData("url not found");

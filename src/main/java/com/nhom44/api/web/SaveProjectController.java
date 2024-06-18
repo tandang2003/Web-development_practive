@@ -23,45 +23,47 @@ import java.io.IOException;
 public class SaveProjectController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String url = req.getRequestURI();
+        String url = req.getPathInfo();
         int projectId = Integer.parseInt(url.substring(url.lastIndexOf("/") + 1));
         HttpSession session = req.getSession();
-//        User user = (User) session.getAttribute("auth");
-//        if (user == null) {
-//            System.out.println("user null");
-//            String respUrl = "/login";
-//            resp.setStatus(400);
-//            ResponseModel resModel = new ResponseModel();
-//            resModel.setName("login");
-//            resModel.setData(respUrl);
-//            resp.getWriter().println(new Gson().toJson(resModel));
-//            resp.getWriter().flush();
-//            return;
-//        }
+        User user = (User) session.getAttribute("auth");
+        LikeLog likeLog = new LikeLog();
+        if (user == null) {
+            likeLog.setLevel(3);
+            likeLog.log(req);
+            String respUrl = "/login";
+            resp.setStatus(400);
+            ResponseModel resModel = new ResponseModel();
+            resModel.setName("login");
+            resModel.setData(respUrl);
+            resp.getWriter().println(new Gson().toJson(resModel));
+            resp.getWriter().flush();
+            return;
+        }
         Project project = ProjectService.getInstance().getById(projectId);
-//        if (project == null) {
-//            resp.setStatus(400);
-//            ResponseModel resModel = new ResponseModel();
-//            resModel.setName("error");
-//            resModel.setMessage("project not found");
-//            resp.getWriter().println(new Gson().toJson(resModel));
-//            resp.getWriter().flush();
-//            return;
-//        }
-        boolean isSave = SaveProjectService.getInstance().isSaveProject(project.getPostId(), 1);
+        if (project == null) {
+            likeLog.setLevel(3);
+            likeLog.log(req);
+            resp.setStatus(400);
+            ResponseModel resModel = new ResponseModel();
+            resModel.setName("save");
+            resModel.setMessage("save project success");
+            resp.getWriter().println(new Gson().toJson(resModel));
+            resp.getWriter().flush();
+            return;
+        }
+        boolean isSave = SaveProjectService.getInstance().isSaveProject(project.getPostId(), user.getId());
         SaveItem saveItem = SaveItem.builder()
                 .postId(project.getPostId())
                 .userId(1)
                 .build();
         if (!isSave) {
-
+            saveItem.setStatus(1);
             SaveProjectService.getInstance().saveProject(saveItem);
             LikeLog logFunction = new LikeLog();
-            logFunction.getValue(saveItem);
+            logFunction.setValue(saveItem);
             logFunction.setPostValue();
             logFunction.log(req);
-//                new LikeLog().setPostValue(saveItem.getUpdatedAt());
-//                new LikeLog().log(req);
             resp.setStatus(200);
             ResponseModel resModel = new ResponseModel();
             resModel.setName("save");
@@ -70,18 +72,19 @@ public class SaveProjectController extends HttpServlet {
             resp.getWriter().flush();
             return;
         } else {
-                SaveProjectService.getInstance().deleteSaveProject(saveItem);
-                LikeLog logFunction = new LikeLog();
-                logFunction.getValue(saveItem);
-                logFunction.setPostValue();
-                logFunction.log(req);
-                resp.setStatus(200);
-                ResponseModel resModel = new ResponseModel();
-                resModel.setName("delete");
-                resModel.setMessage("delete project success");
-                resp.getWriter().println(new Gson().toJson(resModel));
-                resp.getWriter().flush();
-                return;
+            saveItem.setStatus(0);
+            SaveProjectService.getInstance().deleteSaveProject(saveItem);
+            LikeLog logFunction = new LikeLog();
+            logFunction.setValue(saveItem);
+            logFunction.setPreValue();
+            logFunction.log(req);
+            resp.setStatus(200);
+            ResponseModel resModel = new ResponseModel();
+            resModel.setName("delete");
+            resModel.setMessage("delete project success");
+            resp.getWriter().println(new Gson().toJson(resModel));
+            resp.getWriter().flush();
+            return;
         }
     }
 }
