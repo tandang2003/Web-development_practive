@@ -27,4 +27,7 @@ public interface AddressDAO {
 
     @SqlQuery("SELECT * FROM addresses WHERE createdAt = :createdAt")
     Address getCreatedAt(@Bind("createdAt") Timestamp createdAt);
+
+    @SqlQuery("SELECT id,provinceId,districtId,wardId FROM addresses WHERE id = :addressId")
+    Address getAddressById(@Bind("addressId") int addressId);
 }

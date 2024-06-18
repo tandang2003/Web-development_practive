@@ -2,6 +2,7 @@
 $(document).ready(function () {
     console.log("service page")
     getServices("home", "services-container");
+
     $.ajax({
         url: '/api/home/data', type: 'Get',
         success: function (data) {
@@ -34,7 +35,6 @@ $(document).ready(function () {
                 let project = drawProject(x);
                 $('#project-container').append(project);
             })
-        }
     })
 })
 
@@ -69,9 +69,6 @@ function saveContact() {
 
 
 function getProject(id, notLoad = true) {
-    // if (notLoad) {
-    //     popularProject(id)
-    // }
     $.ajax({
         url: '/api/home/projects/' + id, type: 'Get', // dataType: 'json',
         // data: {id: id},
@@ -96,6 +93,7 @@ function drawProject(x) {
     let project = "";
     project += '<div class="col-lg-3 col-md-4 col-sm-6 mb-4 overflow-hidden position-relative projectCard-container">' +
         '<div' + ' class="bg-image hover-image hover-zoom ripple shadow-1-strong rounded-5 w-100 d-block">';
+
 
     if (x.isSave) project += ' <i class="fa-solid fa-bookmark position-absolute" onclick="like(this)" style="z-index: 1000"></i>'
     else

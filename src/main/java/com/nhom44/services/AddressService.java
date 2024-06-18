@@ -25,6 +25,9 @@ public class AddressService implements Serializable {
     public String getAddressId(String province, String district, String ward) {
         return conn.withExtension(AddressDAO.class, dao -> dao.getAddressId(province, district, ward));
     }
+    public Address getAddressById(int addressId) {
+        return conn.withExtension(AddressDAO.class, dao -> dao.getAddressById(addressId));
+    }
 
     public boolean isContainAddress(String province, String district, String ward) {
         return getAddressId(province, district, ward) != null;
@@ -50,7 +53,8 @@ public class AddressService implements Serializable {
         address.setProvinceId(2);
         address.setDistrictId(145);
         address.setWardId(0);
-        System.out.println(getInstance().addAddress(address));
+
+        System.out.println(getInstance().getAddressById(12));
     }
 
 }

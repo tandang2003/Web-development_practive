@@ -36,7 +36,7 @@ public class AddressLocateData extends HttpServlet {
                 resp.setStatus(400);
                 resp.getWriter().println(new Gson().toJson(new ResponseModel()));
             }
-        } else if (path.startsWith("/api/ward")) {
+        } else if (path.startsWith("/api/ward/")) {
             String[] parts = path.split("/");
             if (parts.length >= 4) {
                 String districtId = parts[3];
@@ -47,12 +47,6 @@ public class AddressLocateData extends HttpServlet {
                 resp.setStatus(400);
                 resp.getWriter().println(new Gson().toJson(new ResponseModel()));
             }
-        } else {
-            resp.setStatus(404);
-            resp.getWriter().println(new Gson().toJson(new ResponseModel()));
         }
-        resp.getWriter().flush();
-        resp.getWriter().close();
     }
-
 }

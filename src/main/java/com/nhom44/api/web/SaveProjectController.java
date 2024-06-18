@@ -46,8 +46,8 @@ public class SaveProjectController extends HttpServlet {
             likeLog.log(req);
             resp.setStatus(400);
             ResponseModel resModel = new ResponseModel();
-            resModel.setName("error");
-            resModel.setMessage("project not found");
+            resModel.setName("save");
+            resModel.setMessage("save project success");
             resp.getWriter().println(new Gson().toJson(resModel));
             resp.getWriter().flush();
             return;

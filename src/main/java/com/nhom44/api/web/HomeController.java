@@ -70,6 +70,7 @@ public class HomeController extends HttpServlet {
 //                responseModel.setName("success");
 //                responseModel.setData(categories);
 //                break;
+
             default:
                 responseModel.setName("error");
                 responseModel.setData("url not found");

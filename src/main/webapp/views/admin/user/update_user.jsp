@@ -143,129 +143,71 @@
                                 <div class="card card-cascade cascading-admin-card user-card">
                                     <!-- Card content -->
                                     <div class="card-body card-body-cascade">
-                                        <!-- Grid row -->
+                                        <input type="hidden" id="userId" value="">
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6">
                                                 <div class="md-form form-sm mb-0">
-                                                    <input type="email" id="form8"
-                                                           class="form-control form-control-sm" name="email"
-                                                           value="${user.email}">
-                                                    <label for="form8" class="">Email</label>
+                                                    <input type="email" id="email" class="form-control form-control-sm"
+                                                           name="email" value="">
+                                                    <label for="email">Email</label>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-6">
                                                 <div class="md-form form-sm mb-0">
-                                                    <c:if test="${passwordErr != null}">
-                                                        <input type="password" id="form9"
-                                                               class="form-control form-control-sm" name="password"
-                                                               value="" placeholder="${passwordErr}">
-                                                    </c:if>
-                                                    <c:if test="${passwordErr == null}">
-                                                        <input type="password" id="form9"
-                                                               class="form-control form-control-sm" name="password"
-                                                               value="${passwordValue}">
-                                                    </c:if>
-                                                    <label for="form9" class="">Password</label>
+                                                    <input type="password" id="password"
+                                                           class="form-control form-control-sm" name="password"
+                                                           value="">
+                                                    <label for="password">Password</label>
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div class="row d-flex align-items-center">
-                                            <!-- Grid column -->
                                             <div class="col-lg-4">
-                                                <%--                                                <div class="md-form form-sm mb-0">--%>
-                                                <%--                                                    <c:if test="${fullnameErr!=null}">--%>
-                                                <%--                                                        <input type="text" id="form12"--%>
-                                                <%--                                                               class="form-control form-control-sm" name="fullname"--%>
-                                                <%--                                                               value="" placeholder="${fullnameErr}">--%>
-                                                <%--                                                    </c:if>--%>
-                                                <%--                                                    <c:if test="${fullnameErr==null}">--%>
-                                                <%--                                                        <input type="text" id="form12"--%>
-                                                <%--                                                               class="form-control form-control-sm" name="fullname">--%>
-                                                <%--                                                    </c:if>--%>
-                                                <%--                                                    <label for="form12" class="">Họ và tên</label>--%>
-                                                <%--                                                </div>--%>
-
                                                 <div class="md-form form-sm mb-0">
-                                                    <c:if test="${fullnameErr != null}">
-                                                        <input type="text" id="form12"
-                                                               class="form-control form-control-sm" name="fullname"
-                                                               value="" placeholder="${fullnameErr}">
-                                                    </c:if>
-                                                    <c:if test="${fulnameErr == null}">
-                                                        <input type="text" id="form12"
-                                                               class="form-control form-control-sm" name="fullname"
-                                                               value="${user.fullName}">
-                                                    </c:if>
-                                                    <label for="form12" class="">Họ và tên</label>
+                                                    <input type="text" id="fullname"
+                                                           class="form-control form-control-sm" name="fullname"
+                                                           value="">
+                                                    <label for="fullname">Họ và tên</label>
                                                 </div>
                                             </div>
-                                            <!-- Grid column -->
-                                            <!-- Grid column -->
+
                                             <div class="col-lg-4">
                                                 <div id="date-picker-example"
-                                                     class="md-form mb-0 input-with-post-icon datepicker"
-                                                     style="outline: none" inline="true">
-                                                    <c:if test="${birthdayErr != null}">
-                                                        <input placeholder="${birthdayErr}" type="text" id="birthday"
-                                                               value="" class="form-control form-control-sm"
-                                                               name="birthday">
-                                                    </c:if>
-                                                    <c:if test="${birthdayErr == null}">
-                                                        <input type="text" id="birthday"
-                                                               class="form-control form-control-sm" name="birthday"
-                                                               value="${user.birthday}">
-                                                    </c:if>
-                                                    <label for="birthday" class="">Ngày sinh</label>
+                                                     class="md-form mb-0 input-with-post-icon datepicker">
+                                                    <input type="text" id="birthday"
+                                                           class="form-control form-control-sm" name="birthday"
+                                                           value="">
+                                                    <label for="birthday">Ngày sinh</label>
                                                     <i id="label-birthday" class="fas fa-calendar input-prefix"
                                                        style="font-size: .875rem"></i>
                                                 </div>
                                             </div>
-                                            <!-- Grid column -->
-                                            <!-- Grid column -->
-                                            <div class="col-lg-4">
 
+                                            <div class="col-lg-4">
                                                 <div class="md-form form-sm mb-0">
-                                                    <c:if test="${phoneErr != null}">
-                                                        <input type="text" id="form4"
-                                                               class="form-control form-control-sm" name="phone"
-                                                               value="" placeholder="${phoneErr}">
-                                                    </c:if>
-                                                    <c:if test="${phoneErr == null}">
-                                                        <input type="text" id="form4"
-                                                               class="form-control form-control-sm" name="phone"
-                                                               value="${user.phone}">
-                                                    </c:if>
-                                                    <label for="form4" class="">SĐT</label>
+                                                    <input type="text" id="phone" class="form-control form-control-sm"
+                                                           name="phone" value="">
+                                                    <label for="phone">SĐT</label>
                                                 </div>
                                             </div>
-                                            <!-- Grid column -->
                                         </div>
+
                                         <div class="row">
-                                            <!-- Grid column -->
                                             <div class="col-lg-6 col-md-10">
                                                 <div class="md-form form-sm mb-0">
-                                                    <select name="province" id="province" class=" custom-select ">
+                                                    <select name="province" id="province" class="custom-select">
                                                         <option value="" disabled>Chọn tỉnh thành</option>
-                                                        <c:forEach var="item" items="${sessionScope.get('provinces')}">
-                                                            <option value="${item.id}"
-                                                                    <c:if test="${user.province==item.name}">selected</c:if> >${item.name}</option>
-                                                        </c:forEach>
-
                                                     </select>
-
                                                 </div>
                                             </div>
-                                            <!-- Grid column -->
-                                            <!-- Grid column -->
 
                                             <div class="col-lg-6 input-group  justify-content-around" role="group">
                                                 <div class="col-6 col-md-3">
                                                     <!-- Material unchecked -->
                                                     <div class="form-check mt-4">
                                                         <input name="isMale" type="checkbox" class="form-check-input"
-                                                               id="materialUnchecked"
-                                                               <c:if test="${user.gender==1}">checked </c:if> >
+                                                               id="materialUnchecked" checked>
                                                         <label class="form-check-label"
                                                                for="materialUnchecked">Nam</label>
                                                     </div>
@@ -277,53 +219,56 @@
                                                     <div class="form-check mt-4">
                                                         <input name="isFemale" type="checkbox" class="form-check-input"
                                                                id="materialIndeterminate2"
-                                                               <c:if test="${user.gender==0}">checked </c:if>>
+                                                        >
                                                         <label class="form-check-label"
                                                                for="materialIndeterminate2">Nữ</label>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!-- Grid column -->
-                                            <!-- Grid column -->
+
+                                            <div class="col-lg-6 col-md-10">
+                                                <div class="md-form form-sm mb-0">
+                                                    <select name="district" id="district" class="custom-select">
+                                                        <option value="" disabled>Chọn quận</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6 col-md-10">
+                                                <div class="md-form form-sm mb-0">
+                                                    <select name="ward" id="ward" class="custom-select">
+                                                        <option value="" disabled>Chọn phường/xã</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
                                             <div class="col-lg-12 col-md-12 d-flex justify-content-between m-auto p-0">
                                                 <div class="col-lg-6 col-md-6">
                                                     <div class="md-form form-sm mb-0">
-                                                        <select name="status"
+                                                        <select name="status" id="status"
                                                                 class="browser-default custom-select mb-4">
                                                             <option value="" disabled>Trạng thái</option>
-                                                            <option value="0"<c:if
-                                                                    test="${user.status==0}"> selected</c:if>Chưa kích
-                                                                    hoạt
-                                                            </option>
-                                                            <option value="1" <c:if
-                                                                    test="${user.status==1}"> selected</c:if>>Kích hoạt
-                                                            </option>
-                                                            <option value="2" <c:if
-                                                                    test="${user.status==2}"> selected</c:if>>Khóa
-                                                            </option>
+                                                            <option value="0">Chưa kích hoạt</option>
+                                                            <option value="1">Kích hoạt</option>
+                                                            <option value="2">Khóa</option>
                                                         </select>
                                                     </div>
                                                 </div>
+
                                                 <div class="col-lg-6 col-md-6">
                                                     <div class="md-form form-sm mb-0">
-                                                        <select name="role" class="browser-default custom-select mb-4">
+                                                        <select name="role" id="role"
+                                                                class="browser-default custom-select mb-4">
                                                             <option value="" disabled>Chọn phân quyền</option>
-                                                            <option value="0" <c:if
-                                                                    test="${user.role==1}"> selected</c:if>selected>
-                                                                Người dùng thường
-                                                            </option>
-                                                            <option value="1" <c:if
-                                                                    test="${user.role==2}"> selected</c:if>>Admin
-                                                            </option>
+                                                            <option value="0">Người dùng thường</option>
+                                                            <option value="1">Admin</option>
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <!-- Grid column -->
                                             </div>
                                         </div>
-                                        <!-- Grid row -->
-                                        <!-- Grid row -->
                                     </div>
+
                                     <!-- Grid row -->
                                     <!-- Grid row -->
                                 </div>
@@ -343,6 +288,129 @@
 <%@include file="/layout/public/script.jsp" %>
 <script src="<c:url value="/template/js/admin-modal-notify.js"/>"></script>
 <script>
+    $(document).ready(function () {
+        $.ajax({
+            url: '/api/province',
+            type: 'GET',
+            success: function (result) {
+                result = JSON.parse(result)
+                console.log(result)
+                for (let i of result) {
+                    $('#province').append('<option value="' + i.id + '">' + i.fullName + '</option>')
+                }
+            },
+            error: function (error) {
+                console.log("error")
+                console.log(error);
+            }
+        })
+    })
+</script>
+<script>
+    // Fetch districts when province is selected
+    $('#province').change(function() {
+        var provinceId = $(this).val();
+        if (provinceId) {
+            $.ajax({
+                url: '/api/district/' + provinceId,
+                type: 'GET',
+                success: function(result) {
+                    result = JSON.parse(result);
+                    for (let district of result) {
+                        $('#district').append('<option value="' + district.id + '">' + district.fullName + '</option>');
+                    }
+                },
+                error: function(error) {
+                    console.log("Error fetching districts");
+                    console.log(error);
+                }
+            });
+        } else {
+            $('#ward').empty().append('<option value="" disabled>Chọn phường/xã</option>');
+        }
+    });
+</script>
+<script>
+    // Fetch wards when district is selected
+    $('#district').change(function() {
+        var districtId = $(this).val();
+        if (districtId) {
+            $.ajax({
+                url: '/api/ward/' + districtId,
+                type: 'GET',
+                success: function(result) {
+                    result = JSON.parse(result);
+                    for (let ward of result) {
+                        $('#ward').append('<option value="' + ward.id + '">' + ward.fullName + '</option>');
+                    }
+                },
+                error: function(error) {
+                    console.log("Error fetching wards");
+                    console.log(error);
+                }
+            });
+        } else {
+            $('#ward').empty().append('<option value="" disabled>Chọn phường/xã</option>');
+        }
+    });
+
+</script>
+
+<script>
+    // fetchdata of user by email, input is email get from url of browser
+    $(document).ready(function () {
+        var userEmail = getUrlParameter('useremail');
+
+        if (userEmail) {
+            $.ajax({
+                url: '/api/admin/user/edit',
+                type: 'GET',
+                data: {
+                    useremail: userEmail
+                },
+                success: function (result) {
+                    // console.log(result);
+                    console.log(result.address);
+                    $('#email').val(result.email);
+                    $('#email').next('label').addClass('active');
+                    $('#fullname').val(result.fullName);
+                    $('#fullname').next('label').addClass('active');
+                    $('#birthday').val(result.birthday);
+                    $('#birthday').next('label').addClass('active');
+                    $('#phone').val(result.phone);
+                    $('#phone').next('label').addClass('active');
+                    // fetch province, district, ward from address of user
+                    if (result.address){
+                        $('#province').val(result.address.provinceId);
+                        $('#district').val(result.address.districtId);
+                        $('#ward').val(result.address.wardId);
+                    }
+                    $('#status').val(result.status);
+                    $('#role').val(result.role);
+                    if (result.gender === 1) {
+                        $('#materialUnchecked').prop('checked', true);
+                    } else {
+                        $('#materialIndeterminate2').prop('checked', true);
+                    }
+                },
+                error: function (error) {
+                    console.log("Error fetching user data");
+                    console.log(error);
+                }
+            });
+        } else {
+            console.log("User email not found in URL parameters");
+        }
+    });
+
+    function getUrlParameter(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    }
+</script>
+<script>
     $('#materialUnchecked').change(() => {
         if ($('#materialIndeterminate2').is(':checked')) {
             $('#materialIndeterminate2').prop('checked', false);
@@ -361,16 +429,18 @@
             type: "POST",
             dataType: "json",
             data: {
-                oldEmail: '${user.email}',
+                // oldEmail is email of user before edit
+                oldEmail: getUrlParameter('useremail'),
                 action: "edit",
                 email: $('#form8').val(),
-                password: $('#form9').val(),
+                // if password is empty, don't send password to server and keep the old password
+                password: $('#form9').val() === "" ? null : $('#form9').val(),
                 fullname: $('#form12').val(),
                 birthday: $('#birthday').val(),
                 phone: $('#form4').val(),
-                provinceId: $('#province').val(),
-                isMale: $('#materialUnchecked').val(),
-                isFemale: $('#materialIndeterminate2').val(),
+                // provinceId: $('#province').val(),
+                isMale: $('#materialUnchecked').is(':checked'),
+                isFemale: $('#materialIndeterminate2').is(':checked'),
                 status: $('#status').val(),
                 role: $('#role').val(),
             },
@@ -397,142 +467,142 @@
         })
     });
 </script>
-<script>
-    function fetchErr(name, mess) {
-        switch (name) {
-            case "email":
-                let email = document.getElementById('form8');
-                email.classList.add('border-danger');
-                email.classList.add('text-danger');
-                email.value = "";
-                email.nextElementSibling.classList.add('active');
-                email.setAttribute('value', " ");
-                // email.setAttribute('placeholder', mess);
-                console.log("run 1")
-                break;
-            case "password":
-                let password = document.getElementById('form9');
-                password.classList.add('border-danger');
-                password.classList.add('text-danger');
-                password.value = "";
-                password.nextElementSibling.classList.add('active');
-                // password.setAttribute('placeholder', mess);
-                console.log("run 2");
-                break;
-            case "fullName":
-                let fullname = document.getElementById('form12');
-                fullname.classList.add('border-danger');
-                fullname.classList.add('text-danger');
-                fullname.value = "";
-                fullname.nextElementSibling.classList.add('active');
-                console.log(fullname.nextElementSibling);
-                // fullname.setAttribute('placeholder', mess);
-                console.log("run 3");
-                break;
-            case "phone":
-                let phone = document.getElementById('form4');
-                phone.classList.add('border-danger');
-                phone.classList.add('text-danger');
-                phone.value = "";
-                phone.nextElementSibling.classList.add('active');
-                // phone.setAttribute('placeholder', mess);
-                console.log("run 4");
-                break;
-            case "birthday":
-                let birthday = document.getElementById('birthday');
-                birthday.classList.add('border-danger');
-                birthday.classList.add('text-danger');
-                birthday.value = "";
-                birthday.nextElementSibling.classList.add('active');
-                console.log(birthday.nextElementSibling);
-                // birthday.setAttribute('placeholder', mess);
-                console.log("run 5");
-                break;
-        }
-    }
-</script>
-<script>
-    <%-- email--%>
-    let email = document.getElementById('form8');
-    if (${emailErr!=null}) {
-        email.classList.add('border-danger');
-        email.classList.add('text-danger');
-    }
-    email.addEventListener('click', function () {
-            email.classList.remove('border-danger');
-            email.classList.remove('text-danger');
-            email.attributes.removeNamedItem("placeholder");
-            email.attributes.removeNamedItem("value");
-            ${requestScope.remove("emailErr")}
-        }
-    )
-    <%-- password--%>
-    let password = document.getElementById('form9');
-    if (${passwordErr!=null}) {
-        password.classList.add('border-danger');
-        password.classList.add('text-danger');
-    }
-    password.addEventListener('click', function () {
-            password.classList.remove('border-danger');
-            password.classList.remove('text-danger');
-            password.attributes.removeNamedItem("placeholder");
-            password.attributes.removeNamedItem("value");
-            ${requestScope.remove("passwordErr")}
-        }
-    )
-    <%-- fullname--%>
-    let fullname = document.getElementById('form12');
-    if (${fullnameErr!=null}) {
-        fullname.classList.add('border-danger');
-        fullname.classList.add('text-danger');
-    }
-    fullname.addEventListener('click', function () {
-            fullname.classList.remove('border-danger');
-            fullname.classList.remove('text-danger');
-            fullname.attributes.removeNamedItem("placeholder");
-            fullname.attributes.removeNamedItem("value");
-            ${requestScope.remove("fullnameErr")}
-        }
-    )
-    <%-- phone--%>
-    let phone = document.getElementById('form4');
-    if (${phoneErr!=null}) {
-        phone.classList.add('border-danger');
-        phone.classList.add('text-danger');
-    }
+<%--<script>--%>
+<%--    function fetchErr(name, mess) {--%>
+<%--        switch (name) {--%>
+<%--            case "email":--%>
+<%--                let email = document.getElementById('form8');--%>
+<%--                email.classList.add('border-danger');--%>
+<%--                email.classList.add('text-danger');--%>
+<%--                email.value = "";--%>
+<%--                email.nextElementSibling.classList.add('active');--%>
+<%--                email.setAttribute('value', " ");--%>
+<%--                // email.setAttribute('placeholder', mess);--%>
+<%--                console.log("run 1")--%>
+<%--                break;--%>
+<%--            case "password":--%>
+<%--                let password = document.getElementById('form9');--%>
+<%--                password.classList.add('border-danger');--%>
+<%--                password.classList.add('text-danger');--%>
+<%--                password.value = "";--%>
+<%--                password.nextElementSibling.classList.add('active');--%>
+<%--                // password.setAttribute('placeholder', mess);--%>
+<%--                console.log("run 2");--%>
+<%--                break;--%>
+<%--            case "fullName":--%>
+<%--                let fullname = document.getElementById('form12');--%>
+<%--                fullname.classList.add('border-danger');--%>
+<%--                fullname.classList.add('text-danger');--%>
+<%--                fullname.value = "";--%>
+<%--                fullname.nextElementSibling.classList.add('active');--%>
+<%--                console.log(fullname.nextElementSibling);--%>
+<%--                // fullname.setAttribute('placeholder', mess);--%>
+<%--                console.log("run 3");--%>
+<%--                break;--%>
+<%--            case "phone":--%>
+<%--                let phone = document.getElementById('form4');--%>
+<%--                phone.classList.add('border-danger');--%>
+<%--                phone.classList.add('text-danger');--%>
+<%--                phone.value = "";--%>
+<%--                phone.nextElementSibling.classList.add('active');--%>
+<%--                // phone.setAttribute('placeholder', mess);--%>
+<%--                console.log("run 4");--%>
+<%--                break;--%>
+<%--            case "birthday":--%>
+<%--                let birthday = document.getElementById('birthday');--%>
+<%--                birthday.classList.add('border-danger');--%>
+<%--                birthday.classList.add('text-danger');--%>
+<%--                birthday.value = "";--%>
+<%--                birthday.nextElementSibling.classList.add('active');--%>
+<%--                console.log(birthday.nextElementSibling);--%>
+<%--                // birthday.setAttribute('placeholder', mess);--%>
+<%--                console.log("run 5");--%>
+<%--                break;--%>
+<%--        }--%>
+<%--    }--%>
+<%--</script>--%>
+<%--<script>--%>
+<%--    &lt;%&ndash; email&ndash;%&gt;--%>
+<%--    let email = document.getElementById('form8');--%>
+<%--    if (${emailErr!=null}) {--%>
+<%--        email.classList.add('border-danger');--%>
+<%--        email.classList.add('text-danger');--%>
+<%--    }--%>
+<%--    email.addEventListener('click', function () {--%>
+<%--            email.classList.remove('border-danger');--%>
+<%--            email.classList.remove('text-danger');--%>
+<%--            email.attributes.removeNamedItem("placeholder");--%>
+<%--            email.attributes.removeNamedItem("value");--%>
+<%--            ${requestScope.remove("emailErr")}--%>
+<%--        }--%>
+<%--    )--%>
+<%--    &lt;%&ndash; password&ndash;%&gt;--%>
+<%--    let password = document.getElementById('form9');--%>
+<%--    if (${passwordErr!=null}) {--%>
+<%--        password.classList.add('border-danger');--%>
+<%--        password.classList.add('text-danger');--%>
+<%--    }--%>
+<%--    password.addEventListener('click', function () {--%>
+<%--            password.classList.remove('border-danger');--%>
+<%--            password.classList.remove('text-danger');--%>
+<%--            password.attributes.removeNamedItem("placeholder");--%>
+<%--            password.attributes.removeNamedItem("value");--%>
+<%--            ${requestScope.remove("passwordErr")}--%>
+<%--        }--%>
+<%--    )--%>
+<%--    &lt;%&ndash; fullname&ndash;%&gt;--%>
+<%--    let fullname = document.getElementById('form12');--%>
+<%--    if (${fullnameErr!=null}) {--%>
+<%--        fullname.classList.add('border-danger');--%>
+<%--        fullname.classList.add('text-danger');--%>
+<%--    }--%>
+<%--    fullname.addEventListener('click', function () {--%>
+<%--            fullname.classList.remove('border-danger');--%>
+<%--            fullname.classList.remove('text-danger');--%>
+<%--            fullname.attributes.removeNamedItem("placeholder");--%>
+<%--            fullname.attributes.removeNamedItem("value");--%>
+<%--            ${requestScope.remove("fullnameErr")}--%>
+<%--        }--%>
+<%--    )--%>
+<%--    &lt;%&ndash; phone&ndash;%&gt;--%>
+<%--    let phone = document.getElementById('form4');--%>
+<%--    if (${phoneErr!=null}) {--%>
+<%--        phone.classList.add('border-danger');--%>
+<%--        phone.classList.add('text-danger');--%>
+<%--    }--%>
 
-    phone.addEventListener('click', function () {
-            phone.classList.remove('border-danger');
-            phone.classList.remove('text-danger');
-            phone.attributes.removeNamedItem("placeholder");
-            phone.attributes.removeNamedItem("value");
-            ${requestScope.remove("phoneErr")}
-        }
-    )
-    <%-- birthday--%>
-    let birthday = document.getElementById('birthday');
-    let label = document.getElementById('label-birthday');
-    if (${birthdayErr!=null}) {
-        birthday.classList.add('border-danger');
-        birthday.classList.add('text-danger');
-    }
-    label.addEventListener('click', function () {
-            birthday.classList.remove('border-danger');
-            birthday.classList.remove('text-danger');
-            birthday.attributes.removeNamedItem("placeholder");
-            birthday.attributes.removeNamedItem("value");
-            ${requestScope.remove("birthdayErr")}
-        }
-    )
-    birthday.addEventListener('click', function () {
-            birthday.classList.remove('border-danger');
-            birthday.classList.remove('text-danger');
-            birthday.attributes.removeNamedItem("placeholder");
-            birthday.attributes.removeNamedItem("value");
-            ${requestScope.remove("birthdayErr")}
-        }
-    )
-</script>
+<%--    phone.addEventListener('click', function () {--%>
+<%--            phone.classList.remove('border-danger');--%>
+<%--            phone.classList.remove('text-danger');--%>
+<%--            phone.attributes.removeNamedItem("placeholder");--%>
+<%--            phone.attributes.removeNamedItem("value");--%>
+<%--            ${requestScope.remove("phoneErr")}--%>
+<%--        }--%>
+<%--    )--%>
+<%--    &lt;%&ndash; birthday&ndash;%&gt;--%>
+<%--    let birthday = document.getElementById('birthday');--%>
+<%--    let label = document.getElementById('label-birthday');--%>
+<%--    if (${birthdayErr!=null}) {--%>
+<%--        birthday.classList.add('border-danger');--%>
+<%--        birthday.classList.add('text-danger');--%>
+<%--    }--%>
+<%--    label.addEventListener('click', function () {--%>
+<%--            birthday.classList.remove('border-danger');--%>
+<%--            birthday.classList.remove('text-danger');--%>
+<%--            birthday.attributes.removeNamedItem("placeholder");--%>
+<%--            birthday.attributes.removeNamedItem("value");--%>
+<%--            ${requestScope.remove("birthdayErr")}--%>
+<%--        }--%>
+<%--    )--%>
+<%--    birthday.addEventListener('click', function () {--%>
+<%--            birthday.classList.remove('border-danger');--%>
+<%--            birthday.classList.remove('text-danger');--%>
+<%--            birthday.attributes.removeNamedItem("placeholder");--%>
+<%--            birthday.attributes.removeNamedItem("value");--%>
+<%--            ${requestScope.remove("birthdayErr")}--%>
+<%--        }--%>
+<%--    )--%>
+<%--</script>--%>
 <script>
     $('.datepicker').datepicker({
         inline: true,
