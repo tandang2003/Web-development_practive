@@ -33,33 +33,6 @@ $(document).ready(function () {
         }
     })
 })
-// function saveContact() {
-//     $.ajax({
-//         url: '/api/contact/save', type: 'Post', dataType: 'json', data: {
-//             fullName: $('#fullName').val(),
-//             email: $('#email').val(),
-//             address: $('#address').val(),
-//             phone: $('#phone').val(),
-//             content: $('#content').val(),
-//         }, success: function (data) {
-//             delayNotify(1000, data.message);
-//             if (data.name == 'success') {
-//                 setTimeout(() => {
-//                     window.location.reload();
-//                 }, 1000);
-//             }
-//         }, error: function (data) {
-//             //bắt lỗi email
-//             delayNotify(10000, "Vui lòng nhập đúng định dạng");
-//             if (data.name == 'error') {
-//                 setTimeout(() => {
-//                     window.location.reload();
-//                 }, 1000);
-//             }
-//         }
-//
-//     })
-// }
 
 
 function getProject(id, notLoad = true) {
