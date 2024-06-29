@@ -2,7 +2,10 @@
 <script src=" <c:url value="/template/lib/MDB_4_pro/js/jquery.min.js"/>"></script>
 <script src=" <c:url value="/template/lib/MDB_4_pro/js/bootstrap.min.js"/>"></script>
 <script src=" <c:url value="/template/lib/MDB_4_pro/js/mdb.min.js"/>"></script>
-<script src="jquery.validate.js"></script>
+<script src="/template/lib/jquery-validation-1.19.5/dist/jquery.validate.js"></script>
+<script src="
+https://cdn.jsdelivr.net/npm/sweetalert2@11.12.1/dist/sweetalert2.all.min.js
+"></script>
 <script>
     $(document).ready(function () {
         $.ajax({
@@ -35,28 +38,27 @@
     });
 
     function addBottomLineNavbar(path) {
-        switch (path){
+        switch (path) {
             case 'home':
-                $('.home').attr('id','nav-menuItem-active');
+                $('.home').attr('id', 'nav-menuItem-active');
                 break;
             case 'project' :
-                $('.project').attr('id','nav-menuItem-active');
+                $('.project').attr('id', 'nav-menuItem-active');
                 break;
             case 'service' :
-                $('.service').attr('id','nav-menuItem-active');
+                $('.service').attr('id', 'nav-menuItem-active');
                 break;
             case 'contact':
-                $('.contact').attr('id','nav-menuItem-active');
+                $('.contact').attr('id', 'nav-menuItem-active');
                 break;
             case 'intro':
-                $('.intro').attr('id','nav-menuItem-active');
+                $('.intro').attr('id', 'nav-menuItem-active');
                 break;
         }
-        if (path.startsWith("post/service")){
-            $('.service').attr('id','nav-menuItem-active');
-        }
-        else if (path.startsWith("post/project")){
-            $('.project').attr('id','nav-menuItem-active');
+        if (path.startsWith("post/service")) {
+            $('.service').attr('id', 'nav-menuItem-active');
+        } else if (path.startsWith("post/project")) {
+            $('.project').attr('id', 'nav-menuItem-active');
         }
 
     }
