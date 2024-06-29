@@ -30,7 +30,6 @@ public class HomeController extends HttpServlet {
         String url = req.getServletPath();
         User user = (User) req.getSession().getAttribute("auth");
         ResponseModel responseModel = new ResponseModel();
-        System.out.println("url: " + url);
         switch (url) {
             case "/api/home/data":
                 JsonObject jsonObject = new JsonObject();

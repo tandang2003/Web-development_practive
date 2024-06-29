@@ -95,5 +95,6 @@ public class ServiceOfProjectService {
         return res;
     }
     public static void main(String[] args) {
+        System.out.println(getInstance().getActiveById(3));
     }
 }

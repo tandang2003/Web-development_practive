@@ -36,7 +36,7 @@ public class AddressService implements Serializable {
     public Address addAddress(Address address) {
         address.setCreatedAt(Timestamp.from(Instant.now()));
         int point = conn.withExtension(AddressDAO.class, dao -> {
-            dao.insertAddress(address.getProvinceId(), address.getDistrictId(), address.getWardId());
+            dao.insertAddress(address);
             return 1;
         });
         return point == 1 ? getAccCreatedAt(Timestamp.from(Instant.now())) : null;

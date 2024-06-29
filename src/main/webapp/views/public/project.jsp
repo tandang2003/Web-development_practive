@@ -164,7 +164,6 @@
                 }
                 $('#provinceId').append(tag);
                 tag = '';
-
                 for (let p of data.prices) {
                     tag += '<option value="' + p.amount + '">' + p.strType + '</option>';
                 }

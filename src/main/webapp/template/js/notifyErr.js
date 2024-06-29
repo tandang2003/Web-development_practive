@@ -25,7 +25,7 @@ function successAlert(mes) {
     alert(mes, 'success');
 }
 
-function errorAlert(mes) {
+function errorAlert(mes="Hệ thống đang bận, vui lòng thử lại sau") {
     alert(mes, 'error');
 }
 
@@ -73,7 +73,7 @@ function autoCloseAlert(mes, time = 1500, url = null) {
         if (url != null) location.href = url;
     })
 }
-function autoCloseAlertWithFunction(mes, time = 1500, Function = (result)=>{}) {
+function autoCloseAlertWithFunction(mes, time = 1500, icon=swal2Icon.INFO,Function = (result)=>{}) {
     Swal.fire({
         position: 'top',
         title: 'THÔNG BÁO',

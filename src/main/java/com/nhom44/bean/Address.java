@@ -9,6 +9,7 @@ import java.util.Objects;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class Address implements Serializable {
     private int id;
     private int provinceId;

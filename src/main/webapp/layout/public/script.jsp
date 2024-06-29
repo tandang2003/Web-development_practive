@@ -2,10 +2,11 @@
 <script src=" <c:url value="/template/lib/MDB_4_pro/js/jquery.min.js"/>"></script>
 <script src=" <c:url value="/template/lib/MDB_4_pro/js/bootstrap.min.js"/>"></script>
 <script src=" <c:url value="/template/lib/MDB_4_pro/js/mdb.min.js"/>"></script>
-<script src="/template/lib/jquery-validation-1.19.5/dist/jquery.validate.js"></script>
+<script src=" <c:url value="/template/lib/jquery-validation-1.19.5/dist/jquery.validate.js"/>"></script>
 <script src="
 https://cdn.jsdelivr.net/npm/sweetalert2@11.12.1/dist/sweetalert2.all.min.js
 "></script>
+<script src="<c:url value="/template/js/notifyErr.js"/> "></script>
 <script>
     $(document).ready(function () {
         $.ajax({

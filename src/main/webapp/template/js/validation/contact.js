@@ -19,17 +19,14 @@ const contactValidation = {
             required: true,
             minlength: 10
         },
-        province: {
-            required: true,
-            notEqualToDefault: true
+        provinceValue: {
+            required: true
         },
-        district: {
-            required: true,
-            notEqualToDefault: true
+        districtValue: {
+            required: true
         },
-        ward: {
-            required: true,
-            notEqualToDefault: true
+        wardValue: {
+            required: true
         }
     },
     messagesContact: {
@@ -52,17 +49,17 @@ const contactValidation = {
             required: "Vui lòng nhập nội dung lời nhắn",
             minlength: "Nội dung lời nhắn ít nhất {0} ký tự"
         },
-        province: {
+        provinceValue: {
             required: "Vui lòng chọn tỉnh thành",
             notEqualToDefault: "Vui lòng chọn một tỉnh thành khác"
         },
-        district: {
+        districtValue: {
             required: "Vui lòng chọn quận/huyện",
             notEqualToDefault: "Vui lòng chọn một quận/huyện khác"
         },
-        ward: {
+        wardValue: {
             required: "Vui lòng chọn phường/xã",
             notEqualToDefault: "Vui lòng chọn một phường/xã khác"
         }
-    }
+    },
 }

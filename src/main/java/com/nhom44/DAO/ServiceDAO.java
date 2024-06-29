@@ -43,8 +43,10 @@ public interface ServiceDAO {
 
     @SqlUpdate("UPDATE services SET name=:name, description=:description, avatar=:avatar, status=:status, postId=:postId WHERE id=:id")
     Integer update(@BindBean Service service);
-
-    @SqlQuery("SELECT * FROM services WHERE id=:id")
+//TODO check lỗi
+    @SqlQuery("SELECT s.id,s.name, s.description, s.postId, s.avatar, s.status,p.content " +
+            "FROM services s Left Join posts p on s.postId=p.id " +
+            "WHERE s.id=:id")
     Service getById(@Bind("id") int id);
 
     @SqlQuery("SELECT id,name, description, postId, status, avatar FROM services WHERE status=1")
@@ -56,8 +58,11 @@ public interface ServiceDAO {
             "WHERE ps.projectId=:projectId AND ps.serviceId=:serviceId AND s.status=1)")
     boolean isProjectHaveExsistProject(@Bind("projectId") int projectId, @Bind("serviceId") int serviceId);
 
-    @SqlQuery("SELECT id, avatar, description, name, updatedAt, postId FROM services WHERE status=1 AND id=:id")
+    @SqlQuery("SELECT s.id,s.name, s.description, s.postId, s.avatar, s.status,p.content, s.updatedAt " +
+            "FROM services s Left Join posts p on s.postId=p.id " +
+            "WHERE s.id=:id AND s.status=1")
     Service getActiveById(@Bind("id") int id);
+
 
     @SqlQuery("SELECT s.id, s.name, s.description,s.avatar, s.postId  " +
             ",s.status FROM Services s " +

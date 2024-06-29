@@ -138,8 +138,7 @@ public class ProjectService {
     }
 
     public static void main(String[] args) {
-
-
+        System.out.println(getInstance().getProjetAllActive(0, 0, 0, 0, 0, 0, 0, 0, 0).size());
     }
 
 

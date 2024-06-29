@@ -2,78 +2,78 @@ $(document).ready(function () {
     $('.mdb-select').materialSelect();
 
 
-let id = window.location.href.substring(window.location.href.lastIndexOf('/'))
-$.ajax({
-    //thông tin dự án
-    url: '/api/post/project' + id,
-    dataType: 'json',
-    type: 'GET',
-    success: function (data) {
-        let project = data.data
-        console.log(project)
-        document.title = project.title
-        let iconLike = `<i class="fa-regular fa-bookmark position-relative" onclick="like(this, ${project.id})"></i>`
-        if (project.isSave)
-            iconLike = `<i class="fa-solid fa-bookmark position-relative" onclick="like(this,${project.id})"></i>`;
-        //add icon like
-        $('.project-title').text(project.title)
-        $('.post-title').html(function(index,current){
-            return iconLike+ current
-        })
-        $('.project-updatedAt').text(project.updatedAt)
-        $('.project-category').text(project.category)
-        $('.project-id').text(project.id)
+    let id = window.location.href.substring(window.location.href.lastIndexOf('/'))
+    $.ajax({
+        //thông tin dự án
+        url: '/api/post/project' + id,
+        dataType: 'json',
+        type: 'GET',
+        success: function (data) {
+            let project = data.data
+            console.log(project)
+            document.title = project.title
+            let iconLike = `<i class="fa-regular fa-bookmark position-relative" onclick="like(this, ${project.id})"></i>`
+            if (project.isSave)
+                iconLike = `<i class="fa-solid fa-bookmark position-relative" onclick="like(this,${project.id})"></i>`;
+            //add icon like
+            $('.project-title').text(project.title)
+            $('.post-title').html(function (index, current) {
+                return iconLike + current
+            })
+            $('.project-updatedAt').text(project.updatedAt)
+            $('.project-category').text(project.category)
+            $('.project-id').text(project.id)
 
-    },
-})
-$.ajax({
-    //thông tin bài viết
-    url: "/api/post/project" + id + "/post",
-    type: "GET",
-    dataType: 'json',
-    success: function (data) {
-        let post = data.data
-        $('.post-content-text').html(post.content + $('.post-content-text').html())
-    },
-})
-$.ajax({
-    // thông tin gallery
-    url: "/api/post/project" + id + "/gallery",
-    type: "GET",
-    dataType: 'json',
-    success: function (data) {
-        let gallery = data.data
-        gallery.forEach((e, i) => {
-            $('.gallery').append(`<div class="img position-relative w-100 h-100 overflow-hidden ">
+        },
+    })
+    $.ajax({
+        //thông tin bài viết
+        url: "/api/post/project" + id + "/post",
+        type: "GET",
+        dataType: 'json',
+        success: function (data) {
+            let post = data.data
+            $('.post-content-text').html(post.content + $('.post-content-text').html())
+        },
+    })
+    $.ajax({
+        // thông tin gallery
+        url: "/api/post/project" + id + "/gallery",
+        type: "GET",
+        dataType: 'json',
+        success: function (data) {
+            let gallery = data.data
+            gallery.forEach((e, i) => {
+                $('.gallery').append(`<div class="img position-relative w-100 h-100 overflow-hidden ">
                     <img class="" src="${e}" alt="Image">
                     </div>`)
-        })
-        console.log($('.gallery').html())
-    },
-})
-$.ajax({
-    url: "/api/post/project" + id + "/services",
-    type: "GET",
-    dataType: 'json',
-    success: function (data) {
-        let services = data.data
-        console.log(services)
-        services.forEach((e, i) => {
-            $('.project-services').append(`${e.name}`)
-            if (i != services.length - 1)
-                $('.project-services').append(`, `)
-        })
-    },
-})
-$.ajax({
-    url: '/api/post/project' + id + '/suggest',
-    type: 'GET',
-    dataType: 'json',
-    success: function (data) {
-        let suggestProjects = data.data
-        console.log(suggestProjects)
-        suggestProjects.forEach((e, i) => {
-            $('.project-suggest').append(`<li class="feature-news-items mb-2">
+            })
+            console.log($('.gallery').html())
+        },
+    })
+    $.ajax({
+        url: "/api/post/project" + id + "/services",
+        type: "GET",
+        dataType: 'json',
+        success: function (data) {
+            let services = data.data
+            console.log(services)
+            services.forEach((e, i) => {
+                $('.project-services').append(`${e.name}`)
+                if (i != services.length - 1)
+                    $('.project-services').append(`, `)
+            })
+        },
+    })
+    $.ajax({
+        url: '/api/post/project' + id + '/suggest',
+        type: 'GET',
+        dataType: 'json',
+        success: function (data) {
+            let suggestProjects = data.data
+            console.log(suggestProjects)
+            suggestProjects.forEach((e, i) => {
+                $('.project-suggest').append(`<li class="feature-news-items mb-2">
                                         <a href="/post/project/${e.id}"
                                            class="feature-news-items-link d-flex row"
                                            role="link">
@@ -91,11 +91,10 @@ $.ajax({
                                             </div>
                                         </a>
                                     </li>`)
-        })
+            })
 
-    }
-})
-
+        }
+    })
 });
 
 let allFiles = [];
