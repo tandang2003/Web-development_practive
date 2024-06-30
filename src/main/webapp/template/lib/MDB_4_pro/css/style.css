@@ -1,7 +1,9 @@
 html, body {
     font-family: Inter, Arial, Helvetica, sans-serif !important;;
 }
-
+.h-0{
+    height: 0;
+}
 .container {
     margin: 0 auto;
     max-width: 1220px;
@@ -421,4 +423,10 @@ p {
     color: #E90808;
     font-weight: 700;
     font-size: 2.1rem;
+}
+.md-form{
+    margin: 14px 0 0.3rem 0;
+}
+.md-form label.active{
+    transform: translateY(-20px) scale(0.8  )!important;
 }

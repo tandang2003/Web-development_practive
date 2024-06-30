@@ -130,61 +130,59 @@
                 <!--Grid column-->
                 <div class="col-lg-5 mb-4">
                     <!--Form with header-->
-                    <form class="card" action="" method="post">
+                    <form class="card" id="form-contact">
                         <div class="card-body">
                             <!--Header-->
                             <!--Body-->
-                            <div class="md-form">
+                            <div class="md-form param-content">
                                 <i class="fas fa-user prefix grey-text"></i>
-                                <input type="text" id="fullName" class="form-control">
+                                <input type="text" id="fullName" name="fullName" class="form-control">
                                 <label for="fullName">Họ và tên</label>
                             </div>
-                            <div class="md-form">
+                            <div class="md-form param-content">
                                 <i class="fas fa-envelope prefix grey-text"></i>
-                                                                <input type="text" id="email" class="form-control">
-                                                                <label for="email">Địa chỉ email</label>
+                                <input type="text" id="email" name="email" class="form-control">
+                                <label for="email">Địa chỉ email</label>
                             </div>
-                            <div class="md-form">
-                                                                <i class="fas fa-map-location prefix grey-text"></i>
-                                <select class="mdb-select md-form" name="address" id="province" searchable="Search here..">
-                                    <option value="" disabled selected>Chọn tỉnh thành</option>
-                                </select>
-                            </div>
-                            <div class="md-form">
-                                                                <i class="fas fa-city prefix grey-text"></i>
-
-                                <select class="mdb-select md-form" name="address" id="district" searchable="Search here..">
-                                    <option value="" disabled selected>Quận / huyện</option>
-                                </select>
-                            </div>
-                            <div class="md-form">
-                                                                <i class="fas fa-house-chimney prefix grey-text"></i>
-                                <%--                                <input type="text" id="email" class="form-control">--%>
-                                <%--                                <label for="email">Địa chỉ email</label>--%>
-
-                                <select class="mdb-select md-form" name="address" id="ward" searchable="Search here..">
-                                    <option value="" disabled selected>Phường / xã</option>
-                                </select>
-                            </div>
-<%--                            <div class="md-form">--%>
-<%--                                <i class="fa-solid fa-map-location prefix grey-text"></i>--%>
-<%--                                <input type="text" id="address" class="form-control">--%>
-<%--                                <label for="address">Địa chỉ(tỉnh/thành phố)</label>--%>
-<%--                            </div>--%>
-                            <div class="md-form">
+                            <div class="md-form param-content">
                                 <i class="fa-solid  fa-phone prefix grey-text"></i>
-                                <input type="text" id="phone" class="form-control">
+                                <input type="text" id="phone" name="phone" class="form-control">
                                 <label for="phone">Số điện thoại</label>
                             </div>
+                            <div class="md-form param-content">
+                                <i class="fas fa-map-location prefix grey-text"></i>
+                                <select class="mdb-select md-form" name="province" id="province"
+                                        searchable="Search here..">
+                                    <option disabled selected>Chọn tỉnh thành</option>
+                                </select>
+                                <input class="d-none" id="provinceValue" name="provinceValue">
+                            </div>
+                            <div class="md-form param-content">
+                                <i class="fas fa-city prefix grey-text"></i>
+
+                                <select class="mdb-select md-form" name="district" id="district"
+                                        searchable="Search here..">
+                                    <option disabled selected>Quận / huyện</option>
+                                </select>
+                                <input class="d-none" id="districtValue" name="districtValue">
+                            </div>
+                            <div class="md-form param-content">
+                                <i class="fas fa-house-chimney prefix grey-text"></i>
+                                <select class="mdb-select md-form" name="ward" id="ward" searchable="Search here..">
+                                    <option disabled selected>Phường / xã</option>
+                                </select>
+                                <input class="d-none" id="wardValue" name="wardValue">
+                            </div>
+
 
                             <!-- Message -->
-                            <div class="form-group">
-                                <textarea class="form-control rounded-0" id="content" rows="3"
+                            <div class="md-form param-content form-group">
+                                <textarea class="form-control rounded-0" id="content" name="content" rows="3"
                                           placeholder="Lời nhắn" style="height: 250px"></textarea>
                             </div>
                             <div class="text-center mt-4">
-                                <button class="btn btn-red waves-effect waves-light" onclick="saveContact()"
-                                        type="button">Gửi ngay
+                                <button class="btn btn-red waves-effect waves-light"
+                                        type="submit">Gửi ngay
                                 </button>
                             </div>
                         </div>
@@ -215,14 +213,67 @@
 <script src="<c:url value="/template/js/main.js"/>"></script>
 <script src="<c:url value='/template/js/home.js'/>"></script>
 <script src="<c:url value='/template/js/services.js'/>"></script>
+<script src="<c:url value='/template/js/validation/contact.js'/>"></script>
+<script src="<c:url value="/template/lib/jquery-validation-1.19.5/dist/jquery.validate.js"/>"></script>
+<script src="<c:url value="/template/lib/jquery-validation-1.19.5/dist/additional-methods.js"/>"></script>
 <script src="<c:url value='/template/js/ajax/home.js'/>"></script>
 <script src="<c:url value='/template/js/ajax/saveProject.js'/>"></script>
+<script src="<c:url value='/template/js/contactForm.js'/>"></script>
+<script src="<c:url value='/template/js/validation/contact.js'/>"></script>
 <script src="<c:url value='/template/js/dataAddress.js'/>"></script>
 <script>
     $(document).ready(function () {
         $('.mdb-select').materialSelect();
-    });
+
+        let validator = $("#form-contact").validate({
+                ignore: [],
+                rules: contactValidation.rulesContact,
+                messages: contactValidation.messagesContact,
+                errorElement: "div", // Thẻ HTML sẽ hiển thị thông báo lỗi
+                errorPlacement: function (error, element) {
+                    // Đặt vị trí hiển thị thông báo lỗi
+                    error.addClass("invalid-feedback");
+                    element.closest(".param-content").append(error);
+                },
+                highlight: function (element, errorClass, validClass) {
+                    // Highlight lỗi
+
+                    $(element).addClass(errorClass).removeClass(validClass);
+                    $(element).closest(".param-content").addClass("has-error");
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    // Xóa highlight khi hợp lệ
+                    $(element).removeClass(errorClass).removeClass(validClass);
+                    $("#" + element.id + "-error").remove();
+                },
+                submitHandler: function (form) {
+                    $.ajax({
+                        url: "/api/contact/save",
+                        type: "POST",
+                        dataType: "json",
+                        data: $(form).serializeArray(),
+                        success: function (data) {
+                            console.log(data)
+                            if (data.status == 200) {
+                                autoCloseAlertWithFunction(data.message, 3000, "success", () => {
+                                    window.location.reload();
+                                })
+                            } else {
+                                errorAlert(data.message)
+                            }
+                        },
+                        error: function (e) {
+                            errorAlert()
+                        }
+                    })
+                }
+
+            })
+        ;
+    })
+
 
 </script>
+
 </body>
 </html>

@@ -1,17 +1,12 @@
 // page on ready
 $(document).ready(function () {
-    console.log("service page")
     getServices("home", "services-container");
 
     $.ajax({
         url: '/api/home/data', type: 'Get',
         success: function (data) {
-            console.log(data)
             let res = JSON.parse(data);
-            console.log(res)
             let slides = res['sliders'];
-            console.log("sliders")
-            console.log(slides)
             slides.forEach((x, index) => {
                 let active = index === 0 ? "active" : "";
                 $('#slide-container').append(`<div class="carousel-item ${active} w-100">
@@ -19,8 +14,6 @@ $(document).ready(function () {
                              alt="${x.title}">`)
             })
             let categories = res['categories'];
-            console.log("categories")
-            console.log(categories)
             categories.forEach((x, index) => {
                 $('#category-container').append(`<li class="category-item">
                          <button class="item-selector "
@@ -28,44 +21,18 @@ $(document).ready(function () {
                                    title="${x.name}">
                               XÂY DỰNG ${x.name}
                           </button>`)
-                console.log(x.id)
             })
             let list = res['projects'];
             list.forEach((x, index) => {
                 let project = drawProject(x);
                 $('#project-container').append(project);
             })
+        }
+        ,
+        error: function (data) {
+        }
     })
 })
-
-
-function saveContact() {
-    $.ajax({
-        url: '/api/contact/save', type: 'Post', dataType: 'json', data: {
-            fullName: $('#fullName').val(),
-            email: $('#email').val(),
-            address: $('#address').val(),
-            phone: $('#phone').val(),
-            content: $('#content').val(),
-        }, success: function (data) {
-            delayNotify(1000, data.message);
-            if (data.name == 'success') {
-                setTimeout(() => {
-                    window.location.reload();
-                }, 1000);
-            }
-        }, error: function (data) {
-            //bắt lỗi email
-            delayNotify(10000, "Vui lòng nhập đúng định dạng");
-            if (data.name == 'error') {
-                setTimeout(() => {
-                    window.location.reload();
-                }, 1000);
-            }
-        }
-
-    })
-}
 
 
 function getProject(id, notLoad = true) {
@@ -79,16 +46,15 @@ function getProject(id, notLoad = true) {
             let project = "";
             containter.innerHTML = "";
             for (const x of list) {
-               project += drawProject(x);
+                project += drawProject(x);
             }
             containter.innerHTML = project;
-            // console.log(project);
 
         }, error: function (data) {
-            console.log(data);
         }
     })
 }
+
 function drawProject(x) {
     let project = "";
     project += '<div class="col-lg-3 col-md-4 col-sm-6 mb-4 overflow-hidden position-relative projectCard-container">' +
@@ -109,28 +75,8 @@ function drawProject(x) {
         '<strong>MDA:' + x.id + '</strong>' +
         '</p>' + '<p class="text-white p-4 vanBan">' + x.description + '</p>' +
         '</div>' + '</div></div></a></div></div>'
+
     return project;
 }
 
 
-function fetchErr(name, mess) {
-    console.log(name, mess)
-    switch (name) {
-        case 'email':
-            let email = document.getElementById('email');
-            email.classList.add('border-danger');
-            email.classList.add('text-danger');
-            email.value = "";
-            email.setAttribute('value', "");
-            // email.setAttribute('placeholder', mess);
-            break;
-    }
-}
-
-
-let fullName = document.getElementById('email');
-fullName.addEventListener('click', function () {
-    fullName.classList.remove('border-danger');
-    fullName.classList.remove('text-danger');
-    fullName.setAttribute('placeholder', "Email");
-})
