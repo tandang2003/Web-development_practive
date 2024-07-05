@@ -68,6 +68,7 @@ public class UserService {
 
     public User addUser(User user) {
         int line = Integer.MIN_VALUE;
+        AddressService.getInstance().addAddress(user.getAddress());
         user.setCreatedAt(Timestamp.from(java.time.Instant.now()));
         user.setUpdatedAt(Timestamp.from(java.time.Instant.now()));
         line = conn.withExtension(UserDAO.class, handle -> handle.insertUser(user.getFullName(),

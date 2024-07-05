@@ -60,6 +60,7 @@ public class ContactController extends HttpServlet {
                     }
                 });
                 int status = ContactService.getInstance().add(contact);
+                System.out.println(status);
                 if (status == 1) {
                     responseModel.setName("success");
                     responseModel.setData("/home");

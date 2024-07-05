@@ -2,8 +2,10 @@ package com.nhom44.DAO;
 
 import com.nhom44.bean.Project;
 import org.jdbi.v3.sqlobject.config.RegisterBeanMapper;
+import org.jdbi.v3.sqlobject.config.RegisterRowMapper;
 import org.jdbi.v3.sqlobject.customizer.Bind;
 import org.jdbi.v3.sqlobject.customizer.BindBean;
+import org.jdbi.v3.sqlobject.statement.GetGeneratedKeys;
 import org.jdbi.v3.sqlobject.statement.SqlQuery;
 import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 import org.jdbi.v3.sqlobject.*;
@@ -23,8 +25,10 @@ public interface ProjectDAO {
             "isAccepted, categoryId, status, postId)" +
             " VALUES(:title, :description, :avatar, :price, :acreage, :addressId, :isAccepted, " +
             ":categoryId, :status,:postId)")
+    @GetGeneratedKeys("id")
     Integer add(@BindBean Project project);
 
+    @GetGeneratedKeys
     @SqlUpdate("UPDATE projects SET title=:title, description=:description, " +
             " price=:price, acreage=:acreage, addressId=:addressId, " +
             "isAccepted=:isAccepted, categoryId=:categoryId, status=:status , updatedAt=now() " +
@@ -37,6 +41,7 @@ public interface ProjectDAO {
 
     @SqlUpdate("INSERT INTO excuting_projects(projectId, schedule, estimatedComplete)" +
             " VALUES(:projectId, :schedule, :estimatedComplete)")
+    @GetGeneratedKeys
     int addExcuting(@Bind("projectId") int projectId, @Bind("schedule") String schedule, @Bind("estimatedComplete") String estimatedComplete);
 
 
@@ -54,7 +59,7 @@ public interface ProjectDAO {
     @SqlQuery("Select p.id, p.title,p.description, p.avatar, p.price, p.acreage, ad.name as address, c.name as category, p.isAccepted," +
             " p.status, p.postId, ep.schedule, ep.estimatedComplete, p.addressId, p.categoryId, p.updatedAt " +
             " FROM projects p LEFT JOIN categories c ON p.categoryId=c.id" +
-            " JOIN (select a.id,  concat(w.fullName,', ',dt.fullName,',   ',pr.fullName) as name from addresses a " +
+            " Left JOIN (select a.id,  concat(w.fullName,', ',dt.fullName,',   ',pr.fullName) as name from addresses a " +
             "                               join provinces pr on a.provinceId = pr.id" +
             "                               join districts dt on a.districtId = dt.id" +
             "                               join wards w on w.id = a.wardId" +
@@ -77,13 +82,15 @@ public interface ProjectDAO {
             "AND p.status=:status")
     Project getProjectByObject(@BindBean Project project);
 
-
+    @GetGeneratedKeys
     @SqlUpdate("INSERT INTO users_projects(projectId, userId) VALUES(:projectId, :userId)")
     int addProjectForUser(@Bind("projectId") int projectId, @Bind("userId") int userId);
 
+    @GetGeneratedKeys
     @SqlUpdate("DELETE FROM excuting_projects WHERE projectId=:id ")
     Integer deleteInExcuting(@Bind("id") int id);
 
+    @GetGeneratedKeys
     @SqlUpdate("UPDATE excuting_projects SET schedule=:schedule, estimatedComplete=:estimatedComplete, updatedAt=now() WHERE projectId=:id")
     int updateExcuting(@BindBean Project project);
 
@@ -148,6 +155,7 @@ public interface ProjectDAO {
             "ORDER BY COUNT(p.id) desc LIMIT 8")
     List<Project> get8ActiveProjectHighestView(@Bind("id") int id, @Bind("userid") int userid);
 
+    @GetGeneratedKeys
     @SqlUpdate("UPDATE users_projects SET userId=:id1, updatedAt=now() WHERE projectId=:id")
     int updateProjectForUser(@Bind("id") int id, @Bind("id1") int id1);
 

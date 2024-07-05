@@ -430,3 +430,9 @@ p {
 .md-form label.active{
     transform: translateY(-20px) scale(0.8  )!important;
 }
+.invalid{
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+    margin-bottom: 0;
+}

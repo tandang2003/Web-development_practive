@@ -84,26 +84,34 @@
                     </div>
                     <div class="sticky-top" style="z-index: 1; top:80px">
 
-                        <form class="card " action="post?action=cast" method="post">
+                        <form class="card" id="form-request" action="post?action=cast" method="post">
                             <div class="card-body pl-3 pr-3">
                                 <!--Header-->
                                 <!--Body-->
                                 <div class="md-form mt-1 mb-1 p-1">
                                     <input type="text" id="form-email" name="email"
                                            class="form-control form-input form-input p-1 m-0"
-                                           style="font-size: 15px" value="${cart.email}">
+                                           style="font-size: 15px" value="">
                                     <label for="form-email" class="m-0" style="font-size: 15px"> <i
                                             class="fa-lg fas fa-envelope grey-text"></i>
                                         Địa chỉ email</label>
                                 </div>
                                 <div class="form-outline mt-1 mb-1">
-                                    <label for="address" class="labels">Địa chỉ</label>
-                                    <select name="address" id="address" class="form-control form-input">
+                                    <%--                                    <label for="province" class="labels">Tỉnh thành</label>--%>
+                                    <select name="province" id="province" class="form-control form-input">
                                         <option value="" disabled selected>Chọn tỉnh thành</option>
-                                        <c:forEach items="${provinces}" var="province">
-                                            <option value="${province.id}"
-                                                    <c:if test="${province.id==cart.provinceId}">selected</c:if>>${province.name}</option>
-                                        </c:forEach>
+                                    </select>
+                                </div>
+                                <div class="form-outline mt-1 mb-1">
+                                    <%--                                    <label for="district" class="labels">Quận/Huyện</label>--%>
+                                    <select name="district" id="district" class="form-control form-input">
+                                        <option value="" disabled selected>Chọn quận/huyện</option>
+                                    </select>
+                                </div>
+                                <div class="form-outline mt-1 mb-1">
+                                    <%--                                    <label for="ward" class="labels">Phường/Xã</label>--%>
+                                    <select name="ward" id="ward" class="form-control form-input">
+                                        <option value="" disabled selected>Chọn phường/xã</option>
                                     </select>
                                 </div>
                                 <div class="row d-flex justify-content-between m-0 p-0 ">
@@ -111,17 +119,13 @@
                                     <select name="category" id="category" class="form-control form-input md-form
                                      col-lg-6 col-md-6 col-sm-12 m-0 mt-2 p-0  p-1">
                                         <option value="" disabled="" selected="">Loại dự án</option>
-                                        <c:forEach items="${categories }" var="category">
-                                            <option value="${category.id}"
-                                                    <c:if test="${category.id==cart.categoryId}">selected</c:if>> ${category.name}</option>
-                                        </c:forEach>
                                     </select>
                                     <!--                                </div>-->
                                     <div class="form-outline col-lg-6 col-md-6 col-sm-12  mt-2 p-0 m-0 ">
-                                        <input name="representProjectId" type="number" id="itProject"
+                                        <input name="representProjectId" type="number" id="idProject"
                                                placeholder="Mã dự án"
                                                class="form-control form-input ml-md-2 p-1"
-                                               value="${cart.representProjectId}">
+                                               value="">
                                     </div>
                                 </div>
                                 <div class="row  d-flex justify-content-between m-0 p-0">
@@ -144,39 +148,40 @@
                                 </div>
                                 <div class="">
                                     <label class="mdb-main-label" style="font-size: 13px">Dịch vụ</label>
-                                    <select name="services" id="services" class="mdb-select md-form services" data-mdb-select-init multiple>
-                                        <c:forEach items="${sessionScope.services}" var="service">
-                                            <option value="${service.id}"
-                                                    <c:if test="${cart!=null&& cart.services!=null}">
-                                                        <c:forEach var="item1"
-                                                                   items="${cart.services}">
-                                                            <c:if test="${service.id==item1}">
-                                                                selected
-                                                            </c:if>
-                                                        </c:forEach>
-                                                    </c:if>
-                                            >${service.name}</option>
-                                        </c:forEach>
+                                    <select name="services" id="services" class="mdb-select md-form services"
+                                            data-mdb-select-init multiple>
                                     </select>
                                     <button type="button" class="btn-save btn btn-primary btn-sm">Save</button>
                                 </div>
 
                                 <!-- Message -->
-                                <form method="dialog" enctype="multipart/form-data" class="form-img">
-                                    <div class="input-group mt-2">
-                                        <div class="file-field d-flex align-items-center">
-                                            <p class="m-0">khu vực thi công: </p>
-                                            <div class="btn btn-primary btn-sm float-left">
-                                                <span>chọn ảnh</span>
-                                                <input name="image" type="file" id="file_input" multiple>
-                                            </div>
+                                <%--                                <form method="dialog" enctype="multipart/form-data" class="form-img">--%>
+                                <%--                                    <div class="input-group mt-2">--%>
+                                <%--                                        <div class="file-field d-flex align-items-center">--%>
+                                <%--                                            <p class="m-0">khu vực thi công: </p>--%>
+                                <%--                                            <div class="btn btn-primary btn-sm float-left">--%>
+                                <%--                                                <span>chọn ảnh</span>--%>
+                                <%--                                                &lt;%&ndash;                                                <input name="image" type="file" id="file_input" multiple>&ndash;%&gt;--%>
+                                <%--                                                <input type="file" class="my-pond" id="filepond" name="filepond"/>--%>
+                                <%--                                            </div>--%>
+                                <%--                                        </div>--%>
+                                <%--                                    </div>--%>
+                                <%--                                    <div class="upload-wrapper">--%>
+                                <%--                                        <div class="border d-flex img-container">--%>
+                                <%--                                        </div>--%>
+                                <%--                                    </div>--%>
+                                <%--                                </form>--%>
+                                <div class="input-group mt-2">
+                                    <div class="file-field d-flex align-items-center">
+                                        <p class="m-0">Khu vực thi công: </p>
+                                        <div class="float-left">
+                                            <button type="button" class="btn btn-primary btn-sm" id="btn-op-upload">chọn
+                                                ảnh
+                                            </button>
                                         </div>
+                                        <input type="hidden" name="uploadImg" id="uploadImg">
                                     </div>
-                                    <div class="upload-wrapper">
-                                        <div class="border d-flex img-container">
-                                        </div>
-                                    </div>
-                                </form>
+                                </div>
                                 <div class="text-center mt-4">
                                     <button class="btn btn-red" id="save" type="button">Đặt Ngay</button>
                                 </div>
@@ -202,6 +207,29 @@
 <%@include file="/layout/public/script.jsp" %>
 <script src="<c:url value="/template/js/main.js"/>"></script>
 <script src="<c:url value='/template/js/ajax/saveProject.js'/>"></script>
-<script src="<c:url value="/template/js/ajax/post-project.js"/>"></script>
+<script type="module" src="<c:url value="/template/js/ajax/post-project.js"/>"></script>
+<script src="<c:url value="/template/js/validation/validator.js"/>"></script>
+<script src="<c:url value="/template/js/validation/validateFunction.js"/>"></script>
+<script src="<c:url value='/template/js/dataAddress.js'/>"></script>
+<script>
+
+
+
+    // $.fn.filepond.registerPlugin(
+    //     FilePondPluginImagePreview,
+    //     FilePondPluginImageExifOrientation,
+    //     FilePondPluginFileValidateSize,
+    //     FilePondPluginImageEdit
+    // );
+    // $('#filepond').filepond({
+    //     allowMultiple: true,
+    //     maxFiles: 5,
+    //     maxFileSize: '5MB',
+    //     acceptedFileTypes: ['image/*'],
+    // })
+    // $('.my-pond').first().filepond('addFile', 'index.html').then(function(file){
+    //     console.log('file added', file);
+    // });
+</script>
 </body>
 </html>

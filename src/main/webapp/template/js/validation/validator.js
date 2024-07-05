@@ -97,7 +97,7 @@ const signUpValidator = {
         },
         rePassword: {
             required: true,
-            equalTo: "#password"
+            equalTo: "#password-signup"
         },
         phone: {
             required: true,
@@ -105,7 +105,7 @@ const signUpValidator = {
             minlength: 10,
             maxlength: 12
         },
-        fullName: {
+        name: {
             required: true,
             minlength: 6,
             maxlength: 50
@@ -146,7 +146,7 @@ const signUpValidator = {
             minlength: "Số điện thoại ít nhất {0} số",
             maxlength: "Số điện thoại tối đa {0} số"
         },
-        fullName: {
+        name: {
             required: "Vui lòng nhập họ và tên",
             minlength: "Họ và tên ít nhất {0} ký tự",
             maxlength: "Họ và tên tối đa {0} ký tự"
