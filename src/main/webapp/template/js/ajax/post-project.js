@@ -56,6 +56,7 @@ $(document).ready(function () {
         }
     })
     $('.mdb-select').materialSelect();
+
     $.ajax({
         //thông tin bài viết
         url: "/api/post/project" + id + "/post",
@@ -121,10 +122,12 @@ $(document).ready(function () {
                                         </a>
                                     </li>`)
             })
-
         }
     })
 
+
+        }
+    })
 });
 
 $(document).ready(function () {

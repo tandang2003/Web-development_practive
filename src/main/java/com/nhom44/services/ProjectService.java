@@ -134,15 +134,9 @@ public class ProjectService {
             e.getMessage();
             System.out.println(e.getMessage());
         }
-//        System.out.println(a);
     }
-//    public Project getProjectTest(int id){
-//        return conn.withExtension(ProjectDAO.class, dao -> {
-//
-//            return
-//            dao.updateProject().;
-//        });
-//    }
+
+
 
     public List<Project> get8ActiveProjectHighestView(int id, int userid) {
         List<Project> top8 = conn.withExtension(ProjectDAO.class, dao -> dao.get8ActiveProjectHighestView(id, userid));
