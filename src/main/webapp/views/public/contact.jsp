@@ -78,57 +78,64 @@
             <!--Grid column-->
             <div class="col-lg-5 mb-4">
                 <!--Form with header-->
-                <form class="card" action="" method="post">
+                <form class="card" id="form-contact">
                     <div class="card-body">
                         <!--Header-->
                         <!--Body-->
-                        <div class="md-form">
+                        <div class="md-form param-content">
                             <i class="fas fa-user prefix grey-text"></i>
-                            <input type="text" id="fullName" class="form-control">
+                            <input type="text" id="fullName" name="fullName" class="form-control">
                             <label for="fullName">Họ và tên</label>
                         </div>
-                        <div class="md-form">
+                        <div class="md-form param-content">
                             <i class="fas fa-envelope prefix grey-text"></i>
-                            <input type="text" id="email" class="form-control">
+                            <input type="text" id="email" name="email" class="form-control">
                             <label for="email">Địa chỉ email</label>
                         </div>
-                        <div class="md-form">
-                            <i class="fa-solid fa-map-location prefix grey-text"></i>
-                            <input type="text" id="address" class="form-control">
-                            <label for="address">Địa chỉ(tỉnh/thành phố)</label>
-                        </div>
-                        <div class="md-form">
+                        <div class="md-form param-content">
                             <i class="fa-solid  fa-phone prefix grey-text"></i>
-                            <input type="text" id="phone" class="form-control">
+                            <input type="text" id="phone" name="phone" class="form-control">
                             <label for="phone">Số điện thoại</label>
                         </div>
-                        <%--                            <div class="row">--%>
-                        <%--                                <div class=" black-brown-text font-weight-bold text-uppercase text-lg-center col-6 flex-center">--%>
-                        <%--                                    <!--                            <label>Chủ đề</label>-->--%>
-                        <%--                                    <select id="categoryId" class="browser-default custom-select mb-4">--%>
-                        <%--                                        <option value="" disabled="">Loại dự án</option>--%>
-                        <%--                                        <c:forEach var="category" items="${categories}">--%>
-                        <%--                                            <option value="${category.id}">${category.name}</option>--%>
-                        <%--                                        </c:forEach>--%>
-                        <%--                                    </select>--%>
-                        <%--                                </div>--%>
-                        <%--                                <div class="form-outline col-6">--%>
-                        <%--                                    <input type="text" id="projectId" class="form-control" placeholder="Mã dự án">--%>
-                        <%--                                </div>--%>
-                        <%--                            </div>--%>
+                        <div class="md-form param-content">
+                            <i class="fas fa-map-location prefix grey-text"></i>
+                            <select class="mdb-select md-form" name="province" id="province"
+                                    searchable="Search here..">
+                                <option disabled selected>Chọn tỉnh thành</option>
+                            </select>
+                            <input class="d-none" id="provinceValue" name="provinceValue">
+                        </div>
+                        <div class="md-form param-content">
+                            <i class="fas fa-city prefix grey-text"></i>
+
+                            <select class="mdb-select md-form" name="district" id="district"
+                                    searchable="Search here..">
+                                <option disabled selected>Quận / huyện</option>
+                            </select>
+                            <input class="d-none" id="districtValue" name="districtValue">
+                        </div>
+                        <div class="md-form param-content">
+                            <i class="fas fa-house-chimney prefix grey-text"></i>
+                            <select class="mdb-select md-form" name="ward" id="ward" searchable="Search here..">
+                                <option disabled selected>Phường / xã</option>
+                            </select>
+                            <input class="d-none" id="wardValue" name="wardValue">
+                        </div>
+
 
                         <!-- Message -->
-                        <div class="form-group">
-                                <textarea class="form-control rounded-0" id="content" rows="3"
+                        <div class="md-form param-content form-group">
+                                <textarea class="form-control rounded-0" id="content" name="content" rows="3"
                                           placeholder="Lời nhắn" style="height: 250px"></textarea>
                         </div>
                         <div class="text-center mt-4">
-                            <button class="btn btn-red waves-effect waves-light" onclick="saveContact()"
-                                    type="button">Gửi ngay
+                            <button class="btn btn-red waves-effect waves-light"
+                                    type="submit">Gửi ngay
                             </button>
                         </div>
                     </div>
                 </form>
+
                 <!--Form with header-->
 
             </div>
@@ -160,87 +167,62 @@
 <%@include file="/layout/public/footer.jsp" %>
 <%@include file="/layout/public/script.jsp" %>
 <script src="<c:url value="/template/js/main.js"/>"></script>
-<script src="<c:url value="/template/js/admin-modal-notify.js"/>"></script>
+<script src="<c:url value='/template/js/contactForm.js'/>"></script>
+<script src="<c:url value='/template/js/validation/validator.js'/>"></script>
+<script src="<c:url value='/template/js/dataAddress.js'/>"></script>
 <script>
-    function saveContact() {
-        $.ajax({
-            url: '/api/contact/save',
-            type: 'Post',
-            dataType: 'json',
-            data: {
-                fullName: $('#fullName').val(),
-                email: $('#email').val(),
-                address: $('#address').val(),
-                phone: $('#phone').val(),
-                content: $('#content').val(),
-            },
-            success: function (data) {
-                // let resp = JSON.parse(data);
-                // if (resp.status === 200) {
-                //     alert(resp.message);
-                //     window.location.reload();
-                // } else {
-                //     alert(resp.message);
-                // }
-                delayNotify(1000, data.message);
-                if(data.name == "success"){
-                    setTimeout(()=>{
-                        window.location.reload();
-                    }, 1000);
+    $(document).ready(function () {
+        $('.mdb-select').materialSelect();
+
+        let validator = $("#form-contact").validate({
+                ignore: [],
+                rules: contactValidation.rules,
+                messages: contactValidation.messages,
+                errorElement: "div", // Thẻ HTML sẽ hiển thị thông báo lỗi
+                errorPlacement: function (error, element) {
+                    // Đặt vị trí hiển thị thông báo lỗi
+                    error.addClass("invalid-feedback");
+                    element.closest(".param-content").append(error);
+                },
+                highlight: function (element, errorClass, validClass) {
+                    // Highlight lỗi
+
+                    $(element).addClass(errorClass).removeClass(validClass);
+                    $(element).closest(".param-content").addClass("has-error");
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    // Xóa highlight khi hợp lệ
+                    $(element).removeClass(errorClass).removeClass(validClass);
+                    $("#" + element.id + "-error").remove();
+                },
+                submitHandler: function (form) {
+                    $.ajax({
+                        url: "/api/contact/save",
+                        type: "POST",
+                        dataType: "json",
+                        data: $(form).serializeArray(),
+                        success: function (data) {
+                            console.log(data)
+                            if (data.status == 200) {
+                                autoCloseAlertWithFunction(data.message, 3000, "success", () => {
+                                    window.location.reload();
+                                })
+                            } else {
+                                errorAlert(data.message)
+                            }
+                        },
+                        error: function (e) {
+                            errorAlert()
+                        }
+                    })
                 }
 
-            },
-            error: function (data) {
-                //bắt lỗi email
-                console.log(data);
-                var e = JSON.parse(data.responseText);
-                console.log(e.name, e.message)
-                fetchErr(e.name, e.message);
-
-            }
-
-        })
-    }
-</script>
-<script>
-    function fetchErr(name, mess) {
-        console.log(name, mess)
-        switch (name) {
-            // case 'fullName':
-            //     let fullName = document.getElementById('fullName');
-            //     fullName.classList.add('border-danger');
-            //     fullName.classList.add('text-danger');
-            //     fullName.value = "";
-            //     fullName.setAttribute('value', "");
-            //     fullName.setAttribute('placeholder', mess);
-            //     break;
-            case 'email':
-                let email = document.getElementById('email');
-                email.classList.add('border-danger');
-                email.classList.add('text-danger');
-                email.value = "";
-                email.setAttribute('value', "");
-                // email.setAttribute('placeholder', mess);
-                break;
-            // case 'address':
-            //     let address = document.getElementById('address');
-            //     address.classList.add('border-danger');
-            //     address.classList.add('text-danger');
-            //     address.value = "";
-            //     address.setAttribute('value', " ");
-            //     address.setAttribute('placeholder', mess);
-            //     break;
-
-        }
-    }
-</script>
-<script>
-    let fullName = document.getElementById('email');
-    fullName.addEventListener('click', function () {
-        fullName.classList.remove('border-danger');
-        fullName.classList.remove('text-danger');
-        fullName.setAttribute('placeholder', "Email");
+            })
+        ;
     })
+
+
 </script>
+
 </body>
 </html>

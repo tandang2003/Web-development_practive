@@ -43,7 +43,7 @@ public interface ServiceDAO {
 
     @SqlUpdate("UPDATE services SET name=:name, description=:description, avatar=:avatar, status=:status, postId=:postId WHERE id=:id")
     Integer update(@BindBean Service service);
-    //TODO check lỗi
+//TODO check lỗi
     @SqlQuery("SELECT s.id,s.name, s.description, s.postId, s.avatar, s.status,p.content " +
             "FROM services s Left Join posts p on s.postId=p.id " +
             "WHERE s.id=:id")

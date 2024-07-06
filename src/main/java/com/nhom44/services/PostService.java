@@ -40,6 +40,7 @@ public class PostService {
 //         post.setContent("title");
 //         Post rpost=getInstance().addPost(post);
 //        System.out.println(rpost);
+        System.out.println(getInstance().getById(1).toString());
     }
 
     public Post getByObject(Post post) {

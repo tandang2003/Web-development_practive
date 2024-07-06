@@ -78,4 +78,3 @@ function drawProject(x) {
 
     return project;
 }
-

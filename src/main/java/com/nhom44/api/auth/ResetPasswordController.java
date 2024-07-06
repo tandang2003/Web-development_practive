@@ -19,8 +19,6 @@ import javax.servlet.http.HttpServletResponse;
         urlPatterns = {"/api/reset-password"}
 )
 public class ResetPasswordController extends HttpServlet {
-
-
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         System.out.println(req.getParameterMap().keySet().toString());
         String email = req.getParameter("email");

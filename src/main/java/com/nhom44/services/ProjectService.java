@@ -30,7 +30,7 @@ public class ProjectService {
         if (!isComplete) {
             project.setId(id);
 //            Project nProject = getProjectByObject(project);
-            addExcuting(project);
+             addExcuting(project);
 //            status = s1 == 1 && s2 == 1 ? 1 : 0;
         }
 
@@ -39,8 +39,8 @@ public class ProjectService {
     }
 
     public int addExcuting(Project project) {
-        Project finalProject = project;
-        return conn.withExtension(ProjectDAO.class, dao -> dao.addExcuting(finalProject.getId(), finalProject.getSchedule(), finalProject.getEstimatedComplete()));
+            Project finalProject = project;
+            return conn.withExtension(ProjectDAO.class, dao -> dao.addExcuting(finalProject.getId(), finalProject.getSchedule(), finalProject.getEstimatedComplete()));
     }
 
     public boolean isFinishProject(int id) {
