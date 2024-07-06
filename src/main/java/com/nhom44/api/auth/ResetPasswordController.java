@@ -26,6 +26,7 @@ public class ResetPasswordController extends HttpServlet {
         PrintWriter out = resp.getWriter();
         System.out.println(" email " + email );
         if (email == null || email.isEmpty()) {
+            System.out.println("email null");
             resp.setStatus(400);
             responseModel = new ResponseModel();
             responseModel.setName("email");

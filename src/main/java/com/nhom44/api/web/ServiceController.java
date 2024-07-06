@@ -36,7 +36,6 @@ public class ServiceController extends HttpServlet {
                     return;
                 }
                 Service service = ServiceOfProjectService.getInstance().getActiveById(Integer.parseInt(id));
-                System.out.println(service);
                 service.setName("DỊCH VỤ " + service.getName().toUpperCase());
                 service.setUpdatedAt(service.getUpdatedAt().substring(0, 10));
                 User user = (User) req.getSession().getAttribute("auth");

@@ -68,7 +68,4 @@ public interface ServiceDAO {
             ",s.status FROM Services s " +
             "GROUP BY s.id, s.name, s.description, s.status ")
     List<Service> getSuggestServices();
-
-
-    
 }

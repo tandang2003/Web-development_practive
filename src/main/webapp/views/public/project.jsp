@@ -179,6 +179,48 @@
     })
 </script>
 <script>
+    $(document).ready(function () {
+        $.ajax({
+            url: "/api/project",
+            type: "GET",
+            dataType: "json",
+            success: function (response) {
+                console.log('project');
+                console.log(response);
+                let data = response;
+                data = JSON.parse(data.data);
+                let tag='';
+                for (let s of data.services) {
+                    tag += '<option value="' + s.id + '">' + s.name + '</option>';
+                }
+                $('#serviceId').append(tag);
+                tag = '';
+                for (let c of data.categories) {
+                    tag += '<option value="' + c.id + '">' + c.name + '</option>';
+                }
+                $('#categoryId').append(tag);
+                tag = '';
+                for (let p of data.provinces) {
+                    tag += '<option value="' + p.id + '">' + p.name + '</option>';
+                }
+                $('#provinceId').append(tag);
+                tag = '';
+
+                for (let p of data.prices) {
+                    tag += '<option value="' + p.amount + '">' + p.strType + '</option>';
+                }
+                $('#price').append(tag);
+                tag = '';
+                for (let a of data.acreages) {
+                    tag += '<option value="' + a + '">' + a + '</option>';
+                }
+                $('#area').append(tag);
+
+            },
+        })
+    })
+</script>
+<script>
     function effectButton() {
         let pageItem = document.getElementsByClassName('page-item');
         for (let i = 0; i < pageItem.length; i++) {
