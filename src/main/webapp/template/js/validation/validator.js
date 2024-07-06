@@ -182,4 +182,81 @@ const forgetPasswordValidator = {
         }
     }
 }
-
+const orderValidator = {
+    rules: {
+        email: {
+            required: true,
+            email: true
+        },
+        province: {
+            required: true
+        },
+        district: {
+            required: true
+        },
+        ward: {
+            required: true
+        },
+        width:{
+            required: true,
+            digits: true,
+            min: 1
+        },
+        height:{
+            required: true,
+            digits: true,
+            min: 1
+        },
+        category:{
+            required: true
+        },
+        services:{
+            required: true
+        },
+        uploadImg:{
+            required: true,
+        },
+        project:{
+            required: true,
+            digits: true
+        }
+    },
+    messages:{
+        email: {
+            required: "Vui lòng nhập địa chỉ email",
+            email: "Địa chỉ email không hợp lệ"
+        },
+        province: {
+            required: "Vui lòng chọn tỉnh thành"
+        },
+        district: {
+            required: "Vui lòng chọn quận/huyện"
+        },
+        ward: {
+            required: "Vui lòng chọn phường/xã"
+        },
+        width:{
+            required: "Vui lòng nhập chiều rộng",
+            digits: "Chiều rộng chỉ được nhập số",
+            min: "Chiều rộng phải lớn hơn {0}"
+        },
+        height:{
+            required: "Vui lòng nhập chiều dài",
+            digits: "Chiều dài chỉ được nhập số",
+            min: "Chiều dài phải lớn hơn {0}"
+        },
+        category:{
+            required: "Vui lòng chọn loại sản phẩm"
+        },
+        services:{
+            required: "Vui lòng chọn loại dịch vụ"
+        },
+        uploadImg:{
+            required: "Vui lòng chọn ảnh",
+        },
+        project:{
+            required: "Vui lòng chọn dự án",
+            digits: "Mã dự án chỉ được nhập số"
+        }
+    }
+}

@@ -84,74 +84,73 @@
                     </div>
                     <div class="sticky-top" style="z-index: 1; top:80px">
 
-                        <form class="card" id="form-request" action="post?action=cast" method="post">
+                        <form class="card" id="orderForm">
                             <div class="card-body pl-3 pr-3">
                                 <!--Header-->
                                 <!--Body-->
-                                <div class="md-form mt-1 mb-1 p-1">
-                                    <input type="text" id="form-email" name="email"
+                                <div class="md-form mt-1 mb-1 p-1 param-content">
+                                    <input type="text" id="email" name="email"
                                            class="form-control form-input form-input p-1 m-0"
                                            style="font-size: 15px" value="">
-                                    <label for="form-email" class="m-0" style="font-size: 15px"> <i
+                                    <label for="email" class="m-0" style="font-size: 15px"> <i
                                             class="fa-lg fas fa-envelope grey-text"></i>
                                         Địa chỉ email</label>
                                 </div>
-                                <div class="form-outline mt-1 mb-1">
-                                    <%--                                    <label for="province" class="labels">Tỉnh thành</label>--%>
+                                <div class="form-outline mt-1 mb-1 param-content">
                                     <select name="province" id="province" class="form-control form-input">
                                         <option value="" disabled selected>Chọn tỉnh thành</option>
                                     </select>
                                 </div>
-                                <div class="form-outline mt-1 mb-1">
+                                <div class="form-outline mt-1 mb-1 param-content">
                                     <%--                                    <label for="district" class="labels">Quận/Huyện</label>--%>
                                     <select name="district" id="district" class="form-control form-input">
                                         <option value="" disabled selected>Chọn quận/huyện</option>
                                     </select>
                                 </div>
-                                <div class="form-outline mt-1 mb-1">
+                                <div class="form-outline mt-1 mb-1 param-content">
                                     <%--                                    <label for="ward" class="labels">Phường/Xã</label>--%>
                                     <select name="ward" id="ward" class="form-control form-input">
                                         <option value="" disabled selected>Chọn phường/xã</option>
                                     </select>
                                 </div>
-                                <div class="row d-flex justify-content-between m-0 p-0 ">
+                                <div class="row d-flex justify-content-between m-0 p-0 param-content">
                                     <!--                                <div class=" col-lg-5 col-md-5 col-sm-12 mb-3  p-0">-->
                                     <select name="category" id="category" class="form-control form-input md-form
                                      col-lg-6 col-md-6 col-sm-12 m-0 mt-2 p-0  p-1">
                                         <option value="" disabled="" selected="">Loại dự án</option>
                                     </select>
                                     <!--                                </div>-->
-                                    <div class="form-outline col-lg-6 col-md-6 col-sm-12  mt-2 p-0 m-0 ">
-                                        <input name="representProjectId" type="number" id="idProject"
+                                    <div class="form-outline col-lg-6 col-md-6 col-sm-12  mt-2 p-0 m-0 param-content">
+                                        <input name="project" type="number" id="idProject"
                                                placeholder="Mã dự án"
                                                class="form-control form-input ml-md-2 p-1"
                                                value="">
                                     </div>
                                 </div>
                                 <div class="row  d-flex justify-content-between m-0 p-0">
-                                    <div class="form-outline col-lg-6  col-md-6 col-sm-12 p-0 m-0">
+                                    <div class="form-outline col-lg-6  col-md-6 col-sm-12 p-0 m-0 param-content">
                                         <label for="area-width" style="font-size: 13px">
                                             Chiều rộng(<span class="position-relative m-1">m<span
                                                 class="position-absolute top right "
                                                 style="font-size: 10px;">2</span></span> )</label>
                                         <input name="width" type="number" id="area-width"
-                                               class="form-control form-input mr-2 p-1" value="${cart.width}">
+                                               class="form-control form-input mr-2 p-1" value="">
                                     </div>
-                                    <div class="form-outline col-lg-6 col-md-6 col-sm-12 p-0 m-0 ">
+                                    <div class="form-outline col-lg-6 col-md-6 col-sm-12 p-0 m-0 param-content has-error pl-md-2">
                                         <label for="area-length" class="ml-md-2" style="font-size: 13px">
                                             Chiều dài(<span class="position-relative m-1">m<span
                                                 class="position-absolute top right "
                                                 style="font-size: 10px;">2</span></span> )</label>
                                         <input name="height" type="number" id="area-length"
-                                               class="form-control form-input ml-md-2 p-1" value="${cart.height}">
+                                               class="form-control form-input p-1" value="">
                                     </div>
                                 </div>
-                                <div class="">
+                                <div class="param-content">
                                     <label class="mdb-main-label" style="font-size: 13px">Dịch vụ</label>
-                                    <select name="services" id="services" class="mdb-select md-form services"
-                                            data-mdb-select-init multiple>
+                                    <select id="services" class="mdb-select md-form services" multiple>
                                     </select>
                                     <button type="button" class="btn-save btn btn-primary btn-sm">Save</button>
+                                    <input type="hidden" id="serviceValue"  name="serviceValue">
                                 </div>
 
                                 <!-- Message -->
@@ -171,7 +170,7 @@
                                 <%--                                        </div>--%>
                                 <%--                                    </div>--%>
                                 <%--                                </form>--%>
-                                <div class="input-group mt-2">
+                                <div class="input-group mt-2 param-content d-block">
                                     <div class="file-field d-flex align-items-center">
                                         <p class="m-0">Khu vực thi công: </p>
                                         <div class="float-left">
@@ -179,11 +178,11 @@
                                                 ảnh
                                             </button>
                                         </div>
-                                        <input type="hidden" name="uploadImg" id="uploadImg">
                                     </div>
+                                    <input type="hidden" name="uploadImg" id="uploadImg">
                                 </div>
-                                <div class="text-center mt-4">
-                                    <button class="btn btn-red" id="save" type="button">Đặt Ngay</button>
+                                <div class="text-center">
+                                    <button class="btn btn-red" type="submit">Đặt Ngay</button>
                                 </div>
                             </div>
                         </form>
@@ -197,7 +196,6 @@
                             </ul>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -212,24 +210,32 @@
 <script src="<c:url value="/template/js/validation/validateFunction.js"/>"></script>
 <script src="<c:url value='/template/js/dataAddress.js'/>"></script>
 <script>
+    // $.validator.addMethod('filesize', function (value, element, param) {
+    //     return this.optional(element) || (element.files[0].size <= param)
+    // }, 'File size must be less than {0}');
+    function updateOrder(form) {
+        console.log($(form).serializeArray())
+        $.ajax({
+            url: '/api/cart/update',
+            type: 'POST',
+            data: $(form).serializeArray(),
+            success: function (data) {
+                console.log(data)
+            },
+            error: function (event) {
+                console.log(event)
+            }
+        })
+    }
 
+    $(document).ready(function () {
+        $('#orderForm').on('change',function () {
+            updateOrder($('#orderForm'))
+        })
+        validate('#orderForm', orderValidator, function (form) {
 
-
-    // $.fn.filepond.registerPlugin(
-    //     FilePondPluginImagePreview,
-    //     FilePondPluginImageExifOrientation,
-    //     FilePondPluginFileValidateSize,
-    //     FilePondPluginImageEdit
-    // );
-    // $('#filepond').filepond({
-    //     allowMultiple: true,
-    //     maxFiles: 5,
-    //     maxFileSize: '5MB',
-    //     acceptedFileTypes: ['image/*'],
-    // })
-    // $('.my-pond').first().filepond('addFile', 'index.html').then(function(file){
-    //     console.log('file added', file);
-    // });
+        });
+    })
 </script>
 </body>
 </html>
