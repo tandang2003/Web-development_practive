@@ -9,16 +9,16 @@ import com.nhom44.services.AddressService;
 import com.nhom44.services.MailService;
 import com.nhom44.services.UserService;
 import com.nhom44.services.VerifyService;
+import com.nhom44.validator.EmailSingleValidator;
+import com.nhom44.validator.SingleValidator;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.time.LocalDate;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.servlet.ServletException;
@@ -39,238 +39,101 @@ public class SignUpController extends HttpServlet {
         UserService userService = UserService.getInstance();
         AddressService addressService = AddressService.getInstance();
         PrintWriter printWriter = resp.getWriter();
-        List<ResponseModel> errMess = new ArrayList();
-        String action = req.getParameter("action");
-        boolean isErr = false;
-        String email = req.getParameter("email") == null ? "" : req.getParameter("email");
-        System.out.println("step 1.5");
-        if (!email.contains("@") || !email.contains(".")) {
-            ResponseModel responseModel = new ResponseModel();
-            responseModel.setData((Object) null);
-            responseModel.setName("email");
-            errMess.add(responseModel);
-            isErr = true;
-        }
-        System.out.println(email);
-
-        System.out.println("step 2");
-        String password = req.getParameter("password");
-        String verifypassword = req.getParameter("verifypassword");
         ResponseModel responseModel;
-        if (!Objects.equals(password, verifypassword)) {
-            responseModel = new ResponseModel();
-            responseModel.setData((Object) null);
-            responseModel.setName("password");
-            errMess.add(responseModel);
-            isErr = true;
-        }
-
-        if (password.length() < 6) {
-            responseModel = new ResponseModel();
-            responseModel.setData((Object) null);
-            responseModel.setName("password");
-            errMess.add(responseModel);
-            isErr = true;
-        }
-        System.out.println(password);
-        System.out.println(verifypassword);
-
-        System.out.println("step 3");
-        String name = req.getParameter("fullname");
-        if (name == null || name.trim().isEmpty() || name.length() < 6) {
-            responseModel = new ResponseModel();
-            responseModel.setName("fullname");
-            errMess.add(responseModel);
-            isErr = true;
-        }
-        System.out.println(name);
-
-        System.out.println("step 4");
-        String ip_birthday = req.getParameter("birthday");
-        Date birthday = null;
-        if (ip_birthday != null && !ip_birthday.trim().isEmpty()) {
-            System.out.println(ip_birthday);
-            SimpleDateFormat dmy = new SimpleDateFormat("yyyy-MM-dd");
-            dmy.setLenient(false);
-
-            try {
-                birthday = dmy.parse(ip_birthday);
-            } catch (Exception var28) {
+        Map<String, String[]> map = req.getParameterMap();
+        responseModel = validate(map);
+        if (responseModel != null) {
+            User user = createUserObject(map);
+            //TODO hỏi lấy id làm sao
+            User addedUser = userService.addUser(user);
+            if (addedUser.getPassword() == null && addedUser.getId() != 0) {
+                int userId = userService.getIdUserWithEmail(addedUser.getEmail());
+                String token = UUID.randomUUID().toString();
+                VerifyService.getInstance().insert(token, userId);
+                MailService.getInstance().sendMailToVerify(null, addedUser.getEmail(), token);
                 responseModel = new ResponseModel();
-                responseModel.setData((Object) null);
-                responseModel.setName("birthday");
-                errMess.add(responseModel);
-                isErr = true;
+                responseModel.setName("success");
+                responseModel.setMessage("Xin vui lòng truy cập email để xác thực tài khoản của bạn");
+                responseModel.setData("/home");
+            } else if (addedUser.getPassword() != null && addedUser.getId() == 0) {
+                responseModel = new ResponseModel();
+                responseModel.setName("error");
+                responseModel.setMessage("Hệ thống hiện tại hiện tại đang bận vui lòng thử lại sau");
+                responseModel.setData(addedUser);
             }
-        } else {
-            responseModel = new ResponseModel();
-            responseModel.setData((Object) null);
-            responseModel.setName("birthday");
-            errMess.add(responseModel);
-            isErr = true;
-        }
-        System.out.println(birthday);
-
-        System.out.println("step 5");
-        String phone = req.getParameter("phone");
-        String regexPhone = "^(0|\\+84)(\\s|\\.)?((3[2-9])|(5[689])|(7[06-9])|(8[1-689])|(9[0-46-9]))(\\d)(\\s|\\.)?(\\d{3})(\\s|\\.)?(\\d{3})$";
-        Pattern patternPhone = Pattern.compile(regexPhone);
-        Matcher matcherPhone = patternPhone.matcher(phone);
-        System.out.println(phone);
-        if (!phone.isEmpty() && phone.length() < 10) {
-            responseModel = new ResponseModel();
-            responseModel.setData((Object) null);
-            responseModel.setName("phone");
-            errMess.add(responseModel);
-            isErr = true;
-        } else if (!matcherPhone.matches()) {
-            responseModel = new ResponseModel();
-            responseModel.setData((Object) null);
-            responseModel.setName("phone");
-            errMess.add(responseModel);
-            isErr = true;
-        } else {
-            System.out.println("phone: " + phone);
-            responseModel = new ResponseModel();
-            responseModel.setData((Object) null);
-            responseModel.setName("phone");
-            errMess.add(responseModel);
-            isErr = true;
-        }
-        System.out.println(phone);
-
-        System.out.println("step 6");
-        Address address = new Address();
-        Address addedAddress = new Address();
-        String province = req.getParameter("province");
-        String district = req.getParameter("district");
-        String ward = req.getParameter("ward");
-        System.out.println("step 6.5");
-        System.out.println("province: " + province + "\n" + "district: " + district + "\n" + "ward: " + ward);
-        if (province == null || province.trim().isEmpty()) {
-            responseModel = new ResponseModel();
-            responseModel.setData((Object) null);
-            responseModel.setName("province");
-            errMess.add(responseModel);
-            isErr = true;
-            System.out.println("province: " + province);
-        } else if (district == null || district.trim().isEmpty()) {
-            responseModel = new ResponseModel();
-            responseModel.setData((Object) null);
-            responseModel.setName("district");
-            errMess.add(responseModel);
-            isErr = true;
-            System.out.println("district: " + district);
-        } else if (ward == null || ward.trim().isEmpty()) {
-            responseModel = new ResponseModel();
-            responseModel.setData((Object) null);
-            responseModel.setName("ward");
-            errMess.add(responseModel);
-            isErr = true;
-            System.out.println("ward: " + ward);
-        } else {
-            System.out.println("address: " + address.toString());
-            address.setProvinceId(Integer.parseInt(province));
-            address.setDistrictId(Integer.parseInt(district));
-            address.setWardId(Integer.parseInt(ward));
-            System.out.println("ward: " + address.getWardId());
-            addedAddress = addressService.addAddress(address);
-            System.out.println("address: " + addedAddress.toString());
-            responseModel = new ResponseModel();
-            responseModel.setData(addedAddress);
-            responseModel.setName("address");
-            errMess.add(responseModel);
-            isErr = true;
-
-        }
-        System.out.println(addedAddress.getId());
-        System.out.println(isErr + "blablabla");
-        System.out.println("step 6.9");
-        String isMale = req.getParameter("isMale");
-        String isFemale = req.getParameter("isFemale");
-        System.out.println(isMale);
-        System.out.println(isFemale);
-        if (isMale.isEmpty() && isFemale.isEmpty()) {
-            responseModel = new ResponseModel();
-            responseModel.setData((Object) null);
-            responseModel.setName("gender");
-            errMess.add(responseModel);
-            System.out.println(isFemale);
-            isErr = true;
-        } else {
-            isMale = isMale.equals("true") ? "1" : "0";
-            System.out.println(isMale);
-        }
-        System.out.println("step 7");
-        String status = "0";
-        String role = "0";
-        System.out.println("ready");
-        System.out.println("isErr " + isErr);
-        if (!isErr) {
-            resp.setStatus(400);
-            printWriter.println(gson.toJson(errMess));
+            resp.setStatus(200);
+            printWriter.print(gson.toJson(responseModel));
             printWriter.flush();
             printWriter.close();
-            System.out.println("step 7.5");
-            System.out.println("isErr " + isErr);
-        } else {
+        }
 
-            System.out.println("--------------------------");
-            if (UserService.getInstance().isContainEmail(email)) {
-                resp.setStatus(400);
-                responseModel = new ResponseModel();
+    }
+
+    private User createUserObject(Map<String, String[]> map) {
+        User user = new User();
+        user.setStatus(0);
+        map.keySet().forEach((key) -> {
+            switch (key) {
+                case "email":
+                    user.setEmail(map.get(key)[0]);
+                    break;
+                case "name":
+                    user.setFullName(map.get(key)[0]);
+                    break;
+                case "password":
+                    user.setPassword(map.get(key)[0]);
+                    break;
+                case "phone":
+                    user.setPhone(map.get(key)[0]);
+                    break;
+                case "birthday":
+                    user.setBirthday(java.sql.Date.valueOf(LocalDate.parse(map.get(key)[0])));
+                    break;
+                case "gender":
+                    user.setGender(Integer.parseInt(map.get(key)[0]));
+                    break;
+                case "province":
+                    user.getAddress().setProvinceId(Integer.parseInt(map.get(key)[0]));
+                    break;
+                case "district":
+                    user.getAddress().setDistrictId(Integer.parseInt(map.get(key)[0]));
+                    break;
+                case "ward":
+                    user.getAddress().setWardId(Integer.parseInt(map.get(key)[0]));
+                    break;
+            }
+        });
+        return null;
+    }
+
+    private ResponseModel validate(Map<String, String[]> map) {
+        ResponseModel responseModel = new ResponseModel();
+        responseModel.setStatus("400");
+        SingleValidator validator = new EmailSingleValidator();
+        if (map.containsKey("email") && map.containsKey("password") && map.containsKey("rePassword")) {
+            if (!validator.validator(map.get("email")[0])) {
+                responseModel.setName("email");
+                responseModel.setMessage("Email không hợp lệ");
+                return responseModel;
+            }
+            if (UserService.getInstance().isContainEmail(map.get("email")[0])) {
                 responseModel.setName("email");
                 responseModel.setMessage("Email đã tồn tại");
-                errMess.add(responseModel);
-                printWriter.print(gson.toJson(errMess));
-                System.out.println("step 7.6");
-            } else {
-                User user, addedUser;
-                user = new User();
-                user.setEmail(email);
-                System.out.println(user.getEmail());
-                user.setPassword(password);
-                System.out.println(user.getPassword());
-                user.setFullName(name);
-                System.out.println(user.getFullName());
-                user.setBirthday(new java.sql.Date(birthday.getTime()));
-                System.out.println(user.getBirthday());
-                user.setPhone(phone);
-                System.out.println(user.getPhone());
-                user.setGender(Integer.parseInt(isMale));
-                System.out.println(user.getGender());
-                user.setStatus(Integer.parseInt(status));
-                user.setRole(Integer.parseInt(role));
-                user.setAddressId(addedAddress.getId());
-                System.out.println(addedAddress.getId());
-                System.out.println(user.getAddressId());
-                addedUser = userService.addUser(user);
-                System.out.println("step 8");
-                System.out.println(addedUser.toString());
-                if (addedUser.getPassword() == null && addedUser.getId() != 0) {
-                    System.out.println("bla bla bla");
-                    int userId = userService.getIdUserWithEmail(addedUser.getEmail());
-                    String token = UUID.randomUUID().toString();
-                    VerifyService.getInstance().insert(token, userId);
-                    MailService.getInstance().sendMailToVerify(null, addedUser.getEmail(), token);
-                    responseModel = new ResponseModel();
-                    responseModel.setName("success");
-                    responseModel.setMessage("Xin vui lòng truy cập email để xác thực tài khoản của bạn");
-                    resp.setStatus(200);
-                    printWriter.print(gson.toJson(responseModel));
-                    System.out.println("step 9");
-                } else if (addedUser.getPassword() != null && addedUser.getId() == 0) {
-                    responseModel = new ResponseModel();
-                    resp.setStatus(200);
-                    responseModel.setName("sys");
-                    responseModel.setMessage("Thêm thất bại");
-                    responseModel.setData(addedUser);
-                    printWriter.print(gson.toJson(responseModel));
-                    System.out.println("step 10");
-                }
-                printWriter.flush();
-                printWriter.close();
+                return responseModel;
+            }
+            if (map.get("password")[0].length() < 6) {
+                responseModel.setName("password");
+
+                responseModel.setMessage("Mật khẩu phải có ít nhất 6 ký tự");
+                return responseModel;
+            }
+            //checking passoword and rePassword
+            if (!map.get("password")[0].equals(map.get("rePassword")[0])) {
+                responseModel.setName("password");
+                responseModel.setMessage("Mật khẩu không khớp");
+                return responseModel;
             }
         }
+        return null;
     }
 }

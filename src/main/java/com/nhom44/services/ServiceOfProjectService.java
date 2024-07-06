@@ -19,7 +19,7 @@ public class ServiceOfProjectService {
     }
 
     public List<Service> getAll() {
-            return conn.withExtension(ServiceDAO.class, dao -> dao.getAll());
+        return conn.withExtension(ServiceDAO.class, dao -> dao.getAll());
     }
     public int addServiceForProject(int projectId, int serviceId) {
         return conn.withExtension(ServiceDAO.class, dao -> dao.addServiceForProject(projectId, serviceId));
@@ -95,5 +95,6 @@ public class ServiceOfProjectService {
         return res;
     }
     public static void main(String[] args) {
+        System.out.println(getInstance().getActiveById(3));
     }
 }

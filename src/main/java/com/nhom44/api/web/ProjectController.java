@@ -76,6 +76,20 @@ public class ProjectController extends HttpServlet {
                         List<String> gallery = ImageService.getInstance().getGroupImagesByProjectId(Integer.parseInt(id));
                         responseModel.setData(gallery);
                         break;
+                    case "order":
+
+                        List<Category> categories = CategoryService.getInstance().getAllActive();
+                        List<Service> allServices = ServiceOfProjectService.getInstance().getAllActive();
+                        Project project1 = ProjectService.getInstance().getActiveById(Integer.parseInt(id));
+                        List<Integer> services1 = ServiceOfProjectService.getInstance().getServicesByProjectId(project1.getId()).stream().map(Service::getId).toList();
+                        JsonObject setUp= new JsonObject();
+                        setUp.add("categories", new Gson().toJsonTree(categories));
+                        setUp.add("services", new Gson().toJsonTree(allServices));
+                        JsonObject data = new JsonObject();
+                        data.add("project", new Gson().toJsonTree(project1));
+                        data.add("services", new Gson().toJsonTree(services1));
+                        data.add("setUp", new Gson().toJsonTree(setUp));
+                        responseModel.setData(data.toString());
                 }
             } else {
                 project.setUpdatedAt(project.getUpdatedAt().substring(0, 10));
