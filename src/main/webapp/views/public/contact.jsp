@@ -168,7 +168,7 @@
 <%@include file="/layout/public/script.jsp" %>
 <script src="<c:url value="/template/js/main.js"/>"></script>
 <script src="<c:url value='/template/js/contactForm.js'/>"></script>
-<script src="<c:url value='/template/js/validation/contact.js'/>"></script>
+<script src="<c:url value='/template/js/validation/validator.js'/>"></script>
 <script src="<c:url value='/template/js/dataAddress.js'/>"></script>
 <script>
     $(document).ready(function () {
@@ -176,8 +176,8 @@
 
         let validator = $("#form-contact").validate({
                 ignore: [],
-                rules: contactValidation.rulesContact,
-                messages: contactValidation.messagesContact,
+                rules: contactValidation.rules,
+                messages: contactValidation.messages,
                 errorElement: "div", // Thẻ HTML sẽ hiển thị thông báo lỗi
                 errorPlacement: function (error, element) {
                     // Đặt vị trí hiển thị thông báo lỗi

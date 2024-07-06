@@ -213,63 +213,39 @@
 <script src="<c:url value="/template/js/main.js"/>"></script>
 <script src="<c:url value='/template/js/home.js'/>"></script>
 <script src="<c:url value='/template/js/services.js'/>"></script>
-<script src="<c:url value='/template/js/validation/contact.js'/>"></script>
+<script src="<c:url value='/template/js/validation/validator.js'/>"></script>
 <script src="<c:url value="/template/lib/jquery-validation-1.19.5/dist/jquery.validate.js"/>"></script>
 <script src="<c:url value="/template/lib/jquery-validation-1.19.5/dist/additional-methods.js"/>"></script>
 <script src="<c:url value='/template/js/ajax/home.js'/>"></script>
 <script src="<c:url value='/template/js/ajax/saveProject.js'/>"></script>
 <script src="<c:url value='/template/js/contactForm.js'/>"></script>
-<script src="<c:url value='/template/js/validation/contact.js'/>"></script>
+<script src="<c:url value='/template/js/validation/validateFunction.js'/>"></script>
+<script src="<c:url value='/template/js/validation/validator.js'/>"></script>
 <script src="<c:url value='/template/js/dataAddress.js'/>"></script>
 <script>
     $(document).ready(function () {
         $('.mdb-select').materialSelect();
-
-        let validator = $("#form-contact").validate({
-                ignore: [],
-                rules: contactValidation.rulesContact,
-                messages: contactValidation.messagesContact,
-                errorElement: "div", // Thẻ HTML sẽ hiển thị thông báo lỗi
-                errorPlacement: function (error, element) {
-                    // Đặt vị trí hiển thị thông báo lỗi
-                    error.addClass("invalid-feedback");
-                    element.closest(".param-content").append(error);
+        validate("#form-contact", contactValidation, function (form) {
+            $.ajax({
+                url: "/api/contact/save",
+                type: "POST",
+                dataType: "json",
+                data: $(form).serializeArray(),
+                success: function (data) {
+                    console.log(data)
+                    if (data.status == 200) {
+                        autoCloseAlertWithFunction(data.message, 3000, "success", () => {
+                            window.location.reload();
+                        })
+                    } else {
+                        errorAlert(data.message)
+                    }
                 },
-                highlight: function (element, errorClass, validClass) {
-                    // Highlight lỗi
-
-                    $(element).addClass(errorClass).removeClass(validClass);
-                    $(element).closest(".param-content").addClass("has-error");
-                },
-                unhighlight: function (element, errorClass, validClass) {
-                    // Xóa highlight khi hợp lệ
-                    $(element).removeClass(errorClass).removeClass(validClass);
-                    $("#" + element.id + "-error").remove();
-                },
-                submitHandler: function (form) {
-                    $.ajax({
-                        url: "/api/contact/save",
-                        type: "POST",
-                        dataType: "json",
-                        data: $(form).serializeArray(),
-                        success: function (data) {
-                            console.log(data)
-                            if (data.status == 200) {
-                                autoCloseAlertWithFunction(data.message, 3000, "success", () => {
-                                    window.location.reload();
-                                })
-                            } else {
-                                errorAlert(data.message)
-                            }
-                        },
-                        error: function (e) {
-                            errorAlert()
-                        }
-                    })
+                error: function (e) {
+                    errorAlert()
                 }
-
             })
-        ;
+        })
     })
 
 

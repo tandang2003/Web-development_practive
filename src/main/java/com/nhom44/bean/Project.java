@@ -6,7 +6,8 @@ import java.util.Objects;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Project extends AbsModel implements Serializable {
+@Builder
+public class Project implements Serializable {
     private int id;
     private String title;
     private String description;
@@ -29,18 +30,20 @@ public class Project extends AbsModel implements Serializable {
     private boolean isSave;
     private int saveBy;
 
-    @Override
-    public void setPreValue(AbsModel model) {
-        if (model != null && ((Project) model).id != 0) {
-            this.preValue = model;
-        }
 
-    }
-
-    @Override
-    public void setAfterValue(AbsModel model) {
-        if (model != null && ((Project) model).id != 0) {
-            this.afterValue = model;
-        }
+    public Project(int id, String title, String description, String avatar, long price, double acreage, int status, int postId, int isAccepted, String createdAt, String updatedAt, int addressId, int categoryId) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.avatar = avatar;
+        this.price = price;
+        this.acreage = acreage;
+        this.status = status;
+        this.postId = postId;
+        this.isAccepted = isAccepted;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.addressId = addressId;
+        this.categoryId = categoryId;
     }
 }

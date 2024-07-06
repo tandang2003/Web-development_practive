@@ -226,8 +226,8 @@ public class ProjectController extends HttpServlet {
             } else if (action.equalsIgnoreCase("edit")) {
                 map.put("address", "Admin edit project");
                 map.put("level", "2");
-                project = ProjectService.getInstance().updateProject(project, !req.getParameter("isComplete").equals("0"));
-                project.insert(map);
+//                project = ProjectService.getInstance().updateProject(project, !req.getParameter("isComplete").equals("0"));
+
                 System.out.println("done");
 //                List<String> services = Arrays.asList(arr);
 //                ServiceOfProjectService.getInstance().updateServiceForProject(project.getId(), services);

@@ -86,9 +86,7 @@ body {
 }
 
 .container .birth {
-    width: 340px;
-    display: flex;
-    justify-content: space-between;
+    width: 250px;
 }
 
 .form-container {
@@ -438,4 +436,20 @@ body {
         display: block;
         left: 20%;
     }
+}
+.param-content{
+    width: 100%;
+    height: fit-content;
+}
+/*.param-content .error{*/
+/*    color: red;*/
+/*    font-size: 12px;*/
+/*    margin-top: 5px;*/
+/*    margin-bottom: 0;*/
+/*}*/
+.invalid{
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+    margin-bottom: 0;
 }

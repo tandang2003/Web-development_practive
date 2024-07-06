@@ -17,7 +17,6 @@ public class PostController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String url = req.getServletPath();
         String id = req.getPathInfo().trim().substring(1);
-        String FindingID = id;
         if (id == null || !new NumberVallidator().validator(id)) {
             resp.sendRedirect("/404");
             return;
