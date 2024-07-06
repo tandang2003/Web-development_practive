@@ -12,7 +12,7 @@ public class Ip2Location {
     public static final String Default_URL = "https://api.ip2location.io/?key=";
 
     public static String getNationality(String ip) {
-        String url = Default_URL + Ip2LocationProperties.getIp2Location() + "&ip=" + ip;
+        String url = Default_URL + ip2LocationProperties.getIp2Location() + "&ip=" + ip;
         try {
             URL urlObj = new URL(url);
             HttpURLConnection connection = null;
