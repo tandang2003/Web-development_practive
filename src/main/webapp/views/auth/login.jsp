@@ -19,50 +19,69 @@
     <div class="form-container sign-up">
         <a class="icon-arrow arrow-sign-up" href="home"><i
                 class="fa-solid fa-arrow-left"></i></a>
+        <%--        form đăng ký--%>
         <form id="sign-up">
             <h1>Tạo tài khoản</h1>
             <span>Thông tin đăng nhập</span>
-            <input type="text" name="name" id="fullname" placeholder="Tên">
-            <div style="display: flex;width: 100%">
-                <input class="birth" name="birthday" id="birthday" type="date" placeholder="Ngày sinh">
-                <label style="display: flex;margin-left: 7%;">
-                    <input name="isMale" id="isMale" type="checkbox" checked>
-                    <p style="margin: auto; padding: 6%; top:6%; font-size: 16px">Nam</p>
-                </label>
-                <label style="display: flex;margin-left: 7%;">
-                    <input name="isFemale" id="isFemale" type="checkbox">
-                    <p style="margin: auto; padding: 6%; top:6%; font-size: 16px">Nữ</p>
-                </label>
+            <div class="param-content">
+                <input type="text" name="name" id="fullname" placeholder="Tên">
             </div>
-            <!--            <input type="address" placeholder="Địa chỉ">-->
-            <select class="mdb-select md-form" name="address" id="province" searchable="Search here..">
-                <option value="" disabled selected>Chọn tỉnh thành</option>
-                <%--                <c:forEach items="${provinces}" var="province">--%>
-                <%--                    <option value="${province.name}">${province.name}</option>--%>
-                <%--                </c:forEach>--%>
-            </select>
+            <div class="param-content">
+                <input type="email" name="email" id="email-signup" placeholder="Tên tài khoản / Email">
+            </div>
+            <div class="param-content">
+                <input type="password" name="password" id="password-signup" placeholder="Mật khẩu">
+            </div>
+            <div class="param-content">
+                <input type="password" name="rePassword" id="verifypassword-sigup" placeholder="Xác nhận mật khẩu">
+            </div>
+            <div class="param-content">
+                <input type="text" name="phone" id="phone-sigup" placeholder="Số điện thoại">
+            </div>
+            <div style="display: flex;width: 100%">
+                <div class="param-content">
+                    <input class="birth" name="birthday" id="birthday" type="date" placeholder="Ngày sinh">
+                </div>
+                <div class="param-content" style="flex-direction: row;
+    height: 100%;
+    display: flex;
+    align-items: center;justify-content: space-around">
+                    <label style="display: flex;margin-left: 7%;">
+                        <input name="gender" id="isMale" type="checkbox" value="1" checked>
+                        <p style="margin: auto; padding: 6%; top:6%; font-size: 16px">Nam</p>
+                    </label>
+                    <label style="display: flex;margin-left: 7%;">
+                        <input name="gender" id="isFemale" type="checkbox" value="0">
+                        <p style="margin: auto; padding: 6%; top:6%; font-size: 16px">Nữ</p>
+                    </label>
+                </div>
+            </div>
+            <div class="param-content">
+                <select class="mdb-select md-form" name="province" id="province" searchable="Search here..">
+                    <option value="" disabled selected>Chọn tỉnh thành</option>
+                    <%--                <c:forEach items="${provinces}" var="province">--%>
+                    <%--                    <option value="${province.name}">${province.name}</option>--%>
+                    <%--                </c:forEach>--%>
+                </select>
+            </div>
+            <div class="param-content">
 
-            <select class="mdb-select md-form" name="address" id="district" searchable="Search here..">
-                <option value="" disabled selected>Quận / huyện</option>
-                <%--                <c:forEach items="${districts}" var="district">--%>
-                <%--                    <option value="${district.name}">${district.name}</option>--%>
-                <%--                </c:forEach>--%>
-            </select>
-
-            <select class="mdb-select md-form" name="address" id="ward" searchable="Search here..">
-                <option value="" disabled selected>Phường / xã</option>
-                <%--                <c:forEach items="${wards}" var="district">--%>
-                <%--                    <option value="${ward.name}">${ward.name}</option>--%>
-                <%--                </c:forEach>--%>
-            </select>
-
-
-            <input type="email" name="email" id="email-signup" placeholder="Tên tài khoản / Email">
-            <input type="password" name="password" id="pasword-signup" placeholder="Mật khẩu">
-            <input type="password" name="verifypassword" id="verifypassword-sigup" placeholder="Xác nhận mật khẩu">
-            <input type="text" name="verifypassword" id="phone-sigup" placeholder="Số điện thoại">
+                <select class="mdb-select md-form" name="district" id="district" searchable="Search here..">
+                    <option value="" disabled selected>Quận / huyện</option>
+                    <%--                <c:forEach items="${districts}" var="district">--%>
+                    <%--                    <option value="${district.name}">${district.name}</option>--%>
+                    <%--                </c:forEach>--%>
+                </select></div>
+            <div class="param-content">
+                <select class="mdb-select md-form" name="ward" id="ward" searchable="Search here..">
+                    <option value="" disabled selected>Phường / xã</option>
+                    <%--                <c:forEach items="${wards}" var="district">--%>
+                    <%--                    <option value="${ward.name}">${ward.name}</option>--%>
+                    <%--                </c:forEach>--%>
+                </select>
+            </div>
             <p id="error-message-signup" style="color: red;"></p>
-            <button type="button" id="sign-up-button">Đăng kí</button>
+            <button type="submit" id="sign-up-button">Đăng kí</button>
         </form>
     </div>
     <div class="form-container forgot-password">
@@ -70,13 +89,16 @@
             <a class="icon-arrow" href="home"><i
                     class="fa-solid fa-arrow-left"></i></a>
         </div>
+        <%--        form quên mật khẩu--%>
         <form id="forget-password">
             <h1>Quên mật khẩu</h1>
             <span>Nhập email để đặt lại mật khẩu</span>
-            <input id="email-forgot" name="email-forgot" type="email" placeholder="Email">
+            <div class="param-content">
+                <input id="email-forgot" name="email" type="email" placeholder="Email">
+            </div>
             <a id="showSignInForm" href="#">Đăng nhập ?</a>
             <p id="error-message-forgot" style="color: red; display: none"></p>
-            <button type="button" id="request-button">Gửi yêu cầu đặt lại mật khẩu</button>
+            <button type="submit" id="request-button">Gửi yêu cầu đặt lại mật khẩu</button>
         </form>
     </div>
     <div class="form-container sign-in">
@@ -84,7 +106,8 @@
             <a class="icon-arrow" href="home"><i
                     class="fa-solid fa-arrow-left"></i></a>
         </div>
-        <form action="/login" method="post" id="sign-in">
+        <%--        form đăng nhập--%>
+        <form action="/login" method="post" id="login-form">
             <input type="hidden" name="action" value="login"/>
             <h1>Đăng Nhập</h1>
             <div class="social-icons">
@@ -93,8 +116,11 @@
                    class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
             </div>
             <span>Đã có tài khoản</span>
-            <input name="email" type="email" placeholder="Email" id="email-signin">
-            <input name=password type="password" placeholder="Mật khẩu" id="password-signin">
+            <div class="param-content">
+                <input name="email" type="email" placeholder="Email" id="email-signin"></div>
+            <div class="param-content">
+                <input name=password type="password" placeholder="Mật khẩu" id="password-signin">
+            </div>
             <a id="showForgotPassword" href="#">Quên mật khẩu?</a>
             <p id="error-message-signin" style="color: red; display: none"></p>
             <button id="login-button" type="submit">Đăng Nhập</button>
@@ -124,226 +150,130 @@
 
 <%@include file="/layout/public/script.jsp" %>
 <script src="<c:url value="/template/js/login.js"/> "></script>
+<script src="<c:url value="/template/js/validation/validator.js"/>"></script>
+<script src="<c:url value="/template/js/validation/validateFunction.js"/>"></script>
+<script src="<c:url value='/template/js/dataAddress.js'/>"></script>
+
 <%--<script src="<c:url value="/template/js/admin-modal-notify.js"/>"></script>--%>
 <script>
     if (${error!=null}) {
         alert('${error}')
     }
 </script>
-
 <script>
-    $('#province').on('change', function () {
-        console.log($(this).val())
-    });
-    $('#district').on('change', function () {
-        console.log($(this).val())
-    });
-    $('#ward').on('change', function () {
-        console.log($(this).val())
-    });
-</script>
 
-<script>
-    $('#request-button').click(function () {
-        let data = {
-            email: $('#email-forgot').val()
-        }
-        $.ajax({
-            url: '/api/reset-password',
-            type: 'POST',
-            data: data,
-            // contentType: 'application/json',
-            success: function (result) {
-                console.log("success")
-                console.log(result);
-                // if (result == 'success') {
-                //     window.location.href = '/RealEstateWeb_war_exploded/home';
-                // } else {
-                //     $('#error-message-signin').text(result);
-                //     $('#error-message-signin').css('display', 'block');
-            },
-            error: function (error) {
-                console.log("error")
-                console.log(error);
-
-            }
-        })
-    })
-</script>
-<script>
-    $('#sign-up-button').click(function () {
-        let data = {
-            fullname: $('#fullname').val(),
-            birthday: $('#birthday').val(),
-            isMale: $('#isMale').is(':checked'),
-            isFemale: $('#isFemale').is(':checked'),
-            province: $('#province').val(),
-            district: $('#district').val(),
-            ward: $('#ward').val(),
-            phone: $('#phone-sigup').val(),
-            email: $('#email-signup').val(),
-            password: $('#pasword-signup').val(),
-            verifypassword: $('#verifypassword-sigup').val()
-        }
-        $.ajax({
-            url: '/api/register',
-            type: 'POST',
-            data: data,
-            dataType: 'json',
-            success: function (result) {
-                console.log("success")
-                console.log(result);
-                obj = JSON.parse(result.name);
-
-                if (obj.name === 'success' || obj.name === 'sys') {
-                }
-            },
-            error: function (error) {
-                console.log("error")
-
-                console.log(error);
-                // let obj = JSON.parse(error.responseText);
-                // for (let i of obj) {
-                //     fetchErr(i.name, i.message)
-                // }
-
-                // delayNotify(2000, 'abv');
-            }
-        })
-    })
-</script>
-<script>
     $(document).ready(function () {
-        $.ajax({
-            url: '/api/province',
-            type: 'GET',
-            success: function (result) {
-                result = JSON.parse(result)
-                console.log(result)
-                for (let i of result) {
-                    $('#province').append('<option value="' + i.id + '">' + i.fullName + '</option>')
-                }
-            },
-            error: function (error) {
-                console.log("error")
-                console.log(error);
-            }
-        })
-    })
-</script>
-<%--<script>--%>
-<%--    $('#login-button').click(function () {--%>
-<%--        let data = {--%>
-<%--            email: $('#email-signin').val(),--%>
-<%--            password: $('#password-signin').val()--%>
-<%--        }--%>
-<%--        $.ajax({--%>
-<%--            url: '/api/login',--%>
-<%--            type: 'POST',--%>
-<%--            data: data,--%>
-<%--            // contentType: 'application/json',--%>
-<%--            success: function (result) {--%>
-<%--                console.log("success")--%>
-<%--                console.log(result);--%>
-<%--                // if (result == 'success') {--%>
-<%--                //     window.location.href = '/RealEstateWeb_war_exploded/home';--%>
-<%--                // } else {--%>
-<%--                //     $('#error-message-signin').text(result);--%>
-<%--                //     $('#error-message-signin').css('display', 'block');--%>
-<%--            },--%>
-<%--            error: function (error) {--%>
-<%--                console.log("error")--%>
-<%--                console.log(error);--%>
-<%--            }--%>
-<%--        })--%>
-<%--    })--%>
-<%--</script>--%>
-<%--<script>--%>
-<%--    $(document).ready(function () {--%>
-<%--        $.ajax({--%>
-<%--            url: '/api/district',--%>
-<%--            type: 'GET',--%>
-<%--            success: function (result) {--%>
-<%--                result = JSON.parse(result)--%>
-<%--                console.log(result)--%>
-<%--                for (let i of result) {--%>
-<%--                    $('#district').append('<option value="' + i.id + '">' + i.fullName + '</option>')--%>
-<%--                }--%>
-<%--            },--%>
-<%--            error: function (error) {--%>
-<%--                console.log("error")--%>
-<%--                console.log(error);--%>
-<%--            }--%>
-<%--        })--%>
-<%--    })--%>
-<%--</script>--%>
-<script>
-    $(document).ready(function () {
-        $.ajax({
-            url: '/api/province',
-            type: 'GET',
-            success: function (result) {
-                result = JSON.parse(result)
-                console.log(result)
-                for (let i of result) {
-                    $('#province').append('<option value="' + i.id + '">' + i.fullName + '</option>')
-                }
-            },
-            error: function (error) {
-                console.log("error")
-                console.log(error);
-            }
-        })
-    })
-</script>
-
-<script>
-    //     check #province chosen data, after that can choose #district if not #
-    $(document).ready(function () {
-        $('#province').on('change', function () {
-            let provinceId = $(this).val();
-            console.log(provinceId + " bla bal")
+        validate("#forget-password", forgetPasswordValidator, function (form) {
             $.ajax({
-                url: '/api/district/' + provinceId,
-                type: 'GET',
+                url: '/api/reset-password',
+                type: 'POST',
+                data: $(form).serializeArray(),
+                // contentType: 'application/json',
                 success: function (result) {
-                    result = JSON.parse(result)
-                    console.log(result)
-                    for (let i of result) {
-                        $('#district').append('<option value="' + i.id + '">' + i.fullName + '</option>')
+                    // if (result == 'success') {
+                    //     window.location.href = '/RealEstateWeb_war_exploded/home';
+                    // } else {
+                    //     $('#error-message-signin').text(result);
+                    //     $('#error-message-signin').css('display', 'block');
+                },
+                error: function (error) {
+
+                }
+            })
+        })
+        validate("#sign-up", signUpValidator, function (form) {
+            $.ajax({
+                url: '/api/register',
+                type: 'POST',
+                data: $(form).serializeArray(),
+                dataType: 'json',
+                // contentType: 'application/json',
+                success: function (result) {
+                    if (result.name === 'success') {
+                        autoCloseAlertWithFunction(mes = result.message, icon = swal2Icon.SUCCESS, function () {
+                                window.location.href = result.data;
+                            }
+                        );
+                    } else {
+                        autoCloseAlert(mes = result.message, icon = swal2Icon.ERROR);
                     }
                 },
                 error: function (error) {
-                    console.log("error");
-                    console.log(error);
+
                 }
             });
         });
     });
+
+
+    // $('#request-button').click(function () {
+    //     let data = {
+    //         email: $('#email-forgot').val()
+    //     }
+    //     $.ajax({
+    //         url: '/api/reset-password',
+    //         type: 'POST',
+    //         data: data,
+    //         // contentType: 'application/json',
+    //         success: function (result) {
+    //             console.log("success")
+    //             console.log(result);
+    //             // if (result == 'success') {
+    //             //     window.location.href = '/RealEstateWeb_war_exploded/home';
+    //             // } else {
+    //             //     $('#error-message-signin').text(result);
+    //             //     $('#error-message-signin').css('display', 'block');
+    //         },
+    //         error: function (error) {
+    //             console.log("error")
+    //             console.log(error);
+    //
+    //         }
+    //     })
+    // })
 </script>
 <script>
-    //     check #district chosen data, after that can choose #ward if not #
-    $(document).ready(function () {
-        $('#district').on('change', function () {
-            let districtId = $(this).val();
-            console.log(districtId + " bla bal")
-            $.ajax({
-                url: '/api/ward/' + districtId,
-                type: 'GET',
-                success: function (result) {
-                    result = JSON.parse(result)
-                    console.log(result)
-                    for (let i of result) {
-                        $('#ward').append('<option value="' + i.id + '">' + i.fullName + '</option>')
-                    }
-                },
-                error: function (error) {
-                    console.log("error");
-                    console.log(error);
-                }
-            });
-        });
-    });
+    // $('#sign-up-button').click(function () {
+    //     let data = {
+    //         fullname: $('#fullname').val(),
+    //         birthday: $('#birthday').val(),
+    //         isMale: $('#isMale').is(':checked'),
+    //         isFemale: $('#isFemale').is(':checked'),
+    //         province: $('#province').val(),
+    //         district: $('#district').val(),
+    //         ward: $('#ward').val(),
+    //         phone: $('#phone-sigup').val(),
+    //         email: $('#email-signup').val(),
+    //         password: $('#pasword-signup').val(),
+    //         verifypassword: $('#verifypassword-sigup').val()
+    //     }
+    //     $.ajax({
+    //         url: '/api/register',
+    //         type: 'POST',
+    //         data: data,
+    //         dataType: 'json',
+    //         success: function (result) {
+    //             console.log("success")
+    //             console.log(result);
+    //             obj = JSON.parse(result.name);
+    //
+    //             if (obj.name === 'success' || obj.name === 'sys') {
+    //             }
+    //         },
+    //         error: function (error) {
+    //             console.log("error")
+    //
+    //             console.log(error);
+    //             // let obj = JSON.parse(error.responseText);
+    //             // for (let i of obj) {
+    //             //     fetchErr(i.name, i.message)
+    //             // }
+    //
+    //             // delayNotify(2000, 'abv');
+    //         }
+    //     })
+    // })
 </script>
+
 </body>
 </html>

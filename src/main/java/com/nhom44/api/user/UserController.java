@@ -42,7 +42,7 @@ public class UserController extends HttpServlet {
         String birthday = req.getParameter("birthday") == null ? "" : req.getParameter("birthday");
         String rePassword = req.getParameter("rePassword") == null ? "" : req.getParameter("rePassword");
         System.out.println(email);
-        System.out.println(user.getEmail());
+        System.out.println(user.getEmail() + " " + user.getFullName() + " " + user.getPhone() + " " + user.getBirthday() + " " + user.getPassword());
         if (!email.equals(user.getEmail()))
             if (UserService.getInstance().isContainEmail(email)) {
                 responseModel = new ResponseModel();
@@ -57,6 +57,8 @@ public class UserController extends HttpServlet {
             } else user.setEmail(email);
         singleValidator = new TitleOrNameSingleValidator();
         if (!Objects.equals(fullName, user.getFullName()))
+            System.out.println("fullname" + fullName);
+        System.out.println("userfullname" + user.getFullName());
             if (fullName.isEmpty() || !singleValidator.validator(fullName)) {
                 System.out.println("fullname" + fullName);
                 responseModel = new ResponseModel();
@@ -93,13 +95,13 @@ public class UserController extends HttpServlet {
                 errMess.add(responseModel);
             } else user.setPhone(phone);
         singleValidator = new NumberVallidator();
-        if (!province.equals(user.getProvinceId() + ""))
-            if (province.equals("") || !singleValidator.validator(province)) {
-                responseModel = new ResponseModel();
-                responseModel.setName("address");
-                responseModel.setMessage("Địa chỉ không hợp lệ");
-                errMess.add(responseModel);
-            } else user.setProvinceId(Integer.parseInt(province));
+//        if (!province.equals(user.getProvinceId() + ""))
+//            if (province.equals("") || !singleValidator.validator(province)) {
+//                responseModel = new ResponseModel();
+//                responseModel.setName("address");
+//                responseModel.setMessage("Địa chỉ không hợp lệ");
+//                errMess.add(responseModel);
+//            } else user.setProvinceId(Integer.parseInt(province));
         singleValidator = new DateValidator();
         java.util.Date dbirthday = null;
 

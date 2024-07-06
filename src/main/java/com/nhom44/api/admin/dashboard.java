@@ -18,7 +18,6 @@ import java.util.List;
 public class dashboard extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println(req.getRequestURI());
         if (req.getRequestURI().startsWith("/api/dashboard/project")) {
             List<Project> projects = ProjectService.getInstance().getAllProject();
             List<String> emails = UserService.getInstance().getEmailOwner();

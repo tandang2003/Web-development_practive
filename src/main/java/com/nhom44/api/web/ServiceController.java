@@ -16,7 +16,6 @@ public class ServiceController extends HttpServlet {
     @Override
     protected void doGet(javax.servlet.http.HttpServletRequest req, javax.servlet.http.HttpServletResponse resp) throws javax.servlet.ServletException, java.io.IOException {
         String url = req.getServletPath();
-        System.out.println("url " + url);
         ResponseModel responseModel = new ResponseModel();
         switch (url) {
             case "/api/services":
@@ -30,7 +29,6 @@ public class ServiceController extends HttpServlet {
                 resp.getWriter().close();
                 break;
             case "/api/post/services":
-                System.out.println("success checking");
                 String path = req.getPathInfo().trim().substring(1);
                 String id = path.contains("/") ? path.split("/")[0] : path;
                 if (id == null || !new NumberVallidator().validator(id)) {

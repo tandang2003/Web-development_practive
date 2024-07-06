@@ -12,7 +12,7 @@ import java.sql.Timestamp;
 import java.util.Objects;
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
+//@NoArgsConstructor
 public class User implements Serializable {
     // status 0-> disable, 1-> enable, 2-> block, 3-> not create
     private int id;
@@ -25,8 +25,11 @@ public class User implements Serializable {
     private int status;
     private Timestamp createdAt;
     private Timestamp updatedAt;
-    private int provinceId;
     private int addressId;
+    private Address address;
     private String province;
     private int role;
+    public User(){
+        this.address=new Address();
+    }
 }

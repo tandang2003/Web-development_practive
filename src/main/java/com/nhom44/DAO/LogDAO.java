@@ -1,6 +1,6 @@
 package com.nhom44.DAO;
 
-import com.nhom44.bean.Log;
+import com.nhom44.log.model.Log;
 import org.jdbi.v3.sqlobject.config.RegisterBeanMapper;
 import org.jdbi.v3.sqlobject.customizer.BindBean;
 import org.jdbi.v3.sqlobject.statement.SqlUpdate;

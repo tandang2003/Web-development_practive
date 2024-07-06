@@ -10,10 +10,12 @@ import java.util.List;
 
 @RegisterBeanMapper(Contact.class)
 public interface ContactDAO {
-    @SqlUpdate("INSERT INTO contacts(fullname, email, phone, address, content)" +
-            " VALUES(:fullName, :email, :phone, :address, :content)")
+    @SqlUpdate("INSERT INTO contacts(fullname, email, phone, content)" +
+            " VALUES(:fullName, :email, :phone, :content)")
     Integer add(@BindBean Contact contact);
 
     @SqlQuery("SELECT * FROM contacts")
     List<Contact> getAll();
+@SqlQuery("SELECT * FROM contacts WHERE fullname=:fullName AND email=:email AND phone=:phone AND address=:address AND content=:content")
+    Contact getContact(@BindBean Contact contact);
 }

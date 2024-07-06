@@ -25,34 +25,22 @@ public class ProjectService {
     }
 
     public Project add(Project project, boolean isComplete) {
-        int status = Integer.MIN_VALUE;
-        if (isComplete) {
-            status = conn.withExtension(ProjectDAO.class, dao -> {
-                System.out.println("complete dao\n " + project.getDescription());
-                return dao.add(project);
-            });
-        } else {
-            int s1 = conn.withExtension(ProjectDAO.class, dao -> {
-                System.out.println("dao\n " + project.toString());
-
-                return dao.add(project);
-            });
-            Project nProject = getProjectByObject(project);
-            int s2 = addExcuting(nProject);
-            status = s1 == 1 && s2 == 1 ? 1 : 0;
+        int id =Integer.MIN_VALUE;
+        id = conn.withExtension(ProjectDAO.class, dao -> dao.add(project));
+        if (!isComplete) {
+            project.setId(id);
+//            Project nProject = getProjectByObject(project);
+             addExcuting(project);
+//            status = s1 == 1 && s2 == 1 ? 1 : 0;
         }
 
-        return status == 1 ? getProjectByObject(project) : null;
+        return project ;
+//                == 1 ? getProjectByObject(project) : null;
     }
 
     public int addExcuting(Project project) {
-        if (project.getId() != 0) {
             Project finalProject = project;
             return conn.withExtension(ProjectDAO.class, dao -> dao.addExcuting(finalProject.getId(), finalProject.getSchedule(), finalProject.getEstimatedComplete()));
-        }
-        project = getProjectByObject(project);
-        Project finalProject1 = project;
-        return conn.withExtension(ProjectDAO.class, dao -> dao.addExcuting(finalProject1.getId(), finalProject1.getSchedule(), finalProject1.getEstimatedComplete()));
     }
 
     public boolean isFinishProject(int id) {
@@ -79,7 +67,6 @@ public class ProjectService {
     }
 
     public Project updateProject(Project project, boolean isComplete) {
-        project.setPreValue(getById(project.getId()));
         if (isComplete) {
             conn.withExtension(ProjectDAO.class, dao -> dao.deleteInExcuting(project.getId()));
             conn.withExtension(ProjectDAO.class, dao -> dao.updateProject(project));
@@ -88,7 +75,6 @@ public class ProjectService {
             addExcuting(project);
             conn.withExtension(ProjectDAO.class, dao -> dao.updateProject(project));
         }
-        project.setAfterValue(getById(project.getId()));
         return project;
     }
 
@@ -138,9 +124,18 @@ public class ProjectService {
     }
 
     public static void main(String[] args) {
+        //add sample project
+        Project project = Project.builder().categoryId(2).title("test22").description("testtest").avatar("null").addressId(1).build();
+        try {
+            project.setPrice(100000000);
+            Project a= ProjectService.getInstance().add(project, true);
 
-
+        } catch (Exception e) {
+            e.getMessage();
+            System.out.println(e.getMessage());
+        }
     }
+
 
 
     public List<Project> get8ActiveProjectHighestView(int id, int userid) {
@@ -154,20 +149,6 @@ public class ProjectService {
     public int getProjetAllActiveSize(int offset, int categoryId, int serviceId, int provinceId, long minPrice, long maxPrice, int minArea, int maxArea) {
         int num = conn.withExtension(ProjectDAO.class, dao -> dao.getProjetAllActiveSize(offset, categoryId, serviceId, provinceId, minPrice, maxPrice, minArea, maxArea));
         return num % 16 == 0 ? num / 16 : num / 16 + 1;
-    }
-
-    public boolean saveProject(int projectId, int userId) {
-        return conn.withExtension(ProjectDAO.class, dao -> dao.saveProject(projectId, userId));
-    }
-
-    public boolean deleteSaveProject(int projectId, int id) {
-        return conn.withExtension(ProjectDAO.class, dao -> dao.deleteSaveProject(projectId, id));
-    }
-
-    public boolean isSaveProject(int projectId, int id) {
-        return conn.withExtension(ProjectDAO.class, dao -> {
-            return dao.isSaveProject(projectId, id);
-        });
     }
 
     public List<Project> getSuggestProjects(int categoryId) {

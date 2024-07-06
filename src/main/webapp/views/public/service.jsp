@@ -52,7 +52,13 @@
 <script src="<c:url value="/template/js/main.js"/>"></script>
 <script src="<c:url value="/template/js/services.js"/>"></script>
 <script>
-    getServices("services", 'service-container');
+    $(document).ready(function () {
+        getServices("services", 'service-container');
+    });
+</script>
+
+<script>
+
 </script>
 </body>
 </html>

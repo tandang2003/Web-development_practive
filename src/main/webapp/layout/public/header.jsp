@@ -14,17 +14,17 @@
         </button>
         <div class="collapse navbar-collapse border-left row align-items-center" id="navbarSupportedContent-555">
             <ul class="navbar-nav col-9 border-right">
-                <li class="nav-item nav-menuItem font-weight-bolder"
-                    id="<c:if test="${page=='home'}">nav-menuItem-active</c:if>">
+                <li class="nav-item nav-menuItem font-weight-bolder home"
+                    id="">
                     <a class="nav-link" href="/home">Trang Chủ
                     </a>
                 </li>
-                <li class="nav-item nav-menuItem font-weight-bolder"
-                    id="<c:if test="${page=='intro'}">nav-menuItem-active</c:if>">
+                <li class="nav-item nav-menuItem font-weight-bolder intro"
+                    id="">
                     <a class="nav-link" href="/intro">Giới Thiệu</a>
                 </li>
-                <li class="nav-item nav-menuItem position-relative font-weight-bolder nav-dropdownItem d-flex align-items-center"
-                    id="<c:if test="${page=='service'||page=='post-service'}">nav-menuItem-active</c:if>">
+                <li class="nav-item nav-menuItem position-relative font-weight-bolder nav-dropdownItem d-flex align-items-center service"
+                    id="">
                     <a class="nav-link justify-content-center text-center"
                        href="/service"
                        role="link"
@@ -43,8 +43,8 @@
                     </div>
                 </li>
                 <li class=" nav-item
-    nav-menuItem position-relative font-weight-bolder nav-dropdownItem d-flex align-items-center"
-                    id="<c:if test="${page=='project'||page=='post-project'}">nav-menuItem-active</c:if>">
+    nav-menuItem position-relative font-weight-bolder nav-dropdownItem d-flex align-items-center project"
+                    id="">
                     <a class="nav-link justify-content-center text-center"
                        href="/project"
                        role="link"
@@ -59,8 +59,8 @@
                         <%--                        <a class="dropdown-item text-center" style="font-size: 16px" href="/project">Văn Phòng</a>--%>
                     </div>
                 </li>
-                <li class="nav-item nav-menuItem font-weight-bolder"
-                    id="<c:if test="${page=='contact'}">nav-menuItem-active</c:if>">
+                <li class="nav-item nav-menuItem font-weight-bolder contact"
+                    id="">
                     <a class="nav-link"
                        href="/contact">Liên Hệ</a>
                 </li>

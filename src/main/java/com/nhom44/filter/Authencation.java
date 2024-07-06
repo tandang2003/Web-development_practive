@@ -21,6 +21,7 @@ public class  Authencation implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        System.out.println(1);
         this.request = (HttpServletRequest) request;
         this.response = (HttpServletResponse) response;
         this.filterChain = chain;

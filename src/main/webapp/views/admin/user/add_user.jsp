@@ -13,6 +13,8 @@
     <link href=" <c:url value="/template/lib/DataTables/datatables.min.css"/>" rel="stylesheet">
     <link href=" <c:url value="/template/css/admin-nav-bar.css"/>" rel="stylesheet">
     <link href=" <c:url value="/template/css/admin-datatable.css"/>" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <!---->
     <title>Thêm người dùng</title>
     <style>
@@ -120,25 +122,16 @@
                                                 <div class="md-form form-sm mb-0">
                                                     <select name="province" id="province" class=" custom-select ">
                                                         <option value="" disabled>Chọn tỉnh thành</option>
-                                                        <c:forEach var="item" varStatus="loop"
-                                                                   items="${sessionScope.get('provinces')}">
-                                                            <option value="${item.name}"<c:if
-                                                                    test="${loop.index==1}"> selected</c:if>  >${item.name}</option>
-                                                        </c:forEach>
-
                                                     </select>
 
                                                 </div>
                                             </div>
-                                            <!-- Grid column -->
-                                            <!-- Grid column -->
-
                                             <div class="col-lg-6 input-group  justify-content-around" role="group">
                                                 <div class="col-6 col-md-3">
                                                     <!-- Material unchecked -->
                                                     <div class="form-check mt-4">
                                                         <input name="isMale" type="checkbox" class="form-check-input"
-                                                               id="materialUnchecked">
+                                                               id="materialUnchecked" checked>
                                                         <label class="form-check-label"
                                                                for="materialUnchecked">Nam</label>
                                                     </div>
@@ -156,8 +149,24 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!-- Grid column -->
-                                            <!-- Grid column -->
+
+                                            <div class="col-lg-6 col-md-10">
+                                                <div class="md-form form-sm mb-0">
+                                                    <select name="district" id="district" class=" custom-select ">
+                                                        <option value="" disabled selected>Chọn quận</option>
+                                                    </select>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-10">
+                                                <div class="md-form form-sm mb-0">
+                                                    <select name="ward" id="ward" class=" custom-select ">
+                                                        <option value="" disabled selected>Chọn phường/xã</option>
+
+                                                    </select>
+
+                                                </div>
+                                            </div>
                                             <div class="col-lg-12 col-md-12 d-flex justify-content-between m-auto p-0">
                                                 <div class="col-lg-6 col-md-6">
                                                     <div class="md-form form-sm mb-0">
@@ -176,7 +185,10 @@
                                                                 class="browser-default custom-select mb-4">
                                                             <option value="" disabled>Chọn phân quyền</option>
                                                             <option value="0" selected>Người dùng thường</option>
-                                                            <option value="1"><Ad></Ad>min</option>
+                                                            <option value="1">
+                                                                <Ad></Ad>
+                                                                admin
+                                                            </option>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -231,8 +243,10 @@
                     birthday: $('#birthday').val(),
                     phone: $('#form4').val(),
                     province: $('#province').val(),
-                    isMale: $('#materialUnchecked').val(),
-                    isFemale: $('#materialIndeterminate2').val(),
+                    district: $('#district').val(),
+                    ward: $('#ward').val(),
+                    isMale: $('#materialUnchecked').is(':checked'),
+                    isFemale: $('#materialIndeterminate2').is(':checked'),
                     status: $('#status').val(),
                     role: $('#role').val(),
                 },
@@ -261,113 +275,113 @@
         })
     });
 </script>
-<script>
-    function fetchErr(name, mess) {
-        switch (name) {
-            case "email":
-                let email = document.getElementById('form8');
-                email.classList.add('border-danger');
-                email.classList.add('text-danger');
-                email.value = "";
-                email.nextElementSibling.classList.add('active');
-                email.setAttribute('value', " ");
-                email.setAttribute('placeholder', mess);
-                console.log("run 1")
-                break;
-            case "password":
-                let password = document.getElementById('form9');
-                password.classList.add('border-danger');
-                password.classList.add('text-danger');
-                password.value = "";
-                password.nextElementSibling.classList.add('active');
-                password.setAttribute('placeholder', mess);
-                console.log("run 2");
-                break;
-            case "fullname":
-                let fullname = document.getElementById('form12');
-                fullname.classList.add('border-danger');
-                fullname.classList.add('text-danger');
-                fullname.value = "";
-                fullname.nextElementSibling.classList.add('active');
-                console.log(fullname.nextElementSibling);
-                fullname.setAttribute('placeholder', mess);
-                console.log("run 3");
-                break;
-            case "phone":
-                let phone = document.getElementById('form4');
-                phone.classList.add('border-danger');
-                phone.classList.add('text-danger');
-                phone.value = "";
-                phone.nextElementSibling.classList.add('active');
-                phone.setAttribute('placeholder', mess);
-                console.log("run 4");
-                break;
-            case "birthday":
-                let birthday = document.getElementById('birthday');
-                birthday.classList.add('border-danger');
-                birthday.classList.add('text-danger');
-                birthday.value = "";
-                birthday.nextElementSibling.classList.add('active');
-                console.log(birthday.nextElementSibling);
-                birthday.setAttribute('placeholder', mess);
-                console.log("run 5");
-                break;
-        }
-    }
-</script>
-<script>
-    <%-- email--%>
-    let email = document.getElementById('form8');
-    email.addEventListener('click', function () {
-            email.classList.remove('border-danger');
-            email.classList.remove('text-danger');
-            email.placeholder = "";
-            // email.value;
-        }
-    )
-    <%-- password--%>
-    let password = document.getElementById('form9');
-    password.addEventListener('click', function () {
-            password.classList.remove('border-danger');
-            password.classList.remove('text-danger');
-            password.placeholder = "";
-            // password.attributes.removeNamedItem("value");
-        }
-    )
-    <%-- fullname--%>
-    let fullname = document.getElementById('form12');
-    fullname.addEventListener('click', function () {
-            fullname.classList.remove('border-danger');
-            fullname.classList.remove('text-danger');
-            fullname.attributes.removeNamedItem("placeholder");
-            fullname.attributes.removeNamedItem("value");
-        }
-    )
-    <%-- phone--%>
-    let phone = document.getElementById('form4');
-    phone.addEventListener('click', function () {
-            phone.classList.remove('border-danger');
-            phone.classList.remove('text-danger');
-            phone.attributes.removeNamedItem("placeholder");
-            phone.attributes.removeNamedItem("value");
-        }
-    )
-    <%-- birthday--%>
-    let birthday = document.getElementById('birthday');
-    let label = document.getElementById('label-birthday');
-    label.addEventListener('click', function () {
-            birthday.classList.remove('border-danger');
-            birthday.classList.remove('text-danger');
-        }
-    )
-    birthday.addEventListener('click', function () {
-            birthday.classList.remove('border-danger');
-            birthday.classList.remove('text-danger');
-            birthday.attributes.removeNamedItem("placeholder");
-            birthday.attributes.removeNamedItem("value");
-        }
-    )
-</script>
+<%--<script>--%>
+<%--    function fetchErr(name, mess) {--%>
+<%--        switch (name) {--%>
+<%--            case "email":--%>
+<%--                let email = document.getElementById('form8');--%>
+<%--                email.classList.add('border-danger');--%>
+<%--                email.classList.add('text-danger');--%>
+<%--                email.value = "";--%>
+<%--                email.nextElementSibling.classList.add('active');--%>
+<%--                email.setAttribute('value', " ");--%>
+<%--                email.setAttribute('placeholder', mess);--%>
+<%--                console.log("run 1")--%>
+<%--                break;--%>
+<%--            case "password":--%>
+<%--                let password = document.getElementById('form9');--%>
+<%--                password.classList.add('border-danger');--%>
+<%--                password.classList.add('text-danger');--%>
+<%--                password.value = "";--%>
+<%--                password.nextElementSibling.classList.add('active');--%>
+<%--                password.setAttribute('placeholder', mess);--%>
+<%--                console.log("run 2");--%>
+<%--                break;--%>
+<%--            case "fullname":--%>
+<%--                let fullname = document.getElementById('form12');--%>
+<%--                fullname.classList.add('border-danger');--%>
+<%--                fullname.classList.add('text-danger');--%>
+<%--                fullname.value = "";--%>
+<%--                fullname.nextElementSibling.classList.add('active');--%>
+<%--                console.log(fullname.nextElementSibling);--%>
+<%--                fullname.setAttribute('placeholder', mess);--%>
+<%--                console.log("run 3");--%>
+<%--                break;--%>
+<%--            case "phone":--%>
+<%--                let phone = document.getElementById('form4');--%>
+<%--                phone.classList.add('border-danger');--%>
+<%--                phone.classList.add('text-danger');--%>
+<%--                phone.value = "";--%>
+<%--                phone.nextElementSibling.classList.add('active');--%>
+<%--                phone.setAttribute('placeholder', mess);--%>
+<%--                console.log("run 4");--%>
+<%--                break;--%>
+<%--            case "birthday":--%>
+<%--                let birthday = document.getElementById('birthday');--%>
+<%--                birthday.classList.add('border-danger');--%>
+<%--                birthday.classList.add('text-danger');--%>
+<%--                birthday.value = "";--%>
+<%--                birthday.nextElementSibling.classList.add('active');--%>
+<%--                console.log(birthday.nextElementSibling);--%>
+<%--                birthday.setAttribute('placeholder', mess);--%>
+<%--                console.log("run 5");--%>
+<%--                break;--%>
+<%--        }--%>
+<%--    }--%>
+<%--</script>--%>
+<%--<script>--%>
+<%--    &lt;%&ndash; email&ndash;%&gt;--%>
+<%--    let email = document.getElementById('form8');--%>
+<%--    email.addEventListener('click', function () {--%>
+<%--            email.classList.remove('border-danger');--%>
+<%--            email.classList.remove('text-danger');--%>
+<%--            email.placeholder = "";--%>
+<%--            // email.value;--%>
+<%--        }--%>
+<%--    )--%>
+<%--    &lt;%&ndash; password&ndash;%&gt;--%>
+<%--    let password = document.getElementById('form9');--%>
+<%--    password.addEventListener('click', function () {--%>
+<%--            password.classList.remove('border-danger');--%>
+<%--            password.classList.remove('text-danger');--%>
+<%--            password.placeholder = "";--%>
+<%--            // password.attributes.removeNamedItem("value");--%>
+<%--        }--%>
+<%--    )--%>
+<%--    &lt;%&ndash; fullname&ndash;%&gt;--%>
+<%--    let fullname = document.getElementById('form12');--%>
+<%--    fullname.addEventListener('click', function () {--%>
+<%--            fullname.classList.remove('border-danger');--%>
+<%--            fullname.classList.remove('text-danger');--%>
+<%--            fullname.attributes.removeNamedItem("placeholder");--%>
+<%--            fullname.attributes.removeNamedItem("value");--%>
+<%--        }--%>
+<%--    )--%>
+<%--    &lt;%&ndash; phone&ndash;%&gt;--%>
+<%--    let phone = document.getElementById('form4');--%>
+<%--    phone.addEventListener('click', function () {--%>
+<%--            phone.classList.remove('border-danger');--%>
+<%--            phone.classList.remove('text-danger');--%>
+<%--            phone.attributes.removeNamedItem("placeholder");--%>
+<%--            phone.attributes.removeNamedItem("value");--%>
+<%--        }--%>
+<%--    )--%>
+<%--    &lt;%&ndash; birthday&ndash;%&gt;--%>
+<%--    let birthday = document.getElementById('birthday');--%>
+<%--    let label = document.getElementById('label-birthday');--%>
+<%--    label.addEventListener('click', function () {--%>
+<%--            birthday.classList.remove('border-danger');--%>
+<%--            birthday.classList.remove('text-danger');--%>
+<%--        }--%>
+<%--    )--%>
+<%--    birthday.addEventListener('click', function () {--%>
+<%--            birthday.classList.remove('border-danger');--%>
+<%--            birthday.classList.remove('text-danger');--%>
+<%--            birthday.attributes.removeNamedItem("placeholder");--%>
+<%--            birthday.attributes.removeNamedItem("value");--%>
+<%--        }--%>
+<%--    )--%>
+<%--</script>--%>
 <script>
     $('.datepicker').datepicker({
         inline: true,
@@ -410,6 +424,98 @@
             $(".wrapper").toggleClass("mycollapse");
         });
     });
+</script>
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            url: '/api/province',
+            type: 'GET',
+            success: function (result) {
+                result = JSON.parse(result)
+                console.log(result)
+                for (let i of result) {
+                    $('#province').append('<option value="' + i.id + '">' + i.fullName + '</option>')
+                }
+            },
+            error: function (error) {
+                console.log("error")
+                console.log(error);
+            }
+        })
+    })
+</script>
+<script>
+    //     check #province chosen data, after that can choose #district if not #
+    $(document).ready(function () {
+        $('#province').on('change', function () {
+            let provinceId = $(this).val();
+            console.log(provinceId + " bla bal")
+            $.ajax({
+                url: '/api/district/' + provinceId,
+                type: 'GET',
+                success: function (result) {
+                    result = JSON.parse(result)
+                    console.log(result)
+                    for (let i of result) {
+                        $('#district').append('<option value="' + i.id + '">' + i.fullName + '</option>')
+                    }
+                },
+                error: function (error) {
+                    console.log("error");
+                    console.log(error);
+                }
+            });
+        });
+    });
+</script>
+<script>
+    //     check #district chosen data, after that can choose #ward if not #
+    $(document).ready(function () {
+        $('#district').on('change', function () {
+            let districtId = $(this).val();
+            console.log(districtId + " bla bal")
+            $.ajax({
+                url: '/api/ward/' + districtId,
+                type: 'GET',
+                success: function (result) {
+                    result = JSON.parse(result)
+                    console.log(result)
+                    for (let i of result) {
+                        $('#ward').append('<option value="' + i.id + '">' + i.fullName + '</option>')
+                    }
+                },
+                error: function (error) {
+                    console.log("error");
+                    console.log(error);
+                }
+            });
+        });
+    });
+</script>
+<script>
+    function delayNotify(delay, message) {
+        setTimeout(() => {
+            toastr.options = {
+                "closeButton": true,
+                "debug": false,
+                "newestOnTop": true,
+                "progressBar": true,
+                "positionClass": "toast-top-right",
+                "preventDuplicates": true,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "5000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            };
+            toastr.success(message);
+        }, delay);
+    }
+
 </script>
 </body>
 </html>

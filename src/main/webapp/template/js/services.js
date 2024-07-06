@@ -18,7 +18,7 @@ function addService(page, idcontainer) {
         case 'home':
             allServices.forEach(service => {
                 container.innerHTML += `
-                 <a href="/post/service?id=${service.id}" class="card-home swiper-slide">
+                 <a href="/post/service/${service.id}" class="card-home swiper-slide">
                         <div class="image-content">
                             <div class="card-image ">
                                 <div href="postService.jsp"
@@ -64,7 +64,7 @@ function addService(page, idcontainer) {
                                             ${service.description}
                                     </p>
                                 </div>
-                                <a href="/post/service?id=${service.id}" class="btn btn-rounded">Xem thêm</a>
+                                <a href="/post/service/${service.id}" class="btn btn-rounded">Xem thêm</a>
                             </div>
                         </div>
                     </div>`;

@@ -130,49 +130,66 @@
                 <!--Grid column-->
                 <div class="col-lg-5 mb-4">
                     <!--Form with header-->
-                    <form class="card" action="" method="post">
+                    <form class="card" id="form-contact">
                         <div class="card-body">
                             <!--Header-->
                             <!--Body-->
-                            <div class="md-form">
+                            <div class="md-form param-content">
                                 <i class="fas fa-user prefix grey-text"></i>
-                                <input type="text" id="fullName" class="form-control">
+                                <input type="text" id="fullName" name="fullName" class="form-control">
                                 <label for="fullName">Họ và tên</label>
                             </div>
-                            <div class="md-form">
+                            <div class="md-form param-content">
                                 <i class="fas fa-envelope prefix grey-text"></i>
-                                <input type="text" id="email" class="form-control">
+                                <input type="text" id="email" name="email" class="form-control">
                                 <label for="email">Địa chỉ email</label>
                             </div>
-                            <div class="md-form">
-                                <i class="fa-solid fa-map-location prefix grey-text"></i>
-                                <input type="text" id="address" class="form-control">
-                                <label for="address">Địa chỉ(tỉnh/thành phố)</label>
-                            </div>
-                            <div class="md-form">
+                            <div class="md-form param-content">
                                 <i class="fa-solid  fa-phone prefix grey-text"></i>
-                                <input type="text" id="phone" class="form-control">
+                                <input type="text" id="phone" name="phone" class="form-control">
                                 <label for="phone">Số điện thoại</label>
                             </div>
+                            <div class="md-form param-content">
+                                <i class="fas fa-map-location prefix grey-text"></i>
+                                <select class="mdb-select md-form" name="province" id="province"
+                                        searchable="Search here..">
+                                    <option disabled selected>Chọn tỉnh thành</option>
+                                </select>
+                                <input class="d-none" id="provinceValue" name="provinceValue">
+                            </div>
+                            <div class="md-form param-content">
+                                <i class="fas fa-city prefix grey-text"></i>
+
+                                <select class="mdb-select md-form" name="district" id="district"
+                                        searchable="Search here..">
+                                    <option disabled selected>Quận / huyện</option>
+                                </select>
+                                <input class="d-none" id="districtValue" name="districtValue">
+                            </div>
+                            <div class="md-form param-content">
+                                <i class="fas fa-house-chimney prefix grey-text"></i>
+                                <select class="mdb-select md-form" name="ward" id="ward" searchable="Search here..">
+                                    <option disabled selected>Phường / xã</option>
+                                </select>
+                                <input class="d-none" id="wardValue" name="wardValue">
+                            </div>
+
 
                             <!-- Message -->
-                            <div class="form-group">
-                                <textarea class="form-control rounded-0" id="content" rows="3"
+                            <div class="md-form param-content form-group">
+                                <textarea class="form-control rounded-0" id="content" name="content" rows="3"
                                           placeholder="Lời nhắn" style="height: 250px"></textarea>
                             </div>
                             <div class="text-center mt-4">
-                                <button class="btn btn-red waves-effect waves-light" onclick="saveContact()"
-                                        type="button">Gửi ngay
+                                <button class="btn btn-red waves-effect waves-light"
+                                        type="submit">Gửi ngay
                                 </button>
                             </div>
                         </div>
                     </form>
                     <!--Form with header-->
-
                 </div>
-
                 <div class="col-lg-7 mb-3">
-
                     <!--Google map-->
                     <div id="map-container-google-11" class="z-depth-1-half map-container-6 h-100"
                          style="height: 453px">
@@ -180,19 +197,13 @@
                                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4247.872564543886!2d106.79040908333542!3d10.870529759247004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3175276398969f7b%3A0x9672b7efd0893fc4!2zVHLGsOG7nW5nIMSQ4bqhaSBo4buNYyBOw7RuZyBMw6JtIFRQLiBI4buTIENow60gTWluaA!5e0!3m2!1svi!2s!4v1695713054142!5m2!1svi!2s"
                                 width="200" height="150" style="border:0;" allowfullscreen="" loading="lazy"
                                 referrerpolicy="no-referrer-when-downgrade">
-
                         </iframe>
                     </div>
-
                     <br>
-                    <!--Buttons-->
-
                 </div>
             </div>
         </section>
-        <!--Section: Contact v.1-->
     </div>
-    <!--    end main contact-->
 </section>
 
 
@@ -200,10 +211,45 @@
 <script src="<c:url value="/template/js/swiper-bundle.min.js"/>"></script>
 <%@include file="/layout/public/script.jsp" %>
 <script src="<c:url value="/template/js/main.js"/>"></script>
-
 <script src="<c:url value='/template/js/home.js'/>"></script>
 <script src="<c:url value='/template/js/services.js'/>"></script>
+<script src="<c:url value='/template/js/validation/validator.js'/>"></script>
+<script src="<c:url value="/template/lib/jquery-validation-1.19.5/dist/jquery.validate.js"/>"></script>
+<script src="<c:url value="/template/lib/jquery-validation-1.19.5/dist/additional-methods.js"/>"></script>
 <script src="<c:url value='/template/js/ajax/home.js'/>"></script>
+<script src="<c:url value='/template/js/ajax/saveProject.js'/>"></script>
+<script src="<c:url value='/template/js/contactForm.js'/>"></script>
+<script src="<c:url value='/template/js/validation/validateFunction.js'/>"></script>
+<script src="<c:url value='/template/js/validation/validator.js'/>"></script>
+<script src="<c:url value='/template/js/dataAddress.js'/>"></script>
+<script>
+    $(document).ready(function () {
+        $('.mdb-select').materialSelect();
+        validate("#form-contact", contactValidation, function (form) {
+            $.ajax({
+                url: "/api/contact/save",
+                type: "POST",
+                dataType: "json",
+                data: $(form).serializeArray(),
+                success: function (data) {
+                    console.log(data)
+                    if (data.status == 200) {
+                        autoCloseAlertWithFunction(data.message, 3000, "success", () => {
+                            window.location.reload();
+                        })
+                    } else {
+                        errorAlert(data.message)
+                    }
+                },
+                error: function (e) {
+                    errorAlert()
+                }
+            })
+        })
+    })
+
+
+</script>
 
 </body>
 </html>

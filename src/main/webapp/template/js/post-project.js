@@ -25,8 +25,9 @@
     type: "GET",
     dataType: 'json',
     success: function (data) {
-    let post = data.data
-    $('.post-content-text').html(post.content+$('.post-content-text').html())
+    let post = data.data;
+    post;
+    $('.post-content-text').html(post.de+$('.post-content-text').html())
 },
 })
     $.ajax({

@@ -135,6 +135,49 @@
 <%@include file="/layout/public/footer.jsp" %>
 <%@include file="/layout/public/script.jsp" %>
 <script src="<c:url value="/template/js/main.js"/>"></script>
+<script src="<c:url value='/template/js/ajax/saveProject.js'/>"></script>
+
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            url: "/api/project",
+            type: "GET",
+            dataType: "json",
+            success: function (response) {
+                console.log('project');
+                console.log(response);
+                let data = response;
+                data = JSON.parse(data.data);
+                let tag='';
+                for (let s of data.services) {
+                    tag += '<option value="' + s.id + '">' + s.name + '</option>';
+                }
+                $('#serviceId').append(tag);
+                tag = '';
+                for (let c of data.categories) {
+                    tag += '<option value="' + c.id + '">' + c.name + '</option>';
+                }
+                $('#categoryId').append(tag);
+                tag = '';
+                for (let p of data.provinces) {
+                    tag += '<option value="' + p.id + '">' + p.name + '</option>';
+                }
+                $('#provinceId').append(tag);
+                tag = '';
+                for (let p of data.prices) {
+                    tag += '<option value="' + p.amount + '">' + p.strType + '</option>';
+                }
+                $('#price').append(tag);
+                tag = '';
+                for (let a of data.acreages) {
+                    tag += '<option value="' + a + '">' + a + '</option>';
+                }
+                $('#area').append(tag);
+
+            },
+        })
+    })
+</script>
 <script>
     $(document).ready(function () {
         $.ajax({
@@ -377,42 +420,6 @@
 </script>
 <script>
     window.onload = searching();
-</script>
-<script>
-    function like(project) {
-        let id = $(project).parent().find('.project-id').val();
-        console.log(id);
-        $.ajax({
-            url: "/api/save_project",
-            type: "GET",
-            data: {
-                "projectId": id
-            },
-            success: function (response) {
-                console.log(response);
-                let resp = JSON.parse(response);
-                if (resp.name == 'save') {
-                    project.classList.replace("fa-regular", "fa-solid")
-                } else if (resp.name == 'delete')
-                    project.classList.replace("fa-solid", "fa-regular")
-                //= "fa-solid fa-bookmark position-absolute";
-                // console.log(p);
-            },
-            error: function (response) {
-                console.log(response.responseText)
-                let resp = JSON.parse(response.responseText);
-                window.location.href = resp.data;
-            }
-        })
-    }
-</script>
-<script>
-    // while click fa-regular fa-bookmark change to fa-solid fa-bookmark
-    // $(document).ready(function () {
-    //     $('.fa-bookmark').click(function () {
-    //         $(this).toggleClass('fa-regular fa-bookmark fa-solid fa-bookmark');
-    //     });
-    // });
 </script>
 </body>
 </html>
