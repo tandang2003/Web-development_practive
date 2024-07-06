@@ -114,6 +114,8 @@
                 <a href="https://accounts.google.com/o/oauth2/auth?scope=profile%20email&redirect_uri=http://localhost:8080/other-login/google&response_type=code
     &client_id=766966245473-e2eo1ucq62m5pngngo2qu1e7s1d6doea.apps.googleusercontent.com&approval_prompt=force"
                    class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+                <a href="https://www.facebook.com/v11.0/dialog/oauth?client_id=883337960300752&redirect_uri=http://localhost:8080/other-login/facebook&scope=email,public_profile"
+                   class="icon"><i class="fa-brands fa-facebook"></i></a>
             </div>
             <span>Đã có tài khoản</span>
             <div class="param-content">
