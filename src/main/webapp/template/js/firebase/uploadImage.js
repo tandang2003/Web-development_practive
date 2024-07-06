@@ -10,6 +10,8 @@ import {
 
 export const AVATAR = 'avatar';
 export const PROJECT = 'project';
+export const GALLERY = 'gallery';
+export const ORDER= 'order';
 export const POST = 'post';
 export const CATEGORY = 'category';
 const firebaseConfig = {

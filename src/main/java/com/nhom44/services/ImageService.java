@@ -16,11 +16,9 @@ public class ImageService {
     public static ImageService getInstance() {
         return instance != null ? instance : (instance = new ImageService());
     }
-    public int add(Image image) {
-        image.setCreatedAt(LocalDateTime.now().toString());
-        image.setUpdatedAt(LocalDateTime.now().toString());
-       int i= conn.withExtension(ImageDAO.class, dao -> dao.addImage(image));
-        return i==1?conn.withExtension(ImageDAO.class, dao -> dao.getIdImage(image)):0;
+    public int add(String name) {
+       int i= conn.withExtension(ImageDAO.class, dao -> dao.addImage(name));
+        return i;
     }
 
     public int addImageForProject(int id, int idImg) {
@@ -32,7 +30,15 @@ public class ImageService {
     }
 
     public static void main(String[] args) {
-        System.out.println(ImageService.getInstance().getGroupImagesByProjectId(8));
+        switch ("a"){
+            case "a":
+                if(true) {
+                    System.out.println("a");
+                    return;
+                }
+                System.out.println("b");
+                break;
+        }
     }
 
     public void updateImageForProject(int id, int idImg) {
@@ -41,5 +47,9 @@ public class ImageService {
 
     public int deleteAllImageProProject(int id) {
       return  conn.withExtension(ImageDAO.class, dao -> dao.deleteAllImageProProject(id));
+    }
+
+    public void delete(int imageId) {
+        conn.withExtension(ImageDAO.class, dao -> dao.delete(imageId));
     }
 }

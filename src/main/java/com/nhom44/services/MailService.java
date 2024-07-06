@@ -93,7 +93,7 @@ public class MailService {
         }
         String content = "Thông tin yêu cầu cuả bạn là :\b" +
                 "\n\t\tMã yêu cầu :" + cart.getId() + "\n\t\tLoại hình dự án :" + cart.getCategoryId() +
-                "\n\t\tTỉnh thành :" + cart.getProvinceId() + "\n\t\tChiều rộng khu vực xây dựng:" +
+                "\n\t\tTỉnh thành :" + cart.getAddress().getFullName()+ "\n\t\tChiều rộng khu vực xây dựng:" +
                 cart.getWidth() + "\n\t\tChiều dài khu vực xây dựng:" + cart.getHeight() + "\n\t\tDự án mẫu :" +
                 cart.getRepresentProjectId() + "\n\t\tNgày tạo :" + cart.getCreatedAt();
         String verifyLink = "http://" + domain + "/verify/cart?code=" + verifycode;

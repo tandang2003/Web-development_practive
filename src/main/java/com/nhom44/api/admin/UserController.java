@@ -230,7 +230,7 @@ public class UserController extends HttpServlet {
                 address.setDistrictId(Integer.parseInt(district));
                 address.setWardId(Integer.parseInt(ward));
                 System.out.println("ward: " + address.getWardId());
-                addedAddress = addressService.addAddress(address);
+//                addedAddress = addressService.addAddress(address);
                 System.out.println("address: " + addedAddress.toString());
                 ResponseModel responseModel = new ResponseModel();
                 responseModel.setData(addedAddress);

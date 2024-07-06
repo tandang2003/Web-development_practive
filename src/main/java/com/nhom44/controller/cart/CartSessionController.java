@@ -45,7 +45,7 @@ public class CartSessionController extends HttpServlet {
             }
             case "address": {
                 System.out.println("provinceId: " + value);
-                if (new NumberVallidator().validator(value)) cart.setProvinceId(Integer.parseInt(value));
+//                if (new NumberVallidator().validator(value)) cart.setProvinceId(Integer.parseInt(value));
                 break;
             }
             case "representProjectId": {
