@@ -5,6 +5,7 @@ import com.mysql.cj.protocol.FullReadInputStream;
 import com.nhom44.bean.Address;
 import com.nhom44.bean.ResponseModel;
 import com.nhom44.bean.User;
+import com.nhom44.log.util.function.SignupLog;
 import com.nhom44.services.AddressService;
 import com.nhom44.services.MailService;
 import com.nhom44.services.UserService;
@@ -45,8 +46,10 @@ public class SignUpController extends HttpServlet {
         if (responseModel != null) {
             User user = createUserObject(map);
             User addedUser = userService.addUser(user);
+            SignupLog signupLog = new SignupLog(req, addedUser);
             if (addedUser.getPassword() == null && addedUser.getId() != 0) {
                 int userId = userService.getIdUserWithEmail(addedUser.getEmail());
+                signupLog.createLog();
                 String token = UUID.randomUUID().toString();
                 VerifyService.getInstance().insert(token, userId);
                 MailService.getInstance().sendMailToVerify(null, addedUser.getEmail(), token);
@@ -56,6 +59,7 @@ public class SignUpController extends HttpServlet {
                 responseModel.setData("/home");
             } else if (addedUser.getPassword() != null && addedUser.getId() == 0) {
                 responseModel = new ResponseModel();
+                signupLog.failLog();
                 responseModel.setName("error");
                 responseModel.setMessage("Hệ thống hiện tại hiện tại đang bận vui lòng thử lại sau");
                 responseModel.setData(addedUser);

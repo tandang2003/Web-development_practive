@@ -27,8 +27,6 @@ public class OrderLog extends LogFunction{
     }
     public void updateLog(){
         resetDescription(request.getRemoteAddr() + " update order " + cart.getId());
-        this.setPreValue();
-        this.setPostValue();
         this.setLevel(2);
         this.log();
     }
@@ -40,8 +38,6 @@ public class OrderLog extends LogFunction{
     }
     public void successLog(){
         resetDescription(request.getRemoteAddr() + " success submit order " + cart.getId());
-        this.setPreValue();
-        this.setPostValue();
         this.setLevel(4);
         this.log();
     }

@@ -77,8 +77,10 @@ public class CartController extends HttpServlet {
                         orderLog.deleteLog();
                         CartService.getInstance().delete(Integer.parseInt((String) orderCase));
                     }
-                    CartService.getInstance().update(order);
                     OrderLog orderLog = new OrderLog(req, order);
+                    orderLog.setPreValue();
+                    CartService.getInstance().update(order);
+                    orderLog.setPostValue();
                     orderLog.updateLog();
                 } else {
                     order = createOrder(req.getParameterMap(), null);
@@ -119,8 +121,10 @@ public class CartController extends HttpServlet {
                 }
                 Cart order1 = CartService.getInstance().getById(id1);
                 order1 = createOrder(req.getParameterMap(), order1);
-                CartService.getInstance().update(order1);
                 OrderLog orderLog = new OrderLog(req, order1);
+                orderLog.setPreValue();
+                CartService.getInstance().update(order1);
+                orderLog.setPostValue();
                 orderLog.successLog();
                 //gửi mail xác nhận
                 resp.setStatus(200);

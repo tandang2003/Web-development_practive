@@ -62,8 +62,7 @@ public interface UserDAO {
     @SqlUpdate("UPDATE users SET status=1 WHERE id=:id")
     Boolean updateSuccessVerify(@Bind("id") int id);
 
-    @SqlQuery("Select u.id, u.fullname, u.email,u.password, u.phone, u.gender,u.status,u.role, u.birthday,p.name as province " +
-            "FROM users u Left Join provinces p ON u.addressId=p.id where u.email=:email AND u.status=1")
+    @SqlQuery("Select * FROM users u where u.email=:email AND u.status=1")
     User getUserByEmailForCustomer(@Bind("email") String email);
 
     @SqlUpdate("INSERT INTO users(email,password,fullName,role,status) VALUES(:email,:password,:fullName,:role,:status)")
@@ -71,5 +70,6 @@ public interface UserDAO {
 
     @SqlUpdate("UPDATE users SET password=:password WHERE email=:email")
     Boolean updatePassword(@Bind("email") String email, @Bind("password") String password);
-
+    @SqlQuery("SELECT * FROM users WHERE id=:id")
+    User getUserById(@Bind("id")int id);
 }

@@ -81,23 +81,14 @@ public class UserService {
     }
 
     public static void main(String[] args) {
-//        User u= new User();
-//        u.setEmail("b");
-//        u.setPassword("a");
-//        u.setFullName("a");
-//        u.setBirthday(new Date(0));
-//        u.setPhone("a");
-//        u.setGender(1);
-//        u.setStatus(1);
-//        u.setRole(1);
-//        u.setAddressId(1);
-//
-//        System.out.println(getInstance().addUser(u));
         System.out.println(getInstance().getUserByEmail("buiminhchien01233@gmail.com"));
     }
 
     private int updateProvinceId(int id, String email) {
         return conn.withExtension(UserDAO.class, dao -> dao.updateProvinceForUser(id, email));
+    }
+    public User getUserById(int id) {
+        return conn.withExtension(UserDAO.class, dao -> dao.getUserById(id));
     }
 
     public User update(User user) {

@@ -135,14 +135,14 @@
                 </div>
                 <h1>Chào mừng quay trở lại!</h1>
                 <p>Đăng nhập với thông tin cá nhân của bạn</p>
-                <button class="hidden" id="showSignIn">Đăng nhập</button>
+                <button class="" id="showSignIn">Đăng nhập</button>
                 <!--                <button class="hidden" id="login">Đăng nhập</button>-->
             </div>
             <div class="toggle-panel toggle-right">
                 <h1>Xin chào!</h1>
                 <p>Đăng ký với thông tin cá nhân của bạn</p>
-                <button class="hidden" id="showSignUp">Đăng kí</button>
-                <!--                <button class="hidden" id="register">Đăng kí</button>-->
+                <button class="" id="showSignUp">Đăng kí</button>
+<%--           <button class="hidden" id="register">Đăng kí</button>--%>
             </div>
         </div>
     </div>
@@ -156,11 +156,6 @@
 
 <%--<script src="<c:url value="/template/js/admin-modal-notify.js"/>"></script>--%>
 <script>
-    if (${error!=null}) {
-        alert('${error}')
-    }
-</script>
-<script>
 
     $(document).ready(function () {
         validate("#forget-password", forgetPasswordValidator, function (form) {
@@ -168,13 +163,16 @@
                 url: '/api/reset-password',
                 type: 'POST',
                 data: $(form).serializeArray(),
-                // contentType: 'application/json',
+                dataType: 'json',
                 success: function (result) {
-                    // if (result == 'success') {
-                    //     window.location.href = '/RealEstateWeb_war_exploded/home';
-                    // } else {
-                    //     $('#error-message-signin').text(result);
-                    //     $('#error-message-signin').css('display', 'block');
+                    if(result.status===200){
+                        autoCloseAlertWithFunction(mes = result.message, icon = swal2Icon.SUCCESS, function () {
+                                window.location.href = result.redirect;
+                            }
+                        );
+                    } else {
+                        autoCloseAlert(mes = result.message, icon = swal2Icon.ERROR);
+                    }
                 },
                 error: function (error) {
 
@@ -227,74 +225,6 @@
         });
     })
 
-    // $('#request-button').click(function () {
-    //     let data = {
-    //         email: $('#email-forgot').val()
-    //     }
-    //     $.ajax({
-    //         url: '/api/reset-password',
-    //         type: 'POST',
-    //         data: data,
-    //         // contentType: 'application/json',
-    //         success: function (result) {
-    //             console.log("success")
-    //             console.log(result);
-    //             // if (result == 'success') {
-    //             //     window.location.href = '/RealEstateWeb_war_exploded/home';
-    //             // } else {
-    //             //     $('#error-message-signin').text(result);
-    //             //     $('#error-message-signin').css('display', 'block');
-    //         },
-    //         error: function (error) {
-    //             console.log("error")
-    //             console.log(error);
-    //
-    //         }
-    //     })
-    // })
 </script>
-<script>
-    // $('#sign-up-button').click(function () {
-    //     let data = {
-    //         fullname: $('#fullname').val(),
-    //         birthday: $('#birthday').val(),
-    //         isMale: $('#isMale').is(':checked'),
-    //         isFemale: $('#isFemale').is(':checked'),
-    //         province: $('#province').val(),
-    //         district: $('#district').val(),
-    //         ward: $('#ward').val(),
-    //         phone: $('#phone-sigup').val(),
-    //         email: $('#email-signup').val(),
-    //         password: $('#pasword-signup').val(),
-    //         verifypassword: $('#verifypassword-sigup').val()
-    //     }
-    //     $.ajax({
-    //         url: '/api/register',
-    //         type: 'POST',
-    //         data: data,
-    //         dataType: 'json',
-    //         success: function (result) {
-    //             console.log("success")
-    //             console.log(result);
-    //             obj = JSON.parse(result.name);
-    //
-    //             if (obj.name === 'success' || obj.name === 'sys') {
-    //             }
-    //         },
-    //         error: function (error) {
-    //             console.log("error")
-    //
-    //             console.log(error);
-    //             // let obj = JSON.parse(error.responseText);
-    //             // for (let i of obj) {
-    //             //     fetchErr(i.name, i.message)
-    //             // }
-    //
-    //             // delayNotify(2000, 'abv');
-    //         }
-    //     })
-    // })
-</script>
-
 </body>
 </html>

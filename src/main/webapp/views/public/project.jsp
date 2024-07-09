@@ -325,10 +325,8 @@
             ' <li class="page-item page-' + (size - 1) + '" >' +
             '  <a class="page-link" onClick="getProject(\'' + data + '\',' + (size - 1) + ')" >Trang cuối</a>' +
             '    </li>'
-        console.log(page)
         container.innerHTML = page;
         effectButton();
-        console.log('button:' + container.innerHTML)
     }
 
 
