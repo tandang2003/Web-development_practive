@@ -5,6 +5,7 @@ import com.nhom44.bean.User;
 import org.jdbi.v3.sqlobject.config.RegisterBeanMapper;
 import org.jdbi.v3.sqlobject.customizer.Bind;
 import org.jdbi.v3.sqlobject.customizer.BindBean;
+import org.jdbi.v3.sqlobject.statement.GetGeneratedKeys;
 import org.jdbi.v3.sqlobject.statement.SqlQuery;
 import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 
@@ -15,6 +16,7 @@ import java.util.List;
 public interface UserDAO {
     @SqlUpdate("INSERT INTO users(fullname, email, password, role, phone , addressId, birthday, gender, status)" +
             " VALUES(:fullname,:email,:password,:role, :phone,:addressId ,:birthday, :gender, :status)")
+    @GetGeneratedKeys
     int insertUser(@Bind("fullname") String fulllName, @Bind("email") String email,
                    @Bind("password") String password,
                    @Bind("role") int role, @Bind("phone") String phone,

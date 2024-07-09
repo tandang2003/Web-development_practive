@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 public class IntroController extends HttpServlet {
     @Override
     protected void doGet(javax.servlet.http.HttpServletRequest req, javax.servlet.http.HttpServletResponse resp) throws javax.servlet.ServletException, java.io.IOException {
-        new LogPage().log(req);
+        new LogPage(req).log();
         req.getRequestDispatcher("/views/public/intro.jsp").forward(req, resp);
     }
 }

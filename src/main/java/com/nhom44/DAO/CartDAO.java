@@ -12,14 +12,14 @@ import java.util.List;
 
 @RegisterBeanMapper(Cart.class)
 public interface CartDAO {
-    @SqlUpdate("INSERT INTO carts(email, categoryId, addressId,width,height,representProjectId, createdAt, updatedAt) VALUES (:email,:categoryId, :addressId,:width,:height,:representProjectId, :createdAt, :updatedAt)")
+    @SqlUpdate("INSERT INTO carts(email, categoryId, addressId,width,height,representProjectId,isCheck,) VALUES (:email,:categoryId, :addressId,:width,:height,:representProjectId,2,)")
     @GetGeneratedKeys
     Integer add(@BindBean Cart cart);
 
     @SqlUpdate("INSERT INTO carts_images(cartId, imageId) VALUES(:id, :imageId)")
     Integer addImage(@Bind("id") int id, @Bind("imageId") int imageId);
 
-    @SqlUpdate("UPDATE carts SET isCheck=1 WHERE id=:cartId")
+    @SqlUpdate("UPDATE carts SET isCheck=2 WHERE id=:cartId")
     Integer updateSuccessVerifyCart(@Bind("cartId") int cartId);
 
     @SqlQuery("SELECT c.*, categories.name as category, provinces.name as province FROM carts c " +
@@ -45,7 +45,7 @@ public interface CartDAO {
     @SqlQuery("Select id from carts where email=:email and isCheck=0")
     Integer checkingUnSent(@Bind("email") String email);
 
-    @SqlUpdate("UPDATE carts SET email=:email, categoryId=:categoryId, addressId=:addressId, width=:width, height=:height, representProjectId=:representProjectId, updatedAt=NOW() WHERE id=:id")
+    @SqlUpdate("UPDATE carts SET email=:email, categoryId=:categoryId, addressId=:addressId, width=:width, height=:height, representProjectId=:representProjectId,isCheck=:isCheck, updatedAt=NOW() WHERE id=:id")
     int update(@BindBean Cart cart);
 
     @SqlUpdate("DELETE FROM carts_services WHERE cartId=:id")

@@ -20,7 +20,7 @@ public class LoginController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action");
-        LogPage logPage = new LogPage();
+        LogPage logPage = new LogPage(req);
         logPage.setLevel(1);
         if (action != null && action.equals("logout")) {
             logPage.setLevel(2);
@@ -28,7 +28,7 @@ public class LoginController extends HttpServlet {
             resp.sendRedirect(req.getContextPath() + "/login");
             return;
         }
-        logPage.log(req);
+        logPage.log();
         req.getRequestDispatcher("/views/auth/login.jsp").forward(req, resp);
     }
 
@@ -40,8 +40,6 @@ public class LoginController extends HttpServlet {
         if (action != null && action.equals("login")) {
             String email = new EmailSingleValidator().validator(req.getParameter("email")) ? req.getParameter("email") : "";
             String password = req.getParameter("password") != null && !req.getParameter("password").isEmpty() ? req.getParameter("password") : "";
-            System.out.println(password);
-            System.out.println(StringUtil.hashPassword(password));
             User user = UserService.getInstance().login(email, password);
             System.out.println(user != null);
             if (user != null && Objects.equals(user.getEmail(), email) && Objects.equals(user.getPassword(), StringUtil.hashPassword(password))) {

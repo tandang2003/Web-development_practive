@@ -44,7 +44,6 @@ public class SignUpController extends HttpServlet {
         responseModel = validate(map);
         if (responseModel != null) {
             User user = createUserObject(map);
-            //TODO hỏi lấy id làm sao
             User addedUser = userService.addUser(user);
             if (addedUser.getPassword() == null && addedUser.getId() != 0) {
                 int userId = userService.getIdUserWithEmail(addedUser.getEmail());

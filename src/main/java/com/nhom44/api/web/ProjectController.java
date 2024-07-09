@@ -82,7 +82,7 @@ public class ProjectController extends HttpServlet {
                         List<Service> allServices = ServiceOfProjectService.getInstance().getAllActive();
                         Project project1 = ProjectService.getInstance().getActiveById(Integer.parseInt(id));
                         List<Integer> services1 = ServiceOfProjectService.getInstance().getServicesByProjectId(project1.getId()).stream().map(Service::getId).toList();
-                        JsonObject setUp= new JsonObject();
+                        JsonObject setUp = new JsonObject();
                         setUp.add("categories", new Gson().toJsonTree(categories));
                         setUp.add("services", new Gson().toJsonTree(allServices));
                         JsonObject data = new JsonObject();
@@ -155,6 +155,7 @@ public class ProjectController extends HttpServlet {
                 resp.getWriter().print(new Gson().toJson(projects));
             } else if (url.equals("/api/project/search/length")) {
                 int size = ProjectService.getInstance().getProjetAllActiveSize(offset, categoryId, serviceId, provinceId, minPrice, maxPrice, minArea, maxArea);
+                System.out.println("size " + size);
                 resp.setStatus(200);
                 resp.getWriter().print(new Gson().toJson(size));
             }

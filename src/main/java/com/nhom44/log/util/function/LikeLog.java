@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 
 public class LikeLog extends LogFunction{
     private SaveItem saveItem;
-    public LikeLog() {
-        super();
+    public LikeLog(HttpServletRequest request) {
+        super(request);
     }
 
     @Override
@@ -17,6 +17,7 @@ public class LikeLog extends LogFunction{
         SaveItem saveItem = SaveProjectService
                 .getInstance()
                 .getSavedProject(this.saveItem.getPostId(),this.saveItem.getUserId() );
+        resetDescription(request.getRemoteAddr()+ " like project "+saveItem.getPostId());
         return new Gson().toJson(saveItem);
     }
     public void setValue(SaveItem saveItem){
@@ -25,4 +26,5 @@ public class LikeLog extends LogFunction{
     protected void setAddress(HttpServletRequest request) {
         log.setAddress(request.getServletPath() + request.getPathInfo());
     }
+
 }

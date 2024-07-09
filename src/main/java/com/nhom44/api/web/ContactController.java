@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.nhom44.bean.Address;
 import com.nhom44.bean.Contact;
 import com.nhom44.bean.ResponseModel;
+import com.nhom44.log.util.function.FeedBackLog;
 import com.nhom44.services.ContactService;
 import com.nhom44.validator.EmailSingleValidator;
 import com.nhom44.validator.SingleValidator;
@@ -60,12 +61,17 @@ public class ContactController extends HttpServlet {
                     }
                 });
                 int status = ContactService.getInstance().add(contact);
+                FeedBackLog feedBackLog = new FeedBackLog(req);
                 if (status == 1) {
+                    contact.setId(status);
+                    feedBackLog.successLog(contact);
+                    feedBackLog.log();
                     responseModel.setName("success");
                     responseModel.setData("/home");
                     responseModel.setStatus("200");
                     responseModel.setMessage("Cảm ơn bạn đã liên hệ với chúng tôi");
                 } else {
+                    feedBackLog.failLog(contact);
                     responseModel.setName("sys");
                     responseModel.setData("/home");
                     responseModel.setStatus("400");

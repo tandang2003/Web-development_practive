@@ -3,6 +3,7 @@ package com.nhom44.api.web;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.nhom44.bean.*;
+import com.nhom44.log.util.function.OrderLog;
 import com.nhom44.services.*;
 import com.nhom44.util.StringUtil;
 import com.nhom44.util.Upload;
@@ -70,22 +71,30 @@ public class CartController extends HttpServlet {
                 Cart order = null;
                 if (id != 0) {
                     order = createOrder(req.getParameterMap(), CartService.getInstance().getById(id));
-                    CartService.getInstance().update(order);
                     Object orderCase = req.getSession().getAttribute("cart");
-                    if (orderCase != null) {
+                    if (orderCase != null && (int) orderCase != id) {
+                        OrderLog orderLog = new OrderLog(req, order);
+                        orderLog.deleteLog();
                         CartService.getInstance().delete(Integer.parseInt((String) orderCase));
                     }
+                    CartService.getInstance().update(order);
+                    OrderLog orderLog = new OrderLog(req, order);
+                    orderLog.updateLog();
                 } else {
                     order = createOrder(req.getParameterMap(), null);
                     id = CartService.getInstance().add(order);
+                    order.setId(id);
+                    OrderLog orderLog = new OrderLog(req, order);
+                    orderLog.createLog();
                 }
                 req.getSession().setAttribute("cart", id);
-                System.out.println("id = " + id);
                 break;
             case "/api/cart/submit": {
                 String email1 = req.getParameter("email");
                 SingleValidator validator1 = new EmailSingleValidator();
                 if (!validator1.validator(email1)) {
+                    OrderLog orderLog = new OrderLog(req, null);
+                    orderLog.failLog();
                     JsonObject jsonObject = new JsonObject();
                     jsonObject.addProperty("status", 400);
                     jsonObject.addProperty("message", "Vui lòng nhập email");
@@ -97,6 +106,8 @@ public class CartController extends HttpServlet {
                 }
                 int id1 = req.getSession().getAttribute("cart") == null ? 0 : (int) req.getSession().getAttribute("cart");
                 if (id1 == 0) {
+                    OrderLog orderLog = new OrderLog(req, null);
+                    orderLog.failLog();
                     JsonObject jsonObject = new JsonObject();
                     jsonObject.addProperty("status", 400);
                     jsonObject.addProperty("message", "Vui lòng nhập thông tin đơn hàng");
@@ -109,6 +120,8 @@ public class CartController extends HttpServlet {
                 Cart order1 = CartService.getInstance().getById(id1);
                 order1 = createOrder(req.getParameterMap(), order1);
                 CartService.getInstance().update(order1);
+                OrderLog orderLog = new OrderLog(req, order1);
+                orderLog.successLog();
                 //gửi mail xác nhận
                 resp.setStatus(200);
                 VerifyService.getInstance().insertVerifyCart(StringUtil.hashPassword(order1.getId() + order1.getEmail()), order1.getId());

@@ -15,7 +15,7 @@ import java.io.IOException;
 public class HistoryController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        new LogPage().log(req);
+        new LogPage(req).log();
         req.setAttribute("page", "account");
         User user= (User) req.getSession().getAttribute("auth");
         int sizePage= ProjectService.getInstance().pageSizeHistoryProjectByUserId(user.getId());

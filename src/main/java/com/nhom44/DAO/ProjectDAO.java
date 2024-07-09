@@ -162,22 +162,23 @@ public interface ProjectDAO {
     @SqlQuery("SELECT count(p.id) " +
             "FROM Projects p " +
             "JOIN Categories c ON c.id = p.categoryId AND c.status = 1 " +
-            "JOIN Posts po On po.id =p.postId " +
-            "LEFT JOIN saved_projects sl ON sl.postId=po.id " +
+            "LEFT JOIN Posts po On po.id =p.postId " +
+            "LEFT JOIN (SELECT address.id, address.provinceId FROM ADDRESSES address) pr ON pr.id=p.addressId " +
             "WHERE  p.status=1 AND p.isAccepted=1 " +
             "AND if(:categoryId <>0 , c.id=:categoryId, c.id=p.categoryId) " +
-            "AND if(:addressId <>0 , p.addressId=:addressId, p.addressId=p.addressId) " +
+            "AND if(:provinceId <>0 , pr.provinceId=:provinceId, pr.provinceId=pr.provinceId) " +
             "AND if(:minPrice <>0 ,p.price<=:minPrice,p.price>0) " +
             "AND if(:maxPrice <> 0, p.price>=:maxPrice,p.price>0) " +
-            "AND if(:minAcreage <>0 , p.acreage<:minAcreage,p.acreage>0) " +
-            "AND if(:maxAcreage <>0 , p.acreage>:maxAcreage,p.acreage>0) " +
+            "AND if(:minAcreage <>0 , p.acreage<:minAcreage,p.acreage>=0) " +
+            "AND if(:maxAcreage <>0 , p.acreage>:maxAcreage,p.acreage>=0) " +
             "AND p.id IN( " +
             "SELECT ps.projectId " +
             "FROM projects_services ps " +
-            "JOIN Services s ON s.id=ps.serviceId AND s.status=1 " +
-            "WHERE if(:serviceId>0,s.id=:serviceId,s.id=s.id)) " +
+            "Left JOIN Services s ON s.id=ps.serviceId AND s.status=1 " +
+            "WHERE if(:serviceId<>0,s.id=:serviceId,s.id=s.id)" +
+            ") " +
             "order by p.id ")
-    Integer getProjetAllActiveSize(@Bind("offset") int offset, @Bind("categoryId") int categoryId, @Bind("serviceId") int serviceId, @Bind("addressId") int addressId, @Bind("minPrice") long minPrice, @Bind("maxPrice") long maxPrice, @Bind("minAcreage") int minAcreage, @Bind("maxAcreage") int maxAcreage);
+    Integer getProjetAllActiveSize(@Bind("offset") int offset, @Bind("categoryId") int categoryId, @Bind("serviceId") int serviceId, @Bind("provinceId") int addressId, @Bind("minPrice") long minPrice, @Bind("maxPrice") long maxPrice, @Bind("minAcreage") int minAcreage, @Bind("maxAcreage") int maxAcreage);
 
     @SqlQuery("SELECT DISTINCT p.id, p.title, p.avatar,p.updatedAt " +
             "FROM Projects p  " +

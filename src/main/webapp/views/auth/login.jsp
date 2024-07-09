@@ -107,7 +107,7 @@
                     class="fa-solid fa-arrow-left"></i></a>
         </div>
         <%--        form đăng nhập--%>
-        <form action="/login" method="post" id="login-form">
+        <form id="login-form">
             <input type="hidden" name="action" value="login"/>
             <h1>Đăng Nhập</h1>
             <div class="social-icons">
@@ -199,12 +199,33 @@
                     }
                 },
                 error: function (error) {
-
+                    errorAlert("Hệ thống đang gặp sự cố vui lòng thực hiện lại sau")
                 }
             });
         });
     });
+    validate('#login-form', loginValidator, function (form) {
+        $.ajax({
+            url: '/api/login',
+            type: 'POST',
+            data: $(form).serializeArray(),
+            dataType: 'json',
+            success: function (result) {
 
+                if (result.status === 200) {
+                    autoCloseAlertWithFunction(mes = result.message, icon = swal2Icon.SUCCESS, function () {
+                            window.location.href = result.redirect;
+                        }
+                    );
+                } else {
+                    autoCloseAlert(mes = result.message, icon = swal2Icon.ERROR);
+                }
+            },
+            error: function (error) {
+                errorAlert("Hệ thống đang gặp sự cố vui lòng thực hiện lại sau")
+            }
+        });
+    })
 
     // $('#request-button').click(function () {
     //     let data = {

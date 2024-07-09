@@ -27,10 +27,10 @@ public class SaveProjectController extends HttpServlet {
         int projectId = Integer.parseInt(url.substring(url.lastIndexOf("/") + 1));
         HttpSession session = req.getSession();
         User user = (User) session.getAttribute("auth");
-        LikeLog likeLog = new LikeLog();
+        LikeLog likeLog = new LikeLog(req);
         if (user == null) {
             likeLog.setLevel(3);
-            likeLog.log(req);
+            likeLog.log();
             String respUrl = "/login";
             resp.setStatus(400);
             ResponseModel resModel = new ResponseModel();
@@ -43,7 +43,7 @@ public class SaveProjectController extends HttpServlet {
         Project project = ProjectService.getInstance().getById(projectId);
         if (project == null) {
             likeLog.setLevel(3);
-            likeLog.log(req);
+            likeLog.log();
             resp.setStatus(400);
             ResponseModel resModel = new ResponseModel();
             resModel.setName("save");
@@ -60,10 +60,10 @@ public class SaveProjectController extends HttpServlet {
         if (!isSave) {
             saveItem.setStatus(1);
             SaveProjectService.getInstance().saveProject(saveItem);
-            LikeLog logFunction = new LikeLog();
+            LikeLog logFunction = new LikeLog(req);
             logFunction.setValue(saveItem);
             logFunction.setPostValue();
-            logFunction.log(req);
+            logFunction.log();
             resp.setStatus(200);
             ResponseModel resModel = new ResponseModel();
             resModel.setName("save");
@@ -74,10 +74,10 @@ public class SaveProjectController extends HttpServlet {
         } else {
             saveItem.setStatus(0);
             SaveProjectService.getInstance().deleteSaveProject(saveItem);
-            LikeLog logFunction = new LikeLog();
+            LikeLog logFunction = new LikeLog(req);
             logFunction.setValue(saveItem);
             logFunction.setPreValue();
-            logFunction.log(req);
+            logFunction.log();
             resp.setStatus(200);
             ResponseModel resModel = new ResponseModel();
             resModel.setName("delete");

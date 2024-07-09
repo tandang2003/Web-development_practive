@@ -50,7 +50,6 @@ public class CartService implements Serializable {
             int imageId = ImageService.getInstance().add(s);
             CartService.getInstance().addImage(order.getId(), imageId);
         }
-
     }
 
     public void deleteImages(int id) {
