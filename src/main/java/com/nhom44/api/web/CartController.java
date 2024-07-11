@@ -25,6 +25,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import static com.nhom44.util.GsonUtil.getGson;
+
 @WebServlet(urlPatterns = {"/api/cart/data", "/api/cart/update", "/api/cart/submit"})
 public class CartController extends HttpServlet {
     @Override
@@ -41,7 +43,7 @@ public class CartController extends HttpServlet {
                 AddressService.getInstance().getData(cart.getAddress());
                 cart.setImages(CartService.getInstance().getImageNames(cart.getId()));
                 JsonObject jsonObject = new JsonObject();
-                jsonObject.addProperty("data", new Gson().toJson(cart));
+                jsonObject.addProperty("data", getGson().toJson(cart));
                 jsonObject.addProperty("status", 200);
                 PrintWriter writer = resp.getWriter();
                 writer.println(jsonObject.toString());

@@ -16,92 +16,6 @@
 <body>
 <div class="wrapper position-relative">
     <%@include file="/layout/public/header.jsp" %>
-    <!--start Navigation-->
-<%--    <div class="wrapper position-relative">--%>
-        <!--start Navigation-->
-<%--        <nav class="navbar navbar-expand-lg navbar-light nav-property position-fixed w-100"--%>
-<%--             style="z-index: 1000; top:0">--%>
-<%--            <div class="container">--%>
-<%--                <a class="navbar-brand "--%>
-<%--                   href="../../../../RealEstateWeb/resources/views/template/main.html">--%>
-<%--                    <div class="navbar-brand flex-center justify-content-between">--%>
-<%--                        <img class="mr-3 ml-4 " src="../../../../RealEstateWeb/public/img/logo/logo.png"--%>
-<%--                             style="width: 50px">--%>
-<%--                        <h5 class=" text-uppercase mb-2 mt-2 font-weight-bold main-color">XÂY DỰNG NHÀ ĐẸP</h5>--%>
-<%--                    </div>--%>
-<%--                </a>--%>
-<%--                <div class="collapse navbar-collapse border-left row  align-items-center"--%>
-<%--                     id="navbarSupportedContent-555">--%>
-<%--                    <ul class="navbar-nav  col-9 border-right">--%>
-<%--                        <li class="nav-item nav-menuItem font-weight-bolder ">--%>
-<%--                            <a class="nav-link text-center"--%>
-<%--                               href="../../../../RealEstateWeb/resources/views/template/main.html">Trang Chủ--%>
-<%--                            </a>--%>
-<%--                        </li>--%>
-<%--                        <li class="nav-item nav-menuItem font-weight-bolder">--%>
-<%--                            <a class="nav-link text-center"--%>
-<%--                               href="../../../../RealEstateWeb/resources/views/template/intro.html">Giới Thiệu</a>--%>
-<%--                        </li>--%>
-<%--                        <li class="d-flex align-items-center nav-item--%>
-<%--                nav-menuItem position-relative font-weight-bolder nav-dropdownItem"--%>
-<%--                        >--%>
-<%--                            <a class="nav-link text-center"--%>
-<%--                               href="../../../../RealEstateWeb/resources/views/template/services.html"--%>
-<%--                               role="link"--%>
-<%--                            >Dịch vụ--%>
-<%--                            </a>--%>
-<%--                            <i class="fa-solid fa-angle-down position-absolute  " style="color: #000000;"></i>--%>
-<%--                            <div class="dropdown-menu w-100">--%>
-<%--                                <a class="dropdown-item text-center" style="font-size: 16px" href="#">Xây Nhà Trọn--%>
-<%--                                    Gói</a>--%>
-<%--                                <a class="dropdown-item text-center" style="font-size: 16px" href="#">Xây Nhà Thô</a>--%>
-<%--                                <a class="dropdown-item text-center" style="font-size: 16px" href="#">Xây Biệt Thự</a>--%>
-<%--                                <a class="dropdown-item text-center" style="font-size: 16px" href="#">Xây Nhà Xưởng</a>--%>
-<%--                            </div>--%>
-
-<%--                        </li>--%>
-<%--                        <li class="d-flex align-items-center nav-item--%>
-<%--                nav-menuItem position-relative font-weight-bolder nav-dropdownItem"--%>
-<%--                        >--%>
-<%--                            <a class="nav-link text-center"--%>
-<%--                               href="../../../../RealEstateWeb/resources/views/template/project.html"--%>
-<%--                               role="link"--%>
-<%--                            >Dự án--%>
-<%--                            </a>--%>
-<%--                            <i class="fa-solid fa-angle-down position-absolute  " style="color: #000000;"></i>--%>
-<%--                            <div class="dropdown-menu w-100">--%>
-<%--                                <a class="dropdown-item text-center" style="font-size: 16px" href="#">Biệt Thự</a>--%>
-<%--                                <a class="dropdown-item text-center" style="font-size: 16px" href="#">Nhà Phố</a>--%>
-<%--                                <a class="dropdown-item text-center" style="font-size: 16px" href="#">Văn Phòng</a>--%>
-<%--                            </div>--%>
-<%--                        </li>--%>
-<%--                        <li class="nav-item nav-menuItem font-weight-bolder">--%>
-<%--                            <a class="nav-link text-center"--%>
-<%--                               href="../../../../RealEstateWeb/resources/views/template/contact.html">Liên Hệ</a>--%>
-<%--                        </li>--%>
-<%--                        <li class="nav-item nav-menuItem font-weight-bolder" id="nav-menuItem-active">--%>
-<%--                            <a class="nav-link text-center" href="#">TK của tôi</a>--%>
-<%--                        </li>--%>
-<%--                    </ul>--%>
-<%--                    <!--icon font ring-->--%>
-<%--                    <div class="phone-contain flex-center justify-content-center col-3">--%>
-
-<%--                        <div class="icon-phone-ring col-lg-6 col-md-6 col-sm-12 ">--%>
-<%--                            <div class="w-100 h-100 d-flex justify-content-center align-items-center">--%>
-<%--                                <i class="fa-solid fa-phone"></i>--%>
-<%--                                <i class="circle-1"></i>--%>
-<%--                            </div>--%>
-<%--                        </div>--%>
-<%--                        <div>--%>
-<%--                            <a class=" col-lg-6 col-md-6">0352033199</a>--%>
-<%--                        </div>--%>
-<%--                    </div>--%>
-<%--                </div>--%>
-<%--            </div>--%>
-<%--        </nav>--%>
-
-
-        <!--end Navigation-->
         <div class="sidebar">
             <div class="sidebar-menu">
                 <li class="sidebar-item" id="user">
@@ -159,43 +73,8 @@
             </div>
 
             <main class="my-body">
-                <div class="container">
-                    <c:forEach items="${projects}" var="project">
-                    <div class="border box-project hover-image d-flex">
-                        <a class="">
-                            <img src="${project.avatar}">
-                        </a>
-                        <div class="w-100 flex-column">
-                            <div class="box-content">
-                                <h4 class=""> ${project.title}</h4>
-
-                                <p><span>Chủ đầu tư: </span> ${auth.fullName}</p>
-                                <p><span>Địa chỉ: </span> ${project.province}</p>
-                                <p><span>Loại dự án: </span>${project.category}</p>
-                                <p><span>Loại dịch vụ: </span> ${map[project.id]}</p>
-                                <p><span>Mã dự án: </span> ${project.id}</p>
-                                <p><span>Dự toán kinh phí: </span> ${project.price}</p>
-                                <p><span>Tiến độ công trình: </span> ${project.schedule}</p>
-                                <p><span>Dự kiến thời điểm hoàn thành: </span> ${project.estimated_complete}</p>
-
-                            </div>
-                            <div class="box-button d-flex justify-content-around">
-                                <a href="/user/own-project/demo-post/${project.id}">
-                                    <button class="btn btn-blue font-weight-bold ml-0"> Xem bài viết về dự án</button>
-                                </a>
-                                <c:choose>
-                                    <c:when test="${project.isAccepted==1}">
-                                        <button class="btn btn-grey font-weight-bold ml-0"> Đã được duyệt</button>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <button onclick="accept(${project.id})"  class="btn btn-green font-weight-bold ml-0"> Chờ duyệt</button>
-                                    </c:otherwise>
-                                </c:choose>
-
-                            </div>
-                        </div>
-                    </div>
-                    </c:forEach>
+                <div class="container" id="project-container">
+                    
                 </div>
             </main>
 
@@ -206,6 +85,68 @@
 </div>
 <%@include file="/layout/public/script.jsp" %>
 <script>
+    $(document).ready(function () {
+        $.ajax({
+            url: "/api/user/project",
+            type: "GET",
+            dataType: "json",
+            success: function (data) {
+                let projects = data.projects;
+                let map = data.map;
+                // for (let i = 0; i < projects.length; i++) {
+                //     let project = projects[i];
+                //     let services = project.map;
+                //     let service = "";
+                //     for (let j = 0; j < services.length; j++) {
+                //         service += services[j].name + " ";
+                //     }
+                //     map[project.id] = service;
+                // }
+                // for (let i = 0; i < projects.length; i++) {
+                //     let project = projects[i];
+                //     let serviceNames = map[project.id]; // Get service names for current project id
+                //     project.services = serviceNames; // Add service names to the project object
+                // }
+                let html = "";
+                for (let i = 0; i < projects.length; i++) {
+                    let project = projects[i];
+                    html += "<div class='border box-project hover-image d-flex'>";
+                    html += "<a class=''>";
+                    html += "<img src='" + project.avatar + "'>";
+                    html += "</a>";
+                    html += "<div class='w-100 flex-column'>";
+                    html += "<div class='box-content'>";
+                    html += "<h4 class=''>" + project.title + "</h4>";
+                    html += "<p><span>Chủ đầu tư: </span>" + project.owner + "</p>";
+                    html += "<p><span>Địa chỉ: </span>" + project.province + "</p>";
+                    html += "<p><span>Loại dự án: </span>" + project.category + "</p>";
+                    html += "<p><span>Loại dịch vụ: </span>" + map[project.id] + "</p>";
+                    html += "<p><span>Mã dự án: </span>" + project.id + "</p>";
+                    html += "<p><span>Dự toán kinh phí: </span>" + project.price + "</p>";
+                    html += "<p><span>Tiến độ công trình: </span>" + project.schedule + "</p>";
+                    html += "<p><span>Dự kiến thời điểm hoàn thành: </span>" + project.estimated_complete + "</p>";
+                    html += "</div>";
+                    html += "<div class='box-button d-flex justify-content-around'>";
+                    html += "<a href='/user/own-project/demo-post/" + project.id + "'>";
+                    html += "<button class='btn btn-blue font-weight-bold ml-0'> Xem bài viết về dự án</button>";
+                    html += "</a>";
+                    if (project.isAccepted == 1) {
+                        html += "<button class='btn btn-grey font-weight-bold ml-0'> Đã được duyệt</button>";
+                    } else {
+                        html += "<button onclick='accept(" + project.id + ")' class='btn btn-green font-weight-bold ml-0'> Chờ duyệt</button>";
+                    }
+                    html += "</div>";
+                    html += "</div>";
+                    html += "</div>";
+                }
+                $("#project-container").html(html);
+            },
+            error: function (data) {
+                let value = JSON.parse(data.responseText);
+                console.log(value);
+            }
+        })
+    })
 
     function accept(id) {
         console.log(id)

@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <%--    <%@ include file="/layout/link.jsp" %>--%>
+    <%--        <%@ include file="/layout/public/link.jsp" %>--%>
     <link href="<c:url value="/template/lib/fontawesome-free-6.4.2-web/css/all.min.css"/>" rel="stylesheet">
     <link rel="stylesheet" href="<c:url value="/template/css/login.css"/> ">
     <title>Đăng nhập</title>
@@ -142,7 +142,7 @@
                 <h1>Xin chào!</h1>
                 <p>Đăng ký với thông tin cá nhân của bạn</p>
                 <button class="" id="showSignUp">Đăng kí</button>
-<%--           <button class="hidden" id="register">Đăng kí</button>--%>
+                <%--           <button class="hidden" id="register">Đăng kí</button>--%>
             </div>
         </div>
     </div>
@@ -165,17 +165,16 @@
                 data: $(form).serializeArray(),
                 dataType: 'json',
                 success: function (result) {
-                    if(result.status===200){
-                        autoCloseAlertWithFunction(mes = result.message, icon = swal2Icon.SUCCESS, function () {
-                                window.location.href = result.redirect;
-                            }
-                        );
+                    if (result.status === '200') {
+                        autoCloseAlertWithFunction(data.message, 3000, swal2Icon.SUCCESS, () => {
+                            window.location.reload();
+                        })
                     } else {
-                        autoCloseAlert(mes = result.message, icon = swal2Icon.ERROR);
+                        autoCloseAlertIcon(mes = result.message, time = 3000, icon = swal2Icon.ERROR, url=null);
+
                     }
                 },
                 error: function (error) {
-
                 }
             })
         })
@@ -183,17 +182,17 @@
             $.ajax({
                 url: '/api/register',
                 type: 'POST',
-                data: $(form).serializeArray(),
+                data: $(form).serialize(),
                 dataType: 'json',
                 // contentType: 'application/json',
                 success: function (result) {
+                    console.log(result)
                     if (result.name === 'success') {
-                        autoCloseAlertWithFunction(mes = result.message, icon = swal2Icon.SUCCESS, function () {
-                                window.location.href = result.data;
-                            }
-                        );
+                        autoCloseAlertWithFunction(result.message, 3000, swal2Icon.SUCCESS, () => {
+                            window.location.reload();
+                        })
                     } else {
-                        autoCloseAlert(mes = result.message, icon = swal2Icon.ERROR);
+                        autoCloseAlertIcon(mes = result.message, time = 3000, icon = swal2Icon.ERROR, url=null);
                     }
                 },
                 error: function (error) {
@@ -209,14 +208,14 @@
             data: $(form).serializeArray(),
             dataType: 'json',
             success: function (result) {
-
+                console.log(result)
                 if (result.status === 200) {
-                    autoCloseAlertWithFunction(mes = result.message, icon = swal2Icon.SUCCESS, function () {
+                    autoCloseAlertWithFunction(result.message, 1500, swal2Icon.SUCCESS, function () {
                             window.location.href = result.redirect;
                         }
                     );
                 } else {
-                    autoCloseAlert(mes = result.message, icon = swal2Icon.ERROR);
+                    autoCloseAlertIcon(mes = result.message, time = 3000, icon = swal2Icon.ERROR, url=null);
                 }
             },
             error: function (error) {

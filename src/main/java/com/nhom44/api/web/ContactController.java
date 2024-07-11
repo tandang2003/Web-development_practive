@@ -22,6 +22,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import java.util.Set;
 
+import static com.nhom44.util.GsonUtil.getGson;
+
 @WebServlet(urlPatterns = {"/api/contact/save"})
 public class ContactController extends HttpServlet {
 
@@ -30,7 +32,7 @@ public class ContactController extends HttpServlet {
         String url = req.getRequestURI();
         ResponseModel responseModel;
         if (url.equals("/api/contact/save")) {
-            Contact contact = Contact.builder().address(new Address()).build();
+            Contact contact = new Contact();
             Map<String, String[]> map = req.getParameterMap();
             responseModel = validator(map);
             if (responseModel == null) {
@@ -62,7 +64,7 @@ public class ContactController extends HttpServlet {
                 });
                 int status = ContactService.getInstance().add(contact);
                 FeedBackLog feedBackLog = new FeedBackLog(req);
-                if (status == 1) {
+                if (status !=0) {
                     contact.setId(status);
                     feedBackLog.successLog(contact);
                     feedBackLog.log();
@@ -80,7 +82,7 @@ public class ContactController extends HttpServlet {
             }
             resp.setStatus(200);
             PrintWriter printWriter = resp.getWriter();
-            printWriter.print(new Gson().toJson(responseModel));
+            printWriter.print(getGson().toJson(responseModel));
             printWriter.flush();
             printWriter.close();
             return;

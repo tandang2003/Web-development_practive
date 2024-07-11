@@ -6,6 +6,8 @@ import com.nhom44.services.SaveProjectService;
 
 import javax.servlet.http.HttpServletRequest;
 
+import static com.nhom44.util.GsonUtil.getGson;
+
 public class LikeLog extends LogFunction{
     private SaveItem saveItem;
     public LikeLog(HttpServletRequest request) {
@@ -18,7 +20,7 @@ public class LikeLog extends LogFunction{
                 .getInstance()
                 .getSavedProject(this.saveItem.getPostId(),this.saveItem.getUserId() );
         resetDescription(request.getRemoteAddr()+ " like project "+saveItem.getPostId());
-        return new Gson().toJson(saveItem);
+        return getGson().toJson(saveItem);
     }
     public void setValue(SaveItem saveItem){
         this.saveItem= saveItem;

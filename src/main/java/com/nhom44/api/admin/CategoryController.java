@@ -22,12 +22,14 @@ import java.lang.reflect.InvocationTargetException;
 import java.sql.Date;
 import java.util.List;
 
+import static com.nhom44.util.GsonUtil.getGson;
+
 @WebServlet(urlPatterns = "/api/admin/category")
 public class CategoryController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<Category> categories = CategoryService.getInstance().getAll();
-        Gson gson = new Gson();
+        Gson gson = getGson();
         PrintWriter printWriter = resp.getWriter();
         String json = gson.toJson(categories);
         System.out.println(json);
@@ -44,7 +46,7 @@ public class CategoryController extends HttpServlet {
             responseModel = new ResponseModel();
             responseModel.setName("name");
             responseModel.setMessage("Tên danh mục không hợp lệ");
-            Gson gson = new Gson();
+            Gson gson = getGson();
             PrintWriter printWriter = resp.getWriter();
             String json = gson.toJson(responseModel);
             printWriter.println(json);
@@ -65,7 +67,7 @@ public class CategoryController extends HttpServlet {
                     responseModel = new ResponseModel();
                     responseModel.setName("name");
                     responseModel.setMessage("Tên danh mục đã tồn tại");
-                    Gson gson = new Gson();
+                    Gson gson = getGson();
                     PrintWriter printWriter = resp.getWriter();
                     String json = gson.toJson(responseModel);
                     printWriter.println(json);
@@ -84,7 +86,7 @@ public class CategoryController extends HttpServlet {
                     responseModel = new ResponseModel();
                     responseModel.setName("name");
                     responseModel.setMessage("Tên danh mục đã tồn tại");
-                    Gson gson = new Gson();
+                    Gson gson = getGson();
                     PrintWriter printWriter = resp.getWriter();
                     String json = gson.toJson(responseModel);
                     printWriter.println(json);
@@ -97,7 +99,7 @@ public class CategoryController extends HttpServlet {
             responseModel = new ResponseModel();    resp.setStatus(200);
             responseModel.setName("sys");
             responseModel.setMessage("Hệ thống đang bận");
-            Gson gson = new Gson();
+            Gson gson = getGson();
             PrintWriter printWriter = resp.getWriter();
             String json = gson.toJson(responseModel);
             printWriter.flush();
@@ -109,7 +111,7 @@ public class CategoryController extends HttpServlet {
         responseModel.setName("success");
         responseModel.setMessage("Thêm thành công");
         responseModel.setData("/admin/category_management");
-        Gson gson = new Gson();
+        Gson gson = getGson();
         PrintWriter printWriter = resp.getWriter();
         String json = gson.toJson(responseModel);
         printWriter.println(json);

@@ -240,12 +240,20 @@ public interface ProjectDAO {
             "JOIN Services s ON s.id=ps.serviceId AND s.status=1 )")
     Integer pageSizeHistoryProjectByUserId(@Bind("id") int id);
 
-    @SqlQuery("SELECT p.id, p.title, p.avatar,p.updatedAt,p.isAccepted,p.price,pr.name as province ,c.name as category , ep.schedule as schedule , ep.estimatedComplete as estimatedComplete " +
+    @SqlQuery("SELECT p.id, p.title, p.avatar,p.updatedAt,p.isAccepted,p.price,ad.name as address ,c.name as category , " +
+            "ep.schedule as schedule , ep.estimatedComplete as estimatedComplete , u.fullName as owner " +
             "FROM Projects p " +
             "JOIN Categories c ON p.categoryId = c.id  " +
-            "JOIN addresses pr ON p.addressId=pr.id " +
+            "JOIN (" +
+            "SELECT ad.id, CONCAT(w.fullName,', ',d.fullName,', ',pr.fullName) as name " +
+            "FROM addresses ad " +
+            "       JOIN provinces pr ON pr.id=ad.provinceId " +
+            "       JOIN districts d ON ad.districtId=d.id " +
+            "       JOIN wards w ON ad.wardId=w.id " +
+            ") as ad ON p.addressId=ad.id " +
             "Left JOIN excuting_projects ep ON p.id=ep.projectId " +
-            "JOIN users_projects up ON up.projectId=p.id AND up.userId=:id"
+            "JOIN users_projects up ON up.projectId=p.id AND up.userId=:id " +
+            "JOIN users u ON u.id=up.userId"
     )
     List<Project> getOwnProject(@Bind("id") int id);
 

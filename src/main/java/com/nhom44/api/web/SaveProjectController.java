@@ -19,6 +19,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+import static com.nhom44.util.GsonUtil.getGson;
+
 @WebServlet(urlPatterns = {"/api/save_project/*"})
 public class SaveProjectController extends HttpServlet {
     @Override
@@ -26,7 +28,7 @@ public class SaveProjectController extends HttpServlet {
         String url = req.getPathInfo();
         int projectId = Integer.parseInt(url.substring(url.lastIndexOf("/") + 1));
         HttpSession session = req.getSession();
-        User user = (User) session.getAttribute("auth");
+        User user = (User) session.getAttribute("account");
         LikeLog likeLog = new LikeLog(req);
         if (user == null) {
             likeLog.setLevel(3);
@@ -36,7 +38,7 @@ public class SaveProjectController extends HttpServlet {
             ResponseModel resModel = new ResponseModel();
             resModel.setName("login");
             resModel.setData(respUrl);
-            resp.getWriter().println(new Gson().toJson(resModel));
+            resp.getWriter().println(getGson().toJson(resModel));
             resp.getWriter().flush();
             return;
         }
@@ -48,14 +50,14 @@ public class SaveProjectController extends HttpServlet {
             ResponseModel resModel = new ResponseModel();
             resModel.setName("save");
             resModel.setMessage("save project success");
-            resp.getWriter().println(new Gson().toJson(resModel));
+            resp.getWriter().println(getGson().toJson(resModel));
             resp.getWriter().flush();
             return;
         }
         boolean isSave = SaveProjectService.getInstance().isSaveProject(project.getPostId(), user.getId());
         SaveItem saveItem = SaveItem.builder()
                 .postId(project.getPostId())
-                .userId(1)
+                .userId(user.getId())
                 .build();
         if (!isSave) {
             saveItem.setStatus(1);
@@ -68,7 +70,7 @@ public class SaveProjectController extends HttpServlet {
             ResponseModel resModel = new ResponseModel();
             resModel.setName("save");
             resModel.setMessage("save project success");
-            resp.getWriter().println(new Gson().toJson(resModel));
+            resp.getWriter().println(getGson().toJson(resModel));
             resp.getWriter().flush();
             return;
         } else {
@@ -82,7 +84,7 @@ public class SaveProjectController extends HttpServlet {
             ResponseModel resModel = new ResponseModel();
             resModel.setName("delete");
             resModel.setMessage("delete project success");
-            resp.getWriter().println(new Gson().toJson(resModel));
+            resp.getWriter().println(getGson().toJson(resModel));
             resp.getWriter().flush();
             return;
         }

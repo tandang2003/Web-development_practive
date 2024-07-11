@@ -79,10 +79,7 @@ $(document).ready(function () {
                             })
                         }).catch(error => {
                         })
-                        // $('#province').val(`${data.address.provinceId}`).change()
-                        // $('#district').val(`${data.address.districtId}`).change()
                         $('#ward').val(`${data.address.wardId}`)
-                        // $('#ward').trigger('change')
                         $('#width').val(data.width).change()
                         $('#height').val(data.height).change()
                         data.images.forEach((e, i) => {

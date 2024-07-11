@@ -6,6 +6,8 @@ import com.nhom44.services.CartService;
 
 import javax.servlet.http.HttpServletRequest;
 
+import static com.nhom44.util.GsonUtil.getGson;
+
 public class OrderLog extends LogFunction{
     private Cart cart;
 
@@ -17,7 +19,7 @@ public class OrderLog extends LogFunction{
     @Override
     protected String getValue() {
         Cart cart = CartService.getInstance().getById(this.cart.getId());
-        return new Gson().toJson(cart);
+        return getGson().toJson(cart);
     }
     public void createLog(){
         resetDescription(request.getRemoteAddr() + " order " + cart.getId());
@@ -44,14 +46,14 @@ public class OrderLog extends LogFunction{
     public void failLog(){
         resetDescription(request.getRemoteAddr() + " fail order " );
 //        this.setPostValue();
-        this.setLevel(5);
+        this.setLevel(2);
         this.log();
     }
     public void verifyLog(){
         resetDescription(request.getRemoteAddr() + " verify order " + cart.getId());
         this.setPreValue();
         this.setPostValue();
-        this.setLevel(6);
+        this.setLevel(1);
         this.log();
     }
 }

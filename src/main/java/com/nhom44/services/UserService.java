@@ -40,32 +40,6 @@ public class UserService {
         return conn.withExtension(UserDAO.class, dao -> dao.NumOfSameEmailContain(email)) == 1;
     }
 
-// address
-//    public User additional(String email, String password, String fullName, Date birthday, String phone, String isMale, String status, String role, int addressId) {
-//        User user = new User();
-//        user.setEmail(email);
-//        user.setPassword(StringUtil.hashPassword(password));
-//        user.setFullName(fullName);
-//        user.setBirthday(new java.sql.Date(birthday.getTime()));
-//        user.setPhone(phone);
-//        user.setAddressId(addressId);
-//
-//        user.setGender(isMale != null ? 1 : 0);
-//        user.setStatus(Integer.parseInt(status));
-//        user.setRole(Integer.parseInt(role));
-//        String idAddress = conn.withExtension(ProvinceDAO.class, handle -> handle.getSpecificId(String.valueOf(addressId)));
-//        int line = Integer.MIN_VALUE;
-//        line = conn.withExtension(UserDAO.class, handle -> handle.insertUser(user.getFullName(),
-//                user.getEmail(), user.getPassword(),
-//                user.getRole(), user.getPhone(), Integer.parseInt(idAddress),
-//                user.getGender(), (java.sql.Date) user.getBirthday(), user.getStatus()));
-//        if (line == 1) {
-//            user.setPassword(null);
-//            return user;
-//        }
-//        return user;
-//    }
-
     public User addUser(User user) {
         int addressId = AddressService.getInstance().addAddress(user.getAddress());
         user.setAddressId(addressId);
@@ -80,56 +54,31 @@ public class UserService {
         return user;
     }
 
-    public static void main(String[] args) {
-        System.out.println(getInstance().getUserByEmail("buiminhchien01233@gmail.com"));
-    }
 
-    private int updateProvinceId(int id, String email) {
-        return conn.withExtension(UserDAO.class, dao -> dao.updateProvinceForUser(id, email));
-    }
     public User getUserById(int id) {
-        return conn.withExtension(UserDAO.class, dao -> dao.getUserById(id));
+        return conn.withExtension(UserDAO.class, dao -> {
+            User user=dao.getUserById(id);
+            user.setAddress(AddressService.getInstance().getAddressById(user.getAddressId()));
+            return user;
+        });
     }
 
+    public static void main(String[] args) {
+        System.out.println(getInstance().getUserById(33));
+    }
     public User update(User user) {
-        System.out.println("userupdated" + user.toString());
         int check = conn.withExtension(UserDAO.class, dao -> dao.updateUser(user));
         return check == 1 ? conn.withExtension(UserDAO.class, dao -> dao.login(user.getEmail(), user.getPassword())) : null;
     }
 
-//    public int update(String oldEmail, String email, String password, String name, Date birthday, String phone, String province, String isMale, String status, String role) {
-//        String idProvince = ProvinceService.getInstance().getSpecificId(province);
-//        try {
-//            if (!oldEmail.equals(email)) {
-//                User u = getUserByEmail(email);
-//                if (u != null) {
-//                    throw new Exception("Email đã tồn tại");
-//                }
-//            }
-//            User user = new User();
-//            user.setEmail(email);
-//            user.setPassword(StringUtil.hashPassword(password));
-//            user.setFullName(name);
-//            user.setBirthday(new java.sql.Date(birthday.getTime()));
-//            user.setPhone(phone);
-//            user.setGender(isMale != null ? 1 : 0);
-//            user.setStatus(Integer.parseInt(status));
-//            user.setRole(Integer.parseInt(role));
-//            int id = Integer.parseInt(idProvince);
-//            int checkUpdateProvince = updateProvinceId(id, oldEmail);
-//            int checkUpdateOther = conn.withExtension(UserDAO.class, dao -> dao.updateUser(user, oldEmail));
-//            return Math.max(checkUpdateOther, checkUpdateProvince);
-//        } catch (Throwable t) {
-//            return -1;
-//        }
-//    }
+
 
     public User getUserOwnerOfProject(int projectId) {
         return conn.withExtension(UserDAO.class, dao -> dao.getUserOwnerOfProject(projectId));
     }
 
 
-    public static User getUserByEmail(String email) {
+    public User getUserByEmail(String email) {
         return conn.withExtension(UserDAO.class, dao -> dao.getUserByEmail(email));
     }
 

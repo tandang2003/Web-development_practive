@@ -11,6 +11,9 @@ import com.nhom44.validator.NumberVallidator;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import java.util.List;
+
+import static com.nhom44.util.GsonUtil.getGson;
+
 @WebServlet(urlPatterns = {"/api/services", "/api/post/services/*"})
 public class ServiceController extends HttpServlet {
     @Override
@@ -24,7 +27,7 @@ public class ServiceController extends HttpServlet {
                 responseModel.setMessage("Success");
                 responseModel.setData(services);
                 resp.setStatus(200);
-                resp.getWriter().println(new Gson().toJson(responseModel));
+                resp.getWriter().println(getGson().toJson(responseModel));
                 resp.getWriter().flush();
                 resp.getWriter().close();
                 break;
@@ -62,7 +65,7 @@ public class ServiceController extends HttpServlet {
                 }
 
                 resp.setStatus(200);
-                resp.getWriter().println(new Gson().toJson(responseModel));
+                resp.getWriter().println(getGson().toJson(responseModel));
                 resp.getWriter().flush();
                 resp.getWriter().close();
                 break;

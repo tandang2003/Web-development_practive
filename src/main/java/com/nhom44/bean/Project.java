@@ -23,6 +23,7 @@ public class Project implements Serializable {
     private String estimatedComplete;
     private String address;
     private String category;
+    private String owner;
     private int addressId;
     private int categoryId;
     private int numSave;

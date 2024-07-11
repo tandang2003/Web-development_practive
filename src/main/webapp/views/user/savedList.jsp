@@ -198,23 +198,23 @@
                     </div>
                     <div class="d-flex justify-content-center">
                         <ul class="nav md-pills pills-danger" id="contain-button">
-                            <li class="page-item page-0 ">
-                                <a class="page-link " onClick="getP(0)">Trang đầu</a>
-                            </li>
-                            <c:forEach begin="0" end="${sizePage-1}" var="i">
-                                <c:if test="${i == 0}">
-                                    <li class="page-item active page-${i} ">
-                                        <a class="page-link " onclick="getP(${i})">${i+1} </a></li>
-                                </c:if>
-                                <c:if test="${i != 0}">
-                                    <li class="page-item page-${i}">
-                                        <a class="page-link " onclick="getP(${i})">${i+1}</a></li>
-                                </c:if>
+<%--                            <li class="page-item page-0 ">--%>
+<%--                                <a class="page-link " onClick="getP(0)">Trang đầu</a>--%>
+<%--                            </li>--%>
+<%--                            <c:forEach begin="0" end="${sizePage-1}" var="i">--%>
+<%--                                <c:if test="${i == 0}">--%>
+<%--                                    <li class="page-item active page-${i} ">--%>
+<%--                                        <a class="page-link " onclick="getP(${i})">${i+1} </a></li>--%>
+<%--                                </c:if>--%>
+<%--                                <c:if test="${i != 0}">--%>
+<%--                                    <li class="page-item page-${i}">--%>
+<%--                                        <a class="page-link " onclick="getP(${i})">${i+1}</a></li>--%>
+<%--                                </c:if>--%>
 
-                            </c:forEach>
-                            <li class="page-item page-${sizePage-1}">
-                                <a class="page-link" onClick="getP(${sizePage-1})">Trang cuối</a>
-                            </li>
+<%--                            </c:forEach>--%>
+<%--                            <li class="page-item page-${sizePage-1}">--%>
+<%--                                <a class="page-link" onClick="getP(${sizePage-1})">Trang cuối</a>--%>
+<%--                            </li>--%>
                         </ul>
                     </div>
 
@@ -229,13 +229,7 @@
 </div>
 </div>
 <%@include file="/layout/public/script.jsp" %>
-<%--<script>--%>
-<%--    $('document').ready(function () {--%>
-<%--        $(".button-collapse").sideNav();--%>
-<%--        var sideNavScrollbar = document.querySelector('.custom-scrollbar');--%>
-<%--        var ps = new PerfectScrollbar(sideNavScrollbar);--%>
-<%--    });--%>
-<%--</script>--%>
+<script src="<c:url value="/template/js/ajax/saveProject.js"/>"></script>
 <script>
     function effectButton(){
         let pageItem= document.getElementsByClassName('page-item');
@@ -249,9 +243,41 @@
         }
     }
     effectButton();
-    console.log(${sizePage})
+
     $(document).ready(function () {
         getP(0);
+        $.ajax({
+            url: "/api/user/saved/pages",
+            type: "GET",
+            dataType:"json",
+            success: (data)=>{
+                if(data.status==200){
+                    let sizePage=data.data;
+                    let containButton=document.getElementById('contain-button');
+                    containButton.innerHTML="";
+                    let button="";
+                    button+='<li class="page-item page-0 ">\n' +
+                        '                                <a class="page-link " onClick="getP(0)">Trang đầu</a>\n' +
+                        '                            </li>';
+                    for (let i = 0; i < sizePage; i++) {
+                        if(i==0){
+                            button+='<li class="page-item active page-'+i+' ">\n' +
+                                '                                        <a class="page-link " onclick="getP('+i+')">'+(i+1)+' </a></li>';
+                        }else{
+                            button+='<li class="page-item page-'+i+'">\n' +
+                                '                                        <a class="page-link " onclick="getP('+i+')">'+(i+1)+'</a></li>';
+                        }
+                    }
+                    button+='<li class="page-item page-'+(sizePage-1)+'">\n' +
+                        '                                <a class="page-link" onClick="getP('+(sizePage-1)+')">Trang cuối</a>\n' +
+                        '                            </li>';
+                    containButton.innerHTML=button;
+                }
+            },
+            error: (data)=>{
+                errorAlert("Lỗi kết nối server")
+            }
+        })
     })
     function getP(offset){
         console.log(offset)
@@ -267,11 +293,14 @@
                 drawProject(data1);
             },
             error: function (data){
-                console.log(data);
+                errorAlert("Lỗi kết nối server")
             }
         })
 
     }
+</script>
+<script>
+
 </script>
 <script>
     function drawProject(data) {
@@ -280,61 +309,57 @@
         container.innerHTML = "";
         let project = '';
         for (const x of data) {
+            project += '<div class="col-lg-3 col-md-4 col-sm-6 mb-4 overflow-hidden position-relative projectCard-container">' +
+                '<div' + ' class="bg-image hover-image hover-zoom ripple shadow-1-strong rounded-5 w-100 d-block">';
 
-            project += '<div' +
-                ' class="col-lg-3 col-md-4 col-sm-6 mb-4 overflow-hidden position-relative projectCard-container">'
-                + '<div'
-                + ' class="bg-image hover-image hover-zoom ripple shadow-1-strong rounded-5 w-100 d-block">';
-            project += ' <i class="fa-solid fa-bookmark position-absolute" onclick="like(this)" style="z-index: 1000"></i>'
-            // else project += '<i class="fa-regular fa-bookmark position-absolute" onclick="like(this)" style="z-index: 1000"></i>';
-            project += '<a href="/post/project?id=' + x.id + '">'
-                + '<img src="' + x.avatar + '"'
-                + ' class="w-100">'
-                + ' <input type="hidden" class="project-id" value=' + x.id + '>'
-                + ' <div class="w-100 position-absolute projectCard-content">'
-                + '  <div class="mask justify-content-center d-flex h-100"'
-                + ' style="background-color: rgba(48, 48, 48, 0.72);">'
-                + '<div class="align-items-center flex-column d-flex w-100"><h6'
-                + ' class="text-white text-center pl-2 pr-2 projectTitle-center text-uppercase">'
-                + x.title + '</h6>'
-                + '<p class="text-white p-0 id-project">'
-                + '<strong>MDA:' + x.id + '</strong>'
-                + '</p>'
-                + '<p class="text-white p-4">' + x.description + '</p>'
-                + '</div>'
-                + '</div></div></a></div></div>'
+
+            if (x.isSave) project += ' <i class="fa-solid fa-bookmark position-absolute" onclick="like(this)" style="z-index: 1000"></i>'
+            else
+                project += '<i class="fa-regular fa-bookmark position-absolute" onclick="like(this)" style="z-index: 1000"></i>';
+            project += '<a href="/post/project/' + x.id + '">' +
+                '<img src="' + x.avatar + '"' + ' class="w-100">' +
+                ' <input type="hidden" class="project-id" value=' + x.id + '>' +
+                ' <div class="w-100 position-absolute projectCard-content">' +
+                '  <div class="mask justify-content-center d-flex h-100"' + ' style="background-color: rgba(48, 48, 48, 0.72);">' +
+                '<div class="align-items-center flex-column d-flex w-100">' +
+                ' <h6 class="text-white text-center pl-2 pr-2 projectTitle-center text-uppercase">' + x.title + '</h6>' +
+                '<p class="text-white p-0 id-project">' +
+                '<strong>MDA:' + x.id + '</strong>' +
+                '</p>' + '<p class="text-white p-4 vanBan">' + x.description + '</p>' +
+                '</div>' + '</div></div></a></div></div>'
         }
         container.innerHTML = project;
     }
+
 </script>
 
 <script>
-    function like(project) {
-        let id = $(project).parent().find('.project-id').val();
-        console.log(id);
-        $.ajax({
-            url: "/api/save_project",
-            type: "GET",
-            data: {
-                "projectId": id
-            },
-            success: function (response) {
-                console.log(response);
-                let resp = JSON.parse(response);
-                if (resp.name == 'save') {
-                    project.classList.replace("fa-regular", "fa-solid")
-                } else if (resp.name == 'delete')
-                    project.classList.replace("fa-solid", "fa-regular")
-                //= "fa-solid fa-bookmark position-absolute";
-                // console.log(p);
-            },
-            error: function (response) {
-                console.log(response.responseText)
-                let resp = JSON.parse(response.responseText);
-                window.location.href = resp.data;
-            }
-        })
-    }
+    // function like(project) {
+    //     let id = $(project).parent().find('.project-id').val();
+    //     console.log(id);
+    //     $.ajax({
+    //         url: "/api/save_project",
+    //         type: "GET",
+    //         data: {
+    //             "projectId": id
+    //         },
+    //         success: function (response) {
+    //             console.log(response);
+    //             let resp = JSON.parse(response);
+    //             if (resp.name == 'save') {
+    //                 project.classList.replace("fa-regular", "fa-solid")
+    //             } else if (resp.name == 'delete')
+    //                 project.classList.replace("fa-solid", "fa-regular")
+    //             //= "fa-solid fa-bookmark position-absolute";
+    //             // console.log(p);
+    //         },
+    //         error: function (response) {
+    //             console.log(response.responseText)
+    //             let resp = JSON.parse(response.responseText);
+    //             window.location.href = resp.data;
+    //         }
+    //     })
+    // }
 </script>
 </body>
 </html>

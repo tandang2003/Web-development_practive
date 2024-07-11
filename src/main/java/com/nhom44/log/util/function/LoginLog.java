@@ -6,6 +6,8 @@ import com.nhom44.services.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 
+import static com.nhom44.util.GsonUtil.getGson;
+
 public class LoginLog extends LogFunction{
     private User user;
     public LoginLog(HttpServletRequest request, User user) {
@@ -16,7 +18,7 @@ public class LoginLog extends LogFunction{
     @Override
     protected String getValue() {
         User user = UserService.getInstance().getUserById(this.user.getId());
-        return new Gson().toJson(user);
+        return getGson().toJson(user);
     }
     public void successLog(){
         resetDescription(request.getRemoteAddr() + " login  success " + user.getId());

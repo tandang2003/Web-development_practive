@@ -7,11 +7,12 @@ import com.nhom44.services.UserService;
 import com.nhom44.validator.EmailSingleValidator;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-
+@WebServlet(urlPatterns = {"/api/login"})
 public class LoginController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -30,9 +31,9 @@ public class LoginController extends HttpServlet {
         User login = UserService.getInstance().login(email, password);
         LoginLog loginLog = new LoginLog(req, login);
         if (login == null) {
-            loginLog.resetDescription("User id "+ login.getId() +" fail login");
+            loginLog.resetDescription("User id "+ email +" fail login");
             loginLog.failLog();
-            jsonObject.addProperty("error", "Mật khẩu không chính sác vui lòng thử lại");
+            jsonObject.addProperty("message", "Mật khẩu không chính sác vui lòng thử lại");
             jsonObject.addProperty("status", 400);
             resp.getWriter().print(jsonObject);
             resp.getWriter().flush();
@@ -42,7 +43,7 @@ public class LoginController extends HttpServlet {
         if(login.getStatus()==2){
             loginLog.resetDescription("User id "+ login.getId() +" is locked");
             loginLog.failLog();
-            jsonObject.addProperty("error", "Tài khoản của bạn đã bị khóa");
+            jsonObject.addProperty("message", "Tài khoản của bạn đã bị khóa");
             jsonObject.addProperty("status", 400);
             resp.getWriter().print(jsonObject);
             resp.getWriter().flush();
@@ -52,7 +53,7 @@ public class LoginController extends HttpServlet {
         if(login.getStatus()==0){
             loginLog.resetDescription("User id "+ login.getId() +" not active");
             loginLog.failLog();
-            jsonObject.addProperty("error", "Tài khoản của bạn chưa được kích hoạt vui lòng kiểm tra email để kích hoạt tài khoản");
+            jsonObject.addProperty("message", "Tài khoản của bạn chưa được kích hoạt vui lòng kiểm tra email để kích hoạt tài khoản");
             jsonObject.addProperty("status", 400);
             resp.getWriter().print(jsonObject);
             resp.getWriter().flush();
@@ -60,7 +61,8 @@ public class LoginController extends HttpServlet {
             return;
         }
         loginLog.successLog();
-        req.getSession().setAttribute("user", login);
+        req.getSession().setAttribute("account", login);
+        req.getSession().setAttribute("login", true);
         jsonObject.addProperty("status", 200);
         jsonObject.addProperty("message", "Đăng nhập thành công chào mừng bạn trở lại");
         jsonObject.addProperty("redirect", "/home");

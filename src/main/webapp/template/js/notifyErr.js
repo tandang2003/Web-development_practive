@@ -25,7 +25,7 @@ function successAlert(mes) {
     alert(mes, 'success');
 }
 
-function errorAlert(mes="Hệ thống đang bận, vui lòng thử lại sau") {
+function errorAlert(mes = "Hệ thống đang bận, vui lòng thử lại sau") {
     alert(mes, 'error');
 }
 
@@ -40,6 +40,7 @@ function infoAlert(mes) {
 function questionAlert(mes) {
     alert(mes, 'question');
 }
+
 function autoCloseAlert(mes, time = 1500, url = null) {
     Swal.fire({
         position: 'top',
@@ -54,31 +55,32 @@ function autoCloseAlert(mes, time = 1500, url = null) {
         timer: time,
         timerProgressBar: true,
         didOpen: () => {
-            Swal.showLoading()
+            Swal.showLoading();
             timerInterval = setInterval(() => {
-                const content = Swal.getContent()
+                const content = Swal.getHtmlContainer();
                 if (content) {
-                    const b = content.querySelector('b')
+                    const b = content.querySelector('b');
                     if (b) {
-                        b.textContent = Swal.getTimerLeft()
+                        b.textContent = Swal.getTimerLeft();
                     }
                 }
-            }, 100)
+            }, 100);
         },
         willClose: () => {
-            clearInterval(time);
+            clearInterval(timerInterval);
         }
     }).then((result) => {
-        // console.log( url);
         if (url != null) location.href = url;
     })
 }
-function autoCloseAlertWithFunction(mes, time = 1500, icon=swal2Icon.INFO,Function = (result)=>{}) {
+
+function autoCloseAlertWithFunction(mes, time = 1500, icon = swal2Icon.INFO, Function = (result) => {
+}) {
     Swal.fire({
         position: 'top',
         title: 'THÔNG BÁO',
         html: mes,
-        icon: 'info',
+        icon: icon,
         // showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
@@ -87,16 +89,11 @@ function autoCloseAlertWithFunction(mes, time = 1500, icon=swal2Icon.INFO,Functi
         timer: time,
         timerProgressBar: true,
         didOpen: () => {
-            Swal.showLoading()
+            Swal.showLoading();
+            const timer = Swal.getPopup().querySelector("b");
             timerInterval = setInterval(() => {
-                const content = Swal.getContent()
-                if (content) {
-                    const b = content.querySelector('b')
-                    if (b) {
-                        b.textContent = Swal.getTimerLeft()
-                    }
-                }
-            }, 100)
+                timer.textContent = `${Swal.getTimerLeft()}`;
+            }, 1000);
         },
         willClose: () => {
             clearInterval(time);
@@ -105,16 +102,17 @@ function autoCloseAlertWithFunction(mes, time = 1500, icon=swal2Icon.INFO,Functi
         Function(result);
     })
 }
-function flashCloseAlert( time = 1500,icon = 'info') {
-    Swal.fire ({
+
+function flashCloseAlert(time = 1500, icon = 'info') {
+    Swal.fire({
         position: 'top',
         icon: icon,
-        width:250,
+        width: 250,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         showCancelButton: false,
         confirmButtonText: 'CLOSE',
-        showConfirmButton:false,
+        showConfirmButton: false,
         timer: time,
         willClose: () => {
             clearInterval(time);

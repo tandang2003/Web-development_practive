@@ -10,7 +10,6 @@ import java.util.Objects;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 @Builder
 public class Contact implements Serializable {
     private int id;
@@ -18,7 +17,11 @@ public class Contact implements Serializable {
     private String email;
     private String phone;
     private Address address;
+    private int addressId;
     private String content;
     private String createdAt;
     private String updatedAt;
+    public Contact(){
+        this.address=new Address();
+    }
 }

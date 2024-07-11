@@ -122,19 +122,6 @@ public class ProjectService {
         });
     }
 
-    public static void main(String[] args) {
-        //add sample project
-        Project project = Project.builder().categoryId(2).title("test22").description("testtest").avatar("null").addressId(1).build();
-        try {
-            project.setPrice(100000000);
-            Project a= ProjectService.getInstance().add(project, true);
-
-        } catch (Exception e) {
-            e.getMessage();
-            System.out.println(e.getMessage());
-        }
-    }
-
 
 
     public List<Project> get8ActiveProjectHighestView(int id, int userid) {
@@ -208,6 +195,9 @@ public class ProjectService {
         return projects;
     }
 
+    public static void main(String[] args) {
+        System.out.println( ProjectService.getInstance().getOwnProject(34));;
+    }
 
     public void acceptProject(int idInt) {
         conn.withExtension(ProjectDAO.class, dao -> dao.acceptProject(idInt));

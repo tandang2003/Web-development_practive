@@ -1,153 +1,121 @@
 package com.nhom44.api.user;
 
+import com.google.api.client.json.Json;
 import com.google.gson.Gson;
-import com.nhom44.bean.ResponseModel;
+import com.google.gson.JsonObject;
 import com.nhom44.bean.User;
 import com.nhom44.services.UserService;
-import com.nhom44.util.DateUtil;
 import com.nhom44.util.StringUtil;
-import com.nhom44.validator.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.sql.Date;
+import java.util.Map;
+
+import static com.nhom44.util.GsonUtil.getGson;
 
 @WebServlet(urlPatterns = {"/api/user", "/api/user/update"})
 public class UserController extends HttpServlet {
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println(req.getParameterMap().keySet().toString());
-        User user = (User) req.getSession().getAttribute("auth");
-        System.out.println("auth" + user.toString());
-        HttpSession session = req.getSession();
-        List<ResponseModel> errMess = new ArrayList<>();
-        ResponseModel responseModel = null;
-        Gson gson = new Gson();
-        PrintWriter writer = resp.getWriter();
-        SingleValidator singleValidator = new EmailSingleValidator();
-        String fullName = req.getParameter("fullName") == null ? "" : req.getParameter("fullName");
-        String email = req.getParameter("email") == null ? "" : req.getParameter("email");
-        String password = req.getParameter("password") == null ? "" : req.getParameter("password");
-        String phone = req.getParameter("phone") == null ? "" : req.getParameter("phone");
-        String province = req.getParameter("provinceId") == null ? "" : req.getParameter("provinceId");
-        String birthday = req.getParameter("birthday") == null ? "" : req.getParameter("birthday");
-        String rePassword = req.getParameter("rePassword") == null ? "" : req.getParameter("rePassword");
-        System.out.println(email);
-        System.out.println(user.getEmail() + " " + user.getFullName() + " " + user.getPhone() + " " + user.getBirthday() + " " + user.getPassword());
-        if (!email.equals(user.getEmail()))
-            if (UserService.getInstance().isContainEmail(email)) {
-                responseModel = new ResponseModel();
-                responseModel.setName("email");
-                responseModel.setMessage("Email đã tồn tại");
-                errMess.add(responseModel);
-            } else if (email.isEmpty() || !singleValidator.validator(email)) {
-                responseModel = new ResponseModel();
-                responseModel.setName("email");
-                responseModel.setMessage("Email không hợp lệ");
-                errMess.add(responseModel);
-            } else user.setEmail(email);
-        singleValidator = new TitleOrNameSingleValidator();
-        if (!Objects.equals(fullName, user.getFullName()))
-            System.out.println("fullname" + fullName);
-        System.out.println("userfullname" + user.getFullName());
-            if (fullName.isEmpty() || !singleValidator.validator(fullName)) {
-                System.out.println("fullname" + fullName);
-                responseModel = new ResponseModel();
-                responseModel.setName("fullName");
-                responseModel.setMessage("Tên không hợp lệ");
-                errMess.add(responseModel);
-            } else user.setFullName(fullName);
-        if (!password.equals(""))
-
-            if (!singleValidator.validator(password)) {
-                responseModel = new ResponseModel();
-                responseModel.setName("password");
-                responseModel.setMessage("Mật khẩu mới không hợp lệ");
-                errMess.add(responseModel);
-            } else if (!singleValidator.validator(rePassword)) {
-                responseModel = new ResponseModel();
-                responseModel.setName("rePassword");
-                responseModel.setMessage("Mật khẩu nhập xác nhận không hợp lệ");
-                errMess.add(responseModel);
-            } else if (!Objects.equals(password, rePassword)) {
-                responseModel = new ResponseModel();
-                System.out.println("password" + password);
-                System.out.println("repassword" + rePassword);
-                responseModel.setName("rePassword");
-                responseModel.setMessage("Mật khẩu nhập xác nhận không trùng khớp");
-                errMess.add(responseModel);
-            } else user.setPassword(StringUtil.hashPassword(password));
-        singleValidator = new PhoneValidator();
-        if (!phone.equals(user.getPhone()))
-            if (phone.equals("") || !singleValidator.validator(phone)) {
-                responseModel = new ResponseModel();
-                responseModel.setName("phone");
-                responseModel.setMessage("Số điện thoại không hợp lệ");
-                errMess.add(responseModel);
-            } else user.setPhone(phone);
-        singleValidator = new NumberVallidator();
-//        if (!province.equals(user.getProvinceId() + ""))
-//            if (province.equals("") || !singleValidator.validator(province)) {
-//                responseModel = new ResponseModel();
-//                responseModel.setName("address");
-//                responseModel.setMessage("Địa chỉ không hợp lệ");
-//                errMess.add(responseModel);
-//            } else user.setProvinceId(Integer.parseInt(province));
-        singleValidator = new DateValidator();
-        java.util.Date dbirthday = null;
-
-        if (!birthday.equals(user.getBirthday().toString()))
-            if (birthday == null || birthday.trim().isEmpty()) {
-                req.setAttribute("birthday", "Ngày sinh không hợp lệ");
-                responseModel = new ResponseModel();
-                responseModel.setMessage("Vui lòng chọn ngày sinh");
-                responseModel.setData(null);
-                responseModel.setName("birthday");
-                errMess.add(responseModel);
-            } else {
-                birthday = DateUtil.formatStringDate(birthday);
-                SimpleDateFormat dmy = new SimpleDateFormat("yyyy-MM-dd");
-                dmy.setLenient(false);
-                try {
-                    dbirthday = dmy.parse(birthday);
-                    user.setBirthday(new java.sql.Date(dbirthday.getTime()));
-                } catch (Exception e) {
-                    req.setAttribute("birthday", "Ngày sinh không hợp lệ");
-                    responseModel = new ResponseModel();
-                    responseModel.setMessage("Ngày sinh không hợp lệ");
-                    responseModel.setData(null);
-                    responseModel.setName("birthday");
-                    errMess.add(responseModel);
-                }
-            }
-        System.out.println(user.toString());
-        System.out.println(errMess.toString());
-        if (!errMess.isEmpty()) {
-            resp.setStatus(400);
-            System.out.println(errMess.toString());
-            writer.println(gson.toJson(errMess));
-            writer.flush();
-            writer.close();
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setStatus(200);
+        User userSession = (User) req.getSession().getAttribute("account");
+        if (userSession == null) {
+            resp.setStatus(401);
+            JsonObject response = new JsonObject();
+            response.addProperty("status", 401);
+            response.addProperty("message", "Bạn chưa đăng nhập");
+            response.addProperty("redirect", "/login");
+            resp.getWriter().print(response.toString());
+            resp.getWriter().flush();
+            resp.getWriter().close();
             return;
         }
-        UserService.getInstance().update(user);
+        User user = UserService.getInstance().getUserById(userSession.getId());
+        JsonObject response = new JsonObject();
+        response.addProperty("status", 200);
+        response.add("data",getGson().toJsonTree(user));
+        resp.getWriter().print(response.toString());
+        resp.getWriter().flush();
+        resp.getWriter().close();
+
+
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setStatus(200);
-        session.setAttribute("auth", user);
-        responseModel = new ResponseModel();
-        responseModel.setName("success");
-        responseModel.setData("/user");
-        writer.println(gson.toJson(responseModel));
-        writer.flush();
-        writer.close();
-        System.out.println(user.toString());
+        User userSession = (User) req.getSession().getAttribute("account");
+        User user = UserService.getInstance().getUserById(userSession.getId());
+        User newUserInfo = createUser(req.getParameterMap(), user);
+        JsonObject response = new JsonObject();
+        if (!newUserInfo.getEmail().equals(user.getEmail())) {
+            if (UserService.getInstance().isContainEmail(newUserInfo.getEmail())) {
+                response.addProperty("message", "Email đã tồn tại vui lòng đổi email mới");
+                response.addProperty("status", 400);
+                resp.getWriter().print(response.toString());
+                resp.getWriter().flush();
+                resp.getWriter().close();
+                return;
+            }
+        }
+        if (!StringUtil.hashPassword(newUserInfo.getPassword()).equals(user.getPassword())) {
+            if (!newUserInfo.getPassword().equals(req.getParameter("repassword"))) {
+                response.addProperty("error", "Mật khẩu không trùng khớp vui lòng thực hiện lại");
+                response.addProperty("status", 400);
+                resp.getWriter().print(response.toString());
+                resp.getWriter().flush();
+                resp.getWriter().close();
+                return;
+            }
+        }
+        User updatedUser = createUser(req.getParameterMap(), user);
+        updatedUser.setPassword(StringUtil.hashPassword(updatedUser.getPassword()));
+        UserService.getInstance().update(updatedUser);
+        response.addProperty("status", 200);
+        response.addProperty("message", "Cập nhật thông tin thành công");
+        resp.getWriter().print(response.toString());
+        resp.getWriter().flush();
+        resp.getWriter().close();
+    }
+
+
+    private User createUser(Map<String, String[]> map, User user) {
+        map.forEach((key, value) -> {
+            switch (key) {
+                case "fullName":
+                    user.setFullName(value[0]);
+                    break;
+                case "birthday":
+                    user.setBirthday(Date.valueOf(value[0]));
+                    break;
+                case "phone":
+                    user.setPhone(value[0]);
+                    break;
+                case "province":
+                    user.getAddress().setProvinceId(Integer.parseInt(value[0]));
+                    break;
+                case "district":
+                    user.getAddress().setDistrictId(Integer.parseInt(value[0]));
+                    break;
+                case "ward":
+                    user.getAddress().setWardId(Integer.parseInt(value[0]));
+                    break;
+                case "gender":
+                    user.setGender(Integer.parseInt(value[0]));
+                    break;
+                case "email":
+                    user.setEmail(value[0]);
+                    break;
+                case "password":
+                    user.setPassword(value[0]);
+                    break;
+            }
+        });
+        return user;
     }
 }

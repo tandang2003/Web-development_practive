@@ -6,6 +6,8 @@ import com.nhom44.services.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 
+import static com.nhom44.util.GsonUtil.getGson;
+
 public class ForgetPasswordLog extends LogFunction {
     private User user;
 
@@ -17,7 +19,7 @@ public class ForgetPasswordLog extends LogFunction {
     @Override
     protected String getValue() {
         User user = UserService.getInstance().getUserById(this.user.getId());
-        return new Gson().toJson(user);
+        return getGson().toJson(user);
     }
 
     public void successLog() {

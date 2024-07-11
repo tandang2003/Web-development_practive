@@ -17,7 +17,7 @@ public class HistoryController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         new LogPage(req).log();
         req.setAttribute("page", "account");
-        User user= (User) req.getSession().getAttribute("auth");
+        User user= (User) req.getSession().getAttribute("account");
         int sizePage= ProjectService.getInstance().pageSizeHistoryProjectByUserId(user.getId());
         req.setAttribute("sizePage",sizePage);
         req.getRequestDispatcher("/views/user/history.jsp").forward(req, resp);

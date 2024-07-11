@@ -17,35 +17,37 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
+import static com.nhom44.util.GsonUtil.getGson;
+
 @WebServlet(urlPatterns = {"/api/province", "/api/ward/*", "/api/district/*"})
 public class AddressLocateData extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String path = req.getRequestURI();
         if (path.startsWith("/api/province")) {
             List<Province> provinces = ProvinceService.getInstance().getAll();
-            resp.getWriter().println(new Gson().toJson(provinces));
+            resp.getWriter().println(getGson().toJson(provinces));
             resp.setStatus(200);
         } else if (path.startsWith("/api/district/")) {
             String[] parts = path.split("/");
             if (parts.length >= 4) {
                 String provinceId = parts[3];
                 List<District> districts = DistrictService.getInstance().getDistrictByProvinceId(Integer.parseInt(provinceId));
-                resp.getWriter().println(new Gson().toJson(districts));
+                resp.getWriter().println(getGson().toJson(districts));
                 resp.setStatus(200);
             } else {
                 resp.setStatus(400);
-                resp.getWriter().println(new Gson().toJson(new ResponseModel()));
+                resp.getWriter().println(getGson().toJson(new ResponseModel()));
             }
         } else if (path.startsWith("/api/ward/")) {
             String[] parts = path.split("/");
             if (parts.length >= 4) {
                 String districtId = parts[3];
                 List<Ward> wards = WardService.getInstance().getWardByDistrictId(Integer.parseInt(districtId));
-                resp.getWriter().println(new Gson().toJson(wards));
+                resp.getWriter().println(getGson().toJson(wards));
                 resp.setStatus(200);
             } else {
                 resp.setStatus(400);
-                resp.getWriter().println(new Gson().toJson(new ResponseModel()));
+                resp.getWriter().println(getGson().toJson(new ResponseModel()));
             }
         }
     }
