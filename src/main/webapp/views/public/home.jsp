@@ -213,9 +213,6 @@
 <script src="<c:url value="/template/js/main.js"/>"></script>
 <script src="<c:url value='/template/js/home.js'/>"></script>
 <script src="<c:url value='/template/js/services.js'/>"></script>
-<script src="<c:url value='/template/js/validation/validator.js'/>"></script>
-<script src="<c:url value="/template/lib/jquery-validation-1.19.5/dist/jquery.validate.js"/>"></script>
-<script src="<c:url value="/template/lib/jquery-validation-1.19.5/dist/additional-methods.js"/>"></script>
 <script src="<c:url value='/template/js/ajax/home.js'/>"></script>
 <script src="<c:url value='/template/js/ajax/saveProject.js'/>"></script>
 <script src="<c:url value='/template/js/contactForm.js'/>"></script>
@@ -234,7 +231,7 @@
                 success: function (data) {
                     console.log(data)
                     if (data.status == 200) {
-                        autoCloseAlertWithFunction(data.message, 3000, "success", () => {
+                        autoCloseAlertWithFunction(data.message, 3000, swal2Icon.SUCCESS, () => {
                             window.location.reload();
                         })
                     } else {

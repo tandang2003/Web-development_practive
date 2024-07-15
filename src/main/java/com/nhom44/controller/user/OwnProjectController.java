@@ -20,12 +20,12 @@ public class OwnProjectController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("page", "account");
-        new LogPage().log(req);
-        User user= (User) req.getSession().getAttribute("auth");
-        List<Project> projects= ProjectService.getInstance().getOwnProject(user.getId());
-        req.setAttribute("projects", projects);
-        Map<Integer, String> map = ServiceOfProjectService.getInstance().getServicesForOwnerByProjectIds(projects);
-        req.setAttribute("map", map);
+        new LogPage(req).log();
+//        User user= (User) req.getSession().getAttribute("account");
+//        List<Project> projects= ProjectService.getInstance().getOwnProject(user.getId());
+//        req.setAttribute("projects", projects);
+//        Map<Integer, String> map = ServiceOfProjectService.getInstance().getServicesForOwnerByProjectIds(projects);
+//        req.setAttribute("map", map);
         req.getRequestDispatcher("/views/user/ownproject.jsp").forward(req, resp);
     }
 

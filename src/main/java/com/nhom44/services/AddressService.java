@@ -22,39 +22,49 @@ public class AddressService implements Serializable {
         return instance != null ? instance : (instance = new AddressService());
     }
 
-    public String getAddressId(String province, String district, String ward) {
-        return conn.withExtension(AddressDAO.class, dao -> dao.getAddressId(province, district, ward));
+    public void updateAddress(Address address) {
+        conn.withExtension(AddressDAO.class, dao -> dao.updateAddress(address));
     }
+
+    public String getAddressId(Address address) {
+        return conn.withExtension(AddressDAO.class, dao -> dao.getAddressId(address));
+    }
+
     public Address getAddressById(int addressId) {
         return conn.withExtension(AddressDAO.class, dao -> dao.getAddressById(addressId));
     }
 
     public boolean isContainAddress(String province, String district, String ward) {
-        return getAddressId(province, district, ward) != null;
+        return getAddressId(Address.builder().districtId(Integer.parseInt(district)).provinceId(Integer.parseInt(province)).wardId(Integer.parseInt(ward)).build()) != null;
     }
 
-    public Address addAddress(Address address) {
-        address.setCreatedAt(Timestamp.from(Instant.now()));
-        int point = conn.withExtension(AddressDAO.class, dao -> {
-            dao.insertAddress(address);
-            return 1;
-        });
-        return point == 1 ? getAccCreatedAt(Timestamp.from(Instant.now())) : null;
+    public int addAddress(Address address) {
+        int id = conn.withExtension(AddressDAO.class, dao -> dao.insertAddress(address));
+        return id;
     }
+
     public Address getAccCreatedAt(Timestamp createdAt) {
         return conn.withExtension(AddressDAO.class, dao -> dao.getCreatedAt(createdAt));
     }
-    public String getSpecificId(String addressId) {
+
+    public Address getSpecificId(int addressId) {
         return conn.withExtension(AddressDAO.class, dao -> dao.getSpecificId(addressId));
     }
 
-    public static void main(String[] args) {
-        Address address = new Address();
-        address.setProvinceId(2);
-        address.setDistrictId(145);
-        address.setWardId(0);
-
-        System.out.println(getInstance().getAddressById(12));
+    public void getAddressFullName(Address address) {
+        address.setFullName(conn.withExtension(AddressDAO.class, dao -> dao.getAddressFullName(address)));
     }
 
+    public void getData(Address address) {
+        Address address1 = conn.withExtension(AddressDAO.class, dao -> dao.getSpecificId(address.getId()));
+        if (address1 == null) {
+            return;
+        }
+        address.setProvinceId(address1.getProvinceId());
+        address.setDistrictId(address1.getDistrictId());
+        address.setWardId(address1.getWardId());
+    }
+    public static void main(String[] args) {
+        System.out.println(getInstance().getSpecificId(12));
+    }
 }

@@ -453,7 +453,3 @@ body {
     margin-top: 5px;
     margin-bottom: 0;
 }
-.scrollable-container {
-    max-height: 400px; /* Adjust as needed */
-    overflow-y: auto;
-}

@@ -5,8 +5,10 @@ import com.nhom44.log.util.LogStation;
 import javax.servlet.http.HttpServletRequest;
 
 public abstract class LogFunction extends LogStation {
-    public LogFunction() {
-        super();
+
+
+    public LogFunction(HttpServletRequest request) {
+        super(request);
     }
 
     public void setPreValue() {

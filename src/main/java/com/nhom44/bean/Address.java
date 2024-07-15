@@ -9,11 +9,13 @@ import java.util.Objects;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Address implements Serializable {
     private int id;
     private int provinceId;
     private int districtId;
     private int wardId;
-    private Timestamp createdAt;
-    private Timestamp updatedAt;
+    private String fullName;
+    private String createdAt;
+    private String updatedAt;
 }

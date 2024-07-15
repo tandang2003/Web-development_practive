@@ -23,6 +23,8 @@ import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
+import static com.nhom44.util.GsonUtil.getGson;
+
 @WebServlet(urlPatterns = {"/api/home","/api/home/data", "/api/home/projects/*", "/api/home/slides", "/api/home/categories", "/api/home/contact"})
 public class HomeController extends HttpServlet {
     @Override
@@ -37,9 +39,9 @@ public class HomeController extends HttpServlet {
                 List<Category> categories = CategoryService.getInstance().getAllActive();
                 int firstCategoryId = categories.get(0).getId();
                 List<Project> loadProjects = ProjectService.getInstance().get8ActiveProjectHighestView(firstCategoryId, user == null ? 0 : user.getId());
-                jsonObject.add("sliders", new Gson().toJsonTree(sliders));
-                jsonObject.add("categories", new Gson().toJsonTree(categories));
-                jsonObject.add("projects", new Gson().toJsonTree(loadProjects));
+                jsonObject.add("sliders", getGson().toJsonTree(sliders));
+                jsonObject.add("categories", getGson().toJsonTree(categories));
+                jsonObject.add("projects", getGson().toJsonTree(loadProjects));
                 resp.setStatus(200);
                 resp.getWriter().println(jsonObject.toString());
                 resp.getWriter().flush();
@@ -76,7 +78,7 @@ public class HomeController extends HttpServlet {
                 break;
         }
         PrintWriter printWriter = resp.getWriter();
-        printWriter.print(new Gson().toJson(responseModel));
+        printWriter.print(getGson().toJson(responseModel));
         printWriter.flush();
         printWriter.close();
         return;

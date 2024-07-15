@@ -23,7 +23,6 @@ const validate = function (element, validator, Function, container = ".param-con
                 $("#" + element.id + "-error").remove();
             },
             submitHandler: function (form) {
-                console.log(123)
                 Function(form)
             }
         }

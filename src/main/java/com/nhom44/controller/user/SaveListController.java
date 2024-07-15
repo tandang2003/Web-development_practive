@@ -15,11 +15,7 @@ import java.io.IOException;
 public class SaveListController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-       new LogPage().log(req);
-        req.setAttribute("page", "account");
-        User user = (User) req.getSession().getAttribute("auth");
-        int sizePage = ProjectService.getInstance().pageSizeProjectByUserId(user.getId());
-        req.setAttribute("sizePage", sizePage);
+       new LogPage(req).log();
         req.getRequestDispatcher("/views/user/savedList.jsp").forward(req, resp);
     }
 }

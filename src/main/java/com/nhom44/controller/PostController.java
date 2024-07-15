@@ -1,6 +1,9 @@
 package com.nhom44.controller;
 
+import com.nhom44.bean.User;
 import com.nhom44.log.util.page.LogPage;
+import com.nhom44.services.ProjectService;
+import com.nhom44.services.UserService;
 import com.nhom44.validator.NumberVallidator;
 
 import javax.servlet.ServletException;
@@ -21,7 +24,7 @@ public class PostController extends HttpServlet {
             resp.sendRedirect("/404");
             return;
         }
-        new LogPage().log(req);
+        new LogPage(req).log();
         if (url.equals("/post/project")) {
             req.getRequestDispatcher("/views/public/postProject.jsp").forward(req, resp);
         } else if (url.equals("/post/service")) {

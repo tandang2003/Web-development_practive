@@ -21,30 +21,76 @@ public class CartService implements Serializable {
         return instance != null ? instance : (instance = new CartService());
     }
 
-    public Cart add(Cart cart) {
-        String now = Timestamp.valueOf(java.time.LocalDateTime.now()).toString();
-        cart.setCreatedAt(now);
-        cart.setUpdatedAt(now);
-        int check = conn.withExtension(CartDAO.class, dao -> dao.add(cart));
-        cart.setId(check == 1 ? getByObject(cart).getId() : 0);
-        return cart;
+    public int add(Cart order) {
+        Cart finalOrder = order;
+        finalOrder.setAddressId(AddressService.getInstance().addAddress(order.getAddress()));
+        int id = conn.withExtension(CartDAO.class, dao -> dao.add(finalOrder));
+        for (int serviceId : order.getServices()) {
+            CartService.getInstance().addService(id, serviceId);
+        }
+        for (String s : order.getImages()
+        ) {
+            int imageId = ImageService.getInstance().add(s);
+            CartService.getInstance().addImage(id, imageId);
+        }
+        return id;
+    }
+
+    public void update(Cart order) {
+        Cart finalOrder = order;
+        AddressService.getInstance().updateAddress(order.getAddress());
+        conn.withExtension(CartDAO.class, dao -> dao.update(finalOrder));
+        CartService.getInstance().deleteServices(order.getId());
+        for (int serviceId : order.getServices()) {
+            CartService.getInstance().addService(order.getId(), serviceId);
+        }
+        CartService.getInstance().deleteImages(order.getId());
+        for (String s : order.getImages()
+        ) {
+            int imageId = ImageService.getInstance().add(s);
+            CartService.getInstance().addImage(order.getId(), imageId);
+        }
+    }
+
+    public void deleteImages(int id) {
+            List<Integer> images = conn.withExtension(CartDAO.class, dao -> dao.getImages(id));
+            conn.withExtension(CartDAO.class, dao -> dao.deleteImages(id));
+            for (int imageId : images) {
+                ImageService.getInstance().delete(imageId);
+            }
+    }
+
+    public List<Integer> getImages(int id) {
+        return conn.withExtension(CartDAO.class, dao -> dao.getImages(id));
+
+    }
+
+    public List<String> getImageNames(int id) {
+        System.out.println("id = " + id);
+        return conn.withExtension(CartDAO.class, dao -> dao.getImageNames(id));
+    }
+
+    public void deleteServices(int id) {
+        conn.withExtension(CartDAO.class, dao -> dao.deleteServices(id));
+    }
+
+    public int checkingUnSent(String email) {
+        Integer result=conn.withExtension(CartDAO.class, dao -> dao.checkingUnSent(email));
+        return result==null?0:result;
     }
 
 
     public void addService(int cartId, int serviceId) {
-        conn.withExtension(CartDAO.class, dao -> dao.addService(cartId,serviceId));
+        conn.withExtension(CartDAO.class, dao -> dao.addService(cartId, serviceId));
     }
 
-    private Cart getByObject(Cart cart) {
-        return conn.withExtension(CartDAO.class, dao -> dao.getByObject(cart));
-    }
 
     public void addImage(int id, int imageId) {
         conn.withExtension(CartDAO.class, dao -> dao.addImage(id, imageId));
     }
 
     public int updateSuccessVerifyCart(int cartId) {
-       return conn.withExtension(CartDAO.class, dao -> dao.updateSuccessVerifyCart(cartId));
+        return conn.withExtension(CartDAO.class, dao -> dao.updateSuccessVerifyCart(cartId));
     }
 
     public List<Cart> getAll() {
@@ -64,7 +110,19 @@ public class CartService implements Serializable {
         return conn.withExtension(CartDAO.class, dao -> dao.getServices(id));
     }
 
-    public List<String> getImages(int id) {
-        return conn.withExtension(CartDAO.class, dao -> dao.getImages(id));
+    public void setCheckingIsSend(int id) {
+        conn.withExtension(CartDAO.class, dao -> dao.updateCheckingIsSent(id));
     }
+
+    public void delete(int i) {
+        deleteImages(i);
+        deleteServices(i);
+        conn.withExtension(CartDAO.class, dao -> dao.delete(i));
+    }
+
+//    public List<String> getImages(int id) {
+//        return conn.withExtension(CartDAO.class, dao -> dao.getImages(id));
+//    }
+
+
 }
