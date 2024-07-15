@@ -172,4 +172,9 @@ public class UserService {
     public boolean updatePassword(String email, String newPw) {
         return conn.withExtension(UserDAO.class, dao -> dao.updatePassword(email, StringUtil.hashPassword(newPw)));
     }
+
+    public void FacebookAdditional(User user) {
+        user.setPassword(StringUtil.hashPassword(user.getPassword()));
+        conn.withExtension(UserDAO.class, dao -> dao.insertFacebookUser(user));
+    }
 }

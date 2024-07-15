@@ -445,5 +445,36 @@ public class UserController extends HttpServlet {
         printWriter.close();
     }
 
+    private User getUserFromRequest(HttpServletRequest req, User user) {
+        if (user == null) {
+            user = new User();
+        }
+        User finalUser = user;
+        req.getParameterMap().keySet().forEach(key -> {
+            switch (key) {
+                case "fullname":
+                    finalUser.setFullName(req.getParameter("fullname"));
+                    break;
+                case "email":
+                    finalUser.setEmail(req.getParameter("email"));
+                    break;
+                case "password":
+                    finalUser.setPassword(req.getParameter("password"));
+                    break;
+                case "birthday":
+                    finalUser.setBirthday(java.sql.Date.valueOf(DateUtil.formatStringDate(req.getParameter("birthday"))));
+                    break;
+                case "phone":
+                    finalUser.setPhone(req.getParameter("phone"));
+                    break;
+            }
+        });
+        user.setFullName(req.getParameter("fullname"));
+        user.setEmail(req.getParameter("email"));
+        user.setPassword(req.getParameter("password"));
+//        user.setBirthday(DateUtil.formatStringDate(req.getParameter("birthday")));
+        user.setPhone(req.getParameter("phone"));
+        return null;
+    }
 }
 

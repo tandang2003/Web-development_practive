@@ -23,62 +23,55 @@
         <form id="sign-up">
             <h1>Tạo tài khoản</h1>
             <span>Thông tin đăng nhập</span>
-            <div class="param-content">
-                <input type="text" name="name" id="fullname" placeholder="Tên">
-            </div>
-            <div class="param-content">
-                <input type="email" name="email" id="email-signup" placeholder="Tên tài khoản / Email">
-            </div>
-            <div class="param-content">
-                <input type="password" name="password" id="password-signup" placeholder="Mật khẩu">
-            </div>
-            <div class="param-content">
-                <input type="password" name="rePassword" id="verifypassword-sigup" placeholder="Xác nhận mật khẩu">
-            </div>
-            <div class="param-content">
-                <input type="text" name="phone" id="phone-sigup" placeholder="Số điện thoại">
-            </div>
-            <div style="display: flex;width: 100%">
+            <div class="scrollable-container">
                 <div class="param-content">
-                    <input class="birth" name="birthday" id="birthday" type="date" placeholder="Ngày sinh">
+                    <input type="text" name="name" id="fullname" placeholder="Tên">
                 </div>
-                <div class="param-content" style="flex-direction: row;
+                <div class="param-content">
+                    <input type="email" name="email" id="email-signup" placeholder="Tên tài khoản / Email">
+                </div>
+                <div class="param-content">
+                    <input type="password" name="password" id="password-signup" placeholder="Mật khẩu">
+                </div>
+                <div class="param-content">
+                    <input type="password" name="rePassword" id="verifypassword-sigup" placeholder="Xác nhận mật khẩu">
+                </div>
+                <div class="param-content">
+                    <input type="text" name="phone" id="phone-sigup" placeholder="Số điện thoại">
+                </div>
+                <div style="display: flex;width: 100%">
+                    <div class="param-content">
+                        <input class="birth" name="birthday" id="birthday" type="date" placeholder="Ngày sinh">
+                    </div>
+                    <div class="param-content" style="flex-direction: row;
     height: 100%;
     display: flex;
     align-items: center;justify-content: space-around">
-                    <label style="display: flex;margin-left: 7%;">
-                        <input name="gender" id="isMale" type="checkbox" value="1" checked>
-                        <p style="margin: auto; padding: 6%; top:6%; font-size: 16px">Nam</p>
-                    </label>
-                    <label style="display: flex;margin-left: 7%;">
-                        <input name="gender" id="isFemale" type="checkbox" value="0">
-                        <p style="margin: auto; padding: 6%; top:6%; font-size: 16px">Nữ</p>
-                    </label>
+                        <label style="display: flex;margin-left: 7%;">
+                            <input name="gender" id="isMale" type="checkbox" value="1" checked>
+                            <p style="margin: auto; padding: 6%; top:6%; font-size: 16px">Nam</p>
+                        </label>
+                        <label style="display: flex;margin-left: 7%;">
+                            <input name="gender" id="isFemale" type="checkbox" value="0">
+                            <p style="margin: auto; padding: 6%; top:6%; font-size: 16px">Nữ</p>
+                        </label>
+                    </div>
                 </div>
-            </div>
-            <div class="param-content">
-                <select class="mdb-select md-form" name="province" id="province" searchable="Search here..">
-                    <option value="" disabled selected>Chọn tỉnh thành</option>
-                    <%--                <c:forEach items="${provinces}" var="province">--%>
-                    <%--                    <option value="${province.name}">${province.name}</option>--%>
-                    <%--                </c:forEach>--%>
-                </select>
-            </div>
-            <div class="param-content">
+                <div class="param-content">
+                    <select class="mdb-select md-form" name="province" id="province" searchable="Search here..">
+                        <option value="" disabled selected>Chọn tỉnh thành</option>
+                    </select>
+                </div>
+                <div class="param-content">
 
-                <select class="mdb-select md-form" name="district" id="district" searchable="Search here..">
-                    <option value="" disabled selected>Quận / huyện</option>
-                    <%--                <c:forEach items="${districts}" var="district">--%>
-                    <%--                    <option value="${district.name}">${district.name}</option>--%>
-                    <%--                </c:forEach>--%>
-                </select></div>
-            <div class="param-content">
-                <select class="mdb-select md-form" name="ward" id="ward" searchable="Search here..">
-                    <option value="" disabled selected>Phường / xã</option>
-                    <%--                <c:forEach items="${wards}" var="district">--%>
-                    <%--                    <option value="${ward.name}">${ward.name}</option>--%>
-                    <%--                </c:forEach>--%>
-                </select>
+                    <select class="mdb-select md-form" name="district" id="district" searchable="Search here..">
+                        <option value="" disabled selected>Quận / huyện</option>
+                    </select></div>
+                <div class="param-content">
+                    <select class="mdb-select md-form" name="ward" id="ward" searchable="Search here..">
+                        <option value="" disabled selected>Phường / xã</option>
+                    </select>
+                </div>
             </div>
             <p id="error-message-signup" style="color: red;"></p>
             <button type="submit" id="sign-up-button">Đăng kí</button>
@@ -114,6 +107,8 @@
                 <a href="https://accounts.google.com/o/oauth2/auth?scope=profile%20email&redirect_uri=http://localhost:8080/other-login/google&response_type=code
     &client_id=766966245473-e2eo1ucq62m5pngngo2qu1e7s1d6doea.apps.googleusercontent.com&approval_prompt=force"
                    class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+                <a href="https://www.facebook.com/v11.0/dialog/oauth?client_id=883337960300752&redirect_uri=http://localhost:8080/other-login/facebook&scope=email,public_profile"
+                   class="icon"><i class="fa-brands fa-facebook"></i></a>
             </div>
             <span>Đã có tài khoản</span>
             <div class="param-content">

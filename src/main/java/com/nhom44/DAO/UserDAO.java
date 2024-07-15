@@ -70,4 +70,6 @@ public interface UserDAO {
     @SqlUpdate("UPDATE users SET password=:password WHERE email=:email")
     Boolean updatePassword(@Bind("email") String email, @Bind("password") String password);
 
+    @SqlUpdate("INSERT INTO users(email,password,fullName,role,status) VALUES(:email,:password,:fullName,:role,:status)")
+    Integer insertFacebookUser(@BindBean User user);
 }

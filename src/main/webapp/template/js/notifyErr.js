@@ -155,4 +155,3 @@ function autoCloseAlertIcon(mes, time = 1500, icon = 'info', url = null) {
         if (url != null) location.href = url;
     })
 }
-

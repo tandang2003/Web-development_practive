@@ -13,7 +13,11 @@ function renderServices() {
 
 function addService(page, idcontainer) {
     let container = document.getElementById(idcontainer);
+    console.log("container")
+    console.log(container)
     container.innerHTML = '';
+    console.log("service page")
+    console.log(page)
     switch (page) {
         case 'home':
             allServices.forEach(service => {
@@ -74,6 +78,7 @@ function addService(page, idcontainer) {
 }
 
 function getServices(page, container) {
+    console.log("service page")
     $.when(renderServices()).done(function () {
         addService(page, container);
     })
