@@ -11,6 +11,7 @@
     <%--    <%@ include file="/layout/link.jsp" %>--%>
     <link href="<c:url value="/template/lib/fontawesome-free-6.4.2-web/css/all.min.css"/>" rel="stylesheet">
     <link rel="stylesheet" href="<c:url value="/template/css/login.css"/> ">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <title>Đăng nhập</title>
 </head>
 <body>
@@ -100,7 +101,7 @@
                     class="fa-solid fa-arrow-left"></i></a>
         </div>
         <%--        form đăng nhập--%>
-        <form action="/login" method="post" id="login-form">
+        <form action="/login" id="login-form" method="POST">
             <input type="hidden" name="action" value="login"/>
             <h1>Đăng Nhập</h1>
             <div class="social-icons">
@@ -117,8 +118,8 @@
                 <input name=password type="password" placeholder="Mật khẩu" id="password-signin">
             </div>
             <a id="showForgotPassword" href="#">Quên mật khẩu?</a>
-            <p id="error-message-signin" style="color: red; display: none"></p>
-            <button id="login-button" type="submit">Đăng Nhập</button>
+            <div class="g-recaptcha" data-sitekey="6LduXxAqAAAAAPy6T9DAjx9Q1ADdSyTd7NkKQbTX"></div>
+            <button id="login-button" type="submit" value="Submit" >Đăng Nhập</button>
         </form>
     </div>
     <div class="toggle-container">
@@ -200,75 +201,8 @@
         });
     });
 
-
-    // $('#request-button').click(function () {
-    //     let data = {
-    //         email: $('#email-forgot').val()
-    //     }
-    //     $.ajax({
-    //         url: '/api/reset-password',
-    //         type: 'POST',
-    //         data: data,
-    //         // contentType: 'application/json',
-    //         success: function (result) {
-    //             console.log("success")
-    //             console.log(result);
-    //             // if (result == 'success') {
-    //             //     window.location.href = '/RealEstateWeb_war_exploded/home';
-    //             // } else {
-    //             //     $('#error-message-signin').text(result);
-    //             //     $('#error-message-signin').css('display', 'block');
-    //         },
-    //         error: function (error) {
-    //             console.log("error")
-    //             console.log(error);
-    //
-    //         }
-    //     })
-    // })
 </script>
 <script>
-    // $('#sign-up-button').click(function () {
-    //     let data = {
-    //         fullname: $('#fullname').val(),
-    //         birthday: $('#birthday').val(),
-    //         isMale: $('#isMale').is(':checked'),
-    //         isFemale: $('#isFemale').is(':checked'),
-    //         province: $('#province').val(),
-    //         district: $('#district').val(),
-    //         ward: $('#ward').val(),
-    //         phone: $('#phone-sigup').val(),
-    //         email: $('#email-signup').val(),
-    //         password: $('#pasword-signup').val(),
-    //         verifypassword: $('#verifypassword-sigup').val()
-    //     }
-    //     $.ajax({
-    //         url: '/api/register',
-    //         type: 'POST',
-    //         data: data,
-    //         dataType: 'json',
-    //         success: function (result) {
-    //             console.log("success")
-    //             console.log(result);
-    //             obj = JSON.parse(result.name);
-    //
-    //             if (obj.name === 'success' || obj.name === 'sys') {
-    //             }
-    //         },
-    //         error: function (error) {
-    //             console.log("error")
-    //
-    //             console.log(error);
-    //             // let obj = JSON.parse(error.responseText);
-    //             // for (let i of obj) {
-    //             //     fetchErr(i.name, i.message)
-    //             // }
-    //
-    //             // delayNotify(2000, 'abv');
-    //         }
-    //     })
-    // })
 </script>
-
 </body>
 </html>
