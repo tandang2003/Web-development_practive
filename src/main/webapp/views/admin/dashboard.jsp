@@ -16,12 +16,13 @@
     <link href=" <c:url value="/template/lib/DataTables/DataTables-1.13.6/css/jquery.dataTables.min.css"/>"
           rel="stylesheet">
     <link href=" <c:url value="/template/css/admin_Dashboard.css"/>" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>Title</title>
 </head>
 <body>
 <!-- Sidebar navigation -->
 <div class="wrapper">
-    <%@include file="/layout/admin/adminheader.jsp"%>
+    <%@include file="/layout/admin/adminheader.jsp" %>
     <div class="main-container">
         <div class="container">
             <nav class="" aria-label="breadcrumb">
@@ -104,49 +105,10 @@
                         </table>
                     </div>
                     <div class="col-md-12 col-lg-6 pl-1 ">
-                        <h5 class="font-weight-bold pl-3 pr-3 main-color text-center">Liên hệ </h5>
-                        <table id="table2" class="display border" style="width:100%">
-                            <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Người gửi</th>
-                                <th>Mã dự án mẫu</th>
-                                <th>Thời gian</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Đặng Minh Tấn</td>
-                                <td>#0001</td>
-                                <td>3/11/2023 9:30</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Vũ Xuân Chiên</td>
-                                <td>#0002</td>
-                                <td>3/11/2023 10:30</td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Đặng Minh Tấn</td>
-                                <td>#0033</td>
-                                <td>3/11/2023 10:33</td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>Bùi Minh Chiến</td>
-                                <td>#0016</td>
-                                <td>29/10/2023 17:25</td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>Đặng Minh Tấn</td>
-                                <td>#0019</td>
-                                <td>8/10/2023 9:30</td>
-                            </tr>
-                            </tbody>
-                        </table>
+                        <h5 class="font-weight-bold pl-3 pr-3 main-color text-center">Graph</h5>
+                        <div class="chart-container">
+                            <canvas id="myChart"></canvas>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -159,13 +121,13 @@
 <script src="<c:url value="/template/lib/DataTables/DataTables-1.13.6/js/jquery.dataTables.min.js"/>"></script>
 <script>
     $(document).ready(function () {
-     $.ajax({
+        $.ajax({
             url: '/api/dashboard/project',
             type: 'GET',
             success: function (data) {
-             console.log(data)
+                console.log(data)
             }
-     })
+        })
     });
 </script>
 <script>
@@ -188,7 +150,8 @@
                     if (title == null || title === "") return "---"; else return title;
                 }
             },
-            {data: "email",
+            {
+                data: "email",
                 render: function (email) {
                     if (email == null || email === "null") return "---"; else return email;
                 }
@@ -219,12 +182,6 @@
         "pagingType": "full_numbers",
         "lengthMenu": [5, 10, 15, 20],
     });
-    // "columnDefs": [
-    //     {"width": "5%", "targets": 0},
-    //     {"width": "5%", "targets": 3},
-    //     {className: "text-center font-weight-bold", targets: "_all"},
-    // ]
-    // });
     $('#table2').DataTable({
         "columnDefs": [
             {"width": "5%", "targets": 0},
@@ -298,6 +255,40 @@
         $(".sidebar-btn").click(function () {
             $(".wrapper").toggleClass("mycollapse");
         });
+    });
+</script>
+<script>
+    // Chart Data
+    const ctx = document.getElementById('myChart').getContext('2d');
+    const myChart = new Chart(ctx, {
+        type: 'line', // Change this to the type of chart you want
+        data: {
+            labels: ['Project', 'Category', 'Service', 'User'], // Update labels as needed
+            datasets: [{
+                label: '# of Items',
+                data: [${numberProject}, ${numberCategory}, ${numberService}, ${numberUser}], // Update with your data
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
     });
 </script>
 </body>
