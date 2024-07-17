@@ -26,7 +26,7 @@
 <body>
 <!-- Sidebar navigation -->
 <div class="wrapper">
-    <%@include file="/layout/admin/adminheader.jsp"%>
+    <%@include file="/layout/admin/adminheader.jsp" %>
     <div class="main-container ">
         <div class="container">
             <nav aria-label="breadcrumb">
@@ -46,11 +46,10 @@
                         <h3 class="font-weight-bold main-color m-0">QL Người dùng</h3>
                     </div>
                     <div class="col-6 d-flex justify-content-end align-items-center p-0">
-                        <a href="${pageContext.request.contextPath}/admin/user_management?action=add">
+                        <a href="${pageContext.request.contextPath}/admin/add_user">
                             <button class="btn btn-blue p-2" type="button"><i class="fa-solid fa-plus"></i> Đăng ký
                             </button>
                         </a>
-
                     </div>
                 </div>
                 <div class="">
@@ -61,7 +60,6 @@
                             <th class="font-weight-bold" scope="col">Tên</th>
                             <th class="font-weight-bold" scope="col">Email</th>
                             <th class="font-weight-bold" scope="col">Số điện thoại</th>
-                            <th class="font-weight-bold" scope="col">Địa Chỉ</th>
                             <!--                            <th class="font-weight-bold" scope="col">Avatar</th>-->
                             <th class="font-weight-bold" scope="col">Phái</th>
                             <th class="font-weight-bold" scope="col">Trạng thái</th>
@@ -71,7 +69,6 @@
                         </thead>
                         <tbody>
                         <tr>
-                            <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -95,31 +92,19 @@
 
 <%@include file="/layout/public/script.jsp" %>
 <script src="<c:url value="/template/lib/DataTables/DataTables-1.13.6/js/jquery.dataTables.min.js"/>"></script>
-<%--<script>--%>
-<%--    $(document).ready(function () {--%>
-<%--        $.ajax({--%>
-<%--            url: "${pageContext.request.contextPath}/api/admin/user",--%>
-<%--            type: "post",--%>
-<%--            dataType: "json",--%>
-<%--            success: function (data) {--%>
-<%--                console.log(data)--%>
-<%--            },--%>
-<%--        })--%>
-<%--    });--%>
-<%--</script>--%>
 <script>
     let index = 1;
     $('#table-user').dataTable({
         ajax: {
-            url: "${pageContext.request.contextPath}/api/admin/user",
+            url: "${pageContext.request.contextPath}/api/admin/users",
             type: "get",
             dataSrc: ''
         },
         columns: [
 
             {
-                render:function (){
-                  return index++
+                render: function () {
+                    return index++
                 },
             },
             {
@@ -142,11 +127,6 @@
                 }
             },
             {
-                data: 'province', render: function (province) {
-                    if (province == null || province === "") return "---"; else return province;
-                }
-            },
-            {
                 data: 'gender',
                 render: function (gender) {
                     return gender == 1 ? "<i class='fa-solid fa-person' style='color: #005eff;'></i>" : "<i class='fa-solid fa-person-dress' style='color: #ff00d0;'></i>"
@@ -161,12 +141,12 @@
             {
                 data: 'role',
                 render: function (role) {
-                    return role == 2 ? "Admin" : "Người dùng"
+                    return role == 1 ? "Admin" : "Người dùng"
                 }
             },
             {
-                data: 'email', render: function (email) {
-                    return "<a href='${pageContext.request.contextPath}/admin/user_management?action=edit&useremail=" + email + "'><i class='icon-action fa-solid fa-edit'></i></a>\n"
+                data: 'id', render: function (id) {
+                    return "<a href='${pageContext.request.contextPath}/admin/edit_user/" + id + "'><i class='icon-action fa-solid fa-edit'></i></a>\n"
                 }
             },
         ],
@@ -180,74 +160,30 @@
                 "targets": 1,
                 "width": "15%",
             },
-            // {
-            //     "targets": 1,
-            //     "width": "150px",
-            // },
             {
                 "targets": 2,
-                "width": "15%",
+                "width": "20%",
             },
-            // {
-            //     "targets": 2,
-            //     "width": "300px",
-            // },
             {
                 "targets": 3,
                 "width": "10%",
             },
-            // {
-            //     "targets": 3,
-            //     "width": "90px",
-            // },
             {
                 "targets": 4,
                 "width": "10%",
             },
-            // {
-            //     "targets": 4,
-            //     "width": "90px",
-            // },
-            // {
-            //     "targets":6,
-            //     "width": "5vw",
-            // },
-            // {
-            //     "targets": 5,
-            //     "width": "65px",
-            // },
             {
                 "targets": 5,
                 "width": "10%",
             },
-            // {
-            //     "targets": 6,
-            //     "width": "90px",
-            // },
             {
                 "targets": 6,
                 "width": "10%",
             },
-            // {
-            //     "targets": 7,
-            //     "width": "75px",
-            // },
             {
                 "targets": 7,
-                "width": "7%",
+                "width": "10%",
             },
-            // {
-            //     "targets": 8,
-            //     "width": "75px",
-            // },
-            {
-                "targets": 8,
-                "width": "7%",
-            },
-            // {
-            //     "targets": 9,
-            //     "width": "60px",
-            // },
             {className: "text-center mt-auto mb-auto", targets: "_all"},
             {className: "text-break", targets: "_all"}
         ],

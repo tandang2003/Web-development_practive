@@ -1,4 +1,3 @@
-
 <script src=" <c:url value="/template/lib/MDB_4_pro/js/popper.min.js"/>"></script>
 <script src=" <c:url value="/template/lib/MDB_4_pro/js/jquery.min.js"/>"></script>
 <script src=" <c:url value="/template/lib/MDB_4_pro/js/bootstrap.min.js"/>"></script>
@@ -9,10 +8,14 @@
 https://cdn.jsdelivr.net/npm/sweetalert2@11.12.1/dist/sweetalert2.all.min.js
 "></script>
 <script src="<c:url value="/template/js/notifyErr.js"/> "></script>
+<script src="https://unpkg.com/filepond-plugin-file-poster/dist/filepond-plugin-file-poster.js"></script>
 <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
 <script src="<c:url value="/template/lib/filepond-master/dist/filepond.js"/> "></script>
 <script src="<c:url value="/template/lib/filepond-master/dist/filepond.jquery.js"/> "></script>
-
+<script>
+    FilePond.registerPlugin(FilePondPluginImagePreview);
+    FilePond.registerPlugin(FilePondPluginFilePoster);
+</script>
 <script>
     $(document).ready(function () {
         $.ajax({

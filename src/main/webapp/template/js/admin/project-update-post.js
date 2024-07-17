@@ -14,21 +14,6 @@ $(document).ready(function () {
     });
 });
 
-function initialData() {
-    return new Promise((resolve, reject) => {
-        const id = window.location.href.split('/').pop();
-        $.ajax({
-            url: '/api/admin/project/edit/'+id,
-            type: 'GET',
-            success: function (data) {
-                console.log(data)
-                resolve(data);
-            }
-        });
-
-    })
-
-}
 
 let cur;
 for (let item of $('.sidebar-item')) {

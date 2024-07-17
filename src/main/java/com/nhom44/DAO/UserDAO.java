@@ -28,7 +28,7 @@ public interface UserDAO {
     int updateUser(@BindBean User user, @Bind("oldEmail") String oldEmail);
 
     @SqlUpdate("UPDATE users SET fullname =:fullName , email =:email , password =:password, " +
-            "role =:role,phone=:phone, birthday=:birthday, addressId=:addressId, " +
+            "role =:role, phone=:phone, birthday=:birthday, addressId=:addressId, " +
             "gender=:gender, status=:status ,updatedAt=now() WHERE id=:id")
     int updateUser(@BindBean User user);
 
@@ -72,4 +72,9 @@ public interface UserDAO {
     Boolean updatePassword(@Bind("email") String email, @Bind("password") String password);
     @SqlQuery("SELECT * FROM users WHERE id=:id")
     User getUserById(@Bind("id")int id);
+
+    @SqlUpdate("INSERT INTO users(email,password,fullName,role,status) VALUES(:email,:password,:fullName,:role,:status)")
+    Integer insertFacebookUser(@BindBean User user);
+    @SqlQuery("SELECT role FROM users WHERE id=:id")
+    Integer getRole(@Bind("id")int id);
 }

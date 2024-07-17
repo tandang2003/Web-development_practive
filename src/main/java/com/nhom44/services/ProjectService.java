@@ -196,7 +196,10 @@ public class ProjectService {
     }
 
     public static void main(String[] args) {
-        System.out.println( ProjectService.getInstance().getOwnProject(34));;
+        List<Project> all= getInstance().getAllProject();
+        for (Project p: all) {
+            System.out.println(p.toString());
+        }
     }
 
     public void acceptProject(int idInt) {
