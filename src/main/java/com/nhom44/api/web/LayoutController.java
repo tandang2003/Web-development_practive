@@ -16,6 +16,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.nhom44.util.GsonUtil.getGson;
+
 @WebServlet(urlPatterns = "/api/layout")
 public class LayoutController extends HttpServlet {
     @Override
@@ -26,7 +28,7 @@ public class LayoutController extends HttpServlet {
         map.put("categories", categories);
         map.put("services", services);
         resp.setStatus(200);
-        resp.getWriter().println(new Gson().toJson(map));
+        resp.getWriter().println(getGson().toJson(map));
         resp.getWriter().flush();
         resp.getWriter().close();
 

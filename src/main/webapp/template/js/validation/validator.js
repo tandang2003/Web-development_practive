@@ -197,31 +197,31 @@ const orderValidator = {
         ward: {
             required: true
         },
-        width:{
+        width: {
             required: true,
             digits: true,
             min: 1
         },
-        height:{
+        height: {
             required: true,
             digits: true,
             min: 1
         },
-        category:{
+        category: {
             required: true
         },
-        services:{
+        services: {
             required: true
         },
-        uploadImg:{
+        uploadImg: {
             required: true,
         },
-        project:{
+        project: {
             required: true,
             digits: true
         }
     },
-    messages:{
+    messages: {
         email: {
             required: "Vui lòng nhập địa chỉ email",
             email: "Địa chỉ email không hợp lệ"
@@ -235,28 +235,103 @@ const orderValidator = {
         ward: {
             required: "Vui lòng chọn phường/xã"
         },
-        width:{
+        width: {
             required: "Vui lòng nhập chiều rộng",
             digits: "Chiều rộng chỉ được nhập số",
             min: "Chiều rộng phải lớn hơn {0}"
         },
-        height:{
+        height: {
             required: "Vui lòng nhập chiều dài",
             digits: "Chiều dài chỉ được nhập số",
             min: "Chiều dài phải lớn hơn {0}"
         },
-        category:{
+        category: {
             required: "Vui lòng chọn loại sản phẩm"
         },
-        services:{
+        services: {
             required: "Vui lòng chọn loại dịch vụ"
         },
-        uploadImg:{
+        uploadImg: {
             required: "Vui lòng chọn ảnh",
         },
-        project:{
+        project: {
             required: "Vui lòng chọn dự án",
             digits: "Mã dự án chỉ được nhập số"
         }
     }
+}
+const userUpdator = {
+    rules: {
+        fullName: {
+            required: true,
+            minlength: 2,
+            maxlength: 50
+        },
+        email: {
+            required: true,
+            email: true
+        },
+        repassword: {
+            equalTo: "#password"
+        },
+        phone: {
+            required: true,
+            digits: true,
+            minlength: 10,
+            maxlength: 12
+        },
+        birthday: {
+            required: true,
+            dateFormat: true
+        },
+        gender: {
+            required: true
+        },
+        province: {
+            required: true
+        },
+        district: {
+            required: true
+        },
+        ward: {
+            required: true
+        },
+    },
+    messages: {
+        fullName: {
+            required: "Vui lòng nhập họ và tên",
+            minlength: "Họ và tên ít nhất {0} ký tự",
+            maxlength: "Họ và tên tối đa {0} ký tự"
+        },
+        gender: {
+            required: "Vui lòng chọn giới tính"
+        },
+        email: {
+            required: "Vui lòng nhập địa chỉ email",
+            email: "Địa chỉ email không hợp lệ"
+        },
+        repassword: {
+            equalTo: "Mật khẩu không khớp"
+        },
+        phone: {
+            required: "Vui lòng nhập số điện thoại",
+            digits: "Số điện thoại chỉ được nhập số",
+            minlength: "Số điện thoại ít nhất {0} số",
+            maxlength: "Số điện thoại tối đa {0} số"
+        },
+        birthday: {
+            required: "Vui lòng chọn ngày sinh",
+            dateFormat: "Ngày sinh không hợp lệ vui lòng nhập theo định dạng yyyy-MM-dd"
+        },
+        province: {
+            required: "Vui lòng chọn tỉnh thành"
+        },
+        district: {
+            required: "Vui lòng chọn quận/huyện"
+        },
+        ward: {
+            required: "Vui lòng chọn phường/xã"
+        },
+    }
+
 }

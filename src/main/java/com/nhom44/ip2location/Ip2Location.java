@@ -8,6 +8,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Scanner;
 
+import static com.nhom44.util.GsonUtil.getGson;
+
 public class Ip2Location {
     public static final String Default_URL = "https://api.ip2location.io/?key=";
 
@@ -30,7 +32,7 @@ public class Ip2Location {
 
                 scanner.close();
                 String geolocationInfo = jsonResponse.toString();
-                JsonObject jsonObject = new Gson().fromJson(geolocationInfo, JsonObject.class);
+                JsonObject jsonObject = getGson().fromJson(geolocationInfo, JsonObject.class);
                 geolocationInfo = jsonObject.get("city_name").getAsString() + ", " + jsonObject.get("country_name").getAsString();
                 return geolocationInfo;
             }

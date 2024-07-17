@@ -27,7 +27,6 @@ public class User implements Serializable {
     private Timestamp updatedAt;
     private int addressId;
     private Address address;
-    private String province;
     private int role;
     public User(){
         this.address=new Address();

@@ -21,6 +21,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.nhom44.util.GsonUtil.getGson;
+
 @WebServlet(urlPatterns = {"/api/admin/slider", "/api/admin/slider/add", "/api/admin/slider/edit", "/api/admin/slider/delete"})
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, maxFileSize = 1024 * 1024 * 50, maxRequestSize = 1024 * 1024 * 50)
 public class SliderController extends HttpServlet {
@@ -45,7 +47,7 @@ public class SliderController extends HttpServlet {
             BeanUtils.populate(slider, req.getParameterMap());
 
         } catch (IllegalAccessException | InvocationTargetException e) {
-            resp.getWriter().println(new Gson().toJson(new ResponseModel("sys", "Lỗi hệ thống", "500", null)));
+            resp.getWriter().println(getGson().toJson(new ResponseModel("sys", "Lỗi hệ thống", "500", null)));
         }
         if (req.getParameter("notHave") == null) {
             List<String> uploadFiles = Upload.uploadFile(Upload.UPLOAD_SILDER, "avatar", req);
@@ -61,7 +63,7 @@ public class SliderController extends HttpServlet {
         }
         if (!errors.isEmpty()) {
             resp.setStatus(400);
-            resp.getWriter().println(new Gson().toJson(errors));
+            resp.getWriter().println(getGson().toJson(errors));
             return;
         }
         System.out.println(slider.toString());
@@ -76,6 +78,6 @@ public class SliderController extends HttpServlet {
         System.out.println(i);
 
         resp.setStatus(200);
-        resp.getWriter().println(new Gson().toJson(new ResponseModel("success", "Thành công", "200", "/admin/slide")));
+        resp.getWriter().println(getGson().toJson(new ResponseModel("success", "Thành công", "200", "/admin/slide")));
     }
 }

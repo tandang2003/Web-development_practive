@@ -9,8 +9,6 @@ function like(project) {
                 project.classList.replace("fa-regular", "fa-solid")
             } else if (resp.name == 'delete') {
                 project.classList.replace("fa-solid", "fa-regular")
-                //= "fa-solid fa-bookmark position-absolute";
-                // console.log(p);
             }
         }, error: function (response) {
             let resp = JSON.parse(response.responseText);

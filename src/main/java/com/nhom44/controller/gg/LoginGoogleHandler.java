@@ -17,8 +17,6 @@ public class LoginGoogleHandler extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String code = req.getParameter("code");
-        System.out.println("code: " + code);
-//        System.out.println(code);
         String token = GoogleUtil.getToken(code);
         GoogleAccount googleAccount = GoogleUtil.getUserInfo(token);
         User user = new User();
@@ -31,7 +29,8 @@ public class LoginGoogleHandler extends HttpServlet {
             UserService.getInstance().GoogleAdditional(user);
         }
         user = UserService.getInstance().getUserByEmail(user.getEmail());
-        req.getSession().setAttribute("auth", user);
+        req.getSession().setAttribute("account", user);
+        System.out.println(req.getSession().getAttribute("account").toString());
         System.out.println("success create");
         resp.sendRedirect(req.getContextPath() + "/home");
     }

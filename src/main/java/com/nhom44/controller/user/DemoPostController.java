@@ -21,7 +21,7 @@ import java.util.List;
 public class DemoPostController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        new LogPage().log(req);
+        new LogPage(req).log();
         req.setAttribute("page", "account");
         String path = req.getPathInfo();
         System.out.println("path: " + path);
