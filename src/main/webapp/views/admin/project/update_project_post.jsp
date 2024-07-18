@@ -16,7 +16,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link href=" <c:url value="/template/lib/DataTables/DataTables-1.13.6/css/jquery.dataTables.min.css"/>" rel="stylesheet">
+    <link href=" <c:url value="/template/lib/DataTables/DataTables-1.13.6/css/jquery.dataTables.min.css"/>"
+          rel="stylesheet">
     <link href=" <c:url value="/template/lib/DataTables/datatables.min.css"/>" rel="stylesheet">
     <link href=" <c:url value="/template/css/admin-nav-bar.css"/>" rel="stylesheet">
     <link href=" <c:url value="/template/css/admin-datatable.css"/>" rel="stylesheet">
@@ -25,7 +26,7 @@
 <body>
 <!-- Sidebar navigation -->
 <div class="wrapper">
-    <%@include file="/layout/admin/adminheader.jsp"%>
+    <%@include file="/layout/admin/adminheader.jsp" %>
 
 
     <div class="main-container">
@@ -82,48 +83,13 @@
 <%@include file="/layout/public/script.jsp" %>
 <script src="<c:url value="/template/lib/DataTables/DataTables-1.13.6/js/jquery.dataTables.min.js"/>"></script>
 <script src="<c:url value="/template/lib/ckeditor_4.22.1_standard/ckeditor/ckeditor.js"/>"></script>
-<script src="<c:url value="/template/js/admin-modal-notify.js"/>"></script>
-
-<img src="" alt="">
-<script>
-    CKEDITOR.replace('service-des');
-    CKEDITOR.config.width = "100%";
-    CKEDITOR.config.height = "800px";
-    // CKEDITOR.instances['service-des'].setData(
-    //
-    // )
-
-</script>
-
-<script>
-
-    $(document).ready(function () {
-        $(".sidebar-btn").click(function () {
-            $(".wrapper").toggleClass("mycollapse");
-        });
-    <c:if test="${error!=null}">
-        delayNotify(2000, ${error});
+<%--<script src="<c:url value="/template/js/admin-modal-notify.js"/>"></script>--%>
+<script src="<c:url value="/template/js/validation/validator.js"/>"></script>
+<script src="<c:url value="/template/js/validation/validateFunction.js"/>"></script>
+<script src="<c:url value="/template/js/dataAddress.js"/>"></script>
+<script src="<c:url value="/template/js/notifyErr.js"/>"></script>
+<script type="module" src="<c:url value="/template/js/admin/project-update-post.js"/>"></script>
 
 
-        </c:if>
-    });
-</script>
-<script>
-    let cur;
-    for (let item of $('.sidebar-item')) {
-        item.addEventListener('click', function () {
-            if (cur != null) {
-                cur.classList.remove('d-block');
-                cur.classList.add('d-none');
-            }
-            if (this.children.length === 2) {
-                this.children[1].classList.remove('d-none')
-                this.children[1].classList.add('d-block')
-                cur = this.children[1];
-            }
-        })
-    }
-
-</script>
 </body>
 </html>

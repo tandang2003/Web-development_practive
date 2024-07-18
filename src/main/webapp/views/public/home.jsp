@@ -229,7 +229,6 @@
                 dataType: "json",
                 data: $(form).serializeArray(),
                 success: function (data) {
-                    console.log(data)
                     if (data.status == 200) {
                         autoCloseAlertWithFunction(data.message, 3000, swal2Icon.SUCCESS, () => {
                             window.location.reload();

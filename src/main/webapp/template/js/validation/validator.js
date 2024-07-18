@@ -1,3 +1,8 @@
+$.validator.addMethod("dateFormat", function (value, element) {
+    // Check the format yyyy-MM-dd
+    return this.optional(element) || /^\d{4}-\d{2}-\d{2}$/.test(value);
+}, "Vui lòng nhập đúng định dạng yyyy-MM-dd");
+
 const contactValidation = {
     rules: {
         fullName: {
@@ -333,5 +338,184 @@ const userUpdator = {
             required: "Vui lòng chọn phường/xã"
         },
     }
+
+}
+const adminAddUserValidator = {
+    rules: {
+        fullName: {
+            required: true,
+            minlength: 2,
+            maxlength: 50
+        },
+        email: {
+            required: true,
+            email: true
+        },
+        password: {
+            required: true,
+            minlength: 6
+        },
+        phone: {
+            required: true,
+            digits: true,
+            minlength: 10,
+            maxlength: 12
+        },
+        birthday: {
+            required: true,
+            dateFormat: true
+        },
+        gender: {
+            required: true
+        },
+        status: {
+            required: true
+        },
+        role: {
+            required: true
+        },
+        province: {
+            required: true
+        },
+        district: {
+            required: true
+        },
+        ward: {
+            required: true
+        }
+    }
+    ,
+    messages: {
+        fullName: {
+            required: "Vui lòng nhập họ và tên",
+            minlength: "Họ và tên ít nhất {0} ký tự",
+            maxlength: "Họ và tên tối đa {0} ký tự"
+        },
+        email: {
+            required: "Vui lòng nhập địa chỉ email",
+            email: "Địa chỉ email không hợp lệ"
+        },
+        password: {
+            required: "Vui lòng nhập mật khẩu",
+            minlength: "Mật khẩu ít nhất {0} ký tự"
+        },
+        repassword: {
+            equalTo: "Mật khẩu không khớp"
+        },
+        phone: {
+            required: "Vui lòng nhập số điện thoại",
+            digits: "Số điện thoại chỉ được nhập số",
+            minlength: "Số điện thoại ít nhất {0} số",
+            maxlength: "Số điện thoại tối đa {0} số"
+        },
+        birthday: {
+            required: "Vui lòng chọn ngày sinh",
+            dateFormat: "Ngày sinh không hợp lệ vui lòng nhập theo định dạng yyyy-MM-dd"
+        },
+        gender: {
+            required: "Vui lòng chọn giới tính cho tài khoản người dùng"
+        },
+        status: {
+            required: "Vui lòng chọn trạng thái tài khoản người dùng"
+        },
+        role: {
+            required: "Vui lòng chọn phân quyền người dùng"
+        },
+        province: {
+            required: "Vui lòng chọn tỉnh thành"
+        },
+        district: {
+            required: "Vui lòng chọn quận/huyện"
+        },
+        ward: {
+            required: "Vui lòng chọn phường/xã"
+        }
+    }
+}
+const adminUpdateUserValidator = {
+    rules: {
+        fullName: {
+            required: true,
+            minlength: 2,
+            maxlength: 50
+        },
+        email: {
+            required: true,
+            email: true
+        },
+        phone: {
+            required: true,
+            digits: true,
+            minlength: 10,
+            maxlength: 12
+        },
+        birthday: {
+            required: true,
+            dateFormat: true
+        },
+        gender: {
+            required: true
+        },
+        status: {
+            required: true
+        },
+        role: {
+            required: true
+        },
+        province: {
+            required: true
+        },
+        district: {
+            required: true
+        },
+        ward: {
+            required: true
+        }
+    }
+    ,
+    messages: {
+        fullName: {
+            required: "Vui lòng nhập họ và tên",
+            minlength: "Họ và tên ít nhất {0} ký tự",
+            maxlength: "Họ và tên tối đa {0} ký tự"
+        },
+        email: {
+            required: "Vui lòng nhập địa chỉ email",
+            email: "Địa chỉ email không hợp lệ"
+        },
+        repassword: {
+            equalTo: "Mật khẩu không khớp"
+        },
+        phone: {
+            required: "Vui lòng nhập số điện thoại",
+            digits: "Số điện thoại chỉ được nhập số",
+            minlength: "Số điện thoại ít nhất {0} số",
+            maxlength: "Số điện thoại tối đa {0} số"
+        },
+        birthday: {
+            required: "Vui lòng chọn ngày sinh",
+            dateFormat: "Ngày sinh không hợp lệ vui lòng nhập theo định dạng yyyy-MM-dd"
+        },
+        gender: {
+            required: "Vui lòng chọn giới tính cho tài khoản người dùng"
+        },
+        status: {
+            required: "Vui lòng chọn trạng thái tài khoản người dùng"
+        },
+        role: {
+            required: "Vui lòng chọn phân quyền người dùng"
+        },
+        province: {
+            required: "Vui lòng chọn tỉnh thành"
+        },
+        district: {
+            required: "Vui lòng chọn quận/huyện"
+        },
+        ward: {
+            required: "Vui lòng chọn phường/xã"
+        }
+    }
+}
+const adminupdateProjectValidator = {
 
 }

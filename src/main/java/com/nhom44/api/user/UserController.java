@@ -51,7 +51,7 @@ public class UserController extends HttpServlet {
         resp.setStatus(200);
         User userSession = (User) req.getSession().getAttribute("account");
         User user = UserService.getInstance().getUserById(userSession.getId());
-        User newUserInfo = createUser(req.getParameterMap(), user);
+        User newUserInfo = createUser(req.getParameterMap(), null);
         JsonObject response = new JsonObject();
         if (!newUserInfo.getEmail().equals(user.getEmail())) {
             if (UserService.getInstance().isContainEmail(newUserInfo.getEmail())) {

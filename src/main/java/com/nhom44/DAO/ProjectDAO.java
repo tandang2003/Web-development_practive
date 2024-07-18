@@ -15,10 +15,14 @@ import java.util.List;
 
 @RegisterBeanMapper(Project.class)
 public interface ProjectDAO {
-    @SqlQuery("Select p.id, p.title, p.avatar, p.price, p.addressId as province, c.name as category, p.isAccepted," +
+    @SqlQuery("Select p.id, p.title, p.avatar, p.price, ad.address as address, c.name as category, p.isAccepted," +
             " p.status, p.updatedAt" +
             " FROM projects p LEFT JOIN categories c ON p.categoryId=c.id" +
-            " LEFT JOIN addresses pr ON p.addressId=pr.id")
+            " LEFT JOIN (SELECT a.id, Concat(w.fullName,', ',d.fullName,', ',pr.fullName) as address FROM addresses a " +
+            "JOIN provinces pr ON pr.id=a.provinceId " +
+            "JOIN districts d ON d.id=a.districtId " +
+            "JOIN wards w ON w.id=a.wardId" +
+            ") ad ON p.addressId=ad.id" )
     List<Project> getAll();
 
     @SqlUpdate("INSERT INTO projects(title, description, avatar, price, acreage, addressId, " +
