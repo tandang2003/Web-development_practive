@@ -142,10 +142,10 @@ public interface ProjectDAO {
     List<Project> getNumOfRead();
 
     @SqlQuery("SELECT p.id, p.title , count(sl.id) as numSave, " +
-            " po.updatedAt AS updatedAt " +
+            " p.updatedAt as updatedAt " +
             "FROM Projects p JOIN posts po ON p.postId=po.id " +
             "LEFT JOIN saved_projects sl ON po.id = sl.postId " +
-            "GROUP BY p.id, p.title , po.updatedAt, po.updatedAt"
+            "GROUP BY p.id, p.title , po.updatedAt"
     )
     List<Project> getNumOfSaved();
 

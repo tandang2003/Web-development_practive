@@ -48,7 +48,7 @@ public class PostService {
         int status = conn.withExtension(PostDAO.class, dao -> {
             return dao.updatePost(post);
         });
-        return status == 1 ? getById(post.getId()) : null;
+        return status == 1 ?   getById(post.getId()) : null;
     }
 
     public Post getById(int postId) {

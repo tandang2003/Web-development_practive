@@ -21,6 +21,9 @@ public class ServiceOfProjectService {
     public List<Service> getAll() {
             return conn.withExtension(ServiceDAO.class, dao -> dao.getAll());
     }
+    public List<Service> getAdminAll() {
+            return conn.withExtension(ServiceDAO.class, dao -> dao.getAdminAll());
+    }
     public int addServiceForProject(String projectId, int serviceId) {
         return conn.withExtension(ServiceDAO.class, dao -> dao.addServiceForProject(projectId, serviceId));
     }
@@ -58,7 +61,7 @@ public class ServiceOfProjectService {
     public void deleteServiceProject(int id) {
         conn.withExtension(ServiceDAO.class, dao -> dao.deleteServiceProject(id));
     }
-    private boolean isExist(Service service){
+    public boolean isExist(Service service){
         return conn.withExtension(ServiceDAO.class, dao -> dao.isExist(service));
     }
 

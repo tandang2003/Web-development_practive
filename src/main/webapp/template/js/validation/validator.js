@@ -787,5 +787,44 @@ const adminAddProjectValidator = {
             minlength: "Bài viết ít nhất {0} ký tự"
         }
     }
-
+}
+const adminAddServiceValidator = {
+    rules: {
+        name: {
+            required: true,
+            minlength: 2,
+            maxlength: 50
+        },
+        status: {
+            required: true
+        },
+        description: {
+            required: true,
+            minlength: 10,
+            maxlength: 500
+        },
+        post:{
+            required: true,
+            minlength: 100
+        }
+    },
+    messages: {
+        name: {
+            required: "Vui lòng nhập tên dịch vụ",
+            minlength: "Tên dịch vụ ít nhất {0} ký tự",
+            maxlength: "Tên dịch vụ tối đa {0} ký tự"
+        },
+        status: {
+            required: "Vui lòng chọn trạng thái"
+        },
+        description: {
+            required: "Vui lòng nhập mô tả",
+            minlength: "Mô tả ít nhất {0} ký tự",
+            maxlength: "Mô tả tối đa {0} ký tự"
+        },
+        post: {
+            required: "Vui lòng nhập bài viết",
+            minlength: "Bài viết ít nhất {0} ký tự"
+        }
+    }
 }

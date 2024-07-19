@@ -44,10 +44,10 @@
                 </ol>
             </nav>
             <main class="container shadow border p-3 h-auto">
-                <form action="#" method="post" id="addproject">
+                <form action="#" method="post" id="form-edit-service">
                     <div class="border-bottom pb-3 mb-3 ml-1 mr-1 d-flex justify-content-between align-items-center">
                         <div class="d-flex align-items-center p-0">
-                            <h3 class="font-weight-bold main-color m-0">Chỉnh sửa dịch vụ</h3>
+                            <h3 class="font-weight-bold main-color m-0">Thêm dịch vụ</h3>
                         </div>
                         <div class="d-flex">
                             <ul class="nav nav-pills  d-flex font-weight-bold align-items-center" id="pills-tab"
@@ -67,13 +67,14 @@
                             </ul>
                         </div>
                         <div class="btn-save flex-center">
-                            <button form="addproject" id="save" class="btn btn-warning p-2 waves-effect waves-light"
-                                    type="button"> LƯU
+                            <button form="form-edit-service" id="save"
+                                    class="btn btn-warning p-2 waves-effect waves-light"
+                                    type="submit"> LƯU
                             </button>
                         </div>
                     </div>
 
-                    <div class="tab-content pt-2 pl-1 h-auto" id="pills-tabContent">
+                    <div class="tab-content pt-2 pl-1" id="pills-tabContent">
                         <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
                              aria-labelledby="pills-home-tab">
                             <div class="edit-profile d-flex justify-content-center">
@@ -87,50 +88,40 @@
                                                     <div class="card-body">
                                                         <div class="mb-4">
                                                             <label for="name" class="labels">Tiêu đề</label>
-                                                            <input id="name" type="text" class="form-control"
-                                                                   placeholder="Tiêu đề" value="${service.name}">
+                                                            <input id="name" name="name" type="text"
+                                                                   class="form-control"
+                                                                   placeholder="Tiêu đề" value="">
+                                                            <input id="id" name="id" type="hidden">
+                                                        </div>
+
+                                                        <div class="mb-4">
+                                                            <label for="status" class="labels">Trạng thái</label>
+                                                            <select id="status" name="status"
+                                                                    class="browser-default custom-select">
+                                                                <option value=1>Hiện dịch vụ</option>
+                                                                <option value=0>Ẩn dịch vụ</option>
+                                                            </select>
                                                         </div>
                                                         <div class="mb-4">
                                                             <div class="form-group green-border-focus">
                                                                 <label for="description">Mô tả</label>
                                                                 <textarea class="form-control"
-                                                                          id="description"
-                                                                          rows="3">${service.description}</textarea>
+                                                                          id="description" name="description"
+                                                                          rows="3"></textarea>
                                                             </div>
-                                                        </div>
-                                                        <div class="mb-4">
-                                                            <label for="status" class="labels">Trạng thái</label>
-                                                            <select id="status" class="browser-default custom-select">
-
-                                                                <option value="1"
-                                                                        <c:if test="${service.status==1}">selected</c:if>>
-                                                                    Hiện dịch vụ
-                                                                </option>
-                                                                <option value="0"
-                                                                        <c:if test="${service.status==0}">selected</c:if>>
-                                                                    Ẩn dịch vụ
-                                                                </option>
-                                                            </select>
-                                                        </div>
-
-                                                        <div class="mb-4">
-                                                            <div class="input-group mt-2 d-flex align-items-center">
-                                                                <label>Chọn hình đại diện</label>
-                                                                <div class="file-field d-flex align-items-center">
-                                                                    <div class="btn btn-primary btn-sm float-left waves-effect waves-light">
-                                                                        <span>chọn ảnh</span>
-                                                                        <input type="file" name="avatar"
-                                                                               id="avatar"
-                                                                               accept="image/*">
-                                                                    </div>
-                                                                </div>
+                                                            <div class="mb-4">
+                                                                <p class="m-0">Hình ảnh đại diện: </p>
+                                                                <input type="file" id="file_input_avatar"
+                                                                       name="file_input_avatar"
+                                                                       class="filepond" name="filepond">
+                                                                <input type="hidden" name="defaultAvatar"
+                                                                       id="defaultAvatar">
+                                                                <input type="hidden" name="uploadAvatar"
+                                                                       id="uploadAvatar">
                                                             </div>
 
-                                                            <div class="upload-wrapper d-none avatar">
-                                                                <div class="border d-flex img-container">
-                                                                </div>
-                                                            </div>
                                                         </div>
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -152,8 +143,9 @@
                                                  <textarea
                                                          class="form-control rounded-0"
                                                          id="post"
-                                                         rows="10">${post.content}
-                                                 </textarea>
+                                                         name="post"
+                                                         rows="10">
+                                                </textarea>
                                                     <!--                                                    <textarea id="sample">Hi</textarea>-->
                                                 </div>
                                             </div>
@@ -164,6 +156,7 @@
                         </div>
                     </div>
                 </form>
+
             </main>
         </div>
     </div>
@@ -173,202 +166,21 @@
 
 <%@include file="/layout/public/script.jsp" %>
 <script src="<c:url value="/template/lib/DataTables/DataTables-1.13.6/js/jquery.dataTables.min.js"/>"></script>
-<script src="<c:url value="/template/lib/ckeditor_4.22.1_standard/ckeditor/ckeditor.js"/>"></script>
-<script src="<c:url value="/template/js/admin-modal-notify.js"/>"></script>
+<script src="<c:url value="/template/lib/ckeditor_4.22.1_standard_easyimage/ckeditor/ckeditor.js"/>"></script>
+<script src="<c:url value="/template/js/validation/validator.js"/>"></script>
+<script src="<c:url value="/template/js/validation/validateFunction.js"/>"></script>
+<script type="module" src="<c:url value="/template/js/admin/service-edit.js"/>"></script>
 <%--<script src="<c:url value="/template/js/inputFile.js"/>"></script>--%>
-<script>
-    const srcToFile = async (src, fileName) => {
-        const response = await axios.get(src, {
-            responseType: "blob",
-        });
-        const mimeType = response.headers["content-type"];
-        return new File([response.data], fileName, {type: mimeType});
-    };
+<%--<script>--%>
+<%--    const srcToFile = async (src, fileName) => {--%>
+<%--        const response = await axios.get(src, {--%>
+<%--            responseType: "blob",--%>
+<%--        });--%>
+<%--        const mimeType = response.headers["content-type"];--%>
+<%--        return new File([response.data], fileName, {type: mimeType});--%>
+<%--    };--%>
+<%--</script>--%>
 
-</script>
-<script>
-    function saveService(id) {
-        let form = new FormData();
-        form.append('name', $("#name").val());
-        form.append('status', $("#status").val());
-        form.append('description', $("#description").val());
-        if ($("#avatar").prop('files').length !== 0)
-            form.append('avatar', $("#avatar").prop('files')[0]);
-        else form.append('notHave', '1');
-        form.append('postId', id);
-        form.append('id', ${service.id});
-        $.ajax({
-            url: "/api/admin/service?action=edit",
-            type: "POST",
-            // dataType: "json",
-            processData: false,
-            contentType: false,
-            data: form,
-            success: function (data) {
-                console.log(data.responseText)
-                obj = JSON.parse(data);
-                if(obj.name == "success" || obj.name=="sys"){
-                    delayNotify(2000, obj.message);
-                    setTimeout(()=>{
-                        window.location.href = obj.data;
-                    }, 2000);
-                }
-            },
-            error: function (data) {
-                console.log(data.responseText)
-                var err = JSON.parse(data.responseText);
 
-                for (const e of err) {
-                    console.log(e.name, e.message)
-                    fetchErr(e.name, e.message);
-                }
-            }
-        })
-    }
-</script>
-<script>
-    $('#save').click(function () {
-        let content = CKEDITOR.instances.post.getData();
-        $.ajax({
-            url: "/api/admin/post?action=edit",
-            type: 'POST',
-            dataType: "json",
-            data: {
-                content: content,
-                id:${post.id}
-            },
-            success: function (data) {
-                console.log("success post")
-                saveService(data.data.id);
-            },
-            error: function (data) {
-                console.log(data)
-                // saveService(data.data.id);
-                var err = JSON.parse(data.responseText);
-
-                for (const e of err) {
-                    console.log(e.name, e.message)
-                    fetchErr(e.name, e.message);
-                }
-            }
-        })
-    })
-
-</script>
-<script>
-    function fetchErr(name, mess) {
-        switch (name) {
-            case 'name' :
-                let name = document.getElementById('name');
-                name.classList.add('border-danger');
-                name.classList.add('text-danger');
-                name.value = "";
-                name.setAttribute('value', "");
-                name.setAttribute('placeholder', mess);
-                break;
-            case 'description' :
-                let description = document.getElementById('description');
-                description.classList.add('border-danger');
-                description.classList.add('text-danger');
-                description.value = "";
-                description.setAttribute('value', "");
-                description.setAttribute('placeholder', mess);
-                break;
-
-        }
-    }
-</script>
-<script>
-    let allFiles = [];
-    let input = document.getElementById("avatar");
-    let container = document.getElementsByClassName("img-container");
-    // console.log(input.files)
-    if (input.files.length == 0 && allFiles.length == 0) {
-        let images = ' ';
-        container[0].parentElement.classList.add('d-block')
-        container[0].parentElement.classList.remove('d-none')
-        images += '<div class="image position-relative border-radius"><img src="${service.avatar}" alt="" class="border"> ' +
-            '<div class="position-absolute " ></div></div>'
-        container[0].innerHTML = images;
-    }
-
-    input.addEventListener('change', function () {
-        let files = this.files;
-        allFiles = [];
-        for (let i = 0; i < files.length; i++) {
-            allFiles.push(files[i])
-        }
-        showImage();
-    })
-
-    const showImage = () => {
-        container[0].parentElement.classList.add('d-block')
-        container[0].parentElement.classList.remove('d-none')
-        if (input.files.length == 0) {
-            let images = ' ';
-            images += '<div class="image position-relative border-radius"><img src="${service.avatar}" alt="" class="border"> ' +
-                '<div class="position-absolute " ></div></div>'
-            container[0].innerHTML = images;
-        } else {
-            let images = ' ';
-            allFiles.forEach((e, i) => {
-                images += '<div class="image position-relative border-radius"><img src="' + URL.createObjectURL(e) + '" alt="" class="border"> ' +
-                    '<div class="position-absolute " > <i class="fa-solid fa-xmark" onclick="delImage(' + i + ')" style=""></i></div></div>'
-            })
-            container[0].innerHTML = images
-        }
-    }
-    let dt = new DataTransfer();
-    const delImage = index => {
-        let dt = new DataTransfer();
-        for (let i = 0; i < input.files.length; i++) {
-            if (index !== i)
-                dt.items.add(input.files[i]) // here you exclude the file. thus removing it.
-        }
-        input.files = dt.files
-        allFiles = Array.from(input.files)
-        showImage()
-    }
-    // document.onload = function () {
-    //         if(input.files.length!== 0) {
-    //         input.files
-    //         }
-    // };
-
-</script>
-
-<script>
-    CKEDITOR.replace('post', {
-        width: "100%",
-        height: "400px",
-    });
-
-</script>
-<script>
-    let cur;
-    for (let item of $('.sidebar-item')) {
-        item.addEventListener('click', function () {
-            if (cur != null) {
-                cur.classList.remove('d-block');
-                cur.classList.add('d-none');
-            }
-            if (this.children.length === 2) {
-                this.children[1].classList.remove('d-none')
-                this.children[1].classList.add('d-block')
-                cur = this.children[1];
-            }
-        })
-    }
-
-</script>
-
-<script>
-    $(document).ready(function () {
-        $(".sidebar-btn").click(function () {
-            $(".wrapper").toggleClass("mycollapse");
-        });
-
-    });
-</script>
 </body>
 </html>

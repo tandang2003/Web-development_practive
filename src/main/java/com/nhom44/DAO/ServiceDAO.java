@@ -14,7 +14,7 @@ import java.util.List;
 public interface ServiceDAO {
     //get all service
 
-    @SqlQuery("    SELECT s.id, s.name, s.description,s.avatar, s.postId," +
+    @SqlQuery("SELECT s.id, s.name, s.description,s.avatar, s.postId," +
             "count(ps.id) as numberOfProject,  " +
             "count(h.id) AS numberOfView ,s.status FROM Services s " +
             "LEFT JOIN Projects_Services ps ON s.id=ps.serviceId " +
@@ -23,7 +23,14 @@ public interface ServiceDAO {
             "WHERE s.status=1 " +
             "GROUP BY s.id, s.name, s.description, s.status")
     List<Service> getAll();
-
+    @SqlQuery("SELECT s.id, s.name, s.description,s.avatar, s.postId," +
+            "count(ps.id) as numberOfProject,  " +
+            "count(h.id) AS numberOfView ,s.status FROM Services s " +
+            "LEFT JOIN Projects_Services ps ON s.id=ps.serviceId " +
+            "LEFT JOIN Posts p ON p.id=s.postId   " +
+            "LEFT JOIN Histories h ON h.postId=p.id " +
+            "GROUP BY s.id, s.name, s.description, s.status")
+    List<Service> getAdminAll();
     @SqlQuery("SELECT s.id, s.name, s.status FROM services s " +
             "JOIN projects_services sp ON s.id=sp.serviceId AND sp.projectId=:id " +
             "JOIN projects p ON p.id=sp.projectId AND  s.status=1")
@@ -43,7 +50,7 @@ public interface ServiceDAO {
     @SqlUpdate("INSERT INTO services(name, description, avatar, status, postId) VALUES(:name, :description, :avatar, :status , :postId)")
     int add(@BindBean Service service);
 
-    @SqlQuery("SELECT EXISTS(SELECT * FROM services WHERE name=:name)")
+    @SqlQuery("SELECT EXISTS(SELECT * FROM services WHERE name=:name and id!=:id)")
     Boolean isExist(@BindBean Service service);
 
     @SqlUpdate("UPDATE services SET name=:name, description=:description, avatar=:avatar, status=:status, postId=:postId WHERE id=:id")
