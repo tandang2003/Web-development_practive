@@ -14,7 +14,8 @@ import java.util.List;
 @RegisterBeanMapper(Post.class)
 public interface PostDAO {
 
-    @SqlUpdate("insert into posts(content,createdAt,updatedAt) values(:content,:createdAt,:updatedAt)")
+    @SqlUpdate("insert into posts(content) values(:content)")
+    @GetGeneratedKeys
     int addPost(@BindBean Post post);
 
     @SqlQuery("select * from posts where content=:content and createdAt=:createdAt and updatedAt=:updatedAt")
