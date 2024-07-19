@@ -8,7 +8,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @Builder
 public class Project implements Serializable {
-    private int id;
+    private String id;
     private String title;
     private String description;
     private String avatar;
@@ -30,9 +30,10 @@ public class Project implements Serializable {
     private int numVisit;
     private boolean isSave;
     private int saveBy;
+    private String[] gallery;
 
 
-    public Project(int id, String title, String description, String avatar, long price, double acreage, int status, int postId, int isAccepted, String createdAt, String updatedAt, int addressId, int categoryId) {
+    public Project(String id, String title, String description, String avatar, long price, double acreage, int status, int postId, int isAccepted, String createdAt, String updatedAt, int addressId, int categoryId) {
         this.id = id;
         this.title = title;
         this.description = description;

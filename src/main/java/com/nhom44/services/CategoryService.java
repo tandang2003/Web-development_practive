@@ -32,14 +32,11 @@ public class CategoryService {
     }
 
     public int add(Category category) {
-        if(existCategory(category.getName())){
-            return -1;
-        }
         int status = conn.withExtension(CategoryDAO.class, dao -> dao.add(category));
        return status;
     }
 
-    private boolean existCategory(String name) {
+    public boolean existCategory(String name) {
         return conn.withExtension(CategoryDAO.class, dao -> dao.existCategory(name));
     }
 

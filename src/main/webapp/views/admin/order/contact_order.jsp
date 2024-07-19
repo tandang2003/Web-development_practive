@@ -104,7 +104,7 @@
                     return data == null ? "" : data;
                 }
             },
-            {"data": "province",
+            {"data": "addressS",
                 "render": function (data) {
                     return data == null ? "" : data;
                 }},
@@ -130,8 +130,8 @@
                 }},
             {"data": "id",
                 "render": function (data) {
-                console.log(data)
-                    return "<a href='/admin/cart/detail/" + data + "'><i class='fa-solid fa-eye'></i></a>";
+                    console.log(data)
+                        return "<a href='/admin/cart/detail/" + data + "'><i class='fa-solid fa-eye'></i></a>";
                 }
             }
 

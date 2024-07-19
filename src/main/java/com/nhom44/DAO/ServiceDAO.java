@@ -27,15 +27,15 @@ public interface ServiceDAO {
     @SqlQuery("SELECT s.id, s.name, s.status FROM services s " +
             "JOIN projects_services sp ON s.id=sp.serviceId AND sp.projectId=:id " +
             "JOIN projects p ON p.id=sp.projectId AND  s.status=1")
-    List<Service> getServicesByProjectId(@Bind("id") int id);
+    List<Service> getServicesByProjectId(@Bind("id") String id);
 
     @SqlQuery("SELECT s.id, s.name, s.status FROM services s " +
             "JOIN projects_services sp ON s.id=sp.serviceId AND sp.projectId=:id " +
             "JOIN projects p ON p.id=sp.projectId")
-    List<Service> getServicesForOwnerByProjectId(@Bind("id") int id);
+    List<Service> getServicesForOwnerByProjectId(@Bind("id") String id);
 
     @SqlUpdate("INSERT INTO projects_services(projectId, serviceId) VALUES(:projectId, :serviceId)")
-    Integer addServiceForProject(@Bind("projectId") int projectId, @Bind("serviceId") int serviceId);
+    Integer addServiceForProject(@Bind("projectId") String projectId, @Bind("serviceId") int serviceId);
 
     @SqlUpdate("DELETE FROM projects_services WHERE projectId=:id")
     int deleteServiceProject(@Bind("id") int id);

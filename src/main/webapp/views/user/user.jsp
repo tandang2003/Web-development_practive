@@ -248,7 +248,6 @@
 <script src="<c:url value="/template/js/dataAddress.js"/>"></script>
 <script>
     $.validator.addMethod("dateFormat", function (value, element) {
-        // Check the format yyyy-MM-dd
         return this.optional(element) || /^\d{4}-\d{2}-\d{2}$/.test(value);
     }, "Vui lòng nhập đúng định dạng yyyy-MM-dd");
 

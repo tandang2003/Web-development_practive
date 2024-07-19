@@ -22,9 +22,14 @@ public interface CartDAO {
     @SqlUpdate("UPDATE carts SET isCheck=2 WHERE id=:cartId")
     Integer updateSuccessVerifyCart(@Bind("cartId") int cartId);
 
-    @SqlQuery("SELECT c.*, categories.name as category, provinces.name as province FROM carts c " +
+    @SqlQuery("SELECT c.*, categories.name as category, ad.name as addressS FROM carts c " +
             "JOIN categories ON c.categoryId=categories.id " +
-            "JOIN provinces ON c.provinceId=provinces.id " +
+            "JOIN (SELECT ad.id, CONCAT(w.fullName,', ',d.fullName,', ',pr.fullName) as name " +
+            "FROM addresses ad  " +
+            "JOIN provinces pr ON pr.id=ad.provinceId  " +
+            "JOIN districts d ON ad.districtId=d.id  " +
+            "JOIN wards w ON ad.wardId=w.id  " +
+            ") as ad ON c.addressId=ad.id  " +
             "order by c.id desc"
     )
     List<Cart> getAll();

@@ -516,6 +516,275 @@ const adminUpdateUserValidator = {
         }
     }
 }
-const adminupdateProjectValidator = {
-
+const adminAddCategoryValidator = {
+    rules: {
+        name: {
+            required: true,
+            minlength: 2,
+            maxlength: 50
+        },
+        status: {
+            required: true
+        }
+    },
+    messages: {
+        name: {
+            required: "Vui lòng nhập tên loại sản phẩm",
+            minlength: "Tên loại sản phẩm ít nhất {0} ký tự",
+            maxlength: "Tên loại sản phẩm tối đa {0} ký tự"
+        },
+        status: {
+            required: "Vui lòng chọn trạng thái"
+        }
+    }
+}
+const adminUpdateCategoryValidator = {
+    rules: {
+        name: {
+            required: true,
+            minlength: 2,
+            maxlength: 50
+        },
+        status: {
+            required: true
+        }
+    },
+    messages: {
+        name: {
+            required: "Vui lòng nhập tên loại sản phẩm",
+            minlength: "Tên loại sản phẩm ít nhất {0} ký tự",
+            maxlength: "Tên loại sản phẩm tối đa {0} ký tự"
+        },
+        status: {
+            required: "Vui lòng chọn trạng thái"
+        }
+    }
+}
+const adminEditProjectValidator = {
+    rules: {
+        email: {
+            required: true,
+            email: true
+        },
+        title: {
+            required: true,
+            minlength: 2,
+            maxlength: 150
+        },
+        status: {
+            required: true
+        },
+        category: {
+            required: true
+        },
+        price: {
+            required: true,
+            digits: true
+        },
+        area: {
+            required: true,
+            digits: true
+        },
+        province: {
+            required: true
+        },
+        district: {
+            required: true
+        },
+        ward: {
+            required: true
+        },
+        description: {
+            required: true,
+            minlength: 10,
+            maxlength: 500
+        },
+        service: {
+            required: true
+        },
+        schedule: {
+            required: {
+                depends: function (element) {
+                    return !$('#isComplete').is(':checked');
+                }
+            }
+        },
+        estimated_complete: {
+            required: {
+                depends: function (element) {
+                    return !$('#isComplete').is(':checked');
+                }
+            }
+        },
+        post: {
+            required: true,
+            minlength: 100
+        }
+    },
+    messages: {
+        email: {
+            required: "Vui lòng nhập địa chỉ email",
+            email: "Địa chỉ email không hợp lệ"
+        },
+        title: {
+            required: "Vui lòng nhập tiêu đề",
+            minlength: "Tiêu đề ít nhất {0} ký tự",
+            maxlength: "Tiêu đề tối đa {0} ký tự"
+        },
+        status: {
+            required: "Vui lòng chọn trạng thái"
+        },
+        category: {
+            required: "Vui lòng chọn loại sản phẩm"
+        },
+        price: {
+            required: "Vui lòng nhập giá",
+            digits: "Giá chỉ được nhập số"
+        },
+        area: {
+            required: "Vui lòng nhập diện tích",
+            digits: "Diện tích chỉ được nhập số"
+        },
+        province: {
+            required: "Vui lòng chọn tỉnh thành"
+        },
+        district: {
+            required: "Vui lòng chọn quận/huyện"
+        },
+        ward: {
+            required: "Vui lòng chọn phường/xã"
+        },
+        description: {
+            required: "Vui lòng nhập mô tả",
+            minlength: "Mô tả ít nhất {0} ký tự",
+            maxlength: "Mô tả tối đa {0} ký tự"
+        },
+        service: {
+            required: "Vui lòng chọn dịch vụ"
+        },
+        schedule: {
+            required: "Vui lòng chọn lịch làm việc"
+        },
+        estimated_complete: {
+            required: "Vui lòng chọn ngày hoàn thành"
+        },
+        post: {
+            required: "Vui lòng nhập bài viết",
+            minlength: "Bài viết ít nhất {0} ký tự"
+        }
+    }
+}
+const adminAddProjectValidator = {
+    rules: {
+        email: {
+            required: true,
+            email: true
+        },
+        title: {
+            required: true,
+            minlength: 2,
+            maxlength: 150
+        },
+        status: {
+            required: true
+        },
+        category: {
+            required: true
+        },
+        price: {
+            required: true,
+            digits: true
+        },
+        area: {
+            required: true,
+            digits: true
+        },
+        province: {
+            required: true
+        },
+        district: {
+            required: true
+        },
+        ward: {
+            required: true
+        },
+        description: {
+            required: true,
+            minlength: 10,
+            maxlength: 500
+        },
+        service: {
+            required: true
+        },
+        schedule: {
+            required: {
+                depends: function (element) {
+                    return !$('#isComplete').is(':checked');
+                }
+            }
+        },
+        estimated_complete: {
+            required: {
+                depends: function (element) {
+                    return !$('#isComplete').is(':checked');
+                }
+            }
+        },
+        post: {
+            required: true,
+            minlength: 100
+        }
+    },
+    messages: {
+        email: {
+            required: "Vui lòng nhập địa chỉ email",
+            email: "Địa chỉ email không hợp lệ"
+        },
+        title: {
+            required: "Vui lòng nhập tiêu đề",
+            minlength: "Tiêu đề ít nhất {0} ký tự",
+            maxlength: "Tiêu đề tối đa {0} ký tự"
+        },
+        status: {
+            required: "Vui lòng chọn trạng thái"
+        },
+        category: {
+            required: "Vui lòng chọn loại sản phẩm"
+        },
+        price: {
+            required: "Vui lòng nhập giá",
+            digits: "Giá chỉ được nhập số"
+        },
+        area: {
+            required: "Vui lòng nhập diện tích",
+            digits: "Diện tích chỉ được nhập số"
+        },
+        province: {
+            required: "Vui lòng chọn tỉnh thành"
+        },
+        district: {
+            required: "Vui lòng chọn quận/huyện"
+        },
+        ward: {
+            required: "Vui lòng chọn phường/xã"
+        },
+        description: {
+            required: "Vui lòng nhập mô tả",
+            minlength: "Mô tả ít nhất {0} ký tự",
+            maxlength: "Mô tả tối đa {0} ký tự"
+        },
+        service: {
+            required: "Vui lòng chọn dịch vụ"
+        },
+        schedule: {
+            required: "Vui lòng chọn lịch làm việc"
+        },
+        estimated_complete: {
+            required: "Vui lòng chọn ngày hoàn thành"
+        },
+        post: {
+            required: "Vui lòng nhập bài viết",
+            minlength: "Bài viết ít nhất {0} ký tự"
+        }
+    }
 }

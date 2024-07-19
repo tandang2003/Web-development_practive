@@ -46,7 +46,7 @@ public interface UserDAO {
     int getIdUserWithEmail(@Bind("email") String email);
 
     @SqlQuery("Select u.* FROM users u JOIN users_projects up ON u.id=up.userId WHERE up.projectId=:projectId")
-    User getUserOwnerOfProject(@Bind("projectId") int projectId);
+    User getUserOwnerOfProject(@Bind("projectId") String projectId);
 
     @SqlQuery("Select u.id, u.fullname, u.email,u.password, u.phone, u.gender,u.status,u.role, u.birthday,a.id as addressId, p.id as provinceId, d.id as districtId, w.id as wardId " +
             "FROM users u Left Join addresses a ON u.addressId=a.id left join provinces p on p.id = a.provinceId " +
