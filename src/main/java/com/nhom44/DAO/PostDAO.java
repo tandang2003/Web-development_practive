@@ -9,6 +9,8 @@ import org.jdbi.v3.sqlobject.statement.GetGeneratedKeys;
 import org.jdbi.v3.sqlobject.statement.SqlQuery;
 import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 
+import java.util.List;
+
 @RegisterBeanMapper(Post.class)
 public interface PostDAO {
 
@@ -24,4 +26,7 @@ public interface PostDAO {
 
     @SqlQuery("select * from posts where id=:postId")
     Post getById(@Bind("postId") int postId);
+
+    @SqlQuery("select id from posts")
+    List<Post> getAllPost();
 }

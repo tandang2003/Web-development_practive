@@ -204,7 +204,6 @@
                                                                 <div class="form-check param-content">
                                                                     <input type="checkbox"
                                                                            name="isAccepted"
-
                                                                            onclick=""
                                                                            class="form-check-input" id="isAccepted"
                                                                     >
@@ -283,6 +282,5 @@
 <script src="<c:url value="/template/js/validation/validateFunction.js"/>"></script>
 <script src="<c:url value="/template/js/dataAddress.js"/>"></script>
 <script type="module" src="<c:url value="/template/js/admin/project-add.js"/>"></script>
-
 </body>
 </html>

@@ -19,7 +19,7 @@ public class ServiceOfProjectService {
     }
 
     public List<Service> getAll() {
-            return conn.withExtension(ServiceDAO.class, dao -> dao.getAll());
+        return conn.withExtension(ServiceDAO.class, dao -> dao.getAll());
     }
     public List<Service> getAdminAll() {
             return conn.withExtension(ServiceDAO.class, dao -> dao.getAdminAll());
