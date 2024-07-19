@@ -27,12 +27,15 @@ public class ContactService {
 
     public List<Contact> getAll() {
         List<Contact> contacts = conn.withExtension(ContactDAO.class, dao -> dao.getAll());
-        contacts.forEach(contact -> {
-            contact.setUpdatedAt(contact.getUpdatedAt().substring(0, 10));
-        });
+//        contacts.forEach(contact -> {
+//            contact.setUpdatedAt(contact.getUpdatedAt().substring(0, 10));
+//        });
         return contacts;
     }
 
+    public static void main(String[] args) {
+        ContactService.getInstance().getAll().forEach(System.out::println);
+    }
 
     public Contact getContact(Contact contact) {
         return conn.withExtension(ContactDAO.class, dao -> dao.getContact(contact));

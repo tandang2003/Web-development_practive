@@ -16,19 +16,18 @@ import java.util.List;
 
 import static com.nhom44.util.GsonUtil.getGson;
 
-@WebServlet(urlPatterns="/api/admin/project_schedule")
+@WebServlet(urlPatterns = "/api/admin/project_schedule")
 public class ProjectScheduleController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ProjectService projectService = ProjectService.getInstance();
         List<Project> projects = projectService.getExcuting();
-        for (Project project: projects) {
-            System.out.println(project.toString());
+
+        for (int i = 0; i < projects.size(); i++) {
+            projects.get(i).setOwner(UserService.getInstance().getUserOwnerOfProject(projects.get(i).getId()).getEmail());
         }
-        List<String> emails= UserService.getInstance().getEmailOwner();
         PrintWriter out = resp.getWriter();
         out.print(getGson().toJson(projects));
-        out.print(getGson().toJson(emails));
         out.flush();
         out.close();
     }

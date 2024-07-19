@@ -59,7 +59,7 @@
                 <form action="#" method="post" id="form-edit-project">
                     <div class="border-bottom pb-3 mb-3 ml-1 mr-1 d-flex justify-content-between align-items-center">
                         <div class="d-flex align-items-center p-0">
-                            <h3 class="font-weight-bold main-color m-0">Chỉnh sửa dự án</h3>
+                            <h3 class="font-weight-bold main-color m-0">Thêm dự án</h3>
                         </div>
                         <div class="d-flex">
                             <ul class="nav nav-pills  d-flex font-weight-bold align-items-center" id="pills-tab"
@@ -102,7 +102,6 @@
                                                                    name="email" placeholder="Email chủ đầu tư"
                                                                    value="">
                                                             <input id="id" name="id" type="hidden">
-
                                                         </div>
                                                         <div class="mb-4 param-content">
                                                             <label for="title" class="labels">Tiêu đề</label>
@@ -211,7 +210,7 @@
                                                                         bài</label>
                                                                 </div>
                                                             </div>
-                                                            <select id="status" name="status" class="custom-select">
+                                                            <select id="status" name="status" class="custom-select d-none">
                                                                 <option value="1">
                                                                     Đăng bài
                                                                 </option>
@@ -222,23 +221,13 @@
                                                         </div>
 
                                                         <div class="mb-4">
-                                                            <%--                                                            <div class="input-group mt-2 param-content d-block">--%>
-                                                            <%--                                                                <div class="file-field d-flex align-items-center">--%>
                                                             <p class="m-0">Hình ảnh đại diện: </p>
                                                             <input type="file" id="file_input_avatar"
                                                                    class="filepond" name="filepond">
-                                                            <%--                                                                        <button type="button"--%>
-                                                            <%--                                                                                class="btn btn-primary btn-sm"--%>
-                                                            <%--                                                                                id="btn-av-upload">chọn--%>
-                                                            <%--                                                                            ảnh--%>
-                                                            <%--                                                                        </button>--%>
-                                                            <%--                                                                </div>--%>
                                                             <input type="hidden" name="defaultAvatar"
                                                                    id="defaultAvatar">
                                                             <input type="hidden" name="uploadAvatar"
                                                                    id="uploadAvatar">
-                                                            <%--                                                            </div>--%>
-
                                                         </div>
                                                     </div>
                                                 </div>
@@ -258,12 +247,18 @@
                                     <div class="card card-cascade cascading-admin-card user-card">
                                         <div class="card-body card-body-cascade">
                                             <div class=" col-12 mb-4">
+                                                <p class="m-0">Hình ảnh mô tả dự án: </p>
+                                                <input type="file" id="file_input_gallery" class="filepond"
+                                                       name="filepond">
+                                                <input type="hidden" name="defaultAvatar" id="defaultGallery">
+                                                <input type="file" class="d-none" name="uploadAvatar"
+                                                       id="uploadGallery">
                                             </div>
                                         </div>
                                         <div class="col-12 p-0">
                                             <div class="form-group param-content">
                                                     <textarea class="form-control rounded-0" name="post" id="post"
-                                                              rows="10">${post.content}</textarea>
+                                                              rows="10"></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -272,6 +267,7 @@
                         </div>
                     </div>
                 </form>
+
             </main>
         </div>
     </div>

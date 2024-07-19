@@ -4,10 +4,14 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.nhom44.bean.Address;
 import com.nhom44.bean.ResponseModel;
+import com.nhom44.bean.Role;
+import com.nhom44.log.util.function.admin.UserLog;
 import com.nhom44.services.AddressService;
+import com.nhom44.services.RoleService;
 import com.nhom44.services.UserService;
 import com.nhom44.bean.User;
 import com.nhom44.util.DateUtil;
+import com.nhom44.util.RoleUtil;
 import com.nhom44.util.StringUtil;
 import com.nhom44.validator.*;
 
@@ -38,7 +42,9 @@ public class UserController extends HttpServlet {
         if (url.equals("/api/admin/users")) {
             UserService userService = UserService.getInstance();
             List<User> users = userService.getAllUser();
-
+            users.forEach(user -> {
+                user.setRole(RoleUtil.getRole(user.getRoleId()));
+            });
             PrintWriter printWriter = resp.getWriter();
             Gson gson = getGson();
             String json = gson.toJson(users);
@@ -85,6 +91,7 @@ public class UserController extends HttpServlet {
                 return;
             User user = createUser(map, null);
             UserService.getInstance().addUser(user);
+            new UserLog(req, user).addUser();
             resp.setStatus(200);
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("status", 200);
@@ -121,7 +128,8 @@ public class UserController extends HttpServlet {
                 }
             }
             User updatedUser = createUser(req.getParameterMap(), user);
-            UserService.getInstance().update(updatedUser);
+            new UserLog(req, updatedUser).editUser(updatedUser);
+//            UserService.getInstance().update(updatedUser);
             response.addProperty("status", 200);
             response.addProperty("message", "Cập nhật thông tin thành công");
             resp.getWriter().print(response.toString());
@@ -229,7 +237,7 @@ public class UserController extends HttpServlet {
                     finalUser.setStatus(Integer.parseInt(map.get(key)[0]));
                     break;
                 case "role":
-                    finalUser.setRole(Integer.parseInt(map.get(key)[0]));
+                    finalUser.setRoleId(Integer.parseInt(map.get(key)[0]));
                     break;
             }
         });

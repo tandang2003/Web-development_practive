@@ -10,7 +10,7 @@ import java.util.List;
 
 @RegisterBeanMapper(Log.class)
 public interface LogDAO {
-    @SqlUpdate("INSERT INTO logs (ip, national, level,address, preValue, afterValue ) VALUES (:ip, :national, :level,:address, :preValue, :afterValue )")
+    @SqlUpdate("INSERT INTO logs (ip, national, level,address,description, preValue, afterValue ) VALUES (:ip, :national, :level,:address,:description, :preValue, :afterValue )")
     Boolean insert(@BindBean Log log);
 
     @SqlUpdate("UPDATE logs SET preValue = :prevalue, afterValue = :afterValue WHERE id = :id")
@@ -23,6 +23,6 @@ public interface LogDAO {
     void logout();
 
     void Access();
-    @SqlQuery("SELECT id,level,ip,address, updatedAt, createdAt FROM logs")
+    @SqlQuery("SELECT id,level,ip,address,description, updatedAt, createdAt FROM logs")
     List<Log> getAllLogs();
 }

@@ -77,59 +77,6 @@
 <%@include file="/layout/public/footer.jsp" %>
 <%@include file="/layout/public/script.jsp" %>
 <script src="<c:url value="/template/js/main.js"/>"></script>
-<script>
-    let id = window.location.href.substring(window.location.href.lastIndexOf('/'))
-    console.log(id)
-    $.ajax({
-        url: '/api/post/services' + id,
-        dataType: 'json',
-        type: 'GET',
-        success: function (data) {
-            let service = data.data;
-            document.title = service.name
-            $('.service-name').text(service.name)
-            $('.service-update').text(service.updatedAt)
-        }
-    })
-    $.ajax({
-        url: '/api/post/services/' + id + '/post',
-        dataType: 'json',
-        type: 'GET',
-        success: function (data) {
-            let post = data.data;
-            $('.service-post-content').html(post.content + $('.service-post-content').html())
-        }
-    })
-    $.ajax({
-        url: '/api/post/services/' + id + '/suggest',
-        dataType: 'json',
-        type: 'GET',
-        success: function (data) {
-            let suggestServices = data.data;
-            console.log(suggestServices)
-
-            let suggestServiceHtml = ''
-            suggestServices.forEach(service => {
-                suggestServiceHtml += `
- <li class="feature-news-items mb-2">
-                                                    <a href="/post/service/\${service.id}"
-                                                       class="feature-news-items-link d-flex row"
-                                                       role="link">
-                                                        <div class="feature-news-items-img d-block hover-image col-5 pr-0">
-                                                            <img src="\${service.avatar}" alt="">
-                                                        </div>
-                                                        <div class="feature-news-items-info col-6 pl-0">
-                                                            <div class="feature-news-items-info-title text-uppercase">
-                                                                    \${service.name}
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </li>
-               `
-            })
-            $('.feature-news-list').html(suggestServiceHtml)
-        }
-    })
-</script>
+<script type="module" src="<c:url value="/template/js/ajax/post-service.js"/>"></script>
 </body>
 </html>

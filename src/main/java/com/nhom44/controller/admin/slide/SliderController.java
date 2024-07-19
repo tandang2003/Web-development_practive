@@ -1,5 +1,6 @@
 package com.nhom44.controller.admin.slide;
 
+import com.nhom44.log.util.page.AdminLogPage;
 import com.nhom44.services.SliderService;
 import com.nhom44.validator.NumberVallidator;
 import com.nhom44.validator.SingleValidator;
@@ -18,7 +19,8 @@ public class SliderController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String url = req.getRequestURI();
-        System.out.println(url);
+        new AdminLogPage(req).log();
+
         if (url.startsWith("/admin/slide/add")) {
             req.getRequestDispatcher("/views/admin/slide/slide_add.jsp").forward(req, resp);
             return;

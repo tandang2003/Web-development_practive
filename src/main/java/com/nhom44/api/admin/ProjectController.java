@@ -3,6 +3,7 @@ package com.nhom44.api.admin;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.nhom44.bean.*;
+import com.nhom44.log.util.function.admin.ProjectLog;
 import com.nhom44.services.*;
 import com.nhom44.util.StringUtil;
 import com.nhom44.util.Upload;
@@ -63,7 +64,7 @@ public class ProjectController extends HttpServlet {
                     return;
                 }
                 int id = Integer.parseInt(idS);
-                Project project = ProjectService.getInstance().getById(id);
+                Project project = ProjectService.getInstance().getById(id + "");
                 if (project == null) {
                     jsonObject.addProperty("status", 404);
                     jsonObject.addProperty("message", "Không tìm thấy dự án");
@@ -80,7 +81,7 @@ public class ProjectController extends HttpServlet {
                 data.addProperty("isExcuting", project.getEstimatedComplete() != null && !project.getEstimatedComplete().isEmpty() && project.getSchedule() != null && !project.getSchedule().isEmpty());
                 Post post = PostService.getInstance().getById(project.getPostId());
                 data.add("post", getGson().toJsonTree(post));
-                List<Service> services = ServiceOfProjectService.getInstance().getServicesByProjectId(id+"");
+                List<Service> services = ServiceOfProjectService.getInstance().getServicesByProjectId(id + "");
 
                 data.add("servicesOfproject", getGson().toJsonTree(services));
                 String userEmail = UserService.getInstance().getUserOwnerOfProject(project.getId()).getEmail();
@@ -112,21 +113,19 @@ public class ProjectController extends HttpServlet {
 
     private void editProject(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         int id = Integer.parseInt(req.getPathInfo().substring(1));
-        Project oldProject = ProjectService.getInstance().getById(id);
+        Project oldProject = ProjectService.getInstance().getById(id + "");
         Map<String, String[]> map = req.getParameterMap();
-        System.out.println(map.keySet().toString());
-        Project newProject = createProject(map, ProjectService.getInstance().getById(id));
+        Project newProject = createProject(map, ProjectService.getInstance().getById(id + ""));
         Address address = createAddress(map, AddressService.getInstance().getAddressById(oldProject.getAddressId()));
         Post post = createPost(map, PostService.getInstance().getById(oldProject.getPostId()));
-        ProjectService.getInstance().updateProject(newProject, req.getParameter("isComplete").equals("true"));
+        new ProjectLog(req, newProject).editProject(newProject, req.getParameter("isComplete").equals("true"));
         AddressService.getInstance().updateAddress(address);
         PostService.getInstance().updatePost(post);
-        String[] services= map.get("service[]");
+        String[] services = map.get("service[]");
         if (services != null) {
             ServiceOfProjectService.getInstance().deleteServiceProject(id);
             System.out.println("services");
             for (String s : services) {
-                System.out.println(s.trim());
                 ServiceOfProjectService.getInstance().addServiceForProject(id+"", Integer.parseInt(s.trim()));
             }
         }
@@ -134,7 +133,7 @@ public class ProjectController extends HttpServlet {
             ImageService.getInstance().deleteAllImageProProject(id);
             for (String s : newProject.getGallery()) {
                 int imgId = ImageService.getInstance().add(s);
-                ImageService.getInstance().addImageForProject(id+"", imgId);
+                ImageService.getInstance().addImageForProject(id + "", imgId);
             }
         }
         resp.setStatus(200);
@@ -149,17 +148,17 @@ public class ProjectController extends HttpServlet {
     private void addProject(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 //        int id = Integer.parseInt(req.getPathInfo().substring(1));
         Map<String, String[]> map = req.getParameterMap();
-        System.out.println(map.keySet().toString());
         Project project = createProject(map, null);
         project.setId(map.get("id")[0]);
         Address address = createAddress(map, null);
         Post post = createPost(map, null);
         int addressId = AddressService.getInstance().addAddress(address);
-        int postId = PostService.getInstance().addPost(post).getId();
+        int postId = PostService.getInstance().addPost(post);
         project.setAddressId(addressId);
         project.setPostId(postId);
         project = ProjectService.getInstance().add(project, req.getParameter("isComplete").equals("true"));
-        String[] services= map.get("service[]");
+        new ProjectLog(req, project).addProject();
+        String[] services = map.get("service[]");
         if (services != null) {
             for (String s : services) {
                 ServiceOfProjectService.getInstance().addServiceForProject(project.getId(), Integer.parseInt(s.trim()));
@@ -248,7 +247,7 @@ public class ProjectController extends HttpServlet {
                     break;
             }
         });
-        if (!(finalProject.getIsAccepted()==1))
+        if (!(finalProject.getIsAccepted() == 1))
             finalProject.setStatus(0);
         return finalProject;
     }

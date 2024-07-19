@@ -43,7 +43,7 @@ public class DemoPostController extends HttpServlet {
             resp.sendRedirect("/404");
             return;
         }
-        Project project = ProjectService.getInstance().getById(idInt);
+        Project project = ProjectService.getInstance().getById(idInt+"");
         if (project == null) {
             resp.sendRedirect("/404");
             return;

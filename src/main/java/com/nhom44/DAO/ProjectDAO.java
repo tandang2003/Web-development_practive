@@ -58,7 +58,7 @@ public interface ProjectDAO {
             " LEFT JOIN districts d ON d.id=address.wardId" +
             " LEFT JOIN excuting_projects ep ON p.id=ep.projectId" +
             " WHERE p.id=:id")
-    Project getById(@Bind("id") int id);
+    Project getById(@Bind("id") String id);
 
     @SqlQuery("Select p.id, p.title,p.description, p.avatar, p.price, p.acreage, ad.name as address, c.name as category, p.isAccepted," +
             " p.status, p.postId, ep.schedule, ep.estimatedComplete, p.addressId, p.categoryId, p.updatedAt " +
@@ -143,10 +143,10 @@ public interface ProjectDAO {
     List<Project> getNumOfRead();
 
     @SqlQuery("SELECT p.id, p.title , count(sl.id) as numSave, " +
-            " po.updatedAt AS updatedAt " +
+            " p.updatedAt as updatedAt " +
             "FROM Projects p JOIN posts po ON p.postId=po.id " +
             "LEFT JOIN saved_projects sl ON po.id = sl.postId " +
-            "GROUP BY p.id, p.title , po.updatedAt, po.updatedAt"
+            "GROUP BY p.id, p.title , po.updatedAt"
     )
     List<Project> getNumOfSaved();
 

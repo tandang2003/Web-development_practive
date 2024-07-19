@@ -22,7 +22,6 @@ import static com.nhom44.util.GsonUtil.getGson;
 public class PostController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        String action = req.getParameter("action") == null ? "#" : req.getParameter("action"System.out.println();
         String action = req.getParameter("action") == null ? "#" : req.getParameter("action");
         Post post = new Post();
         ResponseModel responseModel;

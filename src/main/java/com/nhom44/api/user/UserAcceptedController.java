@@ -61,7 +61,7 @@ public class UserAcceptedController extends HttpServlet {
             return;
         }
         try {
-            Project project = ProjectService.getInstance().getById(idInt);
+            Project project = ProjectService.getInstance().getById(idInt+"");
             if (project == null) {
                 resp.setStatus(404);
                 responseModel = new ResponseModel();

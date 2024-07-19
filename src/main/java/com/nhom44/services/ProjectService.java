@@ -48,7 +48,7 @@ public class ProjectService {
         return conn.withExtension(ProjectDAO.class, dao -> dao.isFinishProject(id));
     }
 
-    public Project getById(int id) {
+    public Project getById(String id) {
         return conn.withExtension(ProjectDAO.class, dao -> dao.getById(id));
     }
 
@@ -91,6 +91,17 @@ public class ProjectService {
             }
             return res;
         });
+    }
+
+    public static void main(String[] args) {
+//       List<String> onwer= UserService.getInstance().getEmailOwner();
+       List<Project> projects = ProjectService.getInstance().getExcuting();
+//        System.out.println(projects.size());
+//        System.out.println(onwer.size());
+       for (Project s: projects){
+           System.out.println(s);
+       }
+
     }
 
     public List<Project> getExcuting() {
@@ -164,8 +175,10 @@ public class ProjectService {
     }
 
     public static void main(String[] args) {
-        ProjectService.getInstance().get8ActiveProjectHighestView(1, 35);
+        int i = ProjectService.getInstance().pageSizeHistoryProjectByUserId(34);
+        System.out.println(i);
     }
+
 
     public void addHistory(int userId, int postId) {
         conn.withExtension(ProjectDAO.class, dao -> dao.addHistory(userId, postId));

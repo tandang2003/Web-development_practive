@@ -24,7 +24,7 @@ public class LoginGoogleHandler extends HttpServlet {
         user.setFullName(googleAccount.getName());
         user.setPassword(googleAccount.getId());
         if (!UserService.getInstance().isContainEmail(user.getEmail())) {
-            user.setRole(0);
+            user.setRoleId(4);
             user.setStatus(1);
             UserService.getInstance().GoogleAdditional(user);
         }

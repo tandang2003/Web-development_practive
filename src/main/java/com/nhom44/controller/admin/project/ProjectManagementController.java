@@ -1,6 +1,7 @@
 package com.nhom44.controller.admin.project;
 
 import com.nhom44.bean.AbsModel;
+import com.nhom44.log.util.page.AdminLogPage;
 import com.nhom44.services.ProjectService;
 
 import javax.servlet.ServletException;
@@ -15,6 +16,7 @@ public class ProjectManagementController extends HttpServlet {
     private final ProjectService projectService = ProjectService.getInstance();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        new AdminLogPage(req).log();
         req.getRequestDispatcher("/views/admin/project/project_manage.jsp").forward(req, resp);
     }
 
