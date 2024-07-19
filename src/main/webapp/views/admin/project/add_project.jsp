@@ -23,7 +23,21 @@
             border: 1px solid;
             box-shadow: none;
         }
+        .filepond--item {
+            width: calc(50% - 0.5em);
+        }
 
+        @media (min-width: 30em) {
+            .filepond--item {
+                width: calc(50% - 0.5em);
+            }
+        }
+
+        @media (min-width: 50em) {
+            .filepond--item {
+                width: calc(33.33% - 0.5em);
+            }
+        }
     </style>
     <title>Thêm dự án</title>
 </head>

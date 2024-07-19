@@ -9,7 +9,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <%@ include file="/layout/public/link.jsp" %>
     <link href=" <c:url value="/template/css/projectPost.css"/>" rel="stylesheet">
-    <link href=" <c:url value="/template/css/fileInput.css"/>" rel="stylesheet">
     <style>
         .upload-wrapper .image > div, .upload-wrapper .image1 > div {
             top: 2.5%;
@@ -214,7 +213,6 @@
     //     return this.optional(element) || (element.files[0].size <= param)
     // }, 'File size must be less than {0}');
     function updateOrder(form) {
-        console.log($(form).serializeArray())
         $.ajax({
             url: '/api/cart/update',
             type: 'POST',

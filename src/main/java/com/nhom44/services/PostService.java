@@ -33,10 +33,6 @@ public class PostService {
     }
 
     public static void main(String[] args) {
-//       Post post = new Post();
-//         post.setContent("title");
-//         Post rpost=getInstance().addPost(post);
-//        System.out.println(rpost);
         System.out.println(getInstance().getById(1).toString());
     }
 

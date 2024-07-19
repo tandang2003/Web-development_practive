@@ -12,7 +12,8 @@ import java.util.List;
 
 @RegisterBeanMapper(Cart.class)
 public interface CartDAO {
-    @SqlUpdate("INSERT INTO carts(email, categoryId, addressId,width,height,representProjectId,isCheck,) VALUES (:email,:categoryId, :addressId,:width,:height,:representProjectId,2,)")
+    @SqlUpdate("INSERT INTO carts(email, categoryId, addressId,width,height,representProjectId,isCheck)" +
+            " VALUES (:email,:categoryId, :addressId,:width,:height,:representProjectId,0)")
     @GetGeneratedKeys
     Integer add(@BindBean Cart cart);
 

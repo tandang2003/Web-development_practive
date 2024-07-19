@@ -63,7 +63,6 @@ public class CartController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        System.out.println(req.getParameter("serviceValue"));
         String url = req.getServletPath();
         switch (url) {
             case "/api/cart/update":
@@ -94,6 +93,7 @@ public class CartController extends HttpServlet {
                 req.getSession().setAttribute("cart", id);
                 break;
             case "/api/cart/submit": {
+                System.out.println("submit cart "+req.getSession().getAttribute("cart"));
                 String email1 = req.getParameter("email");
                 SingleValidator validator1 = new EmailSingleValidator();
                 if (!validator1.validator(email1)) {
@@ -133,7 +133,15 @@ public class CartController extends HttpServlet {
                 VerifyService.getInstance().insertVerifyCart(StringUtil.hashPassword(order1.getId() + order1.getEmail()), order1.getId());
                 CartService.getInstance().setCheckingIsSend(order1.getId());
                 AddressService.getInstance().getAddressFullName(order1.getAddress());
-                MailService.getInstance().sendMailToNotiFyCart(req.getServerName(), StringUtil.hashPassword(order1.getId() + order1.getEmail()), order1);
+                Cart finalOrder = order1;
+                new Thread(() -> {
+                    try {
+                        MailService.getInstance().sendMailToNotiFyCart(req.getServerName(), StringUtil.hashPassword(finalOrder.getId() + finalOrder.getEmail()), finalOrder);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }).start();
+//                MailService.getInstance().sendMailToNotiFyCart(req.getServerName(), StringUtil.hashPassword(order1.getId() + order1.getEmail()), order1);
                 req.getSession().removeAttribute("cart");
                 JsonObject jsonObject = new JsonObject();
                 jsonObject.addProperty("status", 200);
