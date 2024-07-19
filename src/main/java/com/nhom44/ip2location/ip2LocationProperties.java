@@ -20,7 +20,4 @@ public class ip2LocationProperties {
         return prop.get("api.key").toString();
     }
 
-    public static void main(String[] args) {
-        System.out.println(getIp2Location());
-    }
 }
