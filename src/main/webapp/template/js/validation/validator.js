@@ -787,4 +787,5 @@ const adminAddProjectValidator = {
             minlength: "Bài viết ít nhất {0} ký tự"
         }
     }
+
 }

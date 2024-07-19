@@ -119,7 +119,6 @@ export const getImageInfo = async (refFiles, place) => {
     const files = refFiles.split(',');
     let data=[]
     const downloadPromises = files.map(fileName => {
-        console.log(`${place}/${fileName}`)
         const fileRef = ref(storage, `${place}/${fileName}`);
         return getMetadata(fileRef);
     });

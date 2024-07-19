@@ -102,6 +102,7 @@
                                                                    name="email" placeholder="Email chủ đầu tư"
                                                                    value="">
                                                             <input id="id" name="id" type="hidden">
+
                                                         </div>
                                                         <div class="mb-4 param-content">
                                                             <label for="title" class="labels">Tiêu đề</label>
@@ -257,26 +258,6 @@
                                     <div class="card card-cascade cascading-admin-card user-card">
                                         <div class="card-body card-body-cascade">
                                             <div class=" col-12 mb-4">
-                                                <%--                                                <div class="input-group mt-2 param-content d-block">--%>
-                                                <%--                                                    <div class="file-field d-flex align-items-center">--%>
-                                                <p class="m-0">Hình ảnh mô tả dự án: </p>
-                                                <%--                                                        <div class="float-left">--%>
-                                                <input type="file" id="file_input_gallery" class="filepond"
-                                                       name="filepond">
-                                                <%--                                                            <button type="button" class="btn btn-primary btn-sm"--%>
-                                                <%--                                                                    id="btn-ga-upload">chọn--%>
-                                                <%--                                                                ảnh--%>
-                                                <%--                                                            </button>--%>
-                                                <%--                                                        </div>--%>
-                                                <%--                                                    </div>--%>
-                                                <input type="hidden" name="defaultAvatar" id="defaultGallery">
-                                                <input type="file" class="d-none" name="uploadAvatar"
-                                                       id="uploadGallery">
-                                                <%--                                                </div>--%>
-                                                <%--                                                <div class="upload-wrapper d-none avatar">--%>
-                                                <%--                                                    <div class="border d-flex img-container1">--%>
-                                                <%--                                                    </div>--%>
-                                                <%--                                                </div>--%>
                                             </div>
                                         </div>
                                         <div class="col-12 p-0">
