@@ -131,14 +131,14 @@
                 </div>
                 <h1>Chào mừng quay trở lại!</h1>
                 <p>Đăng nhập với thông tin cá nhân của bạn</p>
-                <button class="hidden" id="showSignIn">Đăng nhập</button>
+                <button class="" id="showSignIn">Đăng nhập</button>
                 <!--                <button class="hidden" id="login">Đăng nhập</button>-->
             </div>
             <div class="toggle-panel toggle-right">
                 <h1>Xin chào!</h1>
                 <p>Đăng ký với thông tin cá nhân của bạn</p>
-                <button class="hidden" id="showSignUp">Đăng kí</button>
-                <!--                <button class="hidden" id="register">Đăng kí</button>-->
+                <button class="" id="showSignUp">Đăng kí</button>
+                <%--           <button class="hidden" id="register">Đăng kí</button>--%>
             </div>
         </div>
     </div>
