@@ -21,17 +21,17 @@ public class ServiceOfProjectService {
     public List<Service> getAll() {
             return conn.withExtension(ServiceDAO.class, dao -> dao.getAll());
     }
-    public int addServiceForProject(int projectId, int serviceId) {
+    public int addServiceForProject(String projectId, int serviceId) {
         return conn.withExtension(ServiceDAO.class, dao -> dao.addServiceForProject(projectId, serviceId));
     }
-    public List<Service> getServicesByProjectId(int id) {
+    public List<Service> getServicesByProjectId(String id) {
         return conn.withExtension(ServiceDAO.class, dao -> dao.getServicesByProjectId(id));
     }
-    public List<Service> getServicesForOwnerByProjectId(int id) {
+    public List<Service> getServicesForOwnerByProjectId(String id) {
         return conn.withExtension(ServiceDAO.class, dao -> dao.getServicesForOwnerByProjectId(id));
     }
-    public Map<Integer, String> getServicesForOwnerByProjectIds(List<Project> projects) {
-        Map<Integer, String> map = new HashMap<>();
+    public Map<String, String> getServicesForOwnerByProjectIds(List<Project> projects) {
+        Map<String, String> map = new HashMap<>();
         for (Project project : projects) {
             List<Service> services = getServicesForOwnerByProjectId(project.getId());
             StringBuilder sb = new StringBuilder();
@@ -51,7 +51,7 @@ public class ServiceOfProjectService {
     public void updateServiceForProject(int id, List<String> services) {
         deleteServiceProject(id);
         for (String service : services) {
-            addServiceForProject(id, Integer.parseInt(service));
+            addServiceForProject(id+"", Integer.parseInt(service));
         }
     }
 

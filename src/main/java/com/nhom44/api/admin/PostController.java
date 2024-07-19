@@ -42,7 +42,7 @@ public class PostController extends HttpServlet {
             return;
         }
         if (action.equalsIgnoreCase("add")) {
-            post = PostService.getInstance().addPost(post);
+//            post = PostService.getInstance().addPost(post);
             System.out.println(post.toString());
         } else if (action.equalsIgnoreCase("edit")) {
             post = PostService.getInstance().updatePost(post);

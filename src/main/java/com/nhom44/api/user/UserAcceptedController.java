@@ -27,7 +27,7 @@ public class UserAcceptedController extends HttpServlet {
         if (url.equals("/api/user/project")) {
             User user = (User) req.getSession().getAttribute("account");
             List<Project> projects = ProjectService.getInstance().getOwnProject(user.getId());
-            Map<Integer, String> map = ServiceOfProjectService.getInstance().getServicesForOwnerByProjectIds(projects);
+            Map<String, String> map = ServiceOfProjectService.getInstance().getServicesForOwnerByProjectIds(projects);
 //            req.setAttribute("map", map);
             JsonObject jsonObject = new JsonObject();
             jsonObject.add("projects", getGson().toJsonTree(projects));

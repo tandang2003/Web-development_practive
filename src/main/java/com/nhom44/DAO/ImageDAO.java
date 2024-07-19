@@ -15,7 +15,7 @@ import java.util.List;
 @RegisterBeanMapper(Image.class)
 public interface ImageDAO {
     @SqlUpdate("INSERT INTO group_images(projectId, imageId) VALUES(:projectId, :imageId)")
-    int addProjectImage(@Bind("projectId") int projectId, @Bind("imageId") int imageId);
+    int addProjectImage(@Bind("projectId") String projectId, @Bind("imageId") int imageId);
 
     @SqlUpdate("INSERT INTO images(name) VALUES( :name)")
     @GetGeneratedKeys
@@ -24,7 +24,7 @@ public interface ImageDAO {
     @SqlQuery("SELECT id FROM images WHERE path=:path AND name=:name")
     int getIdImage(@BindBean Image image);
 
-    @SqlQuery("SELECT concat(images.path,'/',images.name) FROM images  JOIN group_images gi on images.id = gi.imageId WHERE gi.projectId=:id")
+    @SqlQuery("SELECT images.name FROM images  JOIN group_images gi on images.id = gi.imageId WHERE gi.projectId=:id")
     List<String> getGroupImagesByProjectId(@Bind("id") int id);
 
     @SqlUpdate("DELETE FROM group_images WHERE projectId=:id")
