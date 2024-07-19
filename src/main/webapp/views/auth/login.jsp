@@ -11,6 +11,7 @@
     <%--        <%@ include file="/layout/public/link.jsp" %>--%>
     <link href="<c:url value="/template/lib/fontawesome-free-6.4.2-web/css/all.min.css"/>" rel="stylesheet">
     <link rel="stylesheet" href="<c:url value="/template/css/login.css"/> ">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <title>Đăng nhập</title>
 </head>
 <body>
@@ -23,62 +24,55 @@
         <form id="sign-up">
             <h1>Tạo tài khoản</h1>
             <span>Thông tin đăng nhập</span>
-            <div class="param-content">
-                <input type="text" name="name" id="fullname" placeholder="Tên">
-            </div>
-            <div class="param-content">
-                <input type="email" name="email" id="email-signup" placeholder="Tên tài khoản / Email">
-            </div>
-            <div class="param-content">
-                <input type="password" name="password" id="password-signup" placeholder="Mật khẩu">
-            </div>
-            <div class="param-content">
-                <input type="password" name="rePassword" id="verifypassword-sigup" placeholder="Xác nhận mật khẩu">
-            </div>
-            <div class="param-content">
-                <input type="text" name="phone" id="phone-sigup" placeholder="Số điện thoại">
-            </div>
-            <div style="display: flex;width: 100%">
+            <div class="scrollable-container">
                 <div class="param-content">
-                    <input class="birth" name="birthday" id="birthday" type="date" placeholder="Ngày sinh">
+                    <input type="text" name="name" id="fullname" placeholder="Tên">
                 </div>
-                <div class="param-content" style="flex-direction: row;
+                <div class="param-content">
+                    <input type="email" name="email" id="email-signup" placeholder="Tên tài khoản / Email">
+                </div>
+                <div class="param-content">
+                    <input type="password" name="password" id="password-signup" placeholder="Mật khẩu">
+                </div>
+                <div class="param-content">
+                    <input type="password" name="rePassword" id="verifypassword-sigup" placeholder="Xác nhận mật khẩu">
+                </div>
+                <div class="param-content">
+                    <input type="text" name="phone" id="phone-sigup" placeholder="Số điện thoại">
+                </div>
+                <div style="display: flex;width: 100%">
+                    <div class="param-content">
+                        <input class="birth" name="birthday" id="birthday" type="date" placeholder="Ngày sinh">
+                    </div>
+                    <div class="param-content" style="flex-direction: row;
     height: 100%;
     display: flex;
     align-items: center;justify-content: space-around">
-                    <label style="display: flex;margin-left: 7%;">
-                        <input name="gender" id="isMale" type="checkbox" value="1" checked>
-                        <p style="margin: auto; padding: 6%; top:6%; font-size: 16px">Nam</p>
-                    </label>
-                    <label style="display: flex;margin-left: 7%;">
-                        <input name="gender" id="isFemale" type="checkbox" value="0">
-                        <p style="margin: auto; padding: 6%; top:6%; font-size: 16px">Nữ</p>
-                    </label>
+                        <label style="display: flex;margin-left: 7%;">
+                            <input name="gender" id="isMale" type="checkbox" value="1" checked>
+                            <p style="margin: auto; padding: 6%; top:6%; font-size: 16px">Nam</p>
+                        </label>
+                        <label style="display: flex;margin-left: 7%;">
+                            <input name="gender" id="isFemale" type="checkbox" value="0">
+                            <p style="margin: auto; padding: 6%; top:6%; font-size: 16px">Nữ</p>
+                        </label>
+                    </div>
                 </div>
-            </div>
-            <div class="param-content">
-                <select class="mdb-select md-form" name="province" id="province" searchable="Search here..">
-                    <option value="" disabled selected>Chọn tỉnh thành</option>
-                    <%--                <c:forEach items="${provinces}" var="province">--%>
-                    <%--                    <option value="${province.name}">${province.name}</option>--%>
-                    <%--                </c:forEach>--%>
-                </select>
-            </div>
-            <div class="param-content">
+                <div class="param-content">
+                    <select class="mdb-select md-form" name="province" id="province" searchable="Search here..">
+                        <option value="" disabled selected>Chọn tỉnh thành</option>
+                    </select>
+                </div>
+                <div class="param-content">
 
-                <select class="mdb-select md-form" name="district" id="district" searchable="Search here..">
-                    <option value="" disabled selected>Quận / huyện</option>
-                    <%--                <c:forEach items="${districts}" var="district">--%>
-                    <%--                    <option value="${district.name}">${district.name}</option>--%>
-                    <%--                </c:forEach>--%>
-                </select></div>
-            <div class="param-content">
-                <select class="mdb-select md-form" name="ward" id="ward" searchable="Search here..">
-                    <option value="" disabled selected>Phường / xã</option>
-                    <%--                <c:forEach items="${wards}" var="district">--%>
-                    <%--                    <option value="${ward.name}">${ward.name}</option>--%>
-                    <%--                </c:forEach>--%>
-                </select>
+                    <select class="mdb-select md-form" name="district" id="district" searchable="Search here..">
+                        <option value="" disabled selected>Quận / huyện</option>
+                    </select></div>
+                <div class="param-content">
+                    <select class="mdb-select md-form" name="ward" id="ward" searchable="Search here..">
+                        <option value="" disabled selected>Phường / xã</option>
+                    </select>
+                </div>
             </div>
             <p id="error-message-signup" style="color: red;"></p>
             <button type="submit" id="sign-up-button">Đăng kí</button>
@@ -107,7 +101,7 @@
                     class="fa-solid fa-arrow-left"></i></a>
         </div>
         <%--        form đăng nhập--%>
-        <form id="login-form">
+        <form action="/login" id="login-form" method="POST">
             <input type="hidden" name="action" value="login"/>
             <h1>Đăng Nhập</h1>
             <div class="social-icons">
@@ -124,8 +118,8 @@
                 <input name=password type="password" placeholder="Mật khẩu" id="password-signin">
             </div>
             <a id="showForgotPassword" href="#">Quên mật khẩu?</a>
-            <p id="error-message-signin" style="color: red; display: none"></p>
-            <button id="login-button" type="submit">Đăng Nhập</button>
+            <div class="g-recaptcha" data-sitekey="6LduXxAqAAAAAPy6T9DAjx9Q1ADdSyTd7NkKQbTX"></div>
+            <button id="login-button" type="submit" value="Submit" >Đăng Nhập</button>
         </form>
     </div>
     <div class="toggle-container">
@@ -137,14 +131,14 @@
                 </div>
                 <h1>Chào mừng quay trở lại!</h1>
                 <p>Đăng nhập với thông tin cá nhân của bạn</p>
-                <button class="" id="showSignIn">Đăng nhập</button>
+                <button class="hidden" id="showSignIn">Đăng nhập</button>
                 <!--                <button class="hidden" id="login">Đăng nhập</button>-->
             </div>
             <div class="toggle-panel toggle-right">
                 <h1>Xin chào!</h1>
                 <p>Đăng ký với thông tin cá nhân của bạn</p>
-                <button class="" id="showSignUp">Đăng kí</button>
-                <%--           <button class="hidden" id="register">Đăng kí</button>--%>
+                <button class="hidden" id="showSignUp">Đăng kí</button>
+                <!--                <button class="hidden" id="register">Đăng kí</button>-->
             </div>
         </div>
     </div>
