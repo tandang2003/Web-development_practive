@@ -48,7 +48,7 @@ public class UserService {
         user.setAddressId(addressId);
         int id = conn.withExtension(UserDAO.class, handle -> handle.insertUser(user.getFullName(),
                 user.getEmail(), StringUtil.hashPassword(user.getPassword()),
-                user.getRole(), user.getPhone(), user.getAddressId(),
+                user.getRoleId(), user.getPhone(), user.getAddressId(),
                 user.getGender(), (java.sql.Date) user.getBirthday(), user.getStatus()));
         if (id != 0) {
             user.setId(id);

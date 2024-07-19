@@ -35,7 +35,8 @@ public class  Authencation implements Filter {
             return;
         } else {
             int id= UserService.getInstance().getRole(user.getId());
-            if (uri.startsWith("/admin") && id != 1) {
+            System.out.println("id "+id);
+            if (uri.startsWith("/admin") && id == 4) {
                 this.response.sendRedirect(this.request.getContextPath() + "/home");
                 return;
             }
