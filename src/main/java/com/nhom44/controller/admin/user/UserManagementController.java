@@ -2,6 +2,7 @@ package com.nhom44.controller.admin.user;
 
 import com.nhom44.bean.Province;
 import com.nhom44.bean.User;
+import com.nhom44.log.util.page.AdminLogPage;
 import com.nhom44.services.ProvinceService;
 import com.nhom44.services.UserService;
 import com.nhom44.validator.EmailSingleValidator;
@@ -21,6 +22,7 @@ public class UserManagementController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String url = req.getServletPath();
+        new AdminLogPage(req).log();
         if(url.equals("/admin/user_management")){
             req.getRequestDispatcher("/views/admin/user/user_manage.jsp").forward(req, resp);
         } else if (url.equalsIgnoreCase("/admin/add_user")) {
@@ -28,16 +30,6 @@ public class UserManagementController extends HttpServlet {
         } else if (url.equalsIgnoreCase("/admin/edit_user")) {
             String param= req.getPathInfo();
             System.out.println("param "+ param);
-//            String email = req.getParameter("useremail");
-//            if(!new EmailSingleValidator().validator(email)){
-//           resp.sendRedirect("/404");
-//            }
-//            User user = userService.getUserByEmail(email);
-//            if(user==null){
-//                resp.sendRedirect("/404");
-//            }
-//            System.out.println(user.toString());
-//            req.setAttribute("user", user);
             req.getRequestDispatcher("/views/admin/user/update_user.jsp").forward(req, resp);
         }
     }

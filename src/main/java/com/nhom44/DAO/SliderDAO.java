@@ -4,6 +4,7 @@ import com.nhom44.bean.Slider;
 import org.jdbi.v3.sqlobject.config.RegisterBeanMapper;
 import org.jdbi.v3.sqlobject.customizer.Bind;
 import org.jdbi.v3.sqlobject.customizer.BindBean;
+import org.jdbi.v3.sqlobject.statement.GetGeneratedKeys;
 import org.jdbi.v3.sqlobject.statement.SqlQuery;
 import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 
@@ -15,6 +16,7 @@ public interface SliderDAO {
     List<Slider> getAll();
 
     @SqlUpdate("INSERT INTO sliders(title, avatar, sequence,status) VALUES (:title, :avatar, :sequence,:status)")
+    @GetGeneratedKeys
     Integer add(@BindBean Slider slider);
 
     @SqlUpdate("UPDATE sliders SET title =:title, avatar =:avatar, sequence =:sequence, status=:status, updatedAt=now() WHERE id =:id")

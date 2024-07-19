@@ -5,6 +5,7 @@ import org.jdbi.v3.sqlobject.config.RegisterBeanMapper;
 import org.jdbi.v3.sqlobject.config.RegisterFieldMapper;
 import org.jdbi.v3.sqlobject.customizer.Bind;
 import org.jdbi.v3.sqlobject.customizer.BindBean;
+import org.jdbi.v3.sqlobject.statement.GetGeneratedKeys;
 import org.jdbi.v3.sqlobject.statement.SqlQuery;
 import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 
@@ -48,6 +49,7 @@ public interface ServiceDAO {
     int deleteServiceProject(@Bind("id") int id);
 
     @SqlUpdate("INSERT INTO services(name, description, avatar, status, postId) VALUES(:name, :description, :avatar, :status , :postId)")
+    @GetGeneratedKeys
     int add(@BindBean Service service);
 
     @SqlQuery("SELECT EXISTS(SELECT * FROM services WHERE name=:name and id!=:id)")

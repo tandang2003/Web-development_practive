@@ -3,6 +3,7 @@ package com.nhom44.api.admin;
 import com.google.gson.Gson;
 import com.nhom44.bean.ResponseModel;
 import com.nhom44.bean.Slider;
+import com.nhom44.log.util.function.admin.SlideLog;
 import com.nhom44.services.SliderService;
 import com.nhom44.util.Upload;
 import com.nhom44.validator.NumberVallidator;
@@ -71,11 +72,14 @@ public class SliderController extends HttpServlet {
         if (req.getRequestURI().startsWith("/api/admin/slider/add")) {
 
             i = SliderService.getInstance().add(slider);
+            new SlideLog(req, SliderService.getInstance().getById(i)).addLog();
         } else if (req.getRequestURI().startsWith("/api/admin/slider/edit")) {
-            System.out.println(slider);
+            SlideLog slideLog = new SlideLog(req, slider);
+            slideLog.setPreValue();
             i = SliderService.getInstance().update(slider);
+            slideLog.setPostValue();
+            slideLog.editLog();
         }
-        System.out.println(i);
 
         resp.setStatus(200);
         resp.getWriter().println(getGson().toJson(new ResponseModel("success", "Thành công", "200", "/admin/slide")));

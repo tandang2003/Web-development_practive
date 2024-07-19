@@ -828,3 +828,37 @@ const adminAddServiceValidator = {
         }
     }
 }
+const adminAddSliderValidator={
+    rules:{
+        title:{
+            required: true,
+            minlength: 2,
+            maxlength: 50
+        },
+        status:{
+            required: true
+        },
+        avatar:{
+            required: true
+        },
+        sequence:{
+            required: true
+        }
+    },
+    messages:{
+        title:{
+            required: "Vui lòng nhập tiêu đề",
+            minlength: "Tiêu đề ít nhất {0} ký tự",
+            maxlength: "Tiêu đề tối đa {0} ký tự"
+        },
+        status:{
+            required: "Vui lòng chọn trạng thái"
+        },
+        avatar:{
+            required: "Vui lòng chọn ảnh"
+        },
+        sequence:{
+            required: "Vui lòng nhập thứ tự"
+        }
+    }
+}

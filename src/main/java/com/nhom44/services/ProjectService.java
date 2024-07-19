@@ -47,7 +47,7 @@ public class ProjectService {
         return conn.withExtension(ProjectDAO.class, dao -> dao.isFinishProject(id));
     }
 
-    public Project getById(int id) {
+    public Project getById(String id) {
         return conn.withExtension(ProjectDAO.class, dao -> dao.getById(id));
     }
 

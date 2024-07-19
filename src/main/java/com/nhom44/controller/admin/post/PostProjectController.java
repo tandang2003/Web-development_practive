@@ -2,6 +2,7 @@ package com.nhom44.controller.admin.post;
 
 import com.nhom44.bean.Post;
 import com.nhom44.bean.Project;
+import com.nhom44.log.util.page.AdminLogPage;
 import com.nhom44.services.PostService;
 import com.nhom44.services.ProjectService;
 import com.nhom44.validator.NumberVallidator;
@@ -23,11 +24,11 @@ public class PostProjectController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String action = req.getParameter("action") == null ? "#" : req.getParameter("action");
-
+        new AdminLogPage(req).log();
         if (action.equalsIgnoreCase("edit")) {
 
                 int id = Integer.parseInt(req.getParameter("id"));
-                Project project = ProjectService.getInstance().getById(id);
+                Project project = ProjectService.getInstance().getById(id+"");
                 Post post = PostService.getInstance().getById(project.getPostId());
                 req.setAttribute("post", post);
                 req.getRequestDispatcher("/views/admin/project/update_project_post.jsp").forward(req, resp);

@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.nhom44.bean.Post;
 import com.nhom44.bean.ResponseModel;
 import com.nhom44.bean.Service;
+import com.nhom44.log.util.function.admin.ServiceLog;
 import com.nhom44.services.PostService;
 import com.nhom44.services.ServiceOfProjectService;
 import com.nhom44.util.Upload;
@@ -29,10 +30,6 @@ import java.util.Map;
 import static com.nhom44.util.GsonUtil.getGson;
 
 @WebServlet(urlPatterns = {"/api/admin/service", "/api/admin/service/add", "/api/admin/service/edit/*"})
-@MultipartConfig(
-        maxFileSize = 1024 * 1024 * 10,
-        maxRequestSize = 1024 * 1024 * 10 * 5,
-        fileSizeThreshold = 1024 * 1024 * 10)
 public class ServiceController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -85,7 +82,7 @@ public class ServiceController extends HttpServlet {
             return;
         }
         PostService.getInstance().updatePost(post);
-        ServiceOfProjectService.getInstance().update(service);
+        new ServiceLog(req, service).editLog(service);
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("status", 200);
         jsonObject.addProperty("message", "Cập nhật dịch vụ thành công");
@@ -111,6 +108,8 @@ public class ServiceController extends HttpServlet {
         int postId = PostService.getInstance().addPost(post);
         service.setPostId(postId);
         int i = ServiceOfProjectService.getInstance().add(service);
+        service.setId(i);
+        new ServiceLog(req, service).addLog();
         jsonObject.addProperty("status", 200);
         jsonObject.addProperty("message", "Thêm dịch vụ thành công");
         jsonObject.addProperty("redirect", "/admin/service");

@@ -54,4 +54,8 @@ public class PostService {
     public Post getById(int postId) {
         return conn.withExtension(PostDAO.class, dao -> dao.getById(postId));
     }
+
+    public List<Post> getAllPost() {
+        return conn.withExtension(PostDAO.class, PostDAO::getAllPost);
+    }
 }
