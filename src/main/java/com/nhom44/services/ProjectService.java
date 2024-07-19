@@ -178,6 +178,7 @@ public class ProjectService {
         System.out.println(i);
     }
 
+
     public void addHistory(int userId, int postId) {
         conn.withExtension(ProjectDAO.class, dao -> dao.addHistory(userId, postId));
     }

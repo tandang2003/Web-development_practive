@@ -32,9 +32,9 @@
                     </a>
                     <i class="fa-solid fa-angle-down position-absolute " style="color: #000000;"></i>
                     <div class="dropdown-menu mt-0 series-services">
-    <%--                        <c:forEach items="${sessionScope.services}" var="service">--%>
-    <%--                            <a class="dropdown-item text-center text-break text-uppercase" style="font-size: 16px"--%>
-    <%--                               href="/post/service/${service.id}">${service.name}</a></c:forEach>--%>
+                        <%--                        <c:forEach items="${sessionScope.services}" var="service">--%>
+                        <%--                            <a class="dropdown-item text-center text-break text-uppercase" style="font-size: 16px"--%>
+                        <%--                               href="/post/service/${service.id}">${service.name}</a></c:forEach>--%>
                         <%--                        <a class="dropdown-item text-center" style="font-size: 16px" href="/service">Xây Nhà Trọn--%>
                         <%--                            Gói</a>--%>
                         <%--                        <a class="dropdown-item text-center" style="font-size: 16px" href="/service">Xây Nhà Thô</a>--%>
@@ -79,7 +79,7 @@
                                role="link">Tài khoản
                             </a>
                             <div class="dropdown-menu mt-0 w-100">
-                                <c:if test="${sessionScope.get('account').getRole() == 1}">
+                                <c:if test="${sessionScope.account != null && sessionScope.account.roleId != 4}">
                                     <a class="dropdown-item text-center" style="font-size: 16px" href="/admin">Quản
                                         trị</a></c:if>
                                 <a class="dropdown-item text-center" style="font-size: 16px"
