@@ -282,5 +282,6 @@
 <script src="<c:url value="/template/js/validation/validateFunction.js"/>"></script>
 <script src="<c:url value="/template/js/dataAddress.js"/>"></script>
 <script type="module" src="<c:url value="/template/js/admin/project-add.js"/>"></script>
+<<
 </body>
 </html>

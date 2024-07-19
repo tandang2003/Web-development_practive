@@ -173,6 +173,11 @@ public class ProjectService {
         return projects;
     }
 
+    public static void main(String[] args) {
+        int i = ProjectService.getInstance().pageSizeHistoryProjectByUserId(34);
+        System.out.println(i);
+    }
+
     public void addHistory(int userId, int postId) {
         conn.withExtension(ProjectDAO.class, dao -> dao.addHistory(userId, postId));
     }
