@@ -76,7 +76,7 @@
 <%@include file="/layout/public/script.jsp" %>
 <script src="<c:url value="/template/js/admin-modal-notify.js"/>"></script>
 <script src="<c:url value="/template/lib/DataTables/DataTables-1.13.6/js/jquery.dataTables.min.js"/>"></script>
-<script src="<c:url value="/template/lib/ckeditor_4.22.1_standard/ckeditor/ckeditor.js"/>"></script>
+<script src="<c:url value="/template/lib/ckeditor_4.22.1_standard_easyimage/ckeditor/ckeditor.js"/>"></script>
 <script>
     $('#save').click(function () {
         let content = CKEDITOR.instances['service-des'].getData();

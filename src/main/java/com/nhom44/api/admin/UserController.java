@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.nhom44.bean.Address;
 import com.nhom44.bean.ResponseModel;
+import com.nhom44.log.util.function.admin.UserLog;
 import com.nhom44.services.AddressService;
 import com.nhom44.services.UserService;
 import com.nhom44.bean.User;
@@ -85,6 +86,7 @@ public class UserController extends HttpServlet {
                 return;
             User user = createUser(map, null);
             UserService.getInstance().addUser(user);
+            new UserLog(req, user).addUser();
             resp.setStatus(200);
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("status", 200);
@@ -121,7 +123,8 @@ public class UserController extends HttpServlet {
                 }
             }
             User updatedUser = createUser(req.getParameterMap(), user);
-            UserService.getInstance().update(updatedUser);
+            new UserLog(req, updatedUser).editUser(updatedUser);
+//            UserService.getInstance().update(updatedUser);
             response.addProperty("status", 200);
             response.addProperty("message", "Cập nhật thông tin thành công");
             resp.getWriter().print(response.toString());

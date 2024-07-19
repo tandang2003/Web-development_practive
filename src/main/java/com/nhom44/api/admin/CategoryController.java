@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.nhom44.bean.Category;
 import com.nhom44.bean.ResponseModel;
+import com.nhom44.log.util.function.admin.CategoryLog;
 import com.nhom44.services.CategoryService;
 import com.nhom44.validator.TitleOrNameSingleValidator;
 import org.apache.commons.beanutils.BeanUtils;
@@ -79,21 +80,25 @@ public class CategoryController extends HttpServlet {
 
         if (url.equals("/api/admin/category/add")) {
             Category category = createCategory(req.getParameterMap(), null);
-            CategoryService.getInstance().add(category);
+            int id = CategoryService.getInstance().add(category);
+            new CategoryLog(req, CategoryService.getInstance().getById(id)).addLog();
             jsonObject.addProperty("message", "Loại dự án mới đã được thêm thành công vui lòng kiểm tra");
         } else if (url.equals("/api/admin/category/edit")) {
             int id = Integer.parseInt(req.getPathInfo().substring(1));
             Category old = CategoryService.getInstance().getById(id);
+            CategoryLog categoryLog = new CategoryLog(req, old);
             Category category = createCategory(req.getParameterMap(), null);
             if (!old.getName().equals(category.getName())) {
                 category.setId(id);
+                categoryLog.setPreValue();
                 CategoryService.getInstance().update(category);
+                categoryLog.setPostValue();
+                categoryLog.editLog();
             }
             jsonObject.addProperty("message", "Loại dự án đã được cập nhật thành công vui lòng kiểm tra");
         }
         jsonObject.addProperty("status", 200);
-        jsonObject.addProperty("data","/admin/category_management");
-        Gson gson = getGson();
+        jsonObject.addProperty("data", "/admin/category_management");
         PrintWriter printWriter = resp.getWriter();
         printWriter.println(jsonObject.toString());
         printWriter.flush();

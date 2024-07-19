@@ -42,7 +42,7 @@ public class SaveProjectController extends HttpServlet {
             resp.getWriter().flush();
             return;
         }
-        Project project = ProjectService.getInstance().getById(projectId);
+        Project project = ProjectService.getInstance().getById(projectId+"");
         if (project == null) {
             likeLog.setLevel(3);
             likeLog.log();

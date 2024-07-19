@@ -62,7 +62,7 @@ function updateAvatar() {
 function updateGallery() {
     return new Promise((resolve, reject) => {
         const fileToUpload = FilePond.find($('#file_input_gallery')[0]).getFiles();
-        upload(fileToUpload, GALLERY + `${$('#id').val()}`).then((data) => {
+        upload(fileToUpload, GALLERY + `/${$('#id').val()}`).then((data) => {
             $('#uploadGallery').val(fileToUpload.map(e => e.file.name).join(','))
         })
         resolve(true)

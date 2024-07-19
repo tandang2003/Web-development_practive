@@ -1,3 +1,5 @@
+import {getDownloadUrl, SERVICE} from "./firebase/uploadImage.js";
+
 var allServices = [];
 
 function renderServices() {
@@ -11,38 +13,34 @@ function renderServices() {
     })
 }
 
-function addService(page, idcontainer) {
+async function addService(page, idcontainer) {
     let container = document.getElementById(idcontainer);
-    console.log("container")
-    console.log(container)
     container.innerHTML = '';
-    console.log("service page")
-    console.log(page)
+    const downloadUrls = await getDownloadUrl(allServices.map(service => service.avatar).join(','), SERVICE); // Adjust 'place' as needed
+
     switch (page) {
         case 'home':
-            allServices.forEach(service => {
+            allServices.forEach((service, index) => {
                 container.innerHTML += `
-                 <a href="/post/service/${service.id}" class="card-home swiper-slide">
-                        <div class="image-content">
-                            <div class="card-image ">
-                                <div href="postService.jsp"
-                                     class="img-container  ">
-                                    <div class="img-wrapper hover-image">
-                                        <img src="${service.avatar}"
-                                             alt=""
-                                             class="card-img  ">
+                        <a href="/post/service/${service.id}" class="card-home swiper-slide">
+                            <div class="image-content">
+                                <div class="card-image">
+                                    <div href="postService.jsp" class="img-container">
+                                        <div class="img-wrapper hover-image">
+                                            <img src="${downloadUrls[index]}" alt="" class="card-img">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="card-content">
-                            <h4 class="text-uppercase">${service.name}</h4>
-                        </div>
-                    </a>`;
-            })
+                            <div class="card-content">
+                                <h4 class="text-uppercase">${service.name}</h4>
+                            </div>
+                        </a>`;
+            });
             break;
         case 'services':
-            allServices.forEach(service => {
+
+            allServices.forEach((service, index) => {
                 container.innerHTML += `
        <div class="col-lg-4 col-md-6 mb-5">
                         <div class="card">
@@ -56,7 +54,7 @@ function addService(page, idcontainer) {
                                     ></div>
                                     <div class="hover-img">
                                         <img
-                                                src="${service.avatar}"
+                                                src="${downloadUrls[index]}"
                                                 class="img-fluid"/>
                                     </div>
                                 </a>
@@ -77,9 +75,12 @@ function addService(page, idcontainer) {
     }
 }
 
-function getServices(page, container) {
-    console.log("service page")
+export function getServices(page, container) {
     $.when(renderServices()).done(function () {
         addService(page, container);
     })
 }
+
+$(document).ready(function () {
+    getServices("services", 'service-container');
+});

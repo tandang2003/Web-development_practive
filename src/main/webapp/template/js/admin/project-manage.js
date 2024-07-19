@@ -24,8 +24,9 @@ $('#project-table').dataTable({
         type: "get",
         dataSrc: "",
         dataType: "json",
-    },  drawCallback: function (settings) {
-            this.api().columns.adjust();
+    },
+    drawCallback: function (settings) {
+        this.api().columns.adjust();
     },
     columns: [
         {

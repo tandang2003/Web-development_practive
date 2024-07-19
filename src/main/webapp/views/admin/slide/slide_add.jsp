@@ -13,14 +13,16 @@
     <meta charset="UTF-8">
     <link href=" <c:url value="/template/css/admin-nav-bar.css"/>" rel="stylesheet">
     <link href=" <c:url value="/template/css/fileInput.css"/>" rel="stylesheet">
-    <link href=" <c:url value="/template/lib/DataTables/DataTables-1.13.6/css/jquery.dataTables.min.css"/>" rel="stylesheet">
-    <link href=" <c:url value="/template/lib/DataTables/DataTables-1.13.6/css/dataTables.bootstrap4.css"/>" rel="stylesheet">
+    <link href=" <c:url value="/template/lib/DataTables/DataTables-1.13.6/css/jquery.dataTables.min.css"/>"
+          rel="stylesheet">
+    <link href=" <c:url value="/template/lib/DataTables/DataTables-1.13.6/css/dataTables.bootstrap4.css"/>"
+          rel="stylesheet">
     <title>Title</title>
 </head>
 <body>
 <!-- Sidebar navigation -->
 <div class="wrapper">
-    <%@include file="/layout/admin/adminheader.jsp"%>
+    <%@include file="/layout/admin/adminheader.jsp" %>
     <div class="main-container">
         <div class="container p-0">
             <nav aria-label="breadcrumb">
@@ -42,37 +44,40 @@
             </nav>
 
             <main class="container shadow border p-3 h-auto">
-<%--                <form action="/admin/slide/add" method="post" enctype="multipart/form-data">--%>
-                    <div class="row border-bottom pb-3 mb-3 ml-1 mr-1  justify-content-lg-between">
-                        <div class="col-6 d-flex align-items-center p-0">
-                            <h3 class="font-weight-bold main-color m-0">Thêm Slide</h3>
-                        </div>
-                        <div class="col-6 d-flex justify-content-end align-items-center p-0">
-                            <button class="btn btn-warning p-2 waves-effect waves-light" id="save" type="button">LƯU</button>
-                        </div>
+                <form id="form-add-slider">
+                <%--                <form action="/admin/slide/add" method="post" enctype="multipart/form-data">--%>
+                <div class="row border-bottom pb-3 mb-3 ml-1 mr-1  justify-content-lg-between">
+                    <div class="col-6 d-flex align-items-center p-0">
+                        <h3 class="font-weight-bold main-color m-0">Thêm Slide</h3>
                     </div>
-                    <div>
-                        <div class="row flex-center h-auto">
-                            <div class="card col-lg-10 mb-4">
+                    <div class="col-6 d-flex justify-content-end align-items-center p-0">
+                        <button class="btn btn-warning p-2 waves-effect waves-light" id="save" type="submit">LƯU
+                        </button>
+                    </div>
+                </div>
+                <div>
+                    <div class="row flex-center h-auto">
+                        <div class="card col-lg-10 mb-4">
+
                                 <div class="card-body">
-                                    <div class="mb-4">
+                                    <div class="mb-4 param-content">
                                         <label for="title" class="labels">Tiêu đề</label>
-                                        <input id="title" type="text" class="form-control"
+                                        <input id="title" name="title" type="text" class="form-control"
                                                placeholder="Tiêu đề" value="">
                                     </div>
-                                    <div class="mb-4">
+                                    <div class="mb-4 param-content">
                                         <label for="status" class="labels">Trạng thái</label>
-                                        <select id="status" class="browser-default custom-select">
+                                        <select id="status" name="status" class="browser-default custom-select">
                                             <option value="1">Kích hoạt</option>
                                             <option value="0">Ẩn</option>
                                         </select>
                                     </div>
-                                    <div class="mb-4">
+                                    <div class="mb-4 param-content">
                                         <label for="sequence" class="labels">STT</label>
-                                            <input id="sequence" type="text" class="form-control"
-                                                   placeholder="STT" value="">
+                                        <input id="sequence" name="sequence" type="text" class="form-control"
+                                               placeholder="STT">
                                     </div>
-                                    <div class="mb-4">
+                                    <div class="mb-4 param-content">
                                         <div class="input-group mt-2 d-flex align-items-center">
                                             <label>Chọn hình đại diện</label>
                                             <div class="file-field d-flex align-items-center">
@@ -91,10 +96,12 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
                         </div>
                     </div>
-<%--                </form>--%>
+                </div>
+                <%--                </form>--%>
+                </form>
+
             </main>
         </div>
     </div>
@@ -105,48 +112,40 @@
 <script src="<c:url value="/template/js/inputFile.js"/>"></script>
 <script src="<c:url value="/template/lib/DataTables/DataTables-1.13.6/js/jquery.dataTables.min.js"/>"></script>
 <script src="<c:url value="/template/lib/DataTables/DataTables-1.13.6/js/dataTables.bootstrap4.min.js"/>"></script>
-<script src="<c:url value="/template/js/admin-modal-notify.js"/>"></script>
+<script src="<c:url value="/template/js/validation/validator.js"/>"></script>
+<script src="<c:url value="/template/js/validation/validateFunction.js"/>"></script>
 <script>
-    $('#save').click(function () {
-        console.log(123)
-        let form = new FormData();
-        form.append('title', $('#title').val());
-        form.append('status', $('#status').val());
-        form.append('sequence', $('#sequence').val());
-        form.append('avatar', $('#avatar').prop('files')[0]);
+    validate("#form-add-slider",adminAddSliderValidator,function(form){
+        console.log($('#title').val())
+        let f = new FormData();
+        f.append('title', $('#title').val());
+        f.append('status', $('#status').val());
+        f.append('sequence', $('#sequence').val());
+        f.append('avatar', $('#avatar').prop('files')[0]);
         $.ajax({
             url: "/api/admin/slider/add",
             type: 'POST',
             dataType: "json",
             contentType: false,
             processData: false,
-            data: form,
+            data: f,
             success: function (data) {
-                console.log(data)
-                if(data.name == 'success' || data.name == 'sys'){
-                    delayNotify(2000,data.message);
-                    setTimeout(()=>{
-                        window.location.href = data.data;
-                    }, 2000);
-
-                }
+                if (data.message == 'success') {
+                    autoCloseAlertIcon('Thêm Slide thành công', 1500, swal2Icon.SUCCESS, data.data)
+                } else
+                    errorAlert(data.message)
             },
             error: function (data) {
-                console.log(data.responseText)
-                let err = JSON.parse(data.responseText);
-                // saveService(data.data.id);
-                for (let key of err) {
-                    fetchErr(key.name, key.message);
-                }
-                // fetchErr(data.responseJSON.name, data.responseJSON.message);
+                data=JSON.parse(data.responseText)
+                errorAlert(data.name)
             }
         });
-    });
+    })
 </script>
 <script>
     function fetchErr(name, message) {
-    console.log(name, message)
-        switch (name){
+        console.log(name, message)
+        switch (name) {
             case "title":
                 let title = document.getElementById('title');
                 title.classList.add('border-danger');
@@ -171,7 +170,7 @@
             case "avatar":
                 break
 
-    }
+        }
     }
 </script>
 <script>
