@@ -29,24 +29,14 @@ public class PostService {
         return instance == null ? (instance = new PostService()) : instance;
     }
 
-    public List<Post> getAllPost() {
-        return conn.withExtension(PostDAO.class, PostDAO::getAllPost);
-    }
-    public Post addPost(Post post) {
-        LocalDateTime now = LocalDateTime.now();
-        post.setCreatedAt(DateUtil.SIMPLE_DATE_FORMAT.format(Timestamp.valueOf(now)));
-        post.setUpdatedAt(DateUtil.SIMPLE_DATE_FORMAT.format(Timestamp.valueOf(now)));
+    public int addPost(Post post) {
         int status = conn.withExtension(PostDAO.class, dao -> {
             return dao.addPost(post);
         });
-        return status == 1 ? getByObject(post) : null;
+        return status;
     }
 
     public static void main(String[] args) {
-//       Post post = new Post();
-//         post.setContent("title");
-//         Post rpost=getInstance().addPost(post);
-//        System.out.println(rpost);
         System.out.println(getInstance().getById(1).toString());
     }
 
@@ -58,7 +48,7 @@ public class PostService {
         int status = conn.withExtension(PostDAO.class, dao -> {
             return dao.updatePost(post);
         });
-        return status == 1 ? getById(post.getId()) : null;
+        return status == 1 ?   getById(post.getId()) : null;
     }
 
     public Post getById(int postId) {

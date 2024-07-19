@@ -165,8 +165,7 @@
                             window.location.reload();
                         })
                     } else {
-                        autoCloseAlertIcon(mes = result.message, time = 3000, icon = swal2Icon.ERROR, url = null);
-
+                        autoCloseAlertIcon(result.message,3000, swal2Icon.ERROR,null);
                     }
                 },
                 error: function (error) {

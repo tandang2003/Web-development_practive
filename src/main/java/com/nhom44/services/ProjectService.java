@@ -92,6 +92,17 @@ public class ProjectService {
         });
     }
 
+    public static void main(String[] args) {
+//       List<String> onwer= UserService.getInstance().getEmailOwner();
+       List<Project> projects = ProjectService.getInstance().getExcuting();
+//        System.out.println(projects.size());
+//        System.out.println(onwer.size());
+       for (Project s: projects){
+           System.out.println(s);
+       }
+
+    }
+
     public List<Project> getExcuting() {
         return conn.withExtension(ProjectDAO.class, dao -> dao.getExcuting());
     }
@@ -160,11 +171,6 @@ public class ProjectService {
             if (p.getSaveBy() == id && p.getSaveBy() != 0) p.setSave(true);
         }
         return projects;
-    }
-
-    public static void main(String[] args) {
-        int i = ProjectService.getInstance().pageSizeHistoryProjectByUserId(34);
-        System.out.println(i);
     }
 
     public void addHistory(int userId, int postId) {

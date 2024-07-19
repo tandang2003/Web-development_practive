@@ -212,7 +212,7 @@
 <%@include file="/layout/public/script.jsp" %>
 <script src="<c:url value="/template/js/main.js"/>"></script>
 <script src="<c:url value='/template/js/home.js'/>"></script>
-<script src="<c:url value='/template/js/services.js'/>"></script>
+<script type="module" src="<c:url value='/template/js/services.js'/>"></script>
 <script src="<c:url value='/template/js/ajax/saveProject.js'/>"></script>
 <script src="<c:url value='/template/js/contactForm.js'/>"></script>
 <script src="<c:url value='/template/js/validation/validateFunction.js'/>"></script>

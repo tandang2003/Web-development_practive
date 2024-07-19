@@ -34,7 +34,7 @@
                     </li>
                 </ol>
             </nav>
-            <main class="container shadow border p-3 h-100">
+            <main class="container shadow border p-3 ">
                 <div class="row border-bottom pb-3 mb-3 ml-1 mr-1   ">
                     <div class="col-6 d-flex align-items-center p-0">
                         <h3 class="font-weight-bold main-color m-0">QL Slide</h3>

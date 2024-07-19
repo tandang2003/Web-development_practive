@@ -12,8 +12,8 @@ import java.util.List;
 
 @RegisterBeanMapper(Contact.class)
 public interface ContactDAO {
-    @SqlUpdate("INSERT INTO contacts(fullname, email, phone, content,addressId)" +
-            " VALUES(:fullName, :email, :phone, :content,:addressId)")
+    @SqlUpdate("INSERT INTO contacts(fullname, email, phone, content,addressId,createdAt,updatedAt)" +
+            " VALUES(:fullName, :email, :phone, :content,:addressId,NOW(),NOW())")
     @GetGeneratedKeys
     Integer add(@BindBean Contact contact);
 

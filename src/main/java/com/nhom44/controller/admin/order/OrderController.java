@@ -24,16 +24,7 @@ public class OrderController extends HttpServlet {
                 return;
             }
             if(action.startsWith("/admin/cart/detail")){
-                String id = action.substring(action.lastIndexOf("/")+1);
-                System.out.println(id);
-                if (id == null || id.isEmpty()) {
-                    resp.sendRedirect("/admin/cart");
-                    return;
-                }
-                Cart cart = com.nhom44.services.CartService.getInstance().getById(Integer.parseInt(id));
-                cart.setServices(com.nhom44.services.CartService.getInstance().getServices(cart.getId()));
-                cart.setImages(com.nhom44.services.CartService.getInstance().getImageNames(cart.getId()));
-                req.setAttribute("cart",cart);
+
                 req.getRequestDispatcher("/views/admin/order/order_detail.jsp").forward(req,resp);
                 return;
             }

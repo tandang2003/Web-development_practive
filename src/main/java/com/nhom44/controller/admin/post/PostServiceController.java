@@ -36,8 +36,7 @@ public class PostServiceController extends HttpServlet {
             req.getRequestDispatcher("/views/admin/service/update_service_post.jsp").forward(req, resp);
             return;
         }
-        System.out.println(ServiceOfProjectService.getInstance().getAll());
-        req.setAttribute("services", ServiceOfProjectService.getInstance().getAll());
+        req.setAttribute("services", ServiceOfProjectService.getInstance().getAdminAll());
 
         req.getRequestDispatcher("/views/admin/service/post_service.jsp").forward(req, resp);
     }

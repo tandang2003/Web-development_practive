@@ -21,7 +21,7 @@ public interface PostDAO {
     @SqlQuery("select * from posts where content=:content and createdAt=:createdAt and updatedAt=:updatedAt")
     Post getByObject(@BindBean Post post);
 
-    @SqlUpdate("update posts set content=:content,updatedAt=:updatedAt where id=:id")
+    @SqlUpdate("update posts set content=:content,updatedAt=NOW() where id=:id")
     Integer updatePost(@BindBean Post post);
 
     @SqlQuery("select * from posts where id=:postId")

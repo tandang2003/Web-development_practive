@@ -21,81 +21,7 @@
 <body>
 <!-- Sidebar navigation -->
 <div class="wrapper">
-    <%@include file="/layout/admin/adminheader.jsp"%>
-<%--    <div class="header fixed-top ">--%>
-<%--        <div class="header-menu row m-0">--%>
-<%--            <div class="col-11 d-flex align-items-center">--%>
-<%--                <div class="sidebar-btn mr-3">--%>
-<%--                    <i class="fas fa-bars"></i>--%>
-<%--                </div>--%>
-<%--                <div class="title text-uppercase">--%>
-<%--                    Xây dựng <span>Nhà Đẹp</span></div>--%>
-<%--            </div>--%>
-<%--            <ul class="col-1 d-flex align-items-center m-0">--%>
-<%--                <li><a href="#"><i class="fas fa-sign-out-alt"></i></a></li>--%>
-<%--            </ul>--%>
-<%--        </div>--%>
-<%--    </div>--%>
-<%--    <div class="sidebar">--%>
-<%--        <div class="sidebar-menu">--%>
-<%--            <center class="logo">--%>
-<%--                <img src="../../../../RealEstateWeb/public/img/logo/logo.png" alt="logo" style="">--%>
-<%--            </center>--%>
-<%--            <li class="sidebar-item">--%>
-<%--                <a href="../dashboard.jsp" class="menu-btn">--%>
-<%--                    <i class="fas fa-desktop"></i><span>Thống kê</span>--%>
-<%--                </a>--%>
-<%--            </li>--%>
-<%--            <li class="sidebar-item" id="user">--%>
-<%--                <a href="../user/user_manage.jsp" class="menu-btn">--%>
-<%--                    <i class="fas fa-user-circle"></i><span>QL Người dùng</span>--%>
-<%--                </a>--%>
-<%--            </li>--%>
-<%--            <li class="sidebar-item" id="project">--%>
-<%--                <div class="menu-btn">--%>
-<%--                    <i class="fa-solid fa-building"> </i>--%>
-<%--                    <a href="project_manage.jsp">--%>
-<%--                        <span>QL Dự án</span>--%>
-<%--                    </a> <i--%>
-<%--                        class="m-0 fas fa-chevron-circle-down drop-down"></i></div>--%>
-<%--                <div class="sub-menu d-none">--%>
-<%--                    <a href="../category/category_management.jsp" class="menu-btn">--%>
-<%--                        <i class="fa-solid fa-building m-0"> </i> <i class="fa-solid fa-folder-tree"></i><span>QL loại dự án</span>--%>
-<%--                    </a>--%>
-<%--                    <a href="post_project.jsp" class="menu-btn">--%>
-<%--                        <i class="fa-solid fa-newspaper"></i><span>QL Bài viết dự án</span>--%>
-<%--                    </a>--%>
-<%--                    <a href="project_schedule.jsp" class="menu-btn">--%>
-<%--                        <i class="fa-solid fa-bars-progress"></i><span>QL Dự án thi công</span>--%>
-<%--                    </a>--%>
-<%--                </div>--%>
-<%--            </li>--%>
-
-<%--            <li class="sidebar-item" id="type-project">--%>
-<%--                <div class="menu-btn">--%>
-<%--                    <a href="../service/service_manage.jsp">--%>
-<%--                        <i class="fa-solid fa-toolbox"></i><span>QL Dịch vụ</span>--%>
-<%--                    </a><i--%>
-<%--                        class="m-0 fas fa-chevron-circle-down drop-down"></i></div>--%>
-<%--                <div class="sub-menu d-none">--%>
-<%--                    <a href="../service/post_service.jsp" class="menu-btn">--%>
-<%--                        <i class="fa-solid fa-newspaper"></i><span>QL Bài viết dịch vụ</span>--%>
-<%--                    </a>--%>
-<%--                </div>--%>
-<%--            </li>--%>
-<%--            <li class="sidebar-item" id="contact">--%>
-<%--                <a href="../contact/contact_manage.jsp" class="menu-btn">--%>
-<%--                    <i class="fa-solid fa-file-contract"></i></i><span>QL tương tác</span>--%>
-<%--                </a>--%>
-<%--            </li>--%>
-<%--            <li class="sidebar-item" id="slide">--%>
-<%--                <a href="../slide/slide_manage.jsp" class="menu-btn">--%>
-<%--                    <i class="fa-regular fa-clone"></i><span>QL slide</span></span>--%>
-<%--                </a>--%>
-<%--            </li>--%>
-<%--        </div>--%>
-<%--    </div>--%>
-
+    <%@include file="/layout/admin/adminheader.jsp" %>
     <div class="main-container">
         <div class="container p-0">
             <nav aria-label="breadcrumb">
@@ -132,20 +58,18 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach step="1" begin="0" items="${projects}" varStatus="x" var="project">
                     <tr>
-                        <td>${x.index}</td>
-                        <td>${emails[x.index]}</td>
-                        <td>${project.id}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                         <td>
-                                ${project.schedule}
+                            <%--                                ${project.schedule}--%>
                         </td>
-                        <td>${project.estimated_complete}</td>
+                        <td></td>
                         <td>
-                            <a href="/admin/project_additional_and_edit?action=edit&id=${project.id}"><i class="icon-action fa-solid fa-edit"></i></a>
+                            <%--                            <a href="/admin/project_additional_and_edit?action=edit&id=${project.id}"><i class="icon-action fa-solid fa-edit"></i></a>--%>
                         </td>
                     </tr>
-                    </c:forEach>
                 </table>
 
             </main>
@@ -179,11 +103,29 @@
 
 </script>
 <script>
+    let index = 1;
     $('#project-executing-table').dataTable({
-        // "ajax": {
-        //     // "url": "http://localhost/RealEstateWeb/userManage" ,
-        //     "dataSrc": ""
-        // },
+        "ajax": {
+            "url": "/api/admin/project_schedule",
+            "dataSrc": "",
+            type: "get",
+            dataType: "json",
+        },
+        columns: [{
+            render: function () {
+                return index++;
+            }
+        },
+            {data: "owner"},
+            {data: "id"},
+            {data: "schedule"},
+            {data: "estimatedComplete"},
+            {
+                data:"id",
+                render: function (data) {
+                    return "<a href='/admin/project/edit/"+ data+"'><i class='icon-action fa-solid fa-edit'></i></a>";
+                }
+            }],
         "columnDefs": [
             {
                 "targets": 0,

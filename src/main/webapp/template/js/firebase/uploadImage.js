@@ -10,6 +10,7 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-storage.js";
 
 export const AVATAR = 'avatar';
+export const SERVICE = 'service';
 export const PROJECT = 'project';
 export const GALLERY = 'gallery';
 export const ORDER = 'order';
