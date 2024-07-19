@@ -25,7 +25,7 @@ import java.util.List;
 
 import static com.nhom44.util.GsonUtil.getGson;
 
-@WebServlet(urlPatterns = {"/api/home","/api/home/data", "/api/home/projects/*", "/api/home/slides", "/api/home/categories", "/api/home/contact"})
+@WebServlet(urlPatterns = {"/api/home", "/api/home/data", "/api/home/projects/*", "/api/home/slides", "/api/home/categories", "/api/home/contact"})
 public class HomeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

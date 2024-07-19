@@ -39,8 +39,9 @@ public class HistoryController extends HttpServlet {
     private void getHistory(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String offset= req.getParameter("offset")==null?"0":req.getParameter("offset");
         User user= (User) req.getSession().getAttribute("account");
-        System.out.println(user.toString());
         List<Project> projects= ProjectService.getInstance().getHistoryUserProject(user.getId() ,Integer.parseInt(offset)*16);
+        System.out.println(123);
+        projects.forEach(System.out::println);
         Gson gson= getGson();
         resp.getWriter().print(gson.toJson(projects));
         resp.getWriter().flush();

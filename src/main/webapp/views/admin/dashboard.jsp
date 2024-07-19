@@ -32,11 +32,8 @@
             </nav>
             <!--Section: Content-->
             <section class="p-2 z-depth-1">
-
                 <h3 class="text-center font-weight-bold mb-3">Số lượng</h3>
-
                 <div class="row d-flex justify-content-center">
-
                     <div class="col-md-6 col-lg-3 text-center">
                         <h4 class="font-weight-normal mb-3">
                             <i class="fa-solid fa-building indigo-text "></i>
@@ -45,7 +42,6 @@
                         </h4>
                         <p class="font-weight-normal text-muted">Dự án</p>
                     </div>
-
                     <div class="col-md-6 col-lg-3 text-center">
                         <h4 class="font-weight-normal mb-3">
                             <i class="fa-solid fa-sitemap indigo-text"></i>
@@ -54,7 +50,6 @@
                         </h4>
                         <p class="font-weight-normal text-muted">Loại dự án</p>
                     </div>
-
                     <div class="col-md-6 col-lg-3 text-center">
                         <h4 class=" font-weight-normal mb-3">
                             <i class="fa-solid fa-toolbox indigo-text"></i>
@@ -63,7 +58,6 @@
                         </h4>
                         <p class="font-weight-normal text-muted">Loại dịch vụ</p>
                     </div>
-
                     <div class="col-md-6 col-lg-3 text-center">
                         <h4 class=" font-weight-normal mb-3">
                             <i class="fa-solid fa-user indigo-text"></i>
@@ -72,47 +66,25 @@
                         </h4>
                         <p class="font-weight-normal text-muted">Người dùng</p>
                     </div>
-
-
                 </div>
-
             </section>
             <!--Section: Content-->
             <section class="table-section mt-3">
                 <div class="row shadow pt-3 pb-3" style="">
                     <div class="col-md-12 col-lg-6 pr-1 border-right">
-                        <h5 class="font-weight-bold pl-3 pr-3 main-color text-center">Dự án</h5>
-                        <table id="table1" class="display border" style="width:100%">
-                            <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Tên dự án</th>
-                                <th scope="col">Chủ đầu tư</th>
-                                <th scope="col">Trạng thái</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td>
-                                    <i class="fa-solid fa-square active-icon" title="Đã hoàn thành" value="1"></i>
-                                    <p class="d-none">1</p>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
+                        <h5 class="font-weight-bold pl-3 pr-3 main-color text-center">Post</h5>
+                        <div class="chart-container">
+                            <canvas id="myChart1"></canvas>
+                        </div>
                     </div>
                     <div class="col-md-12 col-lg-6 pl-1 ">
-                        <h5 class="font-weight-bold pl-3 pr-3 main-color text-center">Graph</h5>
+                        <h5 class="font-weight-bold pl-3 pr-3 main-color text-center">Post</h5>
                         <div class="chart-container">
                             <canvas id="myChart"></canvas>
                         </div>
                     </div>
                 </div>
             </section>
-
         </div>
     </div>
 </div>
@@ -121,81 +93,163 @@
 <script src="<c:url value="/template/lib/DataTables/DataTables-1.13.6/js/jquery.dataTables.min.js"/>"></script>
 <script>
     $(document).ready(function () {
+        function fetchDataAndUpdateChart() {
+            $.ajax({
+                url: '/api/dashboard/project',
+                type: 'GET',
+                success: function (data) {
+                    updateChart(data);
+                },
+                error: function (error) {
+                    console.log('Error fetching data:', error);
+                }
+            });
+        }
+
+        function parseDate(dateStr) {
+            if (!dateStr) {
+                return new Date();
+            }
+
+            // Convert 'yyyy-MM-dd HH:mm:ss' to a Date object
+            const [datePart, timePart] = dateStr.split(' ');
+            if (!datePart || !timePart) {
+                return new Date();
+            }
+
+            const [year, month, day] = datePart.split('-').map(Number);
+            const [hour, minute, second] = timePart.split(':').map(Number);
+            return new Date(year, month - 1, day, hour, minute, second);
+        }
+
+        function updateChart(data) {
+            if (!data || !data.histories || !data.posts) {
+                return;
+            }
+
+            const histories = data.histories;
+            const dateCountMap = {};
+            histories.forEach(history => {
+                if (!history.createdAt) {
+                    return;
+                }
+                const createdAt = parseDate(history.createdAt);
+                const dateKey = createdAt.toISOString().split('T')[0]; // Format YYYY-MM-DD
+
+                if (dateCountMap[dateKey]) {
+                    dateCountMap[dateKey]++;
+                } else {
+                    dateCountMap[dateKey] = 1;
+                }
+            });
+
+            const dates = Object.keys(dateCountMap);
+            const counts = dates.map(date => dateCountMap[date]);
+
+            const ctx = document.getElementById('myChart').getContext('2d');
+            if (window.myChart instanceof Chart) {
+                window.myChart.destroy();
+            }
+            window.myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: dates,
+                    datasets: [{
+                        label: 'Số lần truy cập theo ngày',
+                        data: counts,
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1,
+                        pointStyle: 'circle',
+                        pointRadius: 5,
+                        pointBorderColor: 'rgba(54, 162, 235, 1)',
+                        pointBackgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    }]
+                },
+                options: {
+                    scales: {
+                        x: {
+                            ticks: {
+                                autoSkip: true,
+                                maxTicksLimit: 20
+                            }
+                        },
+                        y: {
+                            type: 'logarithmic',
+                            ticks: {
+                                callback: function(value, index, values) {
+                                    // Custom log scale labels
+                                    return Number(value).toLocaleString();
+                                }
+                            },
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+        fetchDataAndUpdateChart();
+
+        setInterval(fetchDataAndUpdateChart, 2000);
+    });
+</script>
+<script>
+    $(document).ready(function () {
         $.ajax({
             url: '/api/dashboard/project',
             type: 'GET',
             success: function (data) {
-                console.log(data)
+                console.log(data);
+                updateChart(data);
+            },
+            error: function (error) {
+                console.log(error);
             }
-        })
-    });
-</script>
-<script>
-    let index = 1;
-    $('#table1').DataTable({
-        ajax: {
-            url: '/api/dashboard/project',
-            type: 'GET',
-            dataSrc: ''
-        },
-        "columns": [
-            {
-                render: function () {
-                    return index++
-                },
-            },
-            {
-                data: "title",
-                render: function (title) {
-                    if (title == null || title === "") return "---"; else return title;
-                }
-            },
-            {
-                data: "email",
-                render: function (email) {
-                    if (email == null || email === "null") return "---"; else return email;
-                }
-            },
-            {
-                data: "status",
-                render: function (status) {
-                    return status == 1 ? "<i class='fa-solid fa-square active-icon'></i>" : "<i class='fa-solid fa-square inactive-icon'></i>"
-                }
-            },
-        ],
-        "columnDefs": [
-            {"width": "5%", "targets": 0},
-            {className: "text-center font-weight-bold", targets: "_all"},
-        ],
-        "language": {
-            "lengthMenu": "Hiển thị _MENU_ dòng",
-            "zeroRecords": "Không tìm thấy dữ liệu",
-            "info": "Hiển thị trang _PAGE_ trên _PAGES_",
-            "infoEmpty": "Không có dữ liệu",
-            "infoFiltered": "(lọc từ _MAX_ dòng dữ liệu)",
-            "search": "Tìm kiếm",
-            "paginate": {
-                "previous": "Trước",
-                "next": "Tiếp theo"
-            }
-        },
-        "pagingType": "full_numbers",
-        "lengthMenu": [5, 10, 15, 20],
-    });
-    $('#table2').DataTable({
-        "columnDefs": [
-            {"width": "5%", "targets": 0},
-            {"width": "30%", "targets": 2},
-            {className: "text-center font-weight-bold", targets: "_all"},
-        ]
-        ,
-        "lengthMenu": [5, 10, 15, 20],
-    });
-    // document.querySelectorAll('.paginate_button ').forEach(function (e) {
-    //     e.preventDefault();
-    // })
-</script>
+        });
 
+        function updateChart(data) {
+            const histories = data.histories;
+            const posts = data.posts;
+
+            const postCountMap = {};
+            histories.forEach(history => {
+                if (!postCountMap[history.postId]) {
+                    postCountMap[history.postId] = 0;
+                }
+                postCountMap[history.postId]++;
+            });
+
+            const postLabels = [];
+            const postData = [];
+            posts.forEach(post => {
+                postLabels.push('Post ' + post.id);
+                postData.push(postCountMap[post.id] || 0);  // Default to 0 if no occurrences
+            });
+
+            const ctx = document.getElementById('myChart1').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: postLabels,
+                    datasets: [{
+                        label: 'Tổng lượt truy cập bài post',
+                        data: postData,
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+    });
+</script>
 <script>
     (function ($) {
         $.fn.counter = function () {
@@ -222,7 +276,6 @@
         }
     }(jQuery));
     $(document).ready(function () {
-
         $('.count-up').counter();
         $('.count1').counter();
         $('.count2').counter();
@@ -248,47 +301,12 @@
             }
         })
     }
-
 </script>
 <script>
     $(document).ready(function () {
         $(".sidebar-btn").click(function () {
             $(".wrapper").toggleClass("mycollapse");
         });
-    });
-</script>
-<script>
-    // Chart Data
-    const ctx = document.getElementById('myChart').getContext('2d');
-    const myChart = new Chart(ctx, {
-        type: 'line', // Change this to the type of chart you want
-        data: {
-            labels: ['Project', 'Category', 'Service', 'User'], // Update labels as needed
-            datasets: [{
-                label: '# of Items',
-                data: [${numberProject}, ${numberCategory}, ${numberService}, ${numberUser}], // Update with your data
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)'
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
     });
 </script>
 </body>

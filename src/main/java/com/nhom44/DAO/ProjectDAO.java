@@ -25,16 +25,15 @@ public interface ProjectDAO {
             ") ad ON p.addressId=ad.id" )
     List<Project> getAll();
 
-    @SqlUpdate("INSERT INTO projects(title, description, avatar, price, acreage, addressId, " +
+    @SqlUpdate("INSERT INTO projects(id,title, description, avatar, price, acreage, addressId, " +
             "isAccepted, categoryId, status, postId)" +
-            " VALUES(:title, :description, :avatar, :price, :acreage, :addressId, :isAccepted, " +
+            " VALUES(:id,:title, :description, :avatar, :price, :acreage, :addressId, :isAccepted, " +
             ":categoryId, :status,:postId)")
-    @GetGeneratedKeys("id")
     Integer add(@BindBean Project project);
 
     @GetGeneratedKeys
     @SqlUpdate("UPDATE projects SET title=:title, description=:description, " +
-            " price=:price, acreage=:acreage, addressId=:addressId, " +
+            " price=:price, acreage=:acreage, addressId=:addressId,avatar=:avatar, " +
             "isAccepted=:isAccepted, categoryId=:categoryId, status=:status , updatedAt=now() " +
             "WHERE id=:id")
     Integer updateProject(@BindBean Project project);
@@ -46,7 +45,7 @@ public interface ProjectDAO {
     @SqlUpdate("INSERT INTO excuting_projects(projectId, schedule, estimatedComplete)" +
             " VALUES(:projectId, :schedule, :estimatedComplete)")
     @GetGeneratedKeys
-    int addExcuting(@Bind("projectId") int projectId, @Bind("schedule") String schedule, @Bind("estimatedComplete") String estimatedComplete);
+    int addExcuting(@Bind("projectId") String projectId, @Bind("schedule") String schedule, @Bind("estimatedComplete") String estimatedComplete);
 
 
     @SqlQuery("Select p.id, p.title,p.description, p.avatar, p.price, p.acreage, concat(w.fullName,', ',d.fullName,',   ',pr.fullName) as province, c.name as category, p.isAccepted," +
@@ -92,7 +91,7 @@ public interface ProjectDAO {
 
     @GetGeneratedKeys
     @SqlUpdate("DELETE FROM excuting_projects WHERE projectId=:id ")
-    Integer deleteInExcuting(@Bind("id") int id);
+    Integer deleteInExcuting(@Bind("id") String id);
 
     @GetGeneratedKeys
     @SqlUpdate("UPDATE excuting_projects SET schedule=:schedule, estimatedComplete=:estimatedComplete, updatedAt=now() WHERE projectId=:id")
@@ -203,7 +202,7 @@ public interface ProjectDAO {
             "JOIN Services s ON s.id=ps.serviceId AND s.status=1 ) LIMIT 16 OFFSET :offset")
     List<Project> getLikedProjectByUserId(@Bind("id") int i, @Bind("offset") int offset);
 
-    @SqlQuery("SELECT DISTINCT count(p.id) " +
+    @SqlQuery("SELECT count( DISTINCT p.id) " +
             "FROM Projects p  " +
             "JOIN saved_projects sl ON sl.postId=p.postId " +
             "JOIN Categories c ON p.categoryId = c.id AND c.status=1 " +
@@ -213,7 +212,7 @@ public interface ProjectDAO {
             "JOIN Services s ON s.id=ps.serviceId AND s.status=1 )")
     Integer pageSizeProjectByUserId(@Bind("id") int id);
 
-    @SqlQuery("SELECT p.id, p.title, p.avatar,p.description,p.updatedAt, sl.userId as saveBy " +
+    @SqlQuery("SELECT Distinct p.id, p.title, p.avatar,p.description,p.updatedAt, sl.userId as saveBy " +
             "FROM Projects p  " +
             "Left JOIN (select * from saved_projects s where s.userId=:id) sl ON sl.postId=p.postId  " +
             "JOIN histories h on p.postId = h.postId AND h.userId=:id " +
@@ -223,15 +222,15 @@ public interface ProjectDAO {
             "SELECT projectId " +
             "FROM  Projects_Services ps  " +
             "JOIN Services s ON s.id=ps.serviceId AND s.status=1 )" +
-            "ORDER BY h.id DESC" +
+            "ORDER BY h.updatedAt DESC" +
             " LIMIT 16 OFFSET :offset"
     )
     List<Project> getHistoryUserProject(@Bind("id") int id, @Bind("offset") int offset);
 
-    @SqlUpdate("INSERT INTO histories(postId, userId) VALUES(:postId, :userId)")
+    @SqlUpdate("INSERT INTO histories(postId, userId, updatedAt, createdAt) VALUES(:postId, :userId, now(), now())")
     Integer addHistory(@Bind("userId") int userId, @Bind("postId") int postId);
 
-    @SqlQuery("SELECT count(p.id) " +
+    @SqlQuery("SELECT count(distinct p.id) " +
             "FROM Projects p  " +
             "Left JOIN (select * from saved_projects s where s.userId=:id) sl ON sl.postId=p.postId  " +
             "JOIN histories h on p.postId = h.postId AND h.userId=:id " +

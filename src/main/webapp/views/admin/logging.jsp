@@ -12,6 +12,7 @@
     <link href="<c:url value="/template/css/admin-datatable.css"/>" rel="stylesheet">
     <link href="<c:url value="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css"/>" rel="stylesheet">
     <link href="<c:url value="https://cdn.datatables.net/select/2.0.3/css/select.dataTables.css"/>" rel="stylesheet">
+    <link href="<c:url value="https://cdn.datatables.net/buttons/3.0.2/css/buttons.dataTables.css"/>" rel="stylesheet">
     <title>Title</title>
     <style>
         #custom-button {
@@ -81,6 +82,10 @@
 <script src="<c:url value="https://cdn.datatables.net/2.0.8/js/dataTables.js"/>"></script>
 <script src="<c:url value="https://cdn.datatables.net/select/2.0.3/js/dataTables.select.js"/>"></script>
 <script src="<c:url value="https://cdn.datatables.net/select/2.0.3/js/select.dataTables.js"/>"></script>
+<script src="<c:url value="https://cdn.datatables.net/buttons/3.0.2/js/dataTables.buttons.js"/>"></script>
+<script src="<c:url value="https://cdn.datatables.net/buttons/3.0.2/js/buttons.dataTables.js"/>"></script>
+<script src="<c:url value="https://cdn.datatables.net/buttons/3.0.2/js/buttons.print.min.js"/>"></script>
+
 <script>
     const table = $('#table-user').DataTable({
         ajax: {
@@ -110,17 +115,11 @@
             {
                 data: 'level',
                 render: function (level) {
-                    //     level = 1 is INFO
-                    //     level = 2 is ALERT
-                    //     level = 3 is WARNING
-                    //     level = 4 is DANGER
-                    //     null or '' is UNKNOW
                     return level == 1 ? "<h6 class='mb-0'><span class='badge bg-success'>INFO</span></h6>" :
                         level == 2 ? "<h6 class='mb-0'><span class='badge bg-warning'>ALERT</span></h6>" :
                             level == 3 ? "<h6 class='mb-0'><span class='badge bg-danger'>WARNING</span></h6>" :
                                 level == 4 ? "<h6 class='mb-0'><span class='badge bg-danger'>DANGER</span></h6>" :
                                     "<h6 class='mb-0'><span class='badge bg-danger'>UNKNOW</span></h6>"
-
                 }
             },
             {
@@ -145,6 +144,25 @@
         select: {
             style: 'multi',
             selector: 'td:last-child'
+        },
+        layout: {
+            topStart: {
+                buttons: [
+                    {
+                        extend: 'print',
+                        text: 'Print all',
+                        exportOptions: {
+                            modifier: {
+                                selected: null
+                            }
+                        }
+                    },
+                    {
+                        extend: 'print',
+                        text: 'Print selected'
+                    }
+                ]
+            }
         },
         columnDefs: [
             {
@@ -185,7 +203,7 @@
             "info": "Hiển thị trang _PAGE_ trên _PAGES_",
             "infoEmpty": "Không có dữ liệu",
             "infoFiltered": "(lọc từ _MAX_ dòng dữ liệu)",
-            "search": "<div id='button-container' style='display: inline-block;'></div> Tìm kiếm",
+            "search": "Tìm kiếm",
             "paginate": {
                 "previous": "Trước",
                 "next": "Tiếp theo"
@@ -194,14 +212,6 @@
         "pagingType": "full_numbers",
         "lengthMenu": [5, 10, 15, 20],
         "order": [[0, "asc"]],
-    });
-
-    const button = $('<button id="custom-button" class="btn btn-red p-2">Delete</button>');
-    $('#button-container').append(button);
-    // Handle custom button click event
-    button.on('click', function () {
-        const selectedRows = table.rows({selected: true}).data();
-        console.log(selectedRows);
     });
 
     // Handle 'Select All' checkbox

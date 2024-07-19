@@ -15,6 +15,7 @@ public class Cart implements Serializable {
     private String email;
     private int categoryId;
     private Address address;
+    private String addressS;
     private int addressId;
     private int representProjectId;
     private double width;

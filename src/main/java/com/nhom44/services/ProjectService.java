@@ -1,6 +1,8 @@
 package com.nhom44.services;
 
+import com.nhom44.DAO.HistoryDAO;
 import com.nhom44.DAO.ProjectDAO;
+import com.nhom44.bean.History;
 import com.nhom44.bean.Project;
 import com.nhom44.db.JDBIConnector;
 import com.nhom44.util.DateUtil;
@@ -25,22 +27,20 @@ public class ProjectService {
     }
 
     public Project add(Project project, boolean isComplete) {
-        int id =Integer.MIN_VALUE;
-        id = conn.withExtension(ProjectDAO.class, dao -> dao.add(project));
+        conn.withExtension(ProjectDAO.class, dao -> dao.add(project));
         if (!isComplete) {
-            project.setId(id);
 //            Project nProject = getProjectByObject(project);
-             addExcuting(project);
+            addExcuting(project);
 //            status = s1 == 1 && s2 == 1 ? 1 : 0;
         }
 
-        return project ;
+        return project;
 //                == 1 ? getProjectByObject(project) : null;
     }
 
     public int addExcuting(Project project) {
-            Project finalProject = project;
-            return conn.withExtension(ProjectDAO.class, dao -> dao.addExcuting(finalProject.getId(), finalProject.getSchedule(), finalProject.getEstimatedComplete()));
+        Project finalProject = project;
+        return conn.withExtension(ProjectDAO.class, dao -> dao.addExcuting(finalProject.getId(), finalProject.getSchedule(), finalProject.getEstimatedComplete()));
     }
 
     public boolean isFinishProject(int id) {
@@ -59,12 +59,6 @@ public class ProjectService {
         return conn.withExtension(ProjectDAO.class, dao -> dao.getProjectByObject(project));
     }
 
-    public Project updateProjectAvatar(Project project) {
-        System.out.println("update avatar");
-        System.out.println(project.toString());
-        conn.withExtension(ProjectDAO.class, dao -> dao.updateProjectAvatar(project));
-        return getById(project.getId());
-    }
 
     public Project updateProject(Project project, boolean isComplete) {
         if (isComplete) {
@@ -80,11 +74,6 @@ public class ProjectService {
 
     public int addProjectForUser(int projectId, int userId) {
         return conn.withExtension(ProjectDAO.class, dao -> dao.addProjectForUser(projectId, userId));
-    }
-
-    public int deleteInExcuting(int id) {
-        return conn.withExtension(ProjectDAO.class, dao -> dao.deleteInExcuting(id));
-
     }
 
 
@@ -121,7 +110,6 @@ public class ProjectService {
             return res;
         });
     }
-
 
 
     public List<Project> get8ActiveProjectHighestView(int id, int userid) {
@@ -164,11 +152,19 @@ public class ProjectService {
     }
 
     public List<Project> getHistoryUserProject(int id, int offset) {
+        System.out.println("get history user project");
+        System.out.println(id + " " + offset);
+
         List<Project> projects = conn.withExtension(ProjectDAO.class, dao -> dao.getHistoryUserProject(id, offset));
         for (Project p : projects) {
             if (p.getSaveBy() == id && p.getSaveBy() != 0) p.setSave(true);
         }
         return projects;
+    }
+
+    public static void main(String[] args) {
+        int i = ProjectService.getInstance().pageSizeHistoryProjectByUserId(34);
+        System.out.println(i);
     }
 
     public void addHistory(int userId, int postId) {
@@ -195,13 +191,6 @@ public class ProjectService {
         return projects;
     }
 
-    public static void main(String[] args) {
-        List<Project> all= getInstance().getAllProject();
-        for (Project p: all) {
-            System.out.println(p.toString());
-        }
-    }
-
     public void acceptProject(int idInt) {
         conn.withExtension(ProjectDAO.class, dao -> dao.acceptProject(idInt));
     }
@@ -210,4 +199,8 @@ public class ProjectService {
         return conn.withExtension(ProjectDAO.class, dao -> dao.isLikeByUser(userid, postid));
     }
 
+//    get all histories
+    public List<History> getAllHistory() {
+        return conn.withExtension(HistoryDAO.class, dao -> dao.getAllHistory());
+    }
 }

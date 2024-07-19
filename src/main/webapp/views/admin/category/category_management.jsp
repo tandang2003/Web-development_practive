@@ -45,7 +45,7 @@
                         <h3 class="font-weight-bold main-color m-0">QL LOẠI DỰ ÁN</h3>
                     </div>
                     <div class="col-6 d-flex justify-content-end align-items-center p-0">
-                        <a href="/admin/category_management?action=add">
+                        <a href="/admin/category_management/add">
                             <button class="btn btn-blue p-2" type="button"><i class="fa-solid fa-plus"></i> Thêm loại dự
                                 án
                             </button>
@@ -101,7 +101,7 @@
     let index = 1;
     $('#project-type-table').dataTable({
         ajax: {
-            url: "${pageContext.request.contextPath}/api/admin/category",
+            url: "/api/admin/category",
             type: "get",
             dataSrc: "",
             dataType: "json",
@@ -143,7 +143,7 @@
             {
                 data: "id",
                 render: function (id) {
-                    return '<a href="/admin/category_management?action=edit&id=' + id + '"><i class="icon-action fa-solid fa-edit"></i></a>\n'
+                    return '<a href="/admin/category_management/edit/' + id + '"><i class="icon-action fa-solid fa-edit"></i></a>\n'
                 }
             },
         ],

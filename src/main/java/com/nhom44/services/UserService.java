@@ -75,7 +75,7 @@ public class UserService {
 
 
 
-    public User getUserOwnerOfProject(int projectId) {
+    public User getUserOwnerOfProject(String projectId) {
         return conn.withExtension(UserDAO.class, dao -> dao.getUserOwnerOfProject(projectId));
     }
 

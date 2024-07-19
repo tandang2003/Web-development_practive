@@ -21,7 +21,7 @@ public class ImageService {
         return i;
     }
 
-    public int addImageForProject(int id, int idImg) {
+    public int addImageForProject(String id, int idImg) {
         return conn.withExtension(ImageDAO.class, dao -> dao.addProjectImage(id,idImg));
     }
 
@@ -30,20 +30,15 @@ public class ImageService {
     }
 
     public static void main(String[] args) {
-        switch ("a"){
-            case "a":
-                if(true) {
-                    System.out.println("a");
-                    return;
-                }
-                System.out.println("b");
-                break;
+      List<String> list=  ImageService.getInstance().getGroupImagesByProjectId(1);
+        for (String s : list) {
+            System.out.println(s);
         }
     }
 
-    public void updateImageForProject(int id, int idImg) {
-        addImageForProject(id, idImg);
-    }
+//    public void updateImageForProject(int id, int idImg) {
+//        addImageForProject(id, idImg);
+//    }
 
     public int deleteAllImageProProject(int id) {
       return  conn.withExtension(ImageDAO.class, dao -> dao.deleteAllImageProProject(id));
