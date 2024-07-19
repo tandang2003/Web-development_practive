@@ -9,6 +9,8 @@ import org.jdbi.v3.core.Jdbi;
 
 import java.util.Map;
 
+import static com.nhom44.util.GsonUtil.getGson;
+
 public abstract class AbsModel implements IModel {
     protected AbsModel preValue;
     protected AbsModel afterValue;
@@ -18,8 +20,8 @@ public abstract class AbsModel implements IModel {
 
     public void insert(Map<String, String> map) {
         Log log = new Log();
-        log.setPreValue(new Gson().toJson(this.preValue));
-        log.setAfterValue(new Gson().toJson(this.afterValue));
+        log.setPreValue(getGson().toJson(this.preValue));
+        log.setAfterValue(getGson().toJson(this.afterValue));
         log.setIp(map.get("ip"));
         log.setLevel(Integer.parseInt(map.get("level")));
         log.setNational(Ip2Location.getNationality(map.get("ip")));

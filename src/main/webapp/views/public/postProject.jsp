@@ -233,7 +233,23 @@
             updateOrder($('#orderForm'))
         })
         validate('#orderForm', orderValidator, function (form) {
+            $.ajax({
+                url: '/api/cart/submit',
+                type: 'POST',
+                data: $(form).serializeArray(),
+                success: function (data) {
+                    data=JSON.parse(data)
+                    if(data.status===200){
+                        successAlert(data.message)
+                    }else{
+                        errorAlert(data.message)
+                    }
+                },
+                error: function (event) {
+                    console.log(event)
+                }
 
+            })
         });
     })
 </script>

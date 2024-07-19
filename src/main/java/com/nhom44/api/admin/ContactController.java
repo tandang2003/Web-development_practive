@@ -12,12 +12,14 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
+import static com.nhom44.util.GsonUtil.getGson;
+
 @WebServlet(urlPatterns = {"/api/admin/contact"})
 public class ContactController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<Contact> contacts = com.nhom44.services.ContactService.getInstance().getAll();
-        String json = new Gson().toJson(contacts);
+        String json = getGson().toJson(contacts);
         System.out.println(json);
         PrintWriter printWriter = resp.getWriter();
         printWriter.print(json);

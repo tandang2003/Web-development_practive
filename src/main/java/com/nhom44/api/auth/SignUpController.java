@@ -5,6 +5,7 @@ import com.mysql.cj.protocol.FullReadInputStream;
 import com.nhom44.bean.Address;
 import com.nhom44.bean.ResponseModel;
 import com.nhom44.bean.User;
+import com.nhom44.log.util.function.SignupLog;
 import com.nhom44.services.AddressService;
 import com.nhom44.services.MailService;
 import com.nhom44.services.UserService;
@@ -27,46 +28,51 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import static com.nhom44.util.GsonUtil.getGson;
+
 @WebServlet(
         urlPatterns = {"/api/register"}
 )
 public class SignUpController extends HttpServlet {
-    public SignUpController() {
-    }
 
+    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Gson gson = new Gson();
+        Gson gson = getGson();
         UserService userService = UserService.getInstance();
-        AddressService addressService = AddressService.getInstance();
         PrintWriter printWriter = resp.getWriter();
-        ResponseModel responseModel;
         Map<String, String[]> map = req.getParameterMap();
-        responseModel = validate(map);
-        if (responseModel != null) {
+        ResponseModel responseModel = validate(map);
+        System.out.println("response model value: " + responseModel);
+        if (responseModel == null) {
             User user = createUserObject(map);
-            //TODO hỏi lấy id làm sao
             User addedUser = userService.addUser(user);
+            SignupLog signupLog = new SignupLog(req, addedUser);
+            System.out.println("addedUser: "+addedUser.toString());
             if (addedUser.getPassword() == null && addedUser.getId() != 0) {
                 int userId = userService.getIdUserWithEmail(addedUser.getEmail());
+                signupLog.createLog();
                 String token = UUID.randomUUID().toString();
                 VerifyService.getInstance().insert(token, userId);
                 MailService.getInstance().sendMailToVerify(null, addedUser.getEmail(), token);
                 responseModel = new ResponseModel();
                 responseModel.setName("success");
+                responseModel.setStatus("200");
                 responseModel.setMessage("Xin vui lòng truy cập email để xác thực tài khoản của bạn");
                 responseModel.setData("/home");
             } else if (addedUser.getPassword() != null && addedUser.getId() == 0) {
                 responseModel = new ResponseModel();
+                signupLog.failLog();
+                responseModel.setStatus("400");
                 responseModel.setName("error");
                 responseModel.setMessage("Hệ thống hiện tại hiện tại đang bận vui lòng thử lại sau");
                 responseModel.setData(addedUser);
             }
             resp.setStatus(200);
+
             printWriter.print(gson.toJson(responseModel));
             printWriter.flush();
             printWriter.close();
         }
-
     }
 
     private User createUserObject(Map<String, String[]> map) {
@@ -103,7 +109,7 @@ public class SignUpController extends HttpServlet {
                     break;
             }
         });
-        return null;
+        return user;
     }
 
     private ResponseModel validate(Map<String, String[]> map) {
@@ -123,7 +129,6 @@ public class SignUpController extends HttpServlet {
             }
             if (map.get("password")[0].length() < 6) {
                 responseModel.setName("password");
-
                 responseModel.setMessage("Mật khẩu phải có ít nhất 6 ký tự");
                 return responseModel;
             }

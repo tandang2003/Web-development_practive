@@ -109,7 +109,6 @@ public class ProjectService {
 
     public List<Project> getProjetAllActive(int offset, int categoryId, int serviceId, int provinceId, long minPrice, long maxPrice, int minAcreage, int maxAcreage, int userid) {
 
-        System.out.println(offset + " " + categoryId + " " + serviceId + " " + provinceId + " " + minPrice + " " + maxPrice + " " + minAcreage + " " + maxAcreage + " " + userid);
 
         return conn.withExtension(ProjectDAO.class, dao -> {
             List<Project> res = dao.getProjetAllActive(offset, categoryId, serviceId, provinceId, minPrice, maxPrice, minAcreage, maxAcreage, userid);
@@ -121,19 +120,6 @@ public class ProjectService {
 //            });
             return res;
         });
-    }
-
-    public static void main(String[] args) {
-        //add sample project
-        Project project = Project.builder().categoryId(2).title("test22").description("testtest").avatar("null").addressId(1).build();
-        try {
-            project.setPrice(100000000);
-            Project a= ProjectService.getInstance().add(project, true);
-
-        } catch (Exception e) {
-            e.getMessage();
-            System.out.println(e.getMessage());
-        }
     }
 
 
@@ -209,6 +195,12 @@ public class ProjectService {
         return projects;
     }
 
+    public static void main(String[] args) {
+        List<Project> all= getInstance().getAllProject();
+        for (Project p: all) {
+            System.out.println(p.toString());
+        }
+    }
 
     public void acceptProject(int idInt) {
         conn.withExtension(ProjectDAO.class, dao -> dao.acceptProject(idInt));

@@ -1,14 +1,9 @@
 package com.nhom44.api.admin;
 
 import com.google.gson.Gson;
-import com.nhom44.bean.Project;
-import com.nhom44.bean.User;
-import com.nhom44.bean.Image;
-import com.nhom44.bean.ResponseModel;
-import com.nhom44.services.ImageService;
-import com.nhom44.services.ProjectService;
-import com.nhom44.services.ServiceOfProjectService;
-import com.nhom44.services.UserService;
+import com.google.gson.JsonObject;
+import com.nhom44.bean.*;
+import com.nhom44.services.*;
 import com.nhom44.util.StringUtil;
 import com.nhom44.util.Upload;
 import com.nhom44.validator.*;
@@ -28,7 +23,9 @@ import java.io.PrintWriter;
 import java.sql.Date;
 import java.util.*;
 
-@WebServlet(urlPatterns = "/api/admin/project")
+import static com.nhom44.util.GsonUtil.getGson;
+
+@WebServlet(urlPatterns = {"/api/admin/project", "/api/admin/project/add", "/api/admin/project/edit/*"})
 @MultipartConfig(
         maxFileSize = 1024 * 1024 * 10,
         maxRequestSize = 1024 * 1024 * 10 * 5,
@@ -36,16 +33,73 @@ import java.util.*;
 public class ProjectController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<Project> projects = ProjectService.getInstance().getAllProject();
-        projects.forEach(project -> project.setUpdatedAt(project.getUpdatedAt().trim()
-//        .substring(0,project.getUpdatedAt().indexOf(" "))
-        ));
-        Gson gson = new Gson();
-        PrintWriter printWriter = resp.getWriter();
-        String json = gson.toJson(projects);
-        printWriter.println(json);
-        printWriter.flush();
-        printWriter.close();
+        String url = req.getServletPath();
+        if (url.equals("/api/admin/project")) {
+            List<Project> projects = ProjectService.getInstance().getAllProject();
+            projects.forEach(project -> project.setUpdatedAt(project.getUpdatedAt().trim()));
+            Gson gson = getGson();
+            PrintWriter printWriter = resp.getWriter();
+            String json = gson.toJson(projects);
+            printWriter.println(json);
+            printWriter.flush();
+            printWriter.close();
+        } else {
+            JsonObject jsonObject = new JsonObject();
+            JsonObject data = new JsonObject();
+            CategoryService categoryService = CategoryService.getInstance();
+            data.add("categories", getGson().toJsonTree(categoryService.getAll()));
+            ServiceOfProjectService serviceOfProjectService = ServiceOfProjectService.getInstance();
+            data.add("services", getGson().toJsonTree(serviceOfProjectService.getAll()));
+            ProvinceService provinceService = ProvinceService.getInstance();
+            data.add("provinces", getGson().toJsonTree(provinceService.getAll()));
+            if (url.equals("/api/admin/project/edit")) {
+                String idS= req.getPathInfo().substring(1);
+                if (idS.isEmpty()) {
+                    //error
+                    jsonObject.addProperty("status", 404);
+                    jsonObject.addProperty("message", "Không tìm thấy dự án");
+                    jsonObject.addProperty("data", "/admin/project_management");
+                    resp.setStatus(200);
+                    PrintWriter printWriter = resp.getWriter();
+                    printWriter.println(jsonObject.toString());
+                    printWriter.flush();
+                    return;
+                }
+                int id = Integer.parseInt(idS);
+                Project project = ProjectService.getInstance().getById(id);
+                if (project == null) {
+                    jsonObject.addProperty("status", 404);
+                    jsonObject.addProperty("message", "Không tìm thấy dự án");
+                    jsonObject.addProperty("data", "/admin/project_management");
+                    resp.setStatus(200);
+                    PrintWriter printWriter = resp.getWriter();
+                    printWriter.println(jsonObject.toString());
+                    printWriter.flush();
+                    return;
+                }
+                data.add("project", getGson().toJsonTree(project));
+                data.addProperty("isExcuting", project.getEstimatedComplete() != null && !project.getEstimatedComplete().isEmpty() && project.getSchedule() != null && !project.getSchedule().isEmpty());
+                Post post = PostService.getInstance().getById(project.getPostId());
+                data.add("post", getGson().toJsonTree(post));
+                List<Service> services = ServiceOfProjectService.getInstance().getServicesByProjectId(id);
+
+                data.add("servicesOfproject", getGson().toJsonTree(services));
+                String userEmail = UserService.getInstance().getUserOwnerOfProject(project.getId()).getEmail();
+                data.addProperty("userEmail", userEmail);
+
+                List<String> groupImages = ImageService.getInstance().getGroupImagesByProjectId(id);
+                data.add("groupImages", getGson().toJsonTree(groupImages));
+            }
+            jsonObject.addProperty("status", 200);
+            jsonObject.addProperty("message", "Thành công");
+            jsonObject.add("data", data);
+            resp.setStatus(200);
+            PrintWriter printWriter = resp.getWriter();
+            printWriter.println(jsonObject.toString());
+            printWriter.flush();
+            printWriter.close();
+            return;
+        }
     }
 
     @Override
@@ -161,7 +215,7 @@ public class ProjectController extends HttpServlet {
 //            if (isErr) {
 //                System.out.println(1231);
 //                resp.setStatus(400);
-//                Gson gson = new Gson();
+//                Gson gson = getGson();
 //                PrintWriter printWriter = resp.getWriter();
 //                String json = gson.toJson(errMess);
 //                System.out.println(json);
@@ -193,7 +247,7 @@ public class ProjectController extends HttpServlet {
 //                    responseModel.setMessage("Vui lòng chọn ảnh mô tả dự án");
 //                    responseModel.setName("groupImage");
 //                    errMess.add(responseModel);
-//                    Gson gson = new Gson();
+//                    Gson gson = getGson();
 //                    PrintWriter printWriter = resp.getWriter();
 //                    String json = gson.toJson(errMess);
 //                    printWriter.println(json);
@@ -215,7 +269,7 @@ public class ProjectController extends HttpServlet {
 //                    responseModel.setMessage("Vui lòng chọn ảnh đại diện");
 //                    responseModel.setName("avatar");
 //                    errMess.add(responseModel);
-//                    Gson gson = new Gson();
+//                    Gson gson = getGson();
 //                    PrintWriter printWriter = resp.getWriter();
 //                    String json = gson.toJson(errMess);
 //                    printWriter.println(json);
@@ -261,7 +315,7 @@ public class ProjectController extends HttpServlet {
             responseModel.setName("success");
             responseModel.setMessage("Chỉnh sửa thành công");
             responseModel.setData("/admin/project_management");
-            Gson gson = new Gson();
+            Gson gson = getGson();
             PrintWriter printWriter = resp.getWriter();
             String json = gson.toJson(responseModel);
             printWriter.println(json);
@@ -275,7 +329,7 @@ public class ProjectController extends HttpServlet {
             e.printStackTrace();
             responseModel.setData(null);
             responseModel.setName("sys");
-            Gson gson = new Gson();
+            Gson gson = getGson();
             PrintWriter printWriter = resp.getWriter();
             String json = gson.toJson(responseModel);
             printWriter.println(json);

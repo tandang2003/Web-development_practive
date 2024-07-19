@@ -5,11 +5,14 @@ import {
     ref,
     uploadBytesResumable,
     getDownloadURL,
+    getMetadata,
     deleteObject
 } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-storage.js";
 
 export const AVATAR = 'avatar';
 export const PROJECT = 'project';
+export const GALLERY = 'gallery';
+export const ORDER = 'order';
 export const POST = 'post';
 export const CATEGORY = 'category';
 const firebaseConfig = {
@@ -68,37 +71,6 @@ export const upload = (files, place) => {
 
     return Promise.all(uploadPromises);
 };
-// export const upload = (file, place) => {
-//     var urls = []
-//     file.forEach((e, i) => {
-//         var uploadTask = uploadBytesResumable(ref(storageRef, place + '/' + e.file.name), e.file);
-//         uploadTask.on('state_changed',
-//             (snapshot) => {
-//                 console.log('totalBytes for upload ', snapshot.totalBytes)
-//                 var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-//                 console.log('Upload is ' + progress.toString() + '% done');
-//                 switch (snapshot.state) {
-//                     case 'paused':
-//                         console.log('Upload is paused');
-//                         break;
-//                     case 'running':
-//                         console.log('Upload is running');
-//                         break;
-//                 }
-//             },
-//             (error) => {
-//                 errorAlert("Xin vui lòng thực hiện lại sau 5p")
-//             },
-//             () => {
-//                 getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-//                     console.log('File available at', downloadURL);
-//                 });
-//                 urls.push(e.file.name)
-//             }
-//         );
-//     })
-//     return urls
-// }
 
 export const deleteImage = async (refFiles, place, repeat = 0) => {
     if (repeat > 3) {
@@ -132,3 +104,29 @@ export const deleteImage = async (refFiles, place, repeat = 0) => {
     // Check if all deletions were successful
     return results.every(result => result === true);
 };
+
+export const getDownloadUrl = async (refFiles, place) => {
+    const files = refFiles.split(',');
+
+    const downloadPromises = files.map(fileName => {
+        const fileRef = ref(storage, `${place}/${fileName}`);
+        return getDownloadURL(fileRef);
+    });
+
+    return Promise.all(downloadPromises);
+}
+export const getImageInfo = async (refFiles, place) => {
+    const files = refFiles.split(',');
+    let data=[]
+    const downloadPromises = files.map(fileName => {
+        const fileRef = ref(storage, `${place}/${fileName}`);
+        return getMetadata(fileRef);
+    });
+    data.push(downloadPromises[0])
+    const downloadUrl = files.map(fileName => {
+        const fileRef = ref(storage, `${place}/${fileName}`);
+        return getDownloadURL(fileRef);
+    });
+    data.push(downloadUrl[0])
+    return Promise.all(data);
+}

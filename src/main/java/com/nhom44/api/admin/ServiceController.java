@@ -22,6 +22,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.nhom44.util.GsonUtil.getGson;
+
 @WebServlet(urlPatterns = "/api/admin/service")
 @MultipartConfig(
         maxFileSize = 1024 * 1024 * 10,
@@ -56,7 +58,7 @@ public class ServiceController extends HttpServlet {
         }
         if (isErr) {
             resp.setStatus(400);
-            resp.getWriter().print(new Gson().toJson(errList));
+            resp.getWriter().print(getGson().toJson(errList));
             resp.getWriter().flush();
             return;
         }
@@ -75,7 +77,7 @@ public class ServiceController extends HttpServlet {
                     errModel.setName("avatar");
                     errModel.setMessage("Vui lòng chọn ảnh cho dịch vụ");
                     errList.add(errModel);
-                    resp.getWriter().print(new Gson().toJson(errList));
+                    resp.getWriter().print(getGson().toJson(errList));
                     resp.getWriter().flush();
                 }
                 int i = ServiceOfProjectService.getInstance().add(service);
@@ -85,7 +87,7 @@ public class ServiceController extends HttpServlet {
                     errModel.setName("name");
                     errModel.setMessage("dịch vụ đã tồn tại");
                     errList.add(errModel);
-                    resp.getWriter().print(new Gson().toJson(errList));
+                    resp.getWriter().print(getGson().toJson(errList));
                     resp.getWriter().flush();
                     return;
                 }
@@ -112,7 +114,7 @@ public class ServiceController extends HttpServlet {
             errModel.setName("sys");
             errModel.setMessage("Lỗi hệ thống");
             errList.add(errModel);
-            resp.getWriter().print(new Gson().toJson(errList));
+            resp.getWriter().print(getGson().toJson(errList));
             resp.getWriter().flush();
             return;
         }
@@ -121,7 +123,7 @@ public class ServiceController extends HttpServlet {
         errModel.setName("success");
         errModel.setMessage("Thành công");
         errModel.setData("/admin/service");
-        resp.getWriter().print(new Gson().toJson(errModel));
+        resp.getWriter().print(getGson().toJson(errModel));
         resp.getWriter().flush();
     }
 }

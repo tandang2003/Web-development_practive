@@ -15,18 +15,7 @@ public class ProjectController extends HttpServlet {
     @Override
     protected void doGet(javax.servlet.http.HttpServletRequest req, javax.servlet.http.HttpServletResponse resp) throws javax.servlet.ServletException, java.io.IOException {
         req.setAttribute("page", "project");
-        String categoryId = req.getParameter("category");
-        if (categoryId != null) {
-            int id = Integer.parseInt(categoryId);
-            Category category = CategoryService.getInstance().getById(id);
-            req.setAttribute("category", category);
-        }
-
-        new LogPage().log(req);
-        List<PriceObjectHelper> prices = SearcherProjectUtil.PRICE_SEARCHING;
-        req.setAttribute("prices", prices);
-        List<Integer> acreages = SearcherProjectUtil.ACREAGE;
-        req.setAttribute("acreages", acreages);
+        new LogPage(req).log();
         req.getRequestDispatcher("/views/public/project.jsp").forward(req, resp);
     }
 }

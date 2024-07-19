@@ -16,6 +16,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 
+import static com.nhom44.util.GsonUtil.getGson;
+
 @WebServlet(urlPatterns = "/api/admin/post")
 public class PostController extends HttpServlet {
     @Override
@@ -34,7 +36,7 @@ public class PostController extends HttpServlet {
             responseModel.setMessage("Lỗi không xác định");
             responseModel.setData(null);
             responseModel.setName("sys");
-            printWriter.println(new Gson().toJson(responseModel));
+            printWriter.println(getGson().toJson(responseModel));
             printWriter.flush();
             printWriter.close();
             return;
@@ -59,7 +61,7 @@ public class PostController extends HttpServlet {
             responseModel.setData(post);
             responseModel.setName("success");
         }
-        printWriter.println(new Gson().toJson(responseModel));
+        printWriter.println(getGson().toJson(responseModel));
         printWriter.flush();
         printWriter.close();
         System.out.println(42354);

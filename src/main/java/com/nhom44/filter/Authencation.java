@@ -2,6 +2,7 @@
 package com.nhom44.filter;
 
 import com.nhom44.bean.User;
+import com.nhom44.services.UserService;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -27,21 +28,19 @@ public class  Authencation implements Filter {
         this.filterChain = chain;
         String uri = ((HttpServletRequest) request).getRequestURI();
 
-        User user = (User) this.request.getSession().getAttribute("auth");
+        User user = (User) this.request.getSession().getAttribute("account");
+
         if (user == null) {
             this.response.sendRedirect(this.request.getContextPath() + "/login");
             return;
-        } else if (uri.startsWith("/admin") && user.getRole() != 1) {
-            this.response.sendRedirect(this.request.getContextPath() + "/login");
-            return;
-
+        } else {
+            int id= UserService.getInstance().getRole(user.getId());
+            if (uri.startsWith("/admin") && id != 1) {
+                this.response.sendRedirect(this.request.getContextPath() + "/home");
+                return;
+            }
         }
-//            if (user == null || user.getRole() != 1) {
-//                this.response.sendRedirect(this.request.getContextPath() + "/login");
-//                return;
-//            }
         this.filterChain.doFilter(this.request, this.response);
-
     }
 
     @Override

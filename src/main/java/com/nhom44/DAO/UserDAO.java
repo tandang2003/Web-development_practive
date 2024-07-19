@@ -5,6 +5,7 @@ import com.nhom44.bean.User;
 import org.jdbi.v3.sqlobject.config.RegisterBeanMapper;
 import org.jdbi.v3.sqlobject.customizer.Bind;
 import org.jdbi.v3.sqlobject.customizer.BindBean;
+import org.jdbi.v3.sqlobject.statement.GetGeneratedKeys;
 import org.jdbi.v3.sqlobject.statement.SqlQuery;
 import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 
@@ -15,6 +16,7 @@ import java.util.List;
 public interface UserDAO {
     @SqlUpdate("INSERT INTO users(fullname, email, password, role, phone , addressId, birthday, gender, status)" +
             " VALUES(:fullname,:email,:password,:role, :phone,:addressId ,:birthday, :gender, :status)")
+    @GetGeneratedKeys
     int insertUser(@Bind("fullname") String fulllName, @Bind("email") String email,
                    @Bind("password") String password,
                    @Bind("role") int role, @Bind("phone") String phone,
@@ -26,7 +28,7 @@ public interface UserDAO {
     int updateUser(@BindBean User user, @Bind("oldEmail") String oldEmail);
 
     @SqlUpdate("UPDATE users SET fullname =:fullName , email =:email , password =:password, " +
-            "role =:role,phone=:phone, birthday=:birthday, addressId=:addressId, " +
+            "role =:role, phone=:phone, birthday=:birthday, addressId=:addressId, " +
             "gender=:gender, status=:status ,updatedAt=now() WHERE id=:id")
     int updateUser(@BindBean User user);
 
@@ -60,8 +62,7 @@ public interface UserDAO {
     @SqlUpdate("UPDATE users SET status=1 WHERE id=:id")
     Boolean updateSuccessVerify(@Bind("id") int id);
 
-    @SqlQuery("Select u.id, u.fullname, u.email,u.password, u.phone, u.gender,u.status,u.role, u.birthday,p.name as province " +
-            "FROM users u Left Join provinces p ON u.addressId=p.id where u.email=:email AND u.status=1")
+    @SqlQuery("Select * FROM users u where u.email=:email AND u.status=1")
     User getUserByEmailForCustomer(@Bind("email") String email);
 
     @SqlUpdate("INSERT INTO users(email,password,fullName,role,status) VALUES(:email,:password,:fullName,:role,:status)")
@@ -69,7 +70,11 @@ public interface UserDAO {
 
     @SqlUpdate("UPDATE users SET password=:password WHERE email=:email")
     Boolean updatePassword(@Bind("email") String email, @Bind("password") String password);
+    @SqlQuery("SELECT * FROM users WHERE id=:id")
+    User getUserById(@Bind("id")int id);
 
     @SqlUpdate("INSERT INTO users(email,password,fullName,role,status) VALUES(:email,:password,:fullName,:role,:status)")
     Integer insertFacebookUser(@BindBean User user);
+    @SqlQuery("SELECT role FROM users WHERE id=:id")
+    Integer getRole(@Bind("id")int id);
 }

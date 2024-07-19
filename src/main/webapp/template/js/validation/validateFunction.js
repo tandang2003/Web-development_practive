@@ -5,6 +5,7 @@ const validate = function (element, validator, Function, container = ".param-con
             messages: validator.messages,
             errorElement: "div", // Thẻ HTML sẽ hiển thị thông báo lỗi
             errorPlacement: function (error, element) {
+                console.log(error)
                 // Đặt vị trí hiển thị thông báo lỗi
                 if(!element.attr('name')){
                     return
@@ -23,7 +24,6 @@ const validate = function (element, validator, Function, container = ".param-con
                 $("#" + element.id + "-error").remove();
             },
             submitHandler: function (form) {
-                console.log(123)
                 Function(form)
             }
         }

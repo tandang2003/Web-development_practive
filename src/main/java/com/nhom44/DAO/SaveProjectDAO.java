@@ -6,6 +6,7 @@ import org.jdbi.v3.sqlobject.customizer.Bind;
 import org.jdbi.v3.sqlobject.customizer.BindBean;
 import org.jdbi.v3.sqlobject.statement.SqlQuery;
 import org.jdbi.v3.sqlobject.statement.SqlUpdate;
+
 @RegisterBeanMapper(SaveItem.class)
 public interface SaveProjectDAO {
     @SqlUpdate("INSERT INTO saved_projects(postId, userId, status, createdAt, updatedAt) VALUES(:postId, :userId,:status,Now(),Now()) ")
@@ -20,9 +21,11 @@ public interface SaveProjectDAO {
 
     @SqlQuery("Select * FROM saved_projects WHERE postId=:postId AND userId=:userId")
     SaveItem getSavedProject(@Bind("postId") int postId, @Bind("userId") int id);
+
     @SqlQuery("Select EXISTS(SELECT id FROM saved_projects WHERE postId=:postId AND userId=:userId)")
     Boolean isExists(@Bind("postId") int postId, @Bind("userId") int id);
-@SqlUpdate("Update saved_projects SET updatedAt=Now(), status=:status" +
+
+    @SqlUpdate("Update saved_projects SET updatedAt=Now(), status=:status" +
             " WHERE postId=:postId AND userId=:userId")
     Boolean updateSaveStatus(@BindBean SaveItem saveItem);
 }

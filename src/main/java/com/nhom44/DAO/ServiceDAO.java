@@ -16,7 +16,12 @@ public interface ServiceDAO {
 
     @SqlQuery("    SELECT s.id, s.name, s.description,s.avatar, s.postId," +
             "count(ps.id) as numberOfProject,  " +
-            "count(h.id) AS numberOfView ,s.status FROM Services s LEFT JOIN Projects_Services ps ON s.id=ps.serviceId JOIN Posts p ON p.id=s.postId   LEFT JOIN Histories h ON h.postId=p.id GROUP BY s.id, s.name, s.description, s.status")
+            "count(h.id) AS numberOfView ,s.status FROM Services s " +
+            "LEFT JOIN Projects_Services ps ON s.id=ps.serviceId " +
+            "LEFT JOIN Posts p ON p.id=s.postId   " +
+            "LEFT JOIN Histories h ON h.postId=p.id " +
+            "WHERE s.status=1 " +
+            "GROUP BY s.id, s.name, s.description, s.status")
     List<Service> getAll();
 
     @SqlQuery("SELECT s.id, s.name, s.status FROM services s " +
@@ -43,7 +48,8 @@ public interface ServiceDAO {
 
     @SqlUpdate("UPDATE services SET name=:name, description=:description, avatar=:avatar, status=:status, postId=:postId WHERE id=:id")
     Integer update(@BindBean Service service);
-//TODO check lỗi
+
+    //TODO check lỗi
     @SqlQuery("SELECT s.id,s.name, s.description, s.postId, s.avatar, s.status,p.content " +
             "FROM services s Left Join posts p on s.postId=p.id " +
             "WHERE s.id=:id")
@@ -68,4 +74,6 @@ public interface ServiceDAO {
             ",s.status FROM Services s " +
             "GROUP BY s.id, s.name, s.description, s.status ")
     List<Service> getSuggestServices();
+
+
 }

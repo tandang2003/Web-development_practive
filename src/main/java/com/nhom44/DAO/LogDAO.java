@@ -3,7 +3,10 @@ package com.nhom44.DAO;
 import com.nhom44.log.model.Log;
 import org.jdbi.v3.sqlobject.config.RegisterBeanMapper;
 import org.jdbi.v3.sqlobject.customizer.BindBean;
+import org.jdbi.v3.sqlobject.statement.SqlQuery;
 import org.jdbi.v3.sqlobject.statement.SqlUpdate;
+
+import java.util.List;
 
 @RegisterBeanMapper(Log.class)
 public interface LogDAO {
@@ -20,4 +23,6 @@ public interface LogDAO {
     void logout();
 
     void Access();
+    @SqlQuery("SELECT id,level,ip,address, updatedAt, createdAt FROM logs")
+    List<Log> getAllLogs();
 }

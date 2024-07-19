@@ -26,7 +26,10 @@ public class UserService {
     public static UserService getInstance() {
         return instance != null ? instance : (instance = new UserService());
     }
-
+    public void FacebookAdditional(User user) {
+        user.setPassword(StringUtil.hashPassword(user.getPassword()));
+        conn.withExtension(UserDAO.class, dao -> dao.insertFacebookUser(user));
+    }
     public List<User> getAllUser() {
         return conn.withExtension(UserDAO.class, dao -> dao.getAllUser());
     }
@@ -40,107 +43,44 @@ public class UserService {
         return conn.withExtension(UserDAO.class, dao -> dao.NumOfSameEmailContain(email)) == 1;
     }
 
-// address
-//    public User additional(String email, String password, String fullName, Date birthday, String phone, String isMale, String status, String role, int addressId) {
-//        User user = new User();
-//        user.setEmail(email);
-//        user.setPassword(StringUtil.hashPassword(password));
-//        user.setFullName(fullName);
-//        user.setBirthday(new java.sql.Date(birthday.getTime()));
-//        user.setPhone(phone);
-//        user.setAddressId(addressId);
-//
-//        user.setGender(isMale != null ? 1 : 0);
-//        user.setStatus(Integer.parseInt(status));
-//        user.setRole(Integer.parseInt(role));
-//        String idAddress = conn.withExtension(ProvinceDAO.class, handle -> handle.getSpecificId(String.valueOf(addressId)));
-//        int line = Integer.MIN_VALUE;
-//        line = conn.withExtension(UserDAO.class, handle -> handle.insertUser(user.getFullName(),
-//                user.getEmail(), user.getPassword(),
-//                user.getRole(), user.getPhone(), Integer.parseInt(idAddress),
-//                user.getGender(), (java.sql.Date) user.getBirthday(), user.getStatus()));
-//        if (line == 1) {
-//            user.setPassword(null);
-//            return user;
-//        }
-//        return user;
-//    }
-
     public User addUser(User user) {
-        int line = Integer.MIN_VALUE;
-        AddressService.getInstance().addAddress(user.getAddress());
-        user.setCreatedAt(Timestamp.from(java.time.Instant.now()));
-        user.setUpdatedAt(Timestamp.from(java.time.Instant.now()));
-        line = conn.withExtension(UserDAO.class, handle -> handle.insertUser(user.getFullName(),
+        int addressId = AddressService.getInstance().addAddress(user.getAddress());
+        user.setAddressId(addressId);
+        int id = conn.withExtension(UserDAO.class, handle -> handle.insertUser(user.getFullName(),
                 user.getEmail(), StringUtil.hashPassword(user.getPassword()),
                 user.getRole(), user.getPhone(), user.getAddressId(),
                 user.getGender(), (java.sql.Date) user.getBirthday(), user.getStatus()));
-        if (line == 1) {
-            User user1 = getUserByEmail(user.getEmail());
-            user1.setPassword(null);
-            return user1;
+        if (id != 0) {
+            user.setId(id);
+            user.setPassword(null);
         }
         return user;
     }
-    public static void main(String[] args) {
-//        User u= new User();
-//        u.setEmail("b");
-//        u.setPassword("a");
-//        u.setFullName("a");
-//        u.setBirthday(new Date(0));
-//        u.setPhone("a");
-//        u.setGender(1);
-//        u.setStatus(1);
-//        u.setRole(1);
-//        u.setAddressId(1);
-//
-//        System.out.println(getInstance().addUser(u));
-        System.out.println(getInstance().getUserByEmail("buiminhchien01233@gmail.com"));
-    }
 
-    private int updateProvinceId(int id, String email) {
-        return conn.withExtension(UserDAO.class, dao -> dao.updateProvinceForUser(id, email));
+
+    public User getUserById(int id) {
+        return conn.withExtension(UserDAO.class, dao -> {
+            User user=dao.getUserById(id);
+            user.setAddress(AddressService.getInstance().getAddressById(user.getAddressId()));
+            return user;
+        });
     }
 
     public User update(User user) {
-        System.out.println("userupdated" + user.toString());
+        System.out.println(user);
+        AddressService.getInstance().updateAddress(user.getAddress());
         int check = conn.withExtension(UserDAO.class, dao -> dao.updateUser(user));
         return check == 1 ? conn.withExtension(UserDAO.class, dao -> dao.login(user.getEmail(), user.getPassword())) : null;
     }
 
-//    public int update(String oldEmail, String email, String password, String name, Date birthday, String phone, String province, String isMale, String status, String role) {
-//        String idProvince = ProvinceService.getInstance().getSpecificId(province);
-//        try {
-//            if (!oldEmail.equals(email)) {
-//                User u = getUserByEmail(email);
-//                if (u != null) {
-//                    throw new Exception("Email đã tồn tại");
-//                }
-//            }
-//            User user = new User();
-//            user.setEmail(email);
-//            user.setPassword(StringUtil.hashPassword(password));
-//            user.setFullName(name);
-//            user.setBirthday(new java.sql.Date(birthday.getTime()));
-//            user.setPhone(phone);
-//            user.setGender(isMale != null ? 1 : 0);
-//            user.setStatus(Integer.parseInt(status));
-//            user.setRole(Integer.parseInt(role));
-//            int id = Integer.parseInt(idProvince);
-//            int checkUpdateProvince = updateProvinceId(id, oldEmail);
-//            int checkUpdateOther = conn.withExtension(UserDAO.class, dao -> dao.updateUser(user, oldEmail));
-//            return Math.max(checkUpdateOther, checkUpdateProvince);
-//        } catch (Throwable t) {
-//            return -1;
-//        }
-//    }
+
 
     public User getUserOwnerOfProject(int projectId) {
         return conn.withExtension(UserDAO.class, dao -> dao.getUserOwnerOfProject(projectId));
     }
 
 
-    public static User getUserByEmail(String email) {
+    public User getUserByEmail(String email) {
         return conn.withExtension(UserDAO.class, dao -> dao.getUserByEmail(email));
     }
 
@@ -173,8 +113,12 @@ public class UserService {
         return conn.withExtension(UserDAO.class, dao -> dao.updatePassword(email, StringUtil.hashPassword(newPw)));
     }
 
-    public void FacebookAdditional(User user) {
-        user.setPassword(StringUtil.hashPassword(user.getPassword()));
-        conn.withExtension(UserDAO.class, dao -> dao.insertFacebookUser(user));
+    public int getRole(int id) {
+        return conn.withExtension(UserDAO.class, dao -> dao.getRole(id));
+    }
+
+    public static void main(String[] args) {
+        UserService userService = UserService.getInstance();
+        System.out.println(userService.getRole(34));
     }
 }

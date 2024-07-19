@@ -32,8 +32,7 @@ public class OrderController extends HttpServlet {
                 }
                 Cart cart = com.nhom44.services.CartService.getInstance().getById(Integer.parseInt(id));
                 cart.setServices(com.nhom44.services.CartService.getInstance().getServices(cart.getId()));
-                cart.setImages(com.nhom44.services.CartService.getInstance().getImages(cart.getId()));
-
+                cart.setImages(com.nhom44.services.CartService.getInstance().getImageNames(cart.getId()));
                 req.setAttribute("cart",cart);
                 req.getRequestDispatcher("/views/admin/order/order_detail.jsp").forward(req,resp);
                 return;

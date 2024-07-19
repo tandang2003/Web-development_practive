@@ -10,7 +10,7 @@ public class ContactController extends HttpServlet {
     @Override
     protected void doGet(javax.servlet.http.HttpServletRequest req, javax.servlet.http.HttpServletResponse resp) throws javax.servlet.ServletException, java.io.IOException {
         req.setAttribute("page", "contact");
-        new LogPage().log(req);
+        new LogPage(req).log();
         req.getRequestDispatcher("/views/public/contact.jsp").forward(req, resp);
     }
 }
