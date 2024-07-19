@@ -101,8 +101,7 @@
                     class="fa-solid fa-arrow-left"></i></a>
         </div>
         <%--        form đăng nhập--%>
-        <form action="/login" id="login-form" method="POST">
-            <input type="hidden" name="action" value="login"/>
+        <form id="login-form">
             <h1>Đăng Nhập</h1>
             <div class="social-icons">
                 <a href="https://accounts.google.com/o/oauth2/auth?scope=profile%20email&redirect_uri=http://localhost:8080/other-login/google&response_type=code
@@ -119,7 +118,7 @@
             </div>
             <a id="showForgotPassword" href="#">Quên mật khẩu?</a>
             <div class="g-recaptcha" data-sitekey="6LduXxAqAAAAAPy6T9DAjx9Q1ADdSyTd7NkKQbTX"></div>
-            <button id="login-button" type="submit" value="Submit" >Đăng Nhập</button>
+            <button id="login-button" type="submit" value="Submit">Đăng Nhập</button>
         </form>
     </div>
     <div class="toggle-container">
@@ -166,7 +165,7 @@
                             window.location.reload();
                         })
                     } else {
-                        autoCloseAlertIcon(mes = result.message, time = 3000, icon = swal2Icon.ERROR, url=null);
+                        autoCloseAlertIcon(mes = result.message, time = 3000, icon = swal2Icon.ERROR, url = null);
 
                     }
                 },
@@ -188,7 +187,7 @@
                             window.location.reload();
                         })
                     } else {
-                        autoCloseAlertIcon(mes = result.message, time = 3000, icon = swal2Icon.ERROR, url=null);
+                        autoCloseAlertIcon(mes = result.message, time = 3000, icon = swal2Icon.ERROR, url = null);
                     }
                 },
                 error: function (error) {
@@ -198,24 +197,30 @@
         });
     });
     validate('#login-form', loginValidator, function (form) {
+        var recaptchaResponse = grecaptcha.getResponse();
+        if (recaptchaResponse.length === 0) {
+            alert('Please verify that you are not a robot.', 'error')
+            return;
+        }
+
         $.ajax({
             url: '/api/login',
             type: 'POST',
-            data: $(form).serializeArray(),
+            data: $(form).serializeArray().concat({name: 'g-recaptcha-response', value: recaptchaResponse}),
             dataType: 'json',
             success: function (result) {
-                console.log(result)
+                console.log(result);
                 if (result.status === 200) {
                     autoCloseAlertWithFunction(result.message, 1500, swal2Icon.SUCCESS, function () {
                             window.location.href = result.redirect;
                         }
                     );
                 } else {
-                    autoCloseAlertIcon(mes = result.message, time = 3000, icon = swal2Icon.ERROR, url=null);
+                    autoCloseAlertIcon(mes = result.message, time = 3000, icon = swal2Icon.ERROR, url = null);
                 }
             },
             error: function (error) {
-                errorAlert("Hệ thống đang gặp sự cố vui lòng thực hiện lại sau")
+                errorAlert("Hệ thống đang gặp sự cố vui lòng thực hiện lại sau");
             }
         });
     })
