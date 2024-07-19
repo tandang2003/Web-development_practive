@@ -227,7 +227,7 @@ public interface ProjectDAO {
     )
     List<Project> getHistoryUserProject(@Bind("id") int id, @Bind("offset") int offset);
 
-    @SqlUpdate("INSERT INTO histories(postId, userId) VALUES(:postId, :userId)")
+    @SqlUpdate("INSERT INTO histories(postId, userId, updatedAt, createdAt) VALUES(:postId, :userId, now(), now())")
     Integer addHistory(@Bind("userId") int userId, @Bind("postId") int postId);
 
     @SqlQuery("SELECT count(distinct p.id) " +
