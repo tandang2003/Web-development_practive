@@ -9,11 +9,12 @@ import org.jdbi.v3.sqlobject.statement.GetGeneratedKeys;
 import org.jdbi.v3.sqlobject.statement.SqlQuery;
 import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 
+import java.util.List;
+
 @RegisterBeanMapper(Post.class)
 public interface PostDAO {
 
-    @SqlUpdate("insert into posts(content) values(:content)")
-    @GetGeneratedKeys
+    @SqlUpdate("insert into posts(content,createdAt,updatedAt) values(:content,:createdAt,:updatedAt)")
     int addPost(@BindBean Post post);
 
     @SqlQuery("select * from posts where content=:content and createdAt=:createdAt and updatedAt=:updatedAt")
@@ -24,4 +25,7 @@ public interface PostDAO {
 
     @SqlQuery("select * from posts where id=:postId")
     Post getById(@Bind("postId") int postId);
+
+    @SqlQuery("select id from posts")
+    List<Post> getAllPost();
 }

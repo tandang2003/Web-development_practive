@@ -1,6 +1,8 @@
 package com.nhom44.services;
 
+import com.nhom44.DAO.HistoryDAO;
 import com.nhom44.DAO.ProjectDAO;
+import com.nhom44.bean.History;
 import com.nhom44.bean.Project;
 import com.nhom44.db.JDBIConnector;
 import com.nhom44.util.DateUtil;
@@ -197,4 +199,8 @@ public class ProjectService {
         return conn.withExtension(ProjectDAO.class, dao -> dao.isLikeByUser(userid, postid));
     }
 
+//    get all histories
+    public List<History> getAllHistory() {
+        return conn.withExtension(HistoryDAO.class, dao -> dao.getAllHistory());
+    }
 }
