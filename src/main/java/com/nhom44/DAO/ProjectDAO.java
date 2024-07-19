@@ -1,6 +1,7 @@
 package com.nhom44.DAO;
 
 import com.nhom44.bean.Project;
+import com.nhom44.bean.ServiceAccessCount;
 import org.jdbi.v3.sqlobject.config.RegisterBeanMapper;
 import org.jdbi.v3.sqlobject.config.RegisterRowMapper;
 import org.jdbi.v3.sqlobject.customizer.Bind;

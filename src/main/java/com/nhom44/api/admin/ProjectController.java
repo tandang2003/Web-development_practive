@@ -126,8 +126,7 @@ public class ProjectController extends HttpServlet {
             ServiceOfProjectService.getInstance().deleteServiceProject(id);
             System.out.println("services");
             for (String s : services) {
-                System.out.println(s.trim());
-                ServiceOfProjectService.getInstance().addServiceForProject(id + "", Integer.parseInt(s.trim()));
+                ServiceOfProjectService.getInstance().addServiceForProject(id+"", Integer.parseInt(s.trim()));
             }
         }
         if (newProject.getGallery().length != 0) {

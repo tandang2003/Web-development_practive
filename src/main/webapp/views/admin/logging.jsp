@@ -8,11 +8,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <%@include file="/layout/public/link.jsp" %>
+    <link href="<c:url value="/template/css/admin-nav-bar.css"/>" rel="stylesheet">
+    <link href="<c:url value="/template/css/admin-datatable.css"/>" rel="stylesheet">
     <link href="<c:url value="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.css"/>" rel="stylesheet">
     <link href="<c:url value="https://cdn.datatables.net/select/2.0.3/css/select.dataTables.css"/>" rel="stylesheet">
     <link href="<c:url value="https://cdn.datatables.net/buttons/3.0.2/css/buttons.dataTables.css"/>" rel="stylesheet">
-    <link href="<c:url value="/template/css/admin-nav-bar.css"/>" rel="stylesheet">
-    <link href="<c:url value="/template/css/admin-datatable.css"/>" rel="stylesheet">
     <title>Title</title>
     <style>
         #custom-button {
@@ -50,7 +50,7 @@
                         <tr>
                             <th class="font-weight-bold" scope="col">#</th>
                             <th class="font-weight-bold" scope="col">Ip</th>
-                            <th class="font-weight-bold" scope="col">Mô tả</th>
+                            <th class="font-weight-bold" scope="col">address</th>
                             <th class="font-weight-bold" scope="col">level</th>
                             <th class="font-weight-bold" scope="col">created</th>
                             <th class="font-weight-bold" scope="col">updated</th>
@@ -138,7 +138,7 @@
                 className: 'select-checkbox',
                 orderable: false,
                 data: null,
-                defaultContent: '',
+                defaultContent: ''
             }
         ],
         select: {
@@ -150,7 +150,7 @@
                 buttons: [
                     {
                         extend: 'print',
-                        text: 'In tất cả',
+                        text: 'Print all',
                         exportOptions: {
                             modifier: {
                                 selected: null
@@ -159,13 +159,7 @@
                     },
                     {
                         extend: 'print',
-                        text: 'Chỉ in các dòng đã chọn'
-                    },
-                    {
-                        text: 'Xóa dòng đã chọn',
-                        action: function (e, dt, node, config) {
-                            alert('Button activated');
-                        }
+                        text: 'Print selected'
                     }
                 ]
             }
