@@ -11,35 +11,28 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(urlPatterns = "/admin/category_management")
+@WebServlet(urlPatterns = {"/admin/category_management", "/admin/category_management/add", "/admin/category_management/edit/*"})
 public class CategoryManagementController extends HttpServlet {
     CategoryService categoryService = CategoryService.getInstance();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String action= req.getParameter("action")==null?"#": req.getParameter("action");
-        if(action.equalsIgnoreCase("add")){
+        String url = req.getServletPath();
+        if (url.equalsIgnoreCase("/admin/category_management/add")) {
             req.getRequestDispatcher("/views/admin/category/add_category.jsp").forward(req, resp);
             return;
         }
-        if(action.equalsIgnoreCase("edit")){
-            if(!new NumberVallidator().validator(req.getParameter("id"))){
+        if (url.equalsIgnoreCase("/admin/category_management/edit")) {
+            if (!new NumberVallidator().validator(req.getPathInfo().substring(1))) {
                 resp.sendRedirect("/404");
             }
-                int id = Integer.parseInt(req.getParameter("id"));
-                Category category = CategoryService.getInstance().getById(id);
-                if(category==null){
-                    resp.sendRedirect("/404");
-                }
-                req.setAttribute("category", category);
-                req.getRequestDispatcher("/views/admin/category/edit_category.jsp").forward(req, resp);
-                return;
+            req.getRequestDispatcher("/views/admin/category/edit_category.jsp").forward(req, resp);
+            return;
         }
-        req.setAttribute("categories", categoryService.getAll());
         req.getRequestDispatcher("/views/admin/category/category_management.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
     }
 }

@@ -1,6 +1,7 @@
 package com.nhom44.api.admin;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.nhom44.bean.Category;
 import com.nhom44.bean.ResponseModel;
 import com.nhom44.services.CategoryService;
@@ -21,103 +22,123 @@ import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Date;
 import java.util.List;
+import java.util.Map;
 
 import static com.nhom44.util.GsonUtil.getGson;
 
-@WebServlet(urlPatterns = "/api/admin/category")
+@WebServlet(urlPatterns = {"/api/admin/category", "/api/admin/category/add", "/api/admin/category/edit/*"})
 public class CategoryController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<Category> categories = CategoryService.getInstance().getAll();
-        Gson gson = getGson();
-        PrintWriter printWriter = resp.getWriter();
-        String json = gson.toJson(categories);
-        System.out.println(json);
-        printWriter.println(json);
-        printWriter.flush();
-        printWriter.close();
+        if (req.getServletPath().equals("/api/admin/category")) {
+            List<Category> categories = CategoryService.getInstance().getAll();
+            Gson gson = getGson();
+            PrintWriter printWriter = resp.getWriter();
+            String json = gson.toJson(categories);
+            printWriter.println(json);
+            printWriter.flush();
+            printWriter.close();
+        } else if (req.getServletPath().equals("/api/admin/category/edit")) {
+            JsonObject jsonObject = new JsonObject();
+            resp.setStatus(200);
+            if (req.getPathInfo().substring(1) == null) {
+                jsonObject.addProperty("status", 404);
+                jsonObject.addProperty("message", "Không tìm thấy loại dự án");
+                jsonObject.addProperty("data", "/admin/category_management");
+                resp.getWriter().print(jsonObject.toString());
+                resp.getWriter().flush();
+                return;
+            }
+            int id = Integer.parseInt(req.getPathInfo().substring(1));
+            Category category = CategoryService.getInstance().getById(id);
+            if (category == null) {
+                jsonObject.addProperty("status", 404);
+                jsonObject.addProperty("message", "Không tìm thấy loại dự án");
+                jsonObject.addProperty("data", "/admin/category_management");
+                resp.getWriter().print(jsonObject.toString());
+                resp.getWriter().flush();
+                return;
+            }
+            Gson gson = getGson();
+            PrintWriter printWriter = resp.getWriter();
+            String json = gson.toJson(category);
+            printWriter.println(json);
+            printWriter.flush();
+            printWriter.close();
+        }
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String action = req.getParameter("action") == null ? "#" : req.getParameter("action");
-        ResponseModel responseModel;
-        if (!new TitleOrNameSingleValidator().validator(req.getParameter("name"))) {
-            responseModel = new ResponseModel();
-            responseModel.setName("name");
-            responseModel.setMessage("Tên danh mục không hợp lệ");
-            Gson gson = getGson();
-            PrintWriter printWriter = resp.getWriter();
-            String json = gson.toJson(responseModel);
-            printWriter.println(json);
-            printWriter.flush();
-            printWriter.close();
-            return;
-        }
-
-        Category category = new Category();
-        try {
-            if (action.equals("add")) {
-                BeanUtils.populate(category, req.getParameterMap());
-                System.out.println(category.toString());
-
-                int status = CategoryService.getInstance().add(category);
-                if (status == -1) {
-                    resp.setStatus(400);
-                    responseModel = new ResponseModel();
-                    responseModel.setName("name");
-                    responseModel.setMessage("Tên danh mục đã tồn tại");
-                    Gson gson = getGson();
-                    PrintWriter printWriter = resp.getWriter();
-                    String json = gson.toJson(responseModel);
-                    printWriter.println(json);
-                    printWriter.flush();
-                    printWriter.close();
-                    return;
-                }
-            } else if (action.equals("edit")) {
-                BeanUtils.populate(category, req.getParameterMap());
-                Category old = CategoryService.getInstance().getById(category.getId());
-                int status = 1;
-                if (!old.getName().equals(category.getName()))
-                    status = CategoryService.getInstance().update(category);
-                if (status == -1) {
-                    resp.setStatus(400);
-                    responseModel = new ResponseModel();
-                    responseModel.setName("name");
-                    responseModel.setMessage("Tên danh mục đã tồn tại");
-                    Gson gson = getGson();
-                    PrintWriter printWriter = resp.getWriter();
-                    String json = gson.toJson(responseModel);
-                    printWriter.println(json);
-                    printWriter.flush();
-                    printWriter.close();
-                    return;
-                }
-            }
-        } catch (IllegalAccessException | UnableToExecuteStatementException | InvocationTargetException e) {
-            responseModel = new ResponseModel();    resp.setStatus(200);
-            responseModel.setName("sys");
-            responseModel.setMessage("Hệ thống đang bận");
-            Gson gson = getGson();
-            PrintWriter printWriter = resp.getWriter();
-            String json = gson.toJson(responseModel);
-            printWriter.flush();
-            printWriter.close();
-            return;
-        }
+        String url = req.getServletPath();
+        JsonObject jsonObject = new JsonObject();
         resp.setStatus(200);
-        responseModel = new ResponseModel();
-        responseModel.setName("success");
-        responseModel.setMessage("Thêm thành công");
-        responseModel.setData("/admin/category_management");
+        if (!validate(req, resp)) {
+            return;
+        }
+
+        if (url.equals("/api/admin/category/add")) {
+            Category category = createCategory(req.getParameterMap(), null);
+            CategoryService.getInstance().add(category);
+            jsonObject.addProperty("message", "Loại dự án mới đã được thêm thành công vui lòng kiểm tra");
+        } else if (url.equals("/api/admin/category/edit")) {
+            int id = Integer.parseInt(req.getPathInfo().substring(1));
+            Category old = CategoryService.getInstance().getById(id);
+            Category category = createCategory(req.getParameterMap(), null);
+            if (!old.getName().equals(category.getName())) {
+                category.setId(id);
+                CategoryService.getInstance().update(category);
+            }
+            jsonObject.addProperty("message", "Loại dự án đã được cập nhật thành công vui lòng kiểm tra");
+        }
+        jsonObject.addProperty("status", 200);
+        jsonObject.addProperty("data","/admin/category_management");
         Gson gson = getGson();
         PrintWriter printWriter = resp.getWriter();
-        String json = gson.toJson(responseModel);
-        printWriter.println(json);
+        printWriter.println(jsonObject.toString());
         printWriter.flush();
         printWriter.close();
         return;
+    }
 
+    private boolean validate(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        JsonObject jsonObject = new JsonObject();
+        if (!new TitleOrNameSingleValidator().validator(req.getParameter("name"))) {
+            jsonObject.addProperty("message", "Tên danh mục không hợp lệ");
+            jsonObject.addProperty("status", 400);
+            PrintWriter printWriter = resp.getWriter();
+            printWriter.println(jsonObject.toString());
+            printWriter.flush();
+            printWriter.close();
+            return false;
+        }
+        if (CategoryService.getInstance().existCategory(req.getParameter("name"))) {
+            jsonObject.addProperty("message", "Tên danh mục đã tồn tại");
+            jsonObject.addProperty("status", 400);
+            PrintWriter printWriter = resp.getWriter();
+            printWriter.println(jsonObject.toString());
+            printWriter.flush();
+            printWriter.close();
+            return false;
+        }
+        return true;
+    }
+
+    private Category createCategory(Map<String, String[]> map, Category category) {
+        if (category == null) {
+            category = new Category();
+        }
+        Category finalCategory = category;
+        map.keySet().forEach(key -> {
+            switch (key) {
+                case "name":
+                    finalCategory.setName(map.get(key)[0]);
+                    break;
+                case "status":
+                    finalCategory.setStatus(Integer.parseInt(map.get(key)[0]));
+                    break;
+            }
+        });
+        return category;
     }
 }

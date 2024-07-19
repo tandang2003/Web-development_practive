@@ -248,7 +248,6 @@
 <script src="<c:url value="/template/js/dataAddress.js"/>"></script>
 <script>
     $.validator.addMethod("dateFormat", function (value, element) {
-        // Check the format yyyy-MM-dd
         return this.optional(element) || /^\d{4}-\d{2}-\d{2}$/.test(value);
     }, "Vui lòng nhập đúng định dạng yyyy-MM-dd");
 
@@ -280,15 +279,16 @@
             dataType: 'json',
             success: function (data) {
                 if (data.status == 200) {
-                    data=data.data;
+
+                    data = data.data;
                     console.log(data)
                     $("#fullName").val(data.fullName).change();
                     $("#birthday").val(data.birthday).change();
                     $("#phone").val(data.phone).change();
                     $("#email").val(data.email).change();
-                    if(user.gender == 1){
+                    if (user.gender == 1) {
                         $("#materialNam").prop("checked", true)
-                    }else{
+                    } else {
                         $("#materialNu").prop("checked", true)
                     }
                     $("#province").val(data.address.provinceId);
@@ -298,8 +298,6 @@
                             $("#ward").val(data.address.wardId);
                         })
                     });
-                    // $("#district").val(user.district);
-                    // $("#ward").val(user.ward);
                 } else {
                     autoCloseAlertIcon(data.message, 3000, swal2Icon.WARNING, data.redirect)
                 }

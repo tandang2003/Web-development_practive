@@ -5,13 +5,14 @@ import {
     ref,
     uploadBytesResumable,
     getDownloadURL,
+    getMetadata,
     deleteObject
 } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-storage.js";
 
 export const AVATAR = 'avatar';
 export const PROJECT = 'project';
 export const GALLERY = 'gallery';
-export const ORDER= 'order';
+export const ORDER = 'order';
 export const POST = 'post';
 export const CATEGORY = 'category';
 const firebaseConfig = {
@@ -113,4 +114,19 @@ export const getDownloadUrl = async (refFiles, place) => {
     });
 
     return Promise.all(downloadPromises);
+}
+export const getImageInfo = async (refFiles, place) => {
+    const files = refFiles.split(',');
+    let data=[]
+    const downloadPromises = files.map(fileName => {
+        const fileRef = ref(storage, `${place}/${fileName}`);
+        return getMetadata(fileRef);
+    });
+    data.push(downloadPromises[0])
+    const downloadUrl = files.map(fileName => {
+        const fileRef = ref(storage, `${place}/${fileName}`);
+        return getDownloadURL(fileRef);
+    });
+    data.push(downloadUrl[0])
+    return Promise.all(data);
 }

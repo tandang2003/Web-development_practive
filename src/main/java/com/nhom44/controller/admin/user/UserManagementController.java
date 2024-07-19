@@ -14,34 +14,30 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(urlPatterns = "/admin/user_management")
+@WebServlet(urlPatterns = {"/admin/user_management", "/admin/add_user", "/admin/edit_user/*"})
 public class UserManagementController extends HttpServlet {
     private final UserService userService = UserService.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String action = req.getParameter("action");
-//        ProvinceService provinceService = ProvinceService.getInstance();
-//        List<Province> provinces = provinceService.getAll();
-//        req.getSession().setAttribute("provinces", provinces);
-        if (action.equalsIgnoreCase("manager")) {
-            List<User> users = userService.getAllUser();
-            System.out.println(users.toString());
-            req.setAttribute("users", users);
+        String url = req.getServletPath();
+        if(url.equals("/admin/user_management")){
             req.getRequestDispatcher("/views/admin/user/user_manage.jsp").forward(req, resp);
-        } else if (action.equalsIgnoreCase("add")) {
+        } else if (url.equalsIgnoreCase("/admin/add_user")) {
             req.getRequestDispatcher("/views/admin/user/add_user.jsp").forward(req, resp);
-        } else if (action.equalsIgnoreCase("edit")) {
-            String email = req.getParameter("useremail");
-            if(!new EmailSingleValidator().validator(email)){
-           resp.sendRedirect("/404");
-            }
-            User user = userService.getUserByEmail(email);
-            if(user==null){
-                resp.sendRedirect("/404");
-            }
-            System.out.println(user.toString());
-            req.setAttribute("user", user);
+        } else if (url.equalsIgnoreCase("/admin/edit_user")) {
+            String param= req.getPathInfo();
+            System.out.println("param "+ param);
+//            String email = req.getParameter("useremail");
+//            if(!new EmailSingleValidator().validator(email)){
+//           resp.sendRedirect("/404");
+//            }
+//            User user = userService.getUserByEmail(email);
+//            if(user==null){
+//                resp.sendRedirect("/404");
+//            }
+//            System.out.println(user.toString());
+//            req.setAttribute("user", user);
             req.getRequestDispatcher("/views/admin/user/update_user.jsp").forward(req, resp);
         }
     }

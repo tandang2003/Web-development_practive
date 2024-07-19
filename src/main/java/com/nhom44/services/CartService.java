@@ -99,7 +99,10 @@ public class CartService implements Serializable {
 
     public static void main(String[] args) {
         List<Cart> carts = CartService.getInstance().getAll();
-
+        System.out.println(carts.size());
+        for (Cart cart : carts) {
+            System.out.println(cart);
+        }
     }
 
     public Cart getById(int cartId) {

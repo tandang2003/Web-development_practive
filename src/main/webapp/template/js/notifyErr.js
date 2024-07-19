@@ -121,6 +121,7 @@ function flashCloseAlert(time = 1500, icon = 'info') {
 }
 
 function autoCloseAlertIcon(mes, time = 1500, icon = 'info', url = null) {
+    console.log(mes)
     Swal.fire({
         position: 'top',
         title: 'THÔNG BÁO',
@@ -150,7 +151,7 @@ function autoCloseAlertIcon(mes, time = 1500, icon = 'info', url = null) {
         }
     }).then((result) => {
         // console.log( url);
-        if (url != null) location.href = url;
+            if (url != null) location.href = url;
     })
 }
 

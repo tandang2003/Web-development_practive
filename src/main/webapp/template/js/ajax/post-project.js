@@ -163,9 +163,6 @@ $(document).ready(function () {
         })
     }
 )
-$(document).ready(function () {
-    $.fn.filepond.registerPlugin(FilePondPluginImagePreview);
-})
 $('#btn-op-upload').on('click', function () {
     Swal.fire({
         title: 'Chọn ảnh',
@@ -208,39 +205,6 @@ $('#btn-op-upload').on('click', function () {
         }
     })
 });
-
-// $.ajax({
-//     url: '/api/cart',
-//     type: 'post',
-//     data: form,
-//     dataType: 'json',
-//     processData: false,
-//     contentType: false,
-//     success: function (data) {
-//         console.log("save")
-//         alert(data[0].message)
-//         console.log(data)
-//     },
-//     error: function (e) {
-//         // console.log("false")
-//         console.log(e.responseText)
-//         let err = JSON.parse(e.responseText);
-//         for (let key of err) {
-//             console.log(key.name, key.message)
-//             fetchErr(key.name, key.message)
-//         }
-//     }
-// })
-// $.ajax({
-//     url: '/api/cart/update',
-//     data: $(form).serializeArray(),
-//     success: function (data) {
-//         console.log(data)
-//     },
-//     error: function (event) {
-//         console.log(event)
-//     }
-// })
 
 $(document).ready(function () {
     $('select#services').change(function () {

@@ -28,7 +28,7 @@ public interface UserDAO {
     int updateUser(@BindBean User user, @Bind("oldEmail") String oldEmail);
 
     @SqlUpdate("UPDATE users SET fullname =:fullName , email =:email , password =:password, " +
-            "role =:role,phone=:phone, birthday=:birthday, addressId=:addressId, " +
+            "role =:role, phone=:phone, birthday=:birthday, addressId=:addressId, " +
             "gender=:gender, status=:status ,updatedAt=now() WHERE id=:id")
     int updateUser(@BindBean User user);
 
@@ -46,7 +46,7 @@ public interface UserDAO {
     int getIdUserWithEmail(@Bind("email") String email);
 
     @SqlQuery("Select u.* FROM users u JOIN users_projects up ON u.id=up.userId WHERE up.projectId=:projectId")
-    User getUserOwnerOfProject(@Bind("projectId") int projectId);
+    User getUserOwnerOfProject(@Bind("projectId") String projectId);
 
     @SqlQuery("Select u.id, u.fullname, u.email,u.password, u.phone, u.gender,u.status,u.role, u.birthday,a.id as addressId, p.id as provinceId, d.id as districtId, w.id as wardId " +
             "FROM users u Left Join addresses a ON u.addressId=a.id left join provinces p on p.id = a.provinceId " +
@@ -72,4 +72,9 @@ public interface UserDAO {
     Boolean updatePassword(@Bind("email") String email, @Bind("password") String password);
     @SqlQuery("SELECT * FROM users WHERE id=:id")
     User getUserById(@Bind("id")int id);
+
+    @SqlUpdate("INSERT INTO users(email,password,fullName,role,status) VALUES(:email,:password,:fullName,:role,:status)")
+    Integer insertFacebookUser(@BindBean User user);
+    @SqlQuery("SELECT role FROM users WHERE id=:id")
+    Integer getRole(@Bind("id")int id);
 }

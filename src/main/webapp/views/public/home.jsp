@@ -213,12 +213,12 @@
 <script src="<c:url value="/template/js/main.js"/>"></script>
 <script src="<c:url value='/template/js/home.js'/>"></script>
 <script src="<c:url value='/template/js/services.js'/>"></script>
-<script src="<c:url value='/template/js/ajax/home.js'/>"></script>
 <script src="<c:url value='/template/js/ajax/saveProject.js'/>"></script>
 <script src="<c:url value='/template/js/contactForm.js'/>"></script>
 <script src="<c:url value='/template/js/validation/validateFunction.js'/>"></script>
 <script src="<c:url value='/template/js/validation/validator.js'/>"></script>
 <script src="<c:url value='/template/js/dataAddress.js'/>"></script>
+<script type="module" src="<c:url value='/template/js/ajax/home.js'/>"></script>
 <script>
     $(document).ready(function () {
         $('.mdb-select').materialSelect();
@@ -229,7 +229,6 @@
                 dataType: "json",
                 data: $(form).serializeArray(),
                 success: function (data) {
-                    console.log(data)
                     if (data.status == 200) {
                         autoCloseAlertWithFunction(data.message, 3000, swal2Icon.SUCCESS, () => {
                             window.location.reload();
@@ -243,10 +242,8 @@
                 }
             })
         })
+
     })
-
-
 </script>
-
 </body>
 </html>

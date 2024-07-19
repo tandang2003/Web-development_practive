@@ -26,7 +26,10 @@ public class UserService {
     public static UserService getInstance() {
         return instance != null ? instance : (instance = new UserService());
     }
-
+    public void FacebookAdditional(User user) {
+        user.setPassword(StringUtil.hashPassword(user.getPassword()));
+        conn.withExtension(UserDAO.class, dao -> dao.insertFacebookUser(user));
+    }
     public List<User> getAllUser() {
         return conn.withExtension(UserDAO.class, dao -> dao.getAllUser());
     }
@@ -63,17 +66,16 @@ public class UserService {
         });
     }
 
-    public static void main(String[] args) {
-        System.out.println(getInstance().getUserById(33));
-    }
     public User update(User user) {
+        System.out.println(user);
+        AddressService.getInstance().updateAddress(user.getAddress());
         int check = conn.withExtension(UserDAO.class, dao -> dao.updateUser(user));
         return check == 1 ? conn.withExtension(UserDAO.class, dao -> dao.login(user.getEmail(), user.getPassword())) : null;
     }
 
 
 
-    public User getUserOwnerOfProject(int projectId) {
+    public User getUserOwnerOfProject(String projectId) {
         return conn.withExtension(UserDAO.class, dao -> dao.getUserOwnerOfProject(projectId));
     }
 
@@ -109,5 +111,14 @@ public class UserService {
 
     public boolean updatePassword(String email, String newPw) {
         return conn.withExtension(UserDAO.class, dao -> dao.updatePassword(email, StringUtil.hashPassword(newPw)));
+    }
+
+    public int getRole(int id) {
+        return conn.withExtension(UserDAO.class, dao -> dao.getRole(id));
+    }
+
+    public static void main(String[] args) {
+        UserService userService = UserService.getInstance();
+        System.out.println(userService.getRole(34));
     }
 }
