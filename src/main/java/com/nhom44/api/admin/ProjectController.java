@@ -28,6 +28,8 @@ import java.io.PrintWriter;
 import java.sql.Date;
 import java.util.*;
 
+import static com.nhom44.util.GsonUtil.getGson;
+
 @WebServlet(urlPatterns = "/api/admin/project")
 @MultipartConfig(
         maxFileSize = 1024 * 1024 * 10,
@@ -40,7 +42,7 @@ public class ProjectController extends HttpServlet {
         projects.forEach(project -> project.setUpdatedAt(project.getUpdatedAt().trim()
 //        .substring(0,project.getUpdatedAt().indexOf(" "))
         ));
-        Gson gson = new Gson();
+        Gson gson = getGson();
         PrintWriter printWriter = resp.getWriter();
         String json = gson.toJson(projects);
         printWriter.println(json);
@@ -161,7 +163,7 @@ public class ProjectController extends HttpServlet {
 //            if (isErr) {
 //                System.out.println(1231);
 //                resp.setStatus(400);
-//                Gson gson = new Gson();
+//                Gson gson = getGson();
 //                PrintWriter printWriter = resp.getWriter();
 //                String json = gson.toJson(errMess);
 //                System.out.println(json);
@@ -193,7 +195,7 @@ public class ProjectController extends HttpServlet {
 //                    responseModel.setMessage("Vui lòng chọn ảnh mô tả dự án");
 //                    responseModel.setName("groupImage");
 //                    errMess.add(responseModel);
-//                    Gson gson = new Gson();
+//                    Gson gson = getGson();
 //                    PrintWriter printWriter = resp.getWriter();
 //                    String json = gson.toJson(errMess);
 //                    printWriter.println(json);
@@ -215,7 +217,7 @@ public class ProjectController extends HttpServlet {
 //                    responseModel.setMessage("Vui lòng chọn ảnh đại diện");
 //                    responseModel.setName("avatar");
 //                    errMess.add(responseModel);
-//                    Gson gson = new Gson();
+//                    Gson gson = getGson();
 //                    PrintWriter printWriter = resp.getWriter();
 //                    String json = gson.toJson(errMess);
 //                    printWriter.println(json);
@@ -261,7 +263,7 @@ public class ProjectController extends HttpServlet {
             responseModel.setName("success");
             responseModel.setMessage("Chỉnh sửa thành công");
             responseModel.setData("/admin/project_management");
-            Gson gson = new Gson();
+            Gson gson = getGson();
             PrintWriter printWriter = resp.getWriter();
             String json = gson.toJson(responseModel);
             printWriter.println(json);
@@ -275,7 +277,7 @@ public class ProjectController extends HttpServlet {
             e.printStackTrace();
             responseModel.setData(null);
             responseModel.setName("sys");
-            Gson gson = new Gson();
+            Gson gson = getGson();
             PrintWriter printWriter = resp.getWriter();
             String json = gson.toJson(responseModel);
             printWriter.println(json);

@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
+import static com.nhom44.util.GsonUtil.getGson;
+
 @WebServlet(urlPatterns="/api/admin/project_schedule")
 public class ProjectScheduleController extends HttpServlet {
     @Override
@@ -25,8 +27,8 @@ public class ProjectScheduleController extends HttpServlet {
         }
         List<String> emails= UserService.getInstance().getEmailOwner();
         PrintWriter out = resp.getWriter();
-        out.print(new Gson().toJson(projects));
-        out.print(new Gson().toJson(emails));
+        out.print(getGson().toJson(projects));
+        out.print(getGson().toJson(emails));
         out.flush();
         out.close();
     }

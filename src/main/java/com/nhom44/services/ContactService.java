@@ -21,7 +21,7 @@ public class ContactService {
     }
 
     public int add(Contact contact) {
-        AddressService.getInstance().addAddress(contact.getAddress());
+        contact.setAddressId(AddressService.getInstance().addAddress(contact.getAddress()));
         return conn.withExtension(ContactDAO.class, dao -> dao.add(contact));
     }
 
@@ -33,14 +33,11 @@ public class ContactService {
         return contacts;
     }
 
-    public static void main(String[] args) {
-        List<Contact> contacts = ContactService.getInstance().getAll();
-        for (Contact contact : contacts) {
-            System.out.println(contact.toString());
-        }
-    }
 
     public Contact getContact(Contact contact) {
         return conn.withExtension(ContactDAO.class, dao -> dao.getContact(contact));
+    }
+    public Contact getById(int id){
+        return conn.withExtension(ContactDAO.class, dao-> dao.getById(id));
     }
 }

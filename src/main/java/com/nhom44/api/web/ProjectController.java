@@ -18,6 +18,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
+import static com.nhom44.util.GsonUtil.getGson;
+
 @WebServlet(urlPatterns = {"/api/project", "/api/project/search", "/api/project/search/length", "/api/post/project/*"})
 public class ProjectController extends HttpServlet {
     @Override
@@ -31,16 +33,16 @@ public class ProjectController extends HttpServlet {
             List<PriceObjectHelper> prices = SearcherProjectUtil.PRICE_SEARCHING;
             List<Integer> acreages = SearcherProjectUtil.ACREAGE;
             JsonObject jsonObject = new JsonObject();
-            jsonObject.add("services", new Gson().toJsonTree(services));
-            jsonObject.add("categories", new Gson().toJsonTree(categories));
-            jsonObject.add("provinces", new Gson().toJsonTree(provinces));
-            jsonObject.add("prices", new Gson().toJsonTree(prices));
-            jsonObject.add("acreages", new Gson().toJsonTree(acreages));
+            jsonObject.add("services", getGson().toJsonTree(services));
+            jsonObject.add("categories", getGson().toJsonTree(categories));
+            jsonObject.add("provinces", getGson().toJsonTree(provinces));
+            jsonObject.add("prices", getGson().toJsonTree(prices));
+            jsonObject.add("acreages", getGson().toJsonTree(acreages));
             responseModel.setStatus("200");
             responseModel.setMessage("get project search data");
             responseModel.setData(jsonObject.toString());
             resp.setStatus(200);
-            resp.getWriter().println(new Gson().toJson(responseModel));
+            resp.getWriter().println(getGson().toJson(responseModel));
             resp.getWriter().flush();
             resp.getWriter().close();
             return;
@@ -69,6 +71,10 @@ public class ProjectController extends HttpServlet {
                     case "post":
                         responseModel.setMessage("get project post content success");
                         Post post = PostService.getInstance().getById(project.getPostId());
+                        if (req.getSession().getAttribute("account") != null) {
+                            User user = (User) req.getSession().getAttribute("account");
+                            ProjectService.getInstance().addHistory(user.getId(), post.getId());
+                        }
                         responseModel.setData(post);
                         break;
                     case "gallery":
@@ -82,13 +88,13 @@ public class ProjectController extends HttpServlet {
                         List<Service> allServices = ServiceOfProjectService.getInstance().getAllActive();
                         Project project1 = ProjectService.getInstance().getActiveById(Integer.parseInt(id));
                         List<Integer> services1 = ServiceOfProjectService.getInstance().getServicesByProjectId(project1.getId()).stream().map(Service::getId).toList();
-                        JsonObject setUp= new JsonObject();
-                        setUp.add("categories", new Gson().toJsonTree(categories));
-                        setUp.add("services", new Gson().toJsonTree(allServices));
+                        JsonObject setUp = new JsonObject();
+                        setUp.add("categories", getGson().toJsonTree(categories));
+                        setUp.add("services", getGson().toJsonTree(allServices));
                         JsonObject data = new JsonObject();
-                        data.add("project", new Gson().toJsonTree(project1));
-                        data.add("services", new Gson().toJsonTree(services1));
-                        data.add("setUp", new Gson().toJsonTree(setUp));
+                        data.add("project", getGson().toJsonTree(project1));
+                        data.add("services", getGson().toJsonTree(services1));
+                        data.add("setUp", getGson().toJsonTree(setUp));
                         responseModel.setData(data.toString());
                 }
             } else {
@@ -102,7 +108,7 @@ public class ProjectController extends HttpServlet {
             }
 
             resp.setStatus(200);
-            resp.getWriter().println(new Gson().toJson(responseModel));
+            resp.getWriter().println(getGson().toJson(responseModel));
             resp.getWriter().flush();
             resp.getWriter().close();
             return;
@@ -150,13 +156,14 @@ public class ProjectController extends HttpServlet {
                 User user = (User) req.getSession().getAttribute("auth");
                 int userid = user != null ? user.getId() : 0;
                 List<Project> projects = ProjectService.getInstance().getProjetAllActive(offset, categoryId, serviceId, provinceId, minPrice, maxPrice, minArea, maxArea, userid);
-                System.out.println(new Gson().toJson(projects));
+                System.out.println(getGson().toJson(projects));
                 resp.setStatus(200);
-                resp.getWriter().print(new Gson().toJson(projects));
+                resp.getWriter().print(getGson().toJson(projects));
             } else if (url.equals("/api/project/search/length")) {
                 int size = ProjectService.getInstance().getProjetAllActiveSize(offset, categoryId, serviceId, provinceId, minPrice, maxPrice, minArea, maxArea);
+                System.out.println("size " + size);
                 resp.setStatus(200);
-                resp.getWriter().print(new Gson().toJson(size));
+                resp.getWriter().print(getGson().toJson(size));
             }
             resp.getWriter().flush();
             resp.getWriter().close();

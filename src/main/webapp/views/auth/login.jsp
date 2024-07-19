@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <%--    <%@ include file="/layout/link.jsp" %>--%>
+    <%--        <%@ include file="/layout/public/link.jsp" %>--%>
     <link href="<c:url value="/template/lib/fontawesome-free-6.4.2-web/css/all.min.css"/>" rel="stylesheet">
     <link rel="stylesheet" href="<c:url value="/template/css/login.css"/> ">
     <title>Đăng nhập</title>
@@ -107,13 +107,15 @@
                     class="fa-solid fa-arrow-left"></i></a>
         </div>
         <%--        form đăng nhập--%>
-        <form action="/login" method="post" id="login-form">
+        <form id="login-form">
             <input type="hidden" name="action" value="login"/>
             <h1>Đăng Nhập</h1>
             <div class="social-icons">
                 <a href="https://accounts.google.com/o/oauth2/auth?scope=profile%20email&redirect_uri=http://localhost:8080/other-login/google&response_type=code
     &client_id=766966245473-e2eo1ucq62m5pngngo2qu1e7s1d6doea.apps.googleusercontent.com&approval_prompt=force"
                    class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+                <a href="https://www.facebook.com/v11.0/dialog/oauth?client_id=883337960300752&redirect_uri=http://localhost:8080/other-login/facebook&scope=email,public_profile"
+                   class="icon"><i class="fa-brands fa-facebook"></i></a>
             </div>
             <span>Đã có tài khoản</span>
             <div class="param-content">
@@ -135,14 +137,14 @@
                 </div>
                 <h1>Chào mừng quay trở lại!</h1>
                 <p>Đăng nhập với thông tin cá nhân của bạn</p>
-                <button class="hidden" id="showSignIn">Đăng nhập</button>
+                <button class="" id="showSignIn">Đăng nhập</button>
                 <!--                <button class="hidden" id="login">Đăng nhập</button>-->
             </div>
             <div class="toggle-panel toggle-right">
                 <h1>Xin chào!</h1>
                 <p>Đăng ký với thông tin cá nhân của bạn</p>
-                <button class="hidden" id="showSignUp">Đăng kí</button>
-                <!--                <button class="hidden" id="register">Đăng kí</button>-->
+                <button class="" id="showSignUp">Đăng kí</button>
+                <%--           <button class="hidden" id="register">Đăng kí</button>--%>
             </div>
         </div>
     </div>
@@ -156,11 +158,6 @@
 
 <%--<script src="<c:url value="/template/js/admin-modal-notify.js"/>"></script>--%>
 <script>
-    if (${error!=null}) {
-        alert('${error}')
-    }
-</script>
-<script>
 
     $(document).ready(function () {
         validate("#forget-password", forgetPasswordValidator, function (form) {
@@ -168,16 +165,18 @@
                 url: '/api/reset-password',
                 type: 'POST',
                 data: $(form).serializeArray(),
-                // contentType: 'application/json',
+                dataType: 'json',
                 success: function (result) {
-                    // if (result == 'success') {
-                    //     window.location.href = '/RealEstateWeb_war_exploded/home';
-                    // } else {
-                    //     $('#error-message-signin').text(result);
-                    //     $('#error-message-signin').css('display', 'block');
+                    if (result.status === '200') {
+                        autoCloseAlertWithFunction(data.message, 3000, swal2Icon.SUCCESS, () => {
+                            window.location.reload();
+                        })
+                    } else {
+                        autoCloseAlertIcon(mes = result.message, time = 3000, icon = swal2Icon.ERROR, url=null);
+
+                    }
                 },
                 error: function (error) {
-
                 }
             })
         })
@@ -185,95 +184,48 @@
             $.ajax({
                 url: '/api/register',
                 type: 'POST',
-                data: $(form).serializeArray(),
+                data: $(form).serialize(),
                 dataType: 'json',
                 // contentType: 'application/json',
                 success: function (result) {
+                    console.log(result)
                     if (result.name === 'success') {
-                        autoCloseAlertWithFunction(mes = result.message, icon = swal2Icon.SUCCESS, function () {
-                                window.location.href = result.data;
-                            }
-                        );
+                        autoCloseAlertWithFunction(result.message, 3000, swal2Icon.SUCCESS, () => {
+                            window.location.reload();
+                        })
                     } else {
-                        autoCloseAlert(mes = result.message, icon = swal2Icon.ERROR);
+                        autoCloseAlertIcon(mes = result.message, time = 3000, icon = swal2Icon.ERROR, url=null);
                     }
                 },
                 error: function (error) {
-
+                    errorAlert("Hệ thống đang gặp sự cố vui lòng thực hiện lại sau")
                 }
             });
         });
     });
+    validate('#login-form', loginValidator, function (form) {
+        $.ajax({
+            url: '/api/login',
+            type: 'POST',
+            data: $(form).serializeArray(),
+            dataType: 'json',
+            success: function (result) {
+                console.log(result)
+                if (result.status === 200) {
+                    autoCloseAlertWithFunction(result.message, 1500, swal2Icon.SUCCESS, function () {
+                            window.location.href = result.redirect;
+                        }
+                    );
+                } else {
+                    autoCloseAlertIcon(mes = result.message, time = 3000, icon = swal2Icon.ERROR, url=null);
+                }
+            },
+            error: function (error) {
+                errorAlert("Hệ thống đang gặp sự cố vui lòng thực hiện lại sau")
+            }
+        });
+    })
 
-
-    // $('#request-button').click(function () {
-    //     let data = {
-    //         email: $('#email-forgot').val()
-    //     }
-    //     $.ajax({
-    //         url: '/api/reset-password',
-    //         type: 'POST',
-    //         data: data,
-    //         // contentType: 'application/json',
-    //         success: function (result) {
-    //             console.log("success")
-    //             console.log(result);
-    //             // if (result == 'success') {
-    //             //     window.location.href = '/RealEstateWeb_war_exploded/home';
-    //             // } else {
-    //             //     $('#error-message-signin').text(result);
-    //             //     $('#error-message-signin').css('display', 'block');
-    //         },
-    //         error: function (error) {
-    //             console.log("error")
-    //             console.log(error);
-    //
-    //         }
-    //     })
-    // })
 </script>
-<script>
-    // $('#sign-up-button').click(function () {
-    //     let data = {
-    //         fullname: $('#fullname').val(),
-    //         birthday: $('#birthday').val(),
-    //         isMale: $('#isMale').is(':checked'),
-    //         isFemale: $('#isFemale').is(':checked'),
-    //         province: $('#province').val(),
-    //         district: $('#district').val(),
-    //         ward: $('#ward').val(),
-    //         phone: $('#phone-sigup').val(),
-    //         email: $('#email-signup').val(),
-    //         password: $('#pasword-signup').val(),
-    //         verifypassword: $('#verifypassword-sigup').val()
-    //     }
-    //     $.ajax({
-    //         url: '/api/register',
-    //         type: 'POST',
-    //         data: data,
-    //         dataType: 'json',
-    //         success: function (result) {
-    //             console.log("success")
-    //             console.log(result);
-    //             obj = JSON.parse(result.name);
-    //
-    //             if (obj.name === 'success' || obj.name === 'sys') {
-    //             }
-    //         },
-    //         error: function (error) {
-    //             console.log("error")
-    //
-    //             console.log(error);
-    //             // let obj = JSON.parse(error.responseText);
-    //             // for (let i of obj) {
-    //             //     fetchErr(i.name, i.message)
-    //             // }
-    //
-    //             // delayNotify(2000, 'abv');
-    //         }
-    //     })
-    // })
-</script>
-
 </body>
 </html>

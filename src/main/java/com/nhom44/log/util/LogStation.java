@@ -13,16 +13,19 @@ public abstract class LogStation {
     protected String preValue;
     protected String postValue;
     protected int level;
+    protected HttpServletRequest request;
+    protected String description;
 
-    public LogStation() {
+    public LogStation(HttpServletRequest request) {
         this.log = LogContext.getLog();
         level = 1;
+        this.request = request;
     }
 
-    public void log(HttpServletRequest request) {
+    public void log() {
         setLogLevel();
-        setAddress(request);
-        setDescription(request);
+        setAddress();
+        setDescription();
         log.setPreValue(preValue);
         log.setAfterValue(postValue);
         LogServices.getInstance().insert(log);
@@ -30,8 +33,8 @@ public abstract class LogStation {
 
     public void log(HttpServletRequest request, String preValue, String postValue) {
         setLogLevel();
-        setAddress(request);
-        setDescription(request);
+        setAddress();
+        setDescription();
         LogServices.getInstance().insert(log);
     }
 
@@ -43,12 +46,16 @@ public abstract class LogStation {
         this.level = level;
     }
 
-    protected void setAddress(HttpServletRequest request) {
+    protected void setAddress() {
         log.setAddress(request.getRequestURI());
     }
 
-    protected void setDescription(HttpServletRequest request) {
-        log.setDescription("Access to " + request.getServletPath() + request.getPathInfo() + " Page");
+    public void resetDescription(String description) {
+        this.description = description;
+    }
+
+    protected void setDescription() {
+        log.setDescription(description);
     }
 
 }

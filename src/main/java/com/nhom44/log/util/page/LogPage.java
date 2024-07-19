@@ -9,4 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 
 public class LogPage extends LogStation {
 
+    public LogPage(HttpServletRequest request) {
+        super(request);
+        resetDescription("Access to "+request.getRequestURI());
+    }
 }

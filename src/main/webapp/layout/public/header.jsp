@@ -65,7 +65,7 @@
                        href="/contact">Liên Hệ</a>
                 </li>
                 <c:choose>
-                    <c:when test="${sessionScope.get('auth') == null}">
+                    <c:when test="${sessionScope.get('account') == null}">
                         <li class="nav-item nav-menuItem font-weight-bolder">
                             <a class="nav-link" href="/login">Đăng nhập</a>
                         </li>
@@ -79,7 +79,7 @@
                                role="link">Tài khoản
                             </a>
                             <div class="dropdown-menu mt-0 w-100">
-                                <c:if test="${sessionScope.get('auth').getRole() == 1}">
+                                <c:if test="${sessionScope.get('account').getRole() == 1}">
                                     <a class="dropdown-item text-center" style="font-size: 16px" href="/admin">Quản
                                         trị</a></c:if>
                                 <a class="dropdown-item text-center" style="font-size: 16px"

@@ -27,6 +27,8 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.nhom44.util.GsonUtil.getGson;
+
 @WebServlet(urlPatterns = {"/api/admin/user", "/api/admin/user/add", "/api/admin/user/edit/*"})
 public class UserController extends HttpServlet {
     private Gson gson;
@@ -40,7 +42,7 @@ public class UserController extends HttpServlet {
             List<User> users = userService.getAllUser();
 
             PrintWriter printWriter = resp.getWriter();
-            Gson gson = new Gson();
+            Gson gson = getGson();
             String json = gson.toJson(users);
             printWriter.println(json);
             printWriter.flush();
@@ -79,7 +81,7 @@ public class UserController extends HttpServlet {
                     jsonResponse.addProperty("role", user.getRole());
 
                     // Convert JSON object to string
-                    Gson gson1 = new Gson();
+                    Gson gson1 = getGson();
                     String json1 = gson1.toJson(jsonResponse);
 
                     // Set content type and write JSON to response
@@ -99,7 +101,7 @@ public class UserController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        gson = new Gson();
+        gson = getGson();
         System.out.println("step 1");
         AddressService addressService = AddressService.getInstance();
         UserService userService = UserService.getInstance();
@@ -230,7 +232,7 @@ public class UserController extends HttpServlet {
                 address.setDistrictId(Integer.parseInt(district));
                 address.setWardId(Integer.parseInt(ward));
                 System.out.println("ward: " + address.getWardId());
-                addedAddress = addressService.addAddress(address);
+//                addedAddress = addressService.addAddress(address);
                 System.out.println("address: " + addedAddress.toString());
                 ResponseModel responseModel = new ResponseModel();
                 responseModel.setData(addedAddress);

@@ -10,6 +10,8 @@ import org.apache.http.client.fluent.Request;
 
 import java.io.IOException;
 
+import static com.nhom44.util.GsonUtil.getGson;
+
 public class GoogleUtil {
     public static String getToken(String code) throws ClientProtocolException, IOException {
         // call api to get token
@@ -20,7 +22,7 @@ public class GoogleUtil {
                         .add("grant_type", GoogleProperties.getGrantType()).build())
                 .execute().returnContent().asString();
 
-        JsonObject jobj = new Gson().fromJson(response, JsonObject.class);
+        JsonObject jobj = getGson().fromJson(response, JsonObject.class);
         String accessToken = jobj.get("access_token").toString().replaceAll("\"", "");
         return accessToken;
     }
@@ -29,7 +31,7 @@ public class GoogleUtil {
         String link = GoogleProperties.getLinkGetUserInfo() + accessToken;
         String response = Request.Get(link).execute().returnContent().asString();
 
-        GoogleAccount googlePojo = new Gson().fromJson(response, GoogleAccount.class);
+        GoogleAccount googlePojo = getGson().fromJson(response, GoogleAccount.class);
 
         return googlePojo;
     }
