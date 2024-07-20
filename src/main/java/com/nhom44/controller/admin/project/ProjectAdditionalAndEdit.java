@@ -3,6 +3,7 @@ package com.nhom44.controller.admin.project;
 import com.nhom44.bean.Post;
 import com.nhom44.bean.Project;
 import com.nhom44.bean.Service;
+import com.nhom44.log.util.page.AdminLogPage;
 import com.nhom44.services.*;
 
 import javax.servlet.ServletException;
@@ -17,6 +18,7 @@ import java.util.List;
 public class ProjectAdditionalAndEdit extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        new AdminLogPage(req).log();
         if (req.getRequestURI().equals("/admin/project/add")) {
             req.getRequestDispatcher("/views/admin/project/add_project.jsp").forward(req, resp);
         }else if(req.getServletPath().equals("/admin/project/edit"))

@@ -1,4 +1,4 @@
-import {deleteImage, ORDER, PROJECT, storage, upload} from "../firebase/uploadImage.js";
+import {deleteImage, GALLERY, getDownloadUrl, ORDER, PROJECT, storage, upload} from "../firebase/uploadImage.js";
 
 $(document).ready(function () {
         let id = window.location.pathname.substring(window.location.pathname.lastIndexOf('/') + 1)
@@ -109,14 +109,16 @@ $(document).ready(function () {
             url: "/api/post/project/" + id + "/gallery",
             type: "GET",
             dataType: 'json',
-            success: function (data) {
+            success: async function (data) {
                 let gallery = data.data
+                console.log(gallery)
+                const downloadUrls = await getDownloadUrl(data.data.join(','), GALLERY+`/${id}`); // Adjust 'place' as needed
+
                 gallery.forEach((e, i) => {
                     $('.gallery').append(`<div class="img position-relative w-100 h-100 overflow-hidden ">
-                    <img class="" src="${e}" alt="Image">
+                    <img class="" src="${downloadUrls[i]}" alt="Image">
                     </div>`)
                 })
-                console.log($('.gallery').html())
             },
         })
         $.ajax({
@@ -136,16 +138,16 @@ $(document).ready(function () {
             url: '/api/post/project/' + id + '/suggest',
             type: 'GET',
             dataType: 'json',
-            success: function (data) {
+            success: async function (data) {
                 let suggestProjects = data.data
-                console.log(suggestProjects)
+                const downloadUrls = await getDownloadUrl(data.data.map(project => project.avatar).join(','), PROJECT); // Adjust 'place' as needed
                 suggestProjects.forEach((e, i) => {
                     $('.project-suggest').append(`<li class="feature-news-items mb-2">
                                         <a href="/post/project/${e.id}"
                                            class="feature-news-items-link d-flex row"
                                            role="link">
                                             <div class="feature-news-items-img d-block hover-image col-5 pr-0">
-                                                <img src="${e.avatar}" alt="">
+                                                <img src="${downloadUrls[i]}" alt="">
                                             </div>
                                             <div class="feature-news-items-info col-6 pl-0">
                                                 <div class="feature-news-items-info-title text-uppercase">
@@ -153,7 +155,7 @@ $(document).ready(function () {
                                                 </div>
                                                 <div class="feature-news-items-info-date">
                                                     <i class="fa-solid fa-calendar-alt mr-2"></i>
-                                                        ${e.updatedAt}
+                                                        ${e.updatedAt.substring(0, e.updatedAt.indexOf(" "))}
                                                 </div>
                                             </div>
                                         </a>

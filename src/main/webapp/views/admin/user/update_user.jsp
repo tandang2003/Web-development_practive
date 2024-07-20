@@ -191,11 +191,12 @@
                                                         <select name="role" id="role"
                                                                 class="browser-default custom-select mb-4">
                                                             <option value="" disabled>Chọn phân quyền</option>
-                                                            <option value="0" selected>Người dùng thường</option>
-                                                            <option value="1">
-                                                                <Ad></Ad>
-                                                                admin
-                                                            </option>
+                                                            <option value="4" selected>Người dùng thường</option>
+                                                            <option value="2" selected>Chỉ xem các thông tin hệ thống</option>
+                                                            <option value="3" selected>Tinh chỉnh 1 số thông tin hệ thống trừ người dùng</option>
+                                                            <c:if test="${sessionScope.get('account').getRole() == 1}">
+                                                                <option value="1">Admin</option>
+                                                            </c:if>
                                                         </select>
                                                     </div>
                                                 </div>
@@ -253,7 +254,7 @@
                         });
                     }
                     $('#status').val(result.data.status);
-                    $('#role').val(result.data.role);
+                    $('#role').val(result.data.roleId);
                 } else {
                     errorAlert(result.message)
                 }

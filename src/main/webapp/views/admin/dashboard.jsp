@@ -72,7 +72,7 @@
             <section class="table-section mt-3">
                 <div class="row shadow pt-3 pb-3" style="">
                     <div class="col-md-12 col-lg-6 pr-1 border-right">
-                        <h5 class="font-weight-bold pl-3 pr-3 main-color text-center">Post</h5>
+                        <h5 class="font-weight-bold pl-3 pr-3 main-color text-center">Project</h5>
                         <div class="chart-container">
                             <canvas id="myChart1"></canvas>
                         </div>
@@ -203,37 +203,34 @@
                 updateChart(data);
             },
             error: function (error) {
-                console.log(error);
+                console.log('Error fetching data:', error);
             }
         });
 
         function updateChart(data) {
-            const histories = data.histories;
-            const posts = data.posts;
+            const serviceAccessCount = data.serviceAccessCount;
 
-            const postCountMap = {};
-            histories.forEach(history => {
-                if (!postCountMap[history.postId]) {
-                    postCountMap[history.postId] = 0;
-                }
-                postCountMap[history.postId]++;
-            });
+            // Process data to extract labels and counts
+            const labels = serviceAccessCount.map(item => item.service);
+            const counts = serviceAccessCount.map(item => item.count);
 
-            const postLabels = [];
-            const postData = [];
-            posts.forEach(post => {
-                postLabels.push('Post ' + post.id);
-                postData.push(postCountMap[post.id] || 0);  // Default to 0 if no occurrences
-            });
-
+            // Create or update the chart
             const ctx = document.getElementById('myChart1').getContext('2d');
-            new Chart(ctx, {
+
+            // If chart instance exists, destroy it before creating a new one
+            if (window.myChart1 instanceof Chart) {
+                window.myChart1.destroy();
+            }
+
+            // Create new chart
+            window.myChart1 = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: postLabels,
+                    labels: labels,
                     datasets: [{
-                        label: 'Tổng lượt truy cập bài post',
-                        data: postData,
+                        label: 'Lượt service truy cập dựa trên project',
+                        data: counts,
+
                         backgroundColor: 'rgba(54, 162, 235, 0.2)',
                         borderColor: 'rgba(54, 162, 235, 1)',
                         borderWidth: 1
@@ -241,7 +238,17 @@
                 },
                 options: {
                     scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Service'
+                            }
+                        },
                         y: {
+                            title: {
+                                display: true,
+                                text: 'Access Count'
+                            },
                             beginAtZero: true
                         }
                     }

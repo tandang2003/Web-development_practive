@@ -39,13 +39,9 @@ public class ServiceController extends HttpServlet {
                     return;
                 }
                 Service service = ServiceOfProjectService.getInstance().getActiveById(Integer.parseInt(id));
-                System.out.println(service);
                 service.setName("DỊCH VỤ " + service.getName().toUpperCase());
                 service.setUpdatedAt(service.getUpdatedAt().substring(0, 10));
-                User user = (User) req.getSession().getAttribute("auth");
-                if (user != null) {
-                    ProjectService.getInstance().addHistory(user.getId(), service.getPostId());
-                }
+
                 responseModel.setStatus("200");
                 responseModel.setMessage("get post success");
                 responseModel.setData(service);
@@ -57,6 +53,10 @@ public class ServiceController extends HttpServlet {
                             responseModel.setData(suggestServices);
                             break;
                         case "post":
+                            User user = (User) req.getSession().getAttribute("account");
+                            if (user != null) {
+                                ProjectService.getInstance().addHistory(user.getId(), service.getPostId());
+                            }
                             Post post = PostService.getInstance().getById(service.getPostId());
                             responseModel.setMessage("get post success");
                             responseModel.setData(post);

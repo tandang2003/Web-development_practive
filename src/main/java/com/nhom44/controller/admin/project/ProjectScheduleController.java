@@ -1,6 +1,7 @@
 package com.nhom44.controller.admin.project;
 
 import com.nhom44.bean.Project;
+import com.nhom44.log.util.page.AdminLogPage;
 import com.nhom44.services.ProjectService;
 import com.nhom44.services.UserService;
 
@@ -16,6 +17,7 @@ import java.util.List;
 public class ProjectScheduleController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        new AdminLogPage(req).log();
         ProjectService projectService = ProjectService.getInstance();
         List<Project> projects = projectService.getExcuting();
         for (Project project: projects) {

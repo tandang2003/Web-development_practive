@@ -1,5 +1,6 @@
 // page on ready
 import {getDownloadUrl, PROJECT} from "../firebase/uploadImage.js";
+import {getServices} from "../services.js";
 
 $(document).ready(function () {
     getServices("home", "services-container");

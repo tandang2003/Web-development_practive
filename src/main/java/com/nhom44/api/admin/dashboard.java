@@ -2,14 +2,8 @@ package com.nhom44.api.admin;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.nhom44.bean.Category;
-import com.nhom44.bean.History;
-import com.nhom44.bean.Post;
-import com.nhom44.bean.Project;
-import com.nhom44.services.CategoryService;
-import com.nhom44.services.PostService;
-import com.nhom44.services.ProjectService;
-import com.nhom44.services.UserService;
+import com.nhom44.bean.*;
+import com.nhom44.services.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -26,6 +20,7 @@ public class dashboard extends HttpServlet {
         if (req.getRequestURI().startsWith("/api/dashboard/project")) {
             int numberProject = ProjectService.getInstance().getAllProject().size();
             List<Project> projects = ProjectService.getInstance().getAllProject();
+            List<ServiceAccessCount> serviceAccessCount = ServiceAccessCountService.getInstance().getServiceAccessCount();
             int numberCategory = CategoryService.getInstance().getAll().size();
             List<Category> categories = CategoryService.getInstance().getAll();
             int numberUser = UserService.getInstance().getAllUser().size();
@@ -34,6 +29,16 @@ public class dashboard extends HttpServlet {
 
             JsonObject jsonObject = new JsonObject();
             JsonArray jsonArray = new JsonArray();
+            for (ServiceAccessCount service : serviceAccessCount) {
+                JsonObject serviceObject = new JsonObject();
+                serviceObject.addProperty("id", service.getServiceId());
+                serviceObject.addProperty("service", service.getServiceName());
+                serviceObject.addProperty("count", service.getTimesAccessed());
+                jsonArray.add(serviceObject);
+            }
+            jsonObject.add("serviceAccessCount", jsonArray);
+
+            jsonArray = new JsonArray();
             for (History history : histories) {
                 JsonObject historyObject = new JsonObject();
                 historyObject.addProperty("id", history.getId());

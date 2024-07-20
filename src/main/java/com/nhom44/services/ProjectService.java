@@ -4,6 +4,7 @@ import com.nhom44.DAO.HistoryDAO;
 import com.nhom44.DAO.ProjectDAO;
 import com.nhom44.bean.History;
 import com.nhom44.bean.Project;
+import com.nhom44.bean.ServiceAccessCount;
 import com.nhom44.db.JDBIConnector;
 import com.nhom44.util.DateUtil;
 import org.jdbi.v3.core.Jdbi;
@@ -47,7 +48,7 @@ public class ProjectService {
         return conn.withExtension(ProjectDAO.class, dao -> dao.isFinishProject(id));
     }
 
-    public Project getById(int id) {
+    public Project getById(String id) {
         return conn.withExtension(ProjectDAO.class, dao -> dao.getById(id));
     }
 
@@ -90,6 +91,17 @@ public class ProjectService {
             }
             return res;
         });
+    }
+
+    public static void main(String[] args) {
+//       List<String> onwer= UserService.getInstance().getEmailOwner();
+       List<Project> projects = ProjectService.getInstance().getExcuting();
+//        System.out.println(projects.size());
+//        System.out.println(onwer.size());
+       for (Project s: projects){
+           System.out.println(s);
+       }
+
     }
 
     public List<Project> getExcuting() {
@@ -166,6 +178,7 @@ public class ProjectService {
         int i = ProjectService.getInstance().pageSizeHistoryProjectByUserId(34);
         System.out.println(i);
     }
+
 
     public void addHistory(int userId, int postId) {
         conn.withExtension(ProjectDAO.class, dao -> dao.addHistory(userId, postId));

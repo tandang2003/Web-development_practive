@@ -141,7 +141,7 @@
             {
                 data: 'role',
                 render: function (role) {
-                    return role == 1 ? "Admin" : "Người dùng"
+                    return role
                 }
             },
             {

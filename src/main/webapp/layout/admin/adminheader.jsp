@@ -30,14 +30,11 @@
         <i class="fa-solid fa-building"> </i>
         <a href="/admin/dashboard">
             <span>Thống kê</span>
-        </a> <i
-            class="m-0 fas fa-chevron-circle-down drop-down"></i></div>
-    <div class="sub-menu d-none">
-        <a href="/admin/logging" class="menu-btn">
-            <i class="fa-solid fa-building m-0"> </i> <i
-                class="fa-solid fa-folder-tree"></i><span>Logging</span>
         </a>
-    </div>
+        <li class="sidebar-item" id="">
+            <a href="/admin/logging" class="menu-btn">
+                <i class="fas fa-user-circle"></i><span>Logging</span>
+            </a>
         </li>
         <li class="sidebar-item" id="user">
             <a href="/admin/user_management?action=manager" class="menu-btn">

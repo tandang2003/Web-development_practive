@@ -1,6 +1,7 @@
 package com.nhom44.controller.admin.post;
 
 import com.nhom44.bean.Post;
+import com.nhom44.log.util.page.AdminLogPage;
 import com.nhom44.log.util.page.LogPage;
 import com.nhom44.services.PostService;
 import com.nhom44.services.ServiceOfProjectService;
@@ -17,6 +18,7 @@ import java.io.IOException;
 public class PostServiceController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        new AdminLogPage(req).log();
         String action = req.getParameter("action") != null ? req.getParameter("action") : "#";
         if (action.equalsIgnoreCase("edit")) {
             if (!new NumberVallidator().validator(req.getParameter("id"))) {
@@ -26,18 +28,14 @@ public class PostServiceController extends HttpServlet {
             }
             int id = Integer.parseInt(req.getParameter("id"));
             Post post = PostService.getInstance().getById(id);
-            System.out.println(id);
-            System.out.println(post.toString());
             if (post == null) {
-                //error
                 resp.sendRedirect("/404");
             }
             req.setAttribute("post", post);
             req.getRequestDispatcher("/views/admin/service/update_service_post.jsp").forward(req, resp);
             return;
         }
-        System.out.println(ServiceOfProjectService.getInstance().getAll());
-        req.setAttribute("services", ServiceOfProjectService.getInstance().getAll());
+        req.setAttribute("services", ServiceOfProjectService.getInstance().getAdminAll());
 
         req.getRequestDispatcher("/views/admin/service/post_service.jsp").forward(req, resp);
     }

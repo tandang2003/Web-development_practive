@@ -43,10 +43,6 @@ public class PostService {
     }
 
     public static void main(String[] args) {
-//       Post post = new Post();
-//         post.setContent("title");
-//         Post rpost=getInstance().addPost(post);
-//        System.out.println(rpost);
         System.out.println(getInstance().getById(1).toString());
     }
 
@@ -58,10 +54,14 @@ public class PostService {
         int status = conn.withExtension(PostDAO.class, dao -> {
             return dao.updatePost(post);
         });
-        return status == 1 ? getById(post.getId()) : null;
+        return status == 1 ?   getById(post.getId()) : null;
     }
 
     public Post getById(int postId) {
         return conn.withExtension(PostDAO.class, dao -> dao.getById(postId));
+    }
+
+    public List<Post> getAllPost() {
+        return conn.withExtension(PostDAO.class, PostDAO::getAllPost);
     }
 }

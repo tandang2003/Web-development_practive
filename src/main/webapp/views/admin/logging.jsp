@@ -107,6 +107,7 @@
                 }
             },
             {
+                data: 'description',
                 data: 'address',
                 render: function (address) {
                     if (address == null || address === "") return "---"; else return address;
@@ -210,7 +211,7 @@
             }
         },
         "pagingType": "full_numbers",
-        "lengthMenu": [5, 10, 15, 20],
+        "lengthMenu": [100, 150, 200],
         "order": [[0, "asc"]],
     });
 
@@ -235,7 +236,6 @@
         } else {
             $('#select-all').prop('checked', false);
         }
-
         if (selectedRows > 0) {
             $('#custom-button').show();
         } else {

@@ -66,7 +66,6 @@ public class CartService implements Serializable {
     }
 
     public List<String> getImageNames(int id) {
-        System.out.println("id = " + id);
         return conn.withExtension(CartDAO.class, dao -> dao.getImageNames(id));
     }
 

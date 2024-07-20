@@ -25,7 +25,7 @@ public class LoginFacebookHandler extends HttpServlet {
         user.setFullName(facebookAccount.getName());
         user.setPassword(facebookAccount.getId());
         if (!UserService.getInstance().isContainEmail(user.getEmail())) {
-            user.setRole(0);
+            user.setRoleId(4);
             user.setStatus(1);
             UserService.getInstance().FacebookAdditional(user);
         }
