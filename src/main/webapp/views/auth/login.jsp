@@ -166,6 +166,7 @@
                         })
                     } else {
                         autoCloseAlertIcon(result.message,3000, swal2Icon.ERROR,null);
+
                     }
                 },
                 error: function (error) {

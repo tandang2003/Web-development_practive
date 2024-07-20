@@ -108,6 +108,7 @@
             },
             {
                 data: 'description',
+                data: 'address',
                 render: function (address) {
                     if (address == null || address === "") return "---"; else return address;
                 }

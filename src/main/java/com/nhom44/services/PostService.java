@@ -29,11 +29,17 @@ public class PostService {
         return instance == null ? (instance = new PostService()) : instance;
     }
 
-    public int addPost(Post post) {
+    public List<Post> getAllPost() {
+        return conn.withExtension(PostDAO.class, PostDAO::getAllPost);
+    }
+    public Post addPost(Post post) {
+        LocalDateTime now = LocalDateTime.now();
+        post.setCreatedAt(DateUtil.SIMPLE_DATE_FORMAT.format(Timestamp.valueOf(now)));
+        post.setUpdatedAt(DateUtil.SIMPLE_DATE_FORMAT.format(Timestamp.valueOf(now)));
         int status = conn.withExtension(PostDAO.class, dao -> {
             return dao.addPost(post);
         });
-        return status;
+        return status == 1 ? getByObject(post) : null;
     }
 
     public static void main(String[] args) {

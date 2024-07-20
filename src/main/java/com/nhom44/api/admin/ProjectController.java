@@ -153,7 +153,7 @@ public class ProjectController extends HttpServlet {
         Address address = createAddress(map, null);
         Post post = createPost(map, null);
         int addressId = AddressService.getInstance().addAddress(address);
-        int postId = PostService.getInstance().addPost(post);
+        int postId = PostService.getInstance().addPost(post).getId();
         project.setAddressId(addressId);
         project.setPostId(postId);
         project = ProjectService.getInstance().add(project, req.getParameter("isComplete").equals("true"));
