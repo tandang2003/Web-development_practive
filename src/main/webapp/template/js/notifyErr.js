@@ -154,4 +154,20 @@ function autoCloseAlertIcon(mes, time = 1500, icon = 'info', url = null) {
             if (url != null) location.href = url;
     })
 }
-
+function confirmAlert(message, callback) {
+    Swal.fire({
+        position: 'top',
+        title: 'THÔNG BÁO',
+        html: message,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'YES',
+        cancelButtonText: 'NO',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            callback();
+        }
+    });
+}

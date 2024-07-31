@@ -21,4 +21,15 @@ public class LogsService {
         return conn.withExtension(LogDAO.class, dao -> dao.getAllLogs());
     }
 
+    public boolean deleteLogs(int[] ids) {
+        boolean success = true;
+        for (int id : ids) {
+            int result = conn.withExtension(LogDAO.class, dao -> dao.deleteLog(id));
+            if (result != 1) {
+                success = false;
+                break;
+            }
+        }
+        return success;
+    }
 }

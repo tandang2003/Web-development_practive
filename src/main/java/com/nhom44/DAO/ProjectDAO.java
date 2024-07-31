@@ -153,9 +153,9 @@ public interface ProjectDAO {
     @SqlQuery("SELECT p.id, p.title, p.description,p.avatar,sl.userId as saveBy " +
             "FROM Projects p JOIN Categories c ON c.id=p.categoryId " +
             "Left JOIN Histories h ON h.postId=p.postId " +
-            "Left JOIN (select * from saved_projects) sl ON sl.postId=p.postId  " +
+            "Left JOIN (select * from saved_projects s where s.userId=:userid) sl ON sl.postId=p.id  " +
             "WHERE p.categoryId =:id AND p.isAccepted=1 AND p.status=1 AND c.status = 1 " +
-            "GROUP BY p.id, p.title, p.description, p.avatar " +
+            "GROUP BY p.id, p.title, p.description, p.avatar,if(:userid<>0, sl.userId, sl.postId)  " +
             "ORDER BY COUNT(p.id) desc LIMIT 8")
     List<Project> get8ActiveProjectHighestView(@Bind("id") int id, @Bind("userid") int userid);
 

@@ -79,9 +79,9 @@
                                role="link">Tài khoản
                             </a>
                             <div class="dropdown-menu mt-0 w-100">
-                                <c:if test="${sessionScope.account != null && sessionScope.account.roleId != 4}">
-                                    <a class="dropdown-item text-center" style="font-size: 16px" href="/admin">Quản
-                                        trị</a></c:if>
+                                    <c:if test="${sessionScope.get('account')!=null && sessionScope.get('account').getRoleId() != 4}">
+                                        <a class="dropdown-item text-center" style="font-size: 16px" href="/admin">Quản
+                                            trị</a></c:if>
                                 <a class="dropdown-item text-center" style="font-size: 16px"
                                    href="/logout?action=logout">Đăng
                                     xuất</a>

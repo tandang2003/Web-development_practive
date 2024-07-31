@@ -95,7 +95,7 @@ public class ProjectService {
 
     public static void main(String[] args) {
 //       List<String> onwer= UserService.getInstance().getEmailOwner();
-       List<Project> projects = ProjectService.getInstance().getExcuting();
+       List<Project> projects = ProjectService.getInstance().get8ActiveProjectHighestView(1,34);
 //        System.out.println(projects.size());
 //        System.out.println(onwer.size());
        for (Project s: projects){
@@ -125,7 +125,9 @@ public class ProjectService {
 
 
     public List<Project> get8ActiveProjectHighestView(int id, int userid) {
+        System.out.println(userid);
         List<Project> top8 = conn.withExtension(ProjectDAO.class, dao -> dao.get8ActiveProjectHighestView(id, userid));
+
         for (Project p : top8) {
             if (p.getSaveBy() == userid && p.getSaveBy() != 0) p.setSave(true);
         }
@@ -172,11 +174,6 @@ public class ProjectService {
             if (p.getSaveBy() == id && p.getSaveBy() != 0) p.setSave(true);
         }
         return projects;
-    }
-
-    public static void main(String[] args) {
-        int i = ProjectService.getInstance().pageSizeHistoryProjectByUserId(34);
-        System.out.println(i);
     }
 
 

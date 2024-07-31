@@ -46,14 +46,13 @@ public class FilterRole implements Filter {
                 this.response.getWriter().println(jsonObject.toString());
                 this.response.setStatus(200);
                 return;
-            }
-        } else {
-            if (uri.startsWith("/admin/logging")) {
-                JsonObject jsonObject = new JsonObject();
-                jsonObject.addProperty("message", "Bạn không có quyền thực hiện hành vi này");
-                this.response.getWriter().println(jsonObject.toString());
-                this.response.setStatus(200);
-                return;
+
+            } else {
+                if (uri.startsWith("/admin/logging")) {
+                    JsonObject jsonObject = new JsonObject();
+                    this.response.sendRedirect(this.request.getContextPath() + "/admin/dashboard");
+                    return;
+                }
             }
         }
 

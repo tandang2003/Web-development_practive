@@ -30,7 +30,7 @@ public class HomeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String url = req.getServletPath();
-        User user = (User) req.getSession().getAttribute("auth");
+        User user = (User) req.getSession().getAttribute("account");
         ResponseModel responseModel = new ResponseModel();
         switch (url) {
             case "/api/home/data":
@@ -39,6 +39,9 @@ public class HomeController extends HttpServlet {
                 List<Category> categories = CategoryService.getInstance().getAllActive();
                 int firstCategoryId = categories.get(0).getId();
                 List<Project> loadProjects = ProjectService.getInstance().get8ActiveProjectHighestView(firstCategoryId, user == null ? 0 : user.getId());
+                loadProjects.forEach(project -> {
+                    System.out.println(project);
+                });
                 jsonObject.add("sliders", getGson().toJsonTree(sliders));
                 jsonObject.add("categories", getGson().toJsonTree(categories));
                 jsonObject.add("projects", getGson().toJsonTree(loadProjects));

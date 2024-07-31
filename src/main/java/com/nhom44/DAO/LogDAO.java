@@ -2,6 +2,7 @@ package com.nhom44.DAO;
 
 import com.nhom44.log.model.Log;
 import org.jdbi.v3.sqlobject.config.RegisterBeanMapper;
+import org.jdbi.v3.sqlobject.customizer.Bind;
 import org.jdbi.v3.sqlobject.customizer.BindBean;
 import org.jdbi.v3.sqlobject.statement.SqlQuery;
 import org.jdbi.v3.sqlobject.statement.SqlUpdate;
@@ -25,4 +26,7 @@ public interface LogDAO {
     void Access();
     @SqlQuery("SELECT id,level,ip,address,description, updatedAt, createdAt FROM logs")
     List<Log> getAllLogs();
+
+    @SqlUpdate("DELETE FROM logs WHERE id = :id")
+    Integer deleteLog(@Bind("id") int id);
 }

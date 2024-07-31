@@ -66,15 +66,12 @@ function drawProject(x) {
     return new Promise((resolve, reject) => {
         getDownloadUrl(x.avatar, PROJECT).then((url) => {
             img = `<img src="${url[0]}" class="w-100">`; // Update image with fetched URL
-            updateProjectCard(); // Update project card HTML
+            updateProjectCard(x); // Update project card HTML
             resolve(project); // Resolve the promise with the updated HTML
-        }).catch(error => {
-            console.error("Error fetching image URL: ", error);
-            updateProjectCard(); // Update project card even if there's an error
-            reject(error); // Reject the promise in case of an error
-        });
+        })
 
-        function updateProjectCard() {
+        function updateProjectCard(x) {
+            console.log(x)
             project += `<div class="col-lg-3 col-md-4 col-sm-6 mb-4 overflow-hidden position-relative projectCard-container">` +
                 `<div class="bg-image hover-image hover-zoom ripple shadow-1-strong rounded-5 w-100 d-block">`;
             if (x.isSave) {
